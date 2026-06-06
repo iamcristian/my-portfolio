@@ -1,27 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Header from "../components/header/header.astro";
 ---
 
 <Layout>
-  <div class="navbar bg-base-200 shadow-sm px-4 lg:px-8 justify-between">
-    <a class="text-xl font-bold">My Portfolio</a>
-    <div class="flex items-center gap-2">
-      <span class="text-sm opacity-70">Theme:</span>
-      <select
-        data-choose-theme
-        class="select select-bordered select-sm rounded-lg focus:outline-none"
-      >
-        <option value="">Default</option>
-        <option value="light">Light</option>
-        <option value="business">Business</option>
-        <option value="cyberpunk">Cyberpunk</option>
-        <option value="dark">Dark</option>
-        <option value="dracula">Dracula</option>
-        <option value="forest">Forest</option>
-        <option value="luxury">Luxury</option>
-      </select>
-    </div>
-  </div>
+  <Header />
 
   <main class="max-w-4xl mx-auto px-4 py-12 flex flex-col gap-12">
     <!-- Hero Section -->

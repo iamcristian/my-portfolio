@@ -1,0 +1,63 @@
+---
+import ChevronDown from "../../assets/chevron-down.svg";
+import Check from "../../assets/check.svg";
+
+const THEMES = [
+  { key: "light", label: "Light" },
+  { key: "business", label: "Dark" },
+  { key: "cyberpunk", label: "Cyberpunk" },
+  { key: "dracula", label: "Dracula" },
+  { key: "forest", label: "Forest" },
+  { key: "luxury", label: "Luxury" },
+];
+---
+
+<div title="Change Theme" class="dropdown dropdown-end">
+  <button
+    class="btn btn-ghost btn-sm gap-1.5 px-1.5 group"
+    aria-label="Change Theme"
+  >
+    <div
+      class="bg-base-100 group-hover:border-base-content/20 border-base-content/10 grid shrink-0 grid-cols-2 gap-0.5 rounded-md border p-1 transition-colors"
+    >
+      <div class="bg-base-content size-1 rounded-full" />
+      <div class="bg-primary size-1 rounded-full" />
+      <div class="bg-secondary size-1 rounded-full" />
+      <div class="bg-accent size-1 rounded-full" />
+    </div>
+    <ChevronDown />
+  </button>
+  <div
+    tabindex="0"
+    class="dropdown-content bg-base-200 text-base-content rounded-box mt-2 max-h-[calc(100vh-10rem)] overflow-y-auto border border-base-content/10 shadow-2xl z-50"
+  >
+    <ul class="menu">
+      <li class="menu-title text-xs">Change Theme</li>
+      {
+        THEMES.map(({ key, label }) => (
+          <li>
+            <button
+              class="gap-3 px-2"
+              data-set-theme={key}
+              data-act-class="[&_svg]:visible"
+            >
+              <div
+                data-theme={key}
+                class="bg-base-100 grid shrink-0 grid-cols-2 gap-0.5 rounded-md p-1 shadow-sm"
+              >
+                <div class="bg-base-content size-1 rounded-full" />
+                <div class="bg-primary size-1 rounded-full" />
+                <div class="bg-secondary size-1 rounded-full" />
+                <div class="bg-accent size-1 rounded-full" />
+              </div>
+              <span class="w-20 truncate text-left grow font-normal">
+                {label}
+              </span>
+              <Check />
+            </button>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>

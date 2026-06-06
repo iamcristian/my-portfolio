@@ -10,7 +10,7 @@
   root: ":root";
   include:;
   exclude:;
-  logs: true;
+  logs: false;
 }
 @plugin "daisyui/theme" {
   name: "business";
