@@ -1,9 +1,11 @@
 ---
 import "../assets/app.css";
+
+const lang = Astro.currentLocale || "en";
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <script is:inline>
     if (
       localStorage.getItem("theme") === null ||

@@ -1,0 +1,17 @@
+export const header = {
+  "nav.home": "Главная",
+  "nav.about": "Обо мне",
+  "nav.education": "Образование",
+  "nav.experience": "Опыт работы",
+  "nav.projects": "Проекты",
+  "nav.skills": "Навыки",
+  "nav.blog": "Блог",
+  "nav.toggleMenu": "Переключить меню навигации",
+  "theme.title": "Сменить тему",
+  "theme.light": "Светлая",
+  "theme.dark": "Тёмная",
+  "theme.cyberpunk": "Киберпанк",
+  "theme.dracula": "Дракула",
+  "theme.forest": "Лес",
+  "theme.luxury": "Роскошь",
+} as const;

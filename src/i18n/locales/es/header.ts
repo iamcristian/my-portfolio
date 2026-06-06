@@ -1,0 +1,17 @@
+export const header = {
+  "nav.home": "Inicio",
+  "nav.about": "Sobre mí",
+  "nav.education": "Educación",
+  "nav.experience": "Experiencia",
+  "nav.projects": "Proyectos",
+  "nav.skills": "Habilidades",
+  "nav.blog": "Blog",
+  "nav.toggleMenu": "Alternar menú de navegación",
+  "theme.title": "Cambiar tema",
+  "theme.light": "Claro",
+  "theme.dark": "Oscuro",
+  "theme.cyberpunk": "Cyberpunk",
+  "theme.dracula": "Dracula",
+  "theme.forest": "Bosque",
+  "theme.luxury": "Lujo",
+} as const;

@@ -1,0 +1,82 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Header from "../../../components/header/Header.astro";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { MOCK_BLOGS } from "../../../data/mockData";
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: "en" } },
+    { params: { lang: "es" } },
+    { params: { lang: "de" } },
+    { params: { lang: "ru" } },
+    { params: { lang: "ja" } },
+  ];
+}
+
+const { lang } = Astro.params;
+
+const blogPageTexts: Record<
+  string,
+  { title: string; subtitle: string; readMore: string }
+> = {
+  en: { title: "Blog", subtitle: "Welcome to my blog", readMore: "Read More" },
+  es: { title: "Blog", subtitle: "Bienvenido a mi blog", readMore: "Leer más" },
+  de: {
+    title: "Blog",
+    subtitle: "Willkommen in meinem Blog",
+    readMore: "Weiterlesen",
+  },
+  ru: {
+    title: "Блог",
+    subtitle: "Добро пожаловать в мой блог",
+    readMore: "Читать далее",
+  },
+  ja: { title: "ブログ", subtitle: "ブログへようこそ", readMore: "続きを読む" },
+};
+
+const texts = blogPageTexts[lang] || blogPageTexts.en;
+---
+
+<Layout>
+  <Header />
+
+  <main class="max-w-4xl mx-auto px-4 py-12 flex flex-col gap-8">
+    <div class="text-center md:text-left flex flex-col gap-2">
+      <h1 class="text-4xl font-extrabold tracking-tight text-primary">
+        {texts.title}
+      </h1>
+      <p class="text-lg opacity-70">{texts.subtitle}</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+      {
+        MOCK_BLOGS.map((post) => {
+          const title = post.title[lang] || post.title.en;
+          const content = post.content[lang] || post.content.en;
+          return (
+            <div class="card bg-base-200 shadow-md hover:shadow-lg transition-all duration-300 border border-base-content/5">
+              <div class="card-body gap-4">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs opacity-50 font-semibold">
+                    {post.date}
+                  </span>
+                </div>
+                <h2 class="card-title text-xl font-bold">{title}</h2>
+                <p class="opacity-70 text-sm">{content}</p>
+                <div class="card-actions justify-end mt-2">
+                  <a
+                    href={getRelativeLocaleUrl(lang, `blog/${post.slug}`)}
+                    class="btn btn-primary btn-sm"
+                  >
+                    {texts.readMore}
+                  </a>
+                </div>
+              </div>
+            </div>
+          );
+        })
+      }
+    </div>
+  </main>
+</Layout>

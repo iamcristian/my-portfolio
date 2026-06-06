@@ -1,0 +1,17 @@
+export const header = {
+  "nav.home": "ホーム",
+  "nav.about": "私について",
+  "nav.education": "学歴",
+  "nav.experience": "職歴",
+  "nav.projects": "プロジェクト",
+  "nav.skills": "スキル",
+  "nav.blog": "ブログ",
+  "nav.toggleMenu": "ナビゲーションメニューの切り替え",
+  "theme.title": "テーマ変更",
+  "theme.light": "ライト",
+  "theme.dark": "ダーク",
+  "theme.cyberpunk": "サイバーパンク",
+  "theme.dracula": "ドラキュラ",
+  "theme.forest": "フォレスト",
+  "theme.luxury": "ラグジュアリー",
+} as const;

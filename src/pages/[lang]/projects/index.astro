@@ -1,0 +1,68 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Header from "../../../components/header/Header.astro";
+import { MOCK_PROJECTS } from "../../../data/mockData";
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: "en" } },
+    { params: { lang: "es" } },
+    { params: { lang: "de" } },
+    { params: { lang: "ru" } },
+    { params: { lang: "ja" } },
+  ];
+}
+
+const { lang } = Astro.params;
+
+const projectsPageTexts: Record<string, { title: string; subtitle: string }> = {
+  en: { title: "Projects", subtitle: "Here are some of my projects" },
+  es: { title: "Proyectos", subtitle: "Aquí hay algunos de mis proyectos" },
+  de: { title: "Projekte", subtitle: "Hier sind einige meiner Projekte" },
+  ru: { title: "Проекты", subtitle: "Вот некоторые из моих проектов" },
+  ja: {
+    title: "プロジェクト",
+    subtitle: "いくつかのプロジェクトを紹介します",
+  },
+};
+
+const texts = projectsPageTexts[lang] || projectsPageTexts.en;
+---
+
+<Layout>
+  <Header />
+
+  <main class="max-w-4xl mx-auto px-4 py-12 flex flex-col gap-8">
+    <div class="text-center md:text-left flex flex-col gap-2">
+      <h1 class="text-4xl font-extrabold tracking-tight text-primary">
+        {texts.title}
+      </h1>
+      <p class="text-lg opacity-70">{texts.subtitle}</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+      {
+        MOCK_PROJECTS.map((project) => {
+          const title = project.title[lang] || project.title.en;
+          const description =
+            project.description[lang] || project.description.en;
+          return (
+            <div class="card bg-base-200 shadow-md hover:shadow-lg transition-all duration-300 border border-base-content/5">
+              <div class="card-body gap-4">
+                <h2 class="card-title text-xl font-bold">{title}</h2>
+                <p class="opacity-70 text-sm">{description}</p>
+                <div class="flex flex-wrap gap-1.5 mt-2">
+                  {project.tech.map((t) => (
+                    <span class="badge badge-sm badge-outline opacity-80">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          );
+        })
+      }
+    </div>
+  </main>
+</Layout>
