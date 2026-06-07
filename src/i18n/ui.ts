@@ -10,6 +10,12 @@ import { home as deHome } from "./locales/de/home";
 import { home as ruHome } from "./locales/ru/home";
 import { home as jaHome } from "./locales/ja/home";
 
+import { footer as enFooter } from "./locales/en/footer";
+import { footer as esFooter } from "./locales/es/footer";
+import { footer as deFooter } from "./locales/de/footer";
+import { footer as ruFooter } from "./locales/ru/footer";
+import { footer as jaFooter } from "./locales/ja/footer";
+
 export const languages = {
   en: { name: "English", code: "EN" },
   es: { name: "Español", code: "ES" },
@@ -24,21 +30,26 @@ export const ui = {
   en: {
     ...enHeader,
     ...enHome,
+    ...enFooter,
   },
   es: {
     ...esHeader,
     ...esHome,
+    ...esFooter,
   },
   de: {
     ...deHeader,
     ...deHome,
+    ...deFooter,
   },
   ru: {
     ...ruHeader,
     ...ruHome,
+    ...ruFooter,
   },
   ja: {
     ...jaHeader,
     ...jaHome,
+    ...jaFooter,
   },
 } as const;
