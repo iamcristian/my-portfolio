@@ -1,0 +1,62 @@
+---
+import { useTranslations } from "../../i18n/utils";
+import { defaultLang } from "../../i18n/ui";
+import TimelineItem from "../ui/TimelineItem.astro";
+
+const lang = (Astro.currentLocale || defaultLang) as any;
+const t = useTranslations(lang);
+---
+
+<section id="experience" class="py-16 md:py-24 max-w-3xl mx-auto px-4 md:px-8">
+  <div class="text-center mb-12">
+    <span class="font-mono text-xs tracking-widest uppercase text-primary mb-2 block">{t("experience.subtitle")}</span>
+    <h2 class="text-3xl lg:text-4xl font-bold">{t("experience.title")}</h2>
+    <div class="w-12 h-1 bg-primary mt-3 mx-auto rounded-full"></div>
+  </div>
+
+  <!-- Timeline DaisyUI -->
+  <ul class="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
+    <!-- Item 1: Backend Developer -->
+    <TimelineItem
+      num={1}
+      title={t("experience.job1Title")}
+      company={t("experience.job1Company")}
+      companyUrl="https://xpanddigital.com/"
+      date={t("experience.job1Date")}
+      description={t("experience.job1Desc")}
+      tags={["NestJS", "PostgreSQL", "Docker", "TypeScript", "RabbitMQ"]}
+    />
+
+    <!-- Item 2: Full Stack Developer -->
+    <TimelineItem
+      num={2}
+      title={t("experience.job2Title")}
+      company={t("experience.job2Company")}
+      companyUrl="https://xpanddigital.com/"
+      date={t("experience.job2Date")}
+      description={t("experience.job2Desc")}
+      tags={["Next.js", "React", "NestJS", "PostgreSQL", "Tailwind CSS", "Docker"]}
+    />
+
+    <!-- Item 3: Thesis Project -->
+    <TimelineItem
+      num={3}
+      title={t("experience.job3Title")}
+      company={t("experience.job3Company")}
+      date={t("experience.job3Date")}
+      description={t("experience.job3Desc")}
+      tags={["Python", "Flask", "React", "PostgreSQL"]}
+    />
+
+    <!-- Item 4: Intern Web Developer -->
+    <TimelineItem
+      num={4}
+      title={t("experience.job4Title")}
+      company={t("experience.job4Company")}
+      date={t("experience.job4Date")}
+      description={t("experience.job4Desc")}
+      tags={["HTML", "CSS", "JavaScript", "PHP", "MySQL"]}
+      isLast={true}
+    />
+  </ul>
+</section>

@@ -1,0 +1,346 @@
+---
+import { useTranslations } from "../../i18n/utils";
+import { getCollection } from "astro:content";
+import BlogCard from "../ui/cards/BlogCard.astro";
+
+// SVGs
+import SearchIcon from "../../assets/search.svg";
+import GridIcon from "../../assets/grid.svg";
+import ListIcon from "../../assets/list.svg";
+import SortIcon from "../../assets/sort.svg";
+
+interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang as any);
+
+// Fetch Blog Posts from Content Collection
+const blogPosts = await getCollection("blog", ({ data }) => {
+  return data.lang === lang && !data.draft;
+});
+
+// Calculate unique tags from posts
+const allTags = Array.from(new Set(blogPosts.flatMap(post => post.data.tags)));
+---
+
+<main class="max-w-6xl mx-auto px-4 py-12 flex flex-col gap-8 min-h-screen">
+  <!-- Header -->
+  <div class="text-center space-y-4 max-w-2xl mx-auto">
+    <span class="font-mono text-xs tracking-widest uppercase text-primary font-semibold block">// {t("blog.title")}</span>
+    <h1 class="text-4xl font-extrabold tracking-tight bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
+      {t("blog.title")}
+    </h1>
+    <p class="text-md opacity-80">{t("blog.subtitlePage")}</p>
+  </div>
+
+  <!-- Controls: Search, View Toggle, Tag Filters, Sort -->
+  <div class="flex flex-col gap-6 bg-base-200 p-6 rounded-2xl border border-base-300">
+    
+    <!-- Top Row: Search + View Toggle -->
+    <div class="flex flex-col sm:flex-row gap-4 justify-between items-center">
+      <!-- Search input group -->
+      <div class="relative w-full sm:max-w-md">
+        <span class="absolute inset-y-0 left-3 flex items-center pointer-events-none opacity-60">
+          <SearchIcon class="w-5 h-5" />
+        </span>
+        <input
+          type="text"
+          id="blog-search"
+          class="input input-bordered w-full pl-10 bg-base-100"
+          placeholder={t("blog.searchPlaceholder")}
+        />
+      </div>
+
+      <!-- View Toggle (Grid / List) using DaisyUI join -->
+      <div class="join shrink-0">
+        <button id="view-grid-btn" class="btn join-item btn-active btn-square" aria-label={t("projects.viewGrid")}>
+          <GridIcon class="w-5 h-5" />
+        </button>
+        <button id="view-list-btn" class="btn join-item btn-square" aria-label={t("projects.viewList")}>
+          <ListIcon class="w-5 h-5" />
+        </button>
+      </div>
+    </div>
+
+    <!-- Bottom Row: Tag Filters + Sort Select -->
+    <div class="flex flex-col sm:flex-row gap-4 justify-between items-center border-t border-base-300 pt-4">
+      <!-- Tag Filter Badges -->
+      <div class="flex flex-wrap gap-1.5 justify-center max-w-xl" id="tag-filters">
+        <button class="btn btn-xs btn-neutral tag-btn active" data-tag="all">{t("projects.all")}</button>
+        {
+          allTags.map((tag) => (
+            <button class="btn btn-xs btn-ghost tag-btn" data-tag={tag}>
+              {tag}
+            </button>
+          ))
+        }
+      </div>
+
+      <!-- Sort dropdown -->
+      <div class="flex items-center gap-2">
+        <SortIcon class="w-5 h-5 opacity-60" />
+        <select id="blog-sort" class="select select-bordered select-sm bg-base-100">
+          <option value="date-desc">{t("projects.sortDate")} (Newest)</option>
+          <option value="date-asc">{t("projects.sortDate")} (Oldest)</option>
+          <option value="name-asc">{t("projects.sortName")} (A-Z)</option>
+          <option value="name-desc">{t("projects.sortName")} (Z-A)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Blog Posts Grid / List Container -->
+  <div id="blog-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-h-[300px]">
+    {
+      blogPosts.map((post) => {
+        const title = post.data.title;
+        const description = post.data.description;
+        const isFeatured = post.data.slug === "astro-vs-nextjs" || post.data.tags.includes("featured");
+        
+        return (
+          <BlogCard
+            post={post}
+            showFeaturedBadge={isFeatured}
+            data-id={post.id}
+            data-featured={isFeatured ? "true" : "false"}
+            data-date={post.data.date.toISOString()}
+            data-name={title.toLowerCase()}
+            data-tags={post.data.tags.join(" ").toLowerCase()}
+            data-description={description.toLowerCase()}
+          />
+        );
+      })
+    }
+  </div>
+
+  <!-- Empty State -->
+  <div id="no-results-state" class="hidden text-center py-12">
+    <p class="text-lg opacity-70">{t("blog.noResults")}</p>
+  </div>
+
+  <!-- Pagination -->
+  <div class="flex justify-center mt-8" id="pagination-wrapper">
+    <div class="join" id="pagination-controls"></div>
+  </div>
+</main>
+
+<script>
+  let currentView = "grid";
+  let currentTag = "all";
+  let currentSort = "date-desc";
+  let searchQuery = "";
+  let currentPage = 1;
+  const itemsPerPage = 10;
+
+  // Cache elements
+  const container = document.getElementById("blog-container") as HTMLElement;
+  const noResults = document.getElementById("no-results-state") as HTMLElement;
+  const paginationControls = document.getElementById("pagination-controls") as HTMLElement;
+  const allCards = Array.from(document.querySelectorAll(".blog-card")) as HTMLElement[];
+
+  const searchInput = document.getElementById("blog-search") as HTMLInputElement;
+  const sortSelect = document.getElementById("blog-sort") as HTMLSelectElement;
+  const tagButtons = document.querySelectorAll(".tag-btn") as NodeListOf<HTMLElement>;
+  
+  const gridBtn = document.getElementById("view-grid-btn") as HTMLElement;
+  const listBtn = document.getElementById("view-list-btn") as HTMLElement;
+
+  // View Switchers
+  function updateViewLayout() {
+    if (currentView === "grid") {
+      gridBtn.classList.add("btn-active");
+      listBtn.classList.remove("btn-active");
+      
+      container.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6";
+      allCards.forEach(card => {
+        card.className = "blog-card card card-compact bg-base-200 border border-base-300 shadow-xl overflow-hidden hover:-translate-y-1 transition-all duration-300 flex flex-col h-full";
+        const fig = card.querySelector(".blog-figure");
+        if (fig) fig.className = "blog-figure relative h-48 bg-base-300 shrink-0 transition-all";
+        const body = card.querySelector(".blog-body");
+        if (body) body.className = "blog-body flex-1 flex flex-col justify-between p-5 transition-all";
+        const footer = card.querySelector(".blog-footer");
+        if (footer) footer.className = "blog-footer pt-4 mt-auto border-t border-base-300 flex justify-between items-center transition-all";
+      });
+    } else {
+      listBtn.classList.add("btn-active");
+      gridBtn.classList.remove("btn-active");
+
+      container.className = "flex flex-col gap-3";
+      allCards.forEach(card => {
+        card.className = "blog-card card bg-base-200 border border-base-300 shadow-sm p-4 hover:border-primary/55 transition-all flex flex-col md:flex-row items-center justify-between gap-4 w-full";
+        const fig = card.querySelector(".blog-figure");
+        if (fig) fig.className = "blog-figure hidden";
+        const body = card.querySelector(".blog-body");
+        if (body) body.className = "blog-body flex-1 min-w-0 p-0 flex flex-col md:flex-row md:items-center md:justify-between gap-4 w-full";
+        const footer = card.querySelector(".blog-footer");
+        if (footer) footer.className = "blog-footer flex gap-2 flex-shrink-0 border-t-0 pt-0 mt-0";
+      });
+    }
+  }
+
+  // Filter, Sort, Paginate
+  function processBlogPosts() {
+    // 1. Filter
+    let filtered = allCards.filter(card => {
+      // Tag match
+      const tagsAttr = card.getAttribute("data-tags") || "";
+      const tagMatch = currentTag === "all" || tagsAttr.split(" ").includes(currentTag.toLowerCase());
+
+      // Search match
+      const title = card.getAttribute("data-name") || "";
+      const desc = card.getAttribute("data-description") || "";
+      const searchMatch = !searchQuery || 
+        title.includes(searchQuery) || 
+        tagsAttr.includes(searchQuery) || 
+        desc.includes(searchQuery);
+
+      return tagMatch && searchMatch;
+    });
+
+    // 2. Sort (Featured posts are ALWAYS at the top, followed by the chosen sort order)
+    filtered.sort((a, b) => {
+      const featA = a.getAttribute("data-featured") === "true" ? 1 : 0;
+      const featB = b.getAttribute("data-featured") === "true" ? 1 : 0;
+
+      if (featA !== featB) {
+        return featB - featA; // featured first
+      }
+
+      // Then secondary sort
+      if (currentSort.startsWith("date")) {
+        const dateA = new Date(a.getAttribute("data-date") || "").getTime();
+        const dateB = new Date(b.getAttribute("data-date") || "").getTime();
+        return currentSort === "date-desc" ? dateB - dateA : dateA - dateB;
+      } else {
+        const nameA = a.getAttribute("data-name") || "";
+        const nameB = b.getAttribute("data-name") || "";
+        return currentSort === "name-asc" ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
+      }
+    });
+
+    // 3. Hide all first
+    allCards.forEach(c => c.classList.add("hidden"));
+
+    // 4. Handle Empty State
+    if (filtered.length === 0) {
+      noResults.classList.remove("hidden");
+      paginationControls.innerHTML = "";
+      return;
+    }
+    noResults.classList.add("hidden");
+
+    // 5. Paginate
+    const totalPages = Math.ceil(filtered.length / itemsPerPage);
+    if (currentPage > totalPages) currentPage = totalPages || 1;
+
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginated = filtered.slice(startIndex, endIndex);
+
+    // Show current page items and reorder in the DOM
+    paginated.forEach(c => {
+      c.classList.remove("hidden");
+      container.appendChild(c);
+    });
+
+    // Render pagination controls
+    renderPagination(totalPages);
+  }
+
+  function renderPagination(totalPages: number) {
+    paginationControls.innerHTML = "";
+    if (totalPages <= 1) return;
+
+    // Prev Button
+    const prevBtn = document.createElement("button");
+    prevBtn.className = "join-item btn btn-sm" + (currentPage === 1 ? " btn-disabled" : "");
+    prevBtn.innerHTML = "«";
+    prevBtn.addEventListener("click", () => {
+      if (currentPage > 1) {
+        currentPage--;
+        processBlogPosts();
+        window.scrollTo({ top: container.offsetTop - 100, behavior: "smooth" });
+      }
+    });
+    paginationControls.appendChild(prevBtn);
+
+    // Page numbers
+    for (let i = 1; i <= totalPages; i++) {
+      const pageBtn = document.createElement("button");
+      pageBtn.className = `join-item btn btn-sm ${i === currentPage ? "btn-active btn-primary" : ""}`;
+      pageBtn.innerText = i.toString();
+      pageBtn.addEventListener("click", () => {
+        currentPage = i;
+        processBlogPosts();
+        window.scrollTo({ top: container.offsetTop - 100, behavior: "smooth" });
+      });
+      paginationControls.appendChild(pageBtn);
+    }
+
+    // Next Button
+    const nextBtn = document.createElement("button");
+    nextBtn.className = "join-item btn btn-sm" + (currentPage === totalPages ? " btn-disabled" : "");
+    nextBtn.innerHTML = "»";
+    nextBtn.addEventListener("click", () => {
+      if (currentPage < totalPages) {
+        currentPage++;
+        processBlogPosts();
+        window.scrollTo({ top: container.offsetTop - 100, behavior: "smooth" });
+      }
+    });
+    paginationControls.appendChild(nextBtn);
+  }
+
+  // Debounced Search Handler
+  let timer: number;
+  searchInput.addEventListener("input", (e) => {
+    clearTimeout(timer);
+    timer = window.setTimeout(() => {
+      searchQuery = (e.target as HTMLInputElement).value.toLowerCase().trim();
+      currentPage = 1;
+      processBlogPosts();
+    }, 300); // 300ms debounce
+  });
+
+  // Sort Selector Change
+  sortSelect.addEventListener("change", (e) => {
+    currentSort = (e.target as HTMLSelectElement).value;
+    processBlogPosts();
+  });
+
+  // Tag Buttons Click
+  tagButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      tagButtons.forEach(b => {
+        b.classList.remove("btn-neutral", "active");
+        b.classList.add("btn-ghost");
+      });
+      btn.classList.add("btn-neutral", "active");
+      btn.classList.remove("btn-ghost");
+
+      currentTag = btn.getAttribute("data-tag") || "all";
+      currentPage = 1;
+      processBlogPosts();
+    });
+  });
+
+  // View Layout Buttons Click
+  gridBtn.addEventListener("click", () => {
+    if (currentView !== "grid") {
+      currentView = "grid";
+      updateViewLayout();
+    }
+  });
+  listBtn.addEventListener("click", () => {
+    if (currentView !== "list") {
+      currentView = "list";
+      updateViewLayout();
+    }
+  });
+
+  // Init
+  updateViewLayout();
+  processBlogPosts();
+</script>

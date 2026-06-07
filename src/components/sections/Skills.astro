@@ -1,0 +1,91 @@
+---
+import { useTranslations } from "../../i18n/utils";
+import { defaultLang } from "../../i18n/ui";
+
+const lang = (Astro.currentLocale || defaultLang) as any;
+const t = useTranslations(lang);
+---
+
+<section id="skills" class="py-16 md:py-24 max-w-6xl mx-auto px-4 md:px-8">
+  <div class="text-center mb-12">
+    <span class="font-mono text-xs tracking-widest uppercase text-primary mb-2 block">{t("skills.subtitle")}</span>
+    <h2 class="text-3xl lg:text-4xl font-bold">{t("skills.title")}</h2>
+    <div class="w-12 h-1 bg-primary mt-3 mx-auto rounded-full"></div>
+  </div>
+
+  <!-- Grid de Categorías -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    
+    <!-- Lenguajes -->
+    <div class="card bg-base-200 border border-base-300 p-6">
+      <h3 class="font-bold text-lg text-primary mb-4">{t("skills.languages")}</h3>
+      <div class="flex flex-wrap gap-2">
+        <span class="badge badge-neutral">JavaScript</span>
+        <span class="badge badge-neutral">TypeScript</span>
+        <span class="badge badge-neutral">Python</span>
+        <span class="badge badge-neutral">Java</span>
+        <span class="badge badge-neutral">HTML</span>
+        <span class="badge badge-neutral">CSS</span>
+        <span class="badge badge-neutral">SQL</span>
+        <span class="badge badge-neutral">Bash</span>
+      </div>
+    </div>
+
+    <!-- Frontend -->
+    <div class="card bg-base-200 border border-base-300 p-6">
+      <h3 class="font-bold text-lg text-primary mb-4">{t("skills.frontend")}</h3>
+      <div class="flex flex-wrap gap-2">
+        <span class="badge badge-neutral">React</span>
+        <span class="badge badge-neutral">Next.js</span>
+        <span class="badge badge-neutral">Astro</span>
+        <span class="badge badge-neutral">Tailwind CSS</span>
+        <span class="badge badge-neutral">Redux</span>
+      </div>
+    </div>
+
+    <!-- Backend -->
+    <div class="card bg-base-200 border border-base-300 p-6">
+      <h3 class="font-bold text-lg text-primary mb-4">{t("skills.backend")}</h3>
+      <div class="flex flex-wrap gap-2">
+        <span class="badge badge-neutral">Node.js</span>
+        <span class="badge badge-neutral">NestJS</span>
+        <span class="badge badge-neutral">Express</span>
+        <span class="badge badge-neutral">Flask</span>
+      </div>
+    </div>
+
+    <!-- Bases de Datos -->
+    <div class="card bg-base-200 border border-base-300 p-6">
+      <h3 class="font-bold text-lg text-primary mb-4">{t("skills.databases")}</h3>
+      <div class="flex flex-wrap gap-2">
+        <span class="badge badge-neutral">PostgreSQL</span>
+        <span class="badge badge-neutral">MongoDB</span>
+        <span class="badge badge-neutral">MySQL</span>
+        <span class="badge badge-neutral">Redis</span>
+      </div>
+    </div>
+
+    <!-- DevOps y Herramientas -->
+    <div class="card bg-base-200 border border-base-300 p-6">
+      <h3 class="font-bold text-lg text-primary mb-4">{t("skills.devops")}</h3>
+      <div class="flex flex-wrap gap-2">
+        <span class="badge badge-neutral">Docker</span>
+        <span class="badge badge-neutral">Git</span>
+        <span class="badge badge-neutral">Linux</span>
+        <span class="badge badge-neutral">CI/CD</span>
+        <span class="badge badge-neutral">GitHub Actions</span>
+      </div>
+    </div>
+
+    <!-- Seguridad -->
+    <div class="card bg-base-200 border border-base-300 p-6">
+      <h3 class="font-bold text-lg text-primary mb-4">{t("skills.security")}</h3>
+      <div class="flex flex-wrap gap-2">
+        <span class="badge badge-neutral">OWASP</span>
+        <span class="badge badge-neutral">API Security</span>
+        <span class="badge badge-neutral">Penetration Testing</span>
+        <span class="badge badge-neutral">Network Security</span>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,42 @@
+---
+interface Props {
+  num: number;
+  title: string;
+  company: string;
+  companyUrl?: string;
+  date: string;
+  description: string;
+  tags: string[];
+  isLast?: boolean;
+}
+
+const { num, title, company, companyUrl, date, description, tags, isLast = false } = Astro.props;
+---
+
+<li>
+  <div class="timeline-middle">
+    <div class="bg-primary text-primary-content rounded-full p-1.5 w-6 h-6 flex items-center justify-center font-bold text-xs">{num}</div>
+  </div>
+  <div class="timeline-end mb-10 card bg-base-200 border border-base-300 p-6 shadow-md w-full ml-2 md:ml-0">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3">
+      <div>
+        <h3 class="text-lg font-bold text-primary">{title}</h3>
+        <p class="text-sm font-semibold opacity-75">
+          {companyUrl ? (
+            <a href={companyUrl} target="_blank" class="hover:underline">{company}</a>
+          ) : (
+            company
+          )}
+        </p>
+      </div>
+      <span class="font-mono text-xs opacity-60">{date}</span>
+    </div>
+    <p class="text-sm leading-relaxed mb-4">{description}</p>
+    <div class="flex flex-wrap gap-1.5">
+      {tags.map((tag) => (
+        <span class="badge badge-outline text-xs">{tag}</span>
+      ))}
+    </div>
+  </div>
+  {!isLast && <hr class="bg-base-300" />}
+</li>

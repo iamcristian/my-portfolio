@@ -1,0 +1,235 @@
+---
+title: "Лучшие практики веб-безопасности, которые должен знать каждый разработчик"
+description: "Основные практики безопасности для веб-разработчиков, охватывающие OWASP Top 10, безопасность API, шаблоны аутентификации и техники защитного программирования. Практическое руководство по материалам моего последипломного обучения в области информационной безопасности."
+date: 2025-03-10
+tags: ["безопасность", "owasp", "бэкенд", "лучшие-практики"]
+image: "/images/blog/security-best-practices.png"
+featured: true
+draft: false
+lang: ru
+slug: web-security-best-practices
+---
+
+## Почему безопасность важна
+
+Как разработчик с **последипломным дипломом в области информационной безопасности**, я лично видел, как даже небольшие уязвимости могут привести к катастрофическим последствиям. В этой статье рассматриваются основные практики безопасности, которые должен внедрить каждый разработчик.
+
+### OWASP Top 10 (Редакция 2025)
+
+OWASP Top 10 — это золотой стандарт рисков безопасности веб-приложений:
+
+1. **Недостаток контроля доступа** — Самая критическая уязвимость.
+2. **Сбои криптографии** — Неправильное использование шифрования.
+3. **Инъекции** — SQL, NoSQL, LDAP, инъекции команд ОС.
+4. **Небезопасный дизайн** — Уязвимости на уровне архитектуры.
+5. **Неправильная настройка безопасности** — Дефолтные учетные данные, открытые облачные хранилища.
+6. **Уязвимые компоненты** — Устаревшие зависимости.
+7. **Сбои аутентификации** — Слабая политика паролей, угон сессий.
+8. **Нарушения целостности данных** — Несанкционированное изменение конвейера CI/CD.
+9. **Сбои логирования и мониторинга** — Недостаточный мониторинг.
+10. **Подделка запросов на стороне сервера** — Атаки SSRF.
+
+### Валидация входных данных — Ваша первая линия защиты
+
+**Никогда не доверяйте пользовательскому вводу.** Всегда валидируйте данные как на клиенте, так и на сервере:
+
+```typescript
+import { z } from "zod";
+
+// Определение строгой схемы для ввода
+const CreateUserSchema = z.object({
+  email: z.string().email().max(255),
+  password: z
+    .string()
+    .min(12, "Пароль должен быть не менее 12 символов")
+    .regex(/[A-Z]/, "Должен содержать заглавную букву")
+    .regex(/[a-z]/, "Должен содержать строчную букву")
+    .regex(/[0-9]/, "Должен содержать цифру")
+    .regex(/[^A-Za-z0-9]/, "Должен содержать специальный символ"),
+  name: z
+    .string()
+    .min(2)
+    .max(100)
+    .regex(/^[a-zA-ZÀ-ÿ\s'-]+$/),
+});
+
+// В вашем контроллере/обработчике
+async function createUser(req: Request) {
+  const result = CreateUserSchema.safeParse(await req.json());
+
+  if (!result.success) {
+    return new Response(
+      JSON.stringify({
+        error: "Ошибка валидации",
+        details: result.error.flatten(),
+      }),
+      { status: 400 },
+    );
+  }
+
+  // Использование безопасных данных
+  const { email, password, name } = result.data;
+  // ... создание пользователя с хэшированием пароля
+}
+```
+
+### Лучшие практики аутентификации
+
+#### Использование bcrypt или Argon2 для хэширования паролей
+
+```typescript
+import bcrypt from "bcrypt";
+
+const SALT_ROUNDS = 12;
+
+async function hashPassword(password: string): Promise<string> {
+  return bcrypt.hash(password, SALT_ROUNDS);
+}
+
+async function verifyPassword(
+  password: string,
+  hash: string,
+): Promise<boolean> {
+  return bcrypt.compare(password, hash);
+}
+```
+
+> **Никогда** не храните пароли в открытом виде. Никогда не используйте MD5 или SHA для паролей. Всегда применяйте медленные алгоритмы хэширования, специально разработанные для паролей.
+
+#### Лучшие практики JWT
+
+```typescript
+import jwt from "jsonwebtoken";
+
+// ✅ Отлично: короткоживущие токены доступа + ротация токенов обновления
+const accessToken = jwt.sign(
+  { userId: user.id, role: user.role },
+  process.env.JWT_SECRET!,
+  {
+    expiresIn: "15m", // Короткое время жизни
+    issuer: "cristianarando.app",
+    audience: "api",
+  },
+);
+
+// ✅ Отлично: HTTP-only, Secure, SameSite куки
+response.cookie("refreshToken", refreshToken, {
+  httpOnly: true, // Доступ из JS невозможен
+  secure: true, // Отправка только по HTTPS
+  sameSite: "strict", // Защита от CSRF
+  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 дней
+  path: "/api/auth", // Отправка только на эндпоинты авторизации
+});
+```
+
+### Чек-лист безопасности API
+
+При создании API всегда внедряйте:
+
+#### Ограничение частоты запросов (Rate Limiting)
+
+```typescript
+import rateLimit from "express-rate-limit";
+
+// Общий лимит для API
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 минут
+  max: 100, // 100 запросов за окно
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: "Слишком много запросов, пожалуйста, попробуйте позже." },
+});
+
+// Строгие ограничения для авторизационных эндпоинтов
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5, // Только 5 попыток за 15 минут
+  skipSuccessfulRequests: true,
+});
+```
+
+#### Заголовки безопасности
+
+```typescript
+import helmet from "helmet";
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'"],
+        styleSrc: ["'self'", "'unsafe-inline'", "fonts.googleapis.com"],
+        fontSrc: ["'self'", "fonts.gstatic.com"],
+        imgSrc: ["'self'", "data:", "https:"],
+        connectSrc: ["'self'"],
+        frameSrc: ["'none'"],
+        objectSrc: ["'none'"],
+      },
+    },
+    crossOriginEmbedderPolicy: true,
+    crossOriginOpenerPolicy: true,
+    crossOriginResourcePolicy: { policy: "same-site" },
+    referrerPolicy: { policy: "strict-origin-when-cross-origin" },
+  }),
+);
+```
+
+### Предотвращение SQL-инъекций
+
+**Всегда используйте параметризованные запросы:**
+
+```typescript
+// ❌ ОПАСНО — уязвимость к SQL-инъекциям
+const query = `SELECT * FROM users WHERE email = '${email}'`;
+
+// ✅ БЕЗОПАСНО — параметризованный запрос
+const result = await db.query("SELECT * FROM users WHERE email = $1", [email]);
+
+// ✅ БЕЗОПАСНО — использование ORM (Prisma)
+const user = await prisma.user.findUnique({
+  where: { email },
+});
+```
+
+### Переменные окружения и секреты
+
+```bash
+# .env — НИКОГДА не коммитьте этот файл
+DATABASE_URL=postgresql://user:pass@localhost:5432/db
+JWT_SECRET=your-256-bit-secret-key-here
+API_KEY=sk-live-your-api-key
+
+# .gitignore — ВСЕГДА добавляйте в игнор
+.env
+.env.local
+.env.production
+```
+
+### Чек-лист безопасности для любого проекта
+
+Используйте этот чек-лист перед запуском любого веб-приложения:
+
+- [ ] Все входные данные проверены и санированы.
+- [ ] Пароли захэшированы с использованием bcrypt/Argon2 (число раундов соли ≥ 12).
+- [ ] Токены JWT являются короткоживущими (≤ 15 минут).
+- [ ] Токены обновления используют безопасные HTTP-only куки.
+- [ ] Настроено ограничение частоты запросов на всех эндпоинтах (более строгое для авторизации).
+- [ ] Настроены заголовки безопасности (CSP, CORS, HSTS).
+- [ ] SQL-запросы параметризованы.
+- [ ] Зависимости обновлены (`npm audit`).
+- [ ] Переменные окружения не находятся в системе контроля версий.
+- [ ] HTTPS включен принудительно везде.
+- [ ] Сообщения об ошибках не раскрывают детали внутренней архитектуры.
+- [ ] Логирование фиксирует события безопасности.
+- [ ] CORS правильно настроен (не `*` в продакшене).
+
+### Заключение
+
+Безопасность — это не дополнительная функция, это **основа**. Каждая строчка кода должна быть написана с мыслью о безопасности. Вышеописанные практики не являются исчерпывающими, но их внедрение защитит вас от большинства распространенных атак.
+
+Помните: **всегда дешевле предотвратить утечку данных, чем устранять ее последствия.**
+
+---
+
+_Хотите обсудить тему безопасности? Свяжитесь со мной в [LinkedIn](https://linkedin.com/in/cristianarando) или ознакомьтесь с моим [сертификатом по безопасности API](https://www.credly.com/badges/b845b494-cb64-4434-8cec-9e24e696c310/public_url)._

@@ -1,0 +1,215 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { render } from "astro:content";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { useTranslations } from "../../i18n/utils";
+import { getCollection } from "astro:content";
+
+// SVGs
+import CalendarIcon from "../../assets/calendar.svg";
+import ClockIcon from "../../assets/clock.svg";
+import ListIcon from "../../assets/list.svg";
+
+interface Props {
+  post: CollectionEntry<"blog">;
+  lang: string;
+}
+
+const { post, lang } = Astro.props;
+const t = useTranslations(lang as any);
+
+// Render markdown content and retrieve headings
+const { Content, headings } = await render(post);
+
+// Filter headings to show only h2 and h3
+const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
+
+// Fetch sibling posts in the same language for bottom navigation
+const langPosts = (
+  await getCollection("blog", ({ data }) => data.lang === lang && !data.draft)
+).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const currentIndex = langPosts.findIndex((p) => p.id === post.id);
+const prevPost = currentIndex < langPosts.length - 1 ? langPosts[currentIndex + 1] : null;
+const nextPost = currentIndex > 0 ? langPosts[currentIndex - 1] : null;
+
+const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).format(post.data.date);
+---
+
+<main class="max-w-6xl mx-auto px-4 md:px-8 py-12 min-h-screen">
+  <!-- Back to Blog Button -->
+  <div class="mb-8">
+    <a href={getRelativeLocaleUrl(lang, "blog")} class="btn btn-ghost btn-sm gap-2">
+      &larr; {t("blog.back")}
+    </a>
+  </div>
+
+  <!-- Article Header -->
+  <header class="max-w-3xl mb-10 space-y-4">
+    <div class="flex flex-wrap gap-1.5">
+      {post.data.tags.map((tag) => (
+        <span class="badge badge-primary">{tag}</span>
+      ))}
+    </div>
+    <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight leading-tight">
+      {post.data.title}
+    </h1>
+    <div class="flex items-center gap-4 text-xs opacity-60">
+      <span class="flex items-center gap-1">
+        <CalendarIcon class="w-4 h-4" />
+        <span>{t("blog.published")} {formattedDate}</span>
+      </span>
+      <span class="flex items-center gap-1">
+        <ClockIcon class="w-4 h-4" />
+        <span>{Math.ceil((post.body || "").split(/\s+/).length / 200) || 1} {t("blog.readTime")}</span>
+      </span>
+    </div>
+  </header>
+
+  <hr class="border-base-300 my-8" />
+
+  <!-- Content Layout Grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-12 items-start">
+    
+    <!-- Left Column: Markdown Content -->
+    <article class="prose max-w-none prose-headings:scroll-mt-24 prose-headings:font-bold prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl">
+      {post.data.image && (
+        <img src={post.data.image} alt={post.data.title} class="w-full object-cover aspect-21/9 max-h-[300px] rounded-xl border border-base-300 shadow-md mb-8" />
+      )}
+      <Content />
+    </article>
+
+    <!-- Right Column: Sidebar Table of Contents (Desktop only) -->
+    {tocHeadings.length > 0 && (
+      <aside class="hidden lg:block sticky top-24">
+        <div class="card bg-base-200 border border-base-300 p-6 shadow-md">
+          <h3 class="font-bold text-xs uppercase tracking-wider text-primary mb-4">
+            {t("blog.toc")}
+          </h3>
+          <nav id="desktop-toc" class="flex flex-col gap-2 text-xs">
+            {tocHeadings.map((h) => (
+              <a
+                href={`#${h.slug}`}
+                class:list={[
+                  "border-l-2 border-base-300 pl-3 py-1 opacity-70 hover:opacity-100 hover:border-primary transition-all block",
+                  { "ml-3 border-l-0 text-base-content/80": h.depth === 3 }
+                ]}
+              >
+                {h.text}
+              </a>
+            ))}
+          </nav>
+        </div>
+      </aside>
+    )}
+  </div>
+
+  <!-- Mobile TOC Floating Action Button (FAB) and Dialog Modal -->
+  {tocHeadings.length > 0 && (
+    <>
+      <button 
+        id="toc-fab" 
+        class="btn btn-circle btn-primary fixed bottom-6 right-6 lg:hidden shadow-lg z-40"
+        onclick="toc_modal.showModal()"
+        aria-label={t("blog.toc")}
+      >
+        <ListIcon class="w-5 h-5" />
+      </button>
+
+      <dialog id="toc_modal" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box bg-base-200 border border-base-300 shadow-2xl">
+          <h3 class="font-bold text-lg text-primary mb-4">{t("blog.toc")}</h3>
+          <nav class="flex flex-col gap-3 max-h-[60vh] overflow-y-auto py-2">
+            {tocHeadings.map((h) => (
+              <a
+                href={`#${h.slug}`}
+                onclick="toc_modal.close()"
+                class:list={[
+                  "block p-2 rounded-lg bg-base-100 hover:bg-base-300 text-sm font-medium transition-colors",
+                  { "pl-6 text-xs text-base-content/80": h.depth === 3 }
+                ]}
+              >
+                {h.text}
+              </a>
+            ))}
+          </nav>
+          <div class="modal-action">
+            <form method="dialog">
+              <button class="btn btn-sm btn-outline">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+    </>
+  )}
+
+  <!-- Previous / Next Post Sibling Navigation -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-16 pt-8 border-t border-base-300">
+    {prevPost ? (
+      <a 
+        href={getRelativeLocaleUrl(lang, `blog/${prevPost.data.slug}`)} 
+        class="card bg-base-200 border border-base-300 p-5 shadow-md hover:border-primary/50 transition-all group flex flex-col items-start text-left"
+      >
+        <span class="text-xs opacity-60 group-hover:text-primary transition-colors">&larr; {t("blog.prev")}</span>
+        <span class="font-bold text-sm mt-1 line-clamp-1">{prevPost.data.title}</span>
+      </a>
+    ) : (
+      <div class="hidden sm:block"></div>
+    )}
+    
+    {nextPost && (
+      <a 
+        href={getRelativeLocaleUrl(lang, `blog/${nextPost.data.slug}`)} 
+        class="card bg-base-200 border border-base-300 p-5 shadow-md hover:border-primary/50 transition-all group flex flex-col items-end text-right"
+      >
+        <span class="text-xs opacity-60 group-hover:text-primary transition-colors">{t("blog.next")} &rarr;</span>
+        <span class="font-bold text-sm mt-1 line-clamp-1">{nextPost.data.title}</span>
+      </a>
+    )}
+  </div>
+</main>
+
+<style>
+  #desktop-toc a.toc-active {
+    opacity: 1 !important;
+    border-left-color: var(--color-primary) !important;
+    font-weight: 600;
+  }
+  #toc_modal nav a.toc-active {
+    background-color: var(--color-primary) !important;
+    color: var(--color-primary-content) !important;
+  }
+</style>
+
+<script>
+  function initTOC() {
+    const article = document.querySelector("article.prose");
+    if (!article) return;
+    const headings = article.querySelectorAll("h2, h3");
+    const allTocLinks = document.querySelectorAll("#desktop-toc a, #toc_modal nav a");
+
+    if (headings.length === 0 || allTocLinks.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            allTocLinks.forEach((link) => link.classList.remove("toc-active"));
+            const activeLinks = document.querySelectorAll(
+              `#desktop-toc a[href="#${entry.target.id}"], #toc_modal nav a[href="#${entry.target.id}"]`
+            );
+            activeLinks.forEach((el) => el.classList.add("toc-active"));
+          }
+        });
+      },
+      { rootMargin: "-100px 0px -70% 0px", threshold: 0 }
+    );
+
+    headings.forEach((heading) => observer.observe(heading));
+  }
+
+  // Runs on page load
+  initTOC();
+  // Runs on Astro Page Transitions load
+  document.addEventListener("astro:page-load", initTOC);
+</script>

@@ -1,6 +1,14 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/header/Header.astro";
+import Hero from "../../components/sections/Hero.astro";
+import About from "../../components/sections/About.astro";
+import Education from "../../components/sections/Education.astro";
+import Experience from "../../components/sections/Experience.astro";
+import Projects from "../../components/sections/Projects.astro";
+import Skills from "../../components/sections/Skills.astro";
+import Blog from "../../components/sections/Blog.astro";
+import Contact from "../../components/sections/Contact.astro";
 
 export function getStaticPaths() {
   return [
@@ -11,128 +19,40 @@ export function getStaticPaths() {
     { params: { lang: "ja" } },
   ];
 }
-
-const { lang } = Astro.params;
-
-const welcomeTexts: Record<string, { title: string; subtitle: string }> = {
-  en: {
-    title: "Welcome to My Portfolio",
-    subtitle: "This is a demonstration of daisyUI themes working seamlessly with theme-change in Astro. Try switching the theme or language in the navbar!"
-  },
-  es: {
-    title: "Bienvenido a mi Portafolio",
-    subtitle: "Esta es una demostración de los temas de daisyUI funcionando a la perfección con theme-change en Astro. ¡Prueba a cambiar el tema o el idioma en la barra de navegación!"
-  },
-  de: {
-    title: "Willkommen in meinem Portfolio",
-    subtitle: "Dies ist eine Demonstration der nahtlosen Funktionsweise von daisyUI-Themes mit theme-change in Astro. Versuchen Sie, das Thema oder die Sprache in der Navigationsleiste zu ändern!"
-  },
-  ru: {
-    title: "Добро пожаловать в мое портфолио",
-    subtitle: "Это демонстрация тем daisyUI, отлично работающих с theme-change в Astro. Попробуйте изменить тему или язык в панели навигации!"
-  },
-  ja: {
-    title: "ポートフォリオへようこそ",
-    subtitle: "これは、Astroでtheme-changeとdaisyUIテーマがシームレスに機能するデモです。ナビゲーションバーでテーマや言語を切り替えてみてください！"
-  }
-};
-
-const t = welcomeTexts[lang] || welcomeTexts.en;
 ---
 
 <Layout>
   <Header />
 
-  <main class="max-w-4xl mx-auto px-4 py-12 flex flex-col gap-12">
-    <!-- Hero Section -->
-    <div class="hero bg-base-200 rounded-3xl p-8 lg:p-12 shadow-md">
-      <div class="hero-content text-center flex-col gap-6">
-        <h1 class="text-5xl font-bold tracking-tight">
-          {t.title}
-        </h1>
-        <p class="py-2 text-lg opacity-80 max-w-md mx-auto">
-          {t.subtitle}
-        </p>
-        <div class="flex justify-center gap-3">
-          <button class="btn btn-primary">Primary Action</button>
-          <button class="btn btn-outline">Secondary Action</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Theme Demo Elements -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <!-- Card Demo -->
-      <div class="card bg-base-200 shadow-md">
-        <div class="card-body gap-4">
-          <h2 class="card-title text-2xl font-bold text-primary">
-            daisyUI Components
-          </h2>
-          <p class="opacity-80">
-            These components automatically adapt to the chosen theme without any
-            manual CSS overrides.
-          </p>
-          <div class="flex flex-wrap gap-2 my-2">
-            <span class="badge badge-primary">Primary</span>
-            <span class="badge badge-secondary">Secondary</span>
-            <span class="badge badge-accent">Accent</span>
-            <span class="badge badge-neutral">Neutral</span>
-            <span class="badge badge-info">Info</span>
-            <span class="badge badge-success">Success</span>
-            <span class="badge badge-warning">Warning</span>
-            <span class="badge badge-error">Error</span>
-          </div>
-          <div class="card-actions justify-end mt-4">
-            <button class="btn btn-sm btn-ghost">Learn More</button>
-            <button class="btn btn-sm btn-accent">Action</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Stats Demo -->
-      <div
-        class="flex flex-col gap-4 justify-between bg-base-200 p-8 rounded-2xl shadow-md"
-      >
-        <div class="flex flex-col gap-1">
-          <span
-            class="text-xs font-semibold opacity-60 uppercase tracking-wider"
-            >Project Progress</span
-          >
-          <div class="flex items-center gap-4">
-            <progress
-              class="progress progress-primary w-full"
-              value="70"
-              max="100"></progress>
-            <span class="font-bold">70%</span>
-          </div>
-        </div>
-        <div class="flex flex-col gap-1">
-          <span
-            class="text-xs font-semibold opacity-60 uppercase tracking-wider"
-            >System Load</span
-          >
-          <div class="flex items-center gap-4">
-            <progress
-              class="progress progress-secondary w-full"
-              value="45"
-              max="100"></progress>
-            <span class="font-bold">45%</span>
-          </div>
-        </div>
-        <div class="flex flex-col gap-1">
-          <span
-            class="text-xs font-semibold opacity-60 uppercase tracking-wider"
-            >Storage Capacity</span
-          >
-          <div class="flex items-center gap-4">
-            <progress
-              class="progress progress-accent w-full"
-              value="88"
-              max="100"></progress>
-            <span class="font-bold">88%</span>
-          </div>
-        </div>
-      </div>
-    </div>
+  <main class="bg-base-100 text-base-content min-h-screen">
+    <Hero />
+    <hr
+      class="w-full h-px border-none bg-linear-to-r from-transparent via-base-300 to-transparent m-0"
+    />
+    <About />
+    <hr
+      class="w-full h-px border-none bg-linear-to-r from-transparent via-base-300 to-transparent m-0"
+    />
+    <Education />
+    <hr
+      class="w-full h-px border-none bg-linear-to-r from-transparent via-base-300 to-transparent m-0"
+    />
+    <Experience />
+    <hr
+      class="w-full h-px border-none bg-linear-to-r from-transparent via-base-300 to-transparent m-0"
+    />
+    <Projects />
+    <hr
+      class="w-full h-px border-none bg-linear-to-r from-transparent via-base-300 to-transparent m-0"
+    />
+    <Skills />
+    <hr
+      class="w-full h-px border-none bg-linear-to-r from-transparent via-base-300 to-transparent m-0"
+    />
+    <Blog />
+    <hr
+      class="w-full h-px border-none bg-linear-to-r from-transparent via-base-300 to-transparent m-0"
+    />
+    <Contact />
   </main>
 </Layout>

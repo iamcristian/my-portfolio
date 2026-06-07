@@ -1,0 +1,33 @@
+---
+title: "My Final Project - Penetration Testing with OWASP - Cristian Arando"
+description: "My final project to obtain my Systems Engineering degree, a penetration testing applying OWASP in a fullstack academic system."
+date: 2024-09-20
+tags: ["cybersecurity", "penetration testing", "owasp"]
+image: "/images/blog/my-final-project.png"
+featured: true
+draft: false
+lang: en
+slug: my-final-project
+---
+
+## Project Overview
+
+For my final graduation thesis in Systems Engineering, I conducted a comprehensive security assessment and penetration testing on **SISGAA**, a fullstack academic administration system. The main goal was to identify critical vulnerabilities and implement defensive mitigations using the industry-standard OWASP guidelines.
+
+### Methodology & Scope
+
+The testing followed a hybrid approach combining static code analysis (SAST) and dynamic application security testing (DAST). The scope covered:
+
+- **Authentication & Session Management**: Checking for brute-force vulnerability, weak password policies, and session hijacking vectors.
+- **API Security**: Auditing REST API endpoints against the OWASP API Security Top 10.
+- **Data Protection**: Reviewing encryption at rest and in transit.
+
+### Key Vulnerabilities Identified
+
+1. **SQL Injection (SQLi)**: Found parameter parsing issues in student grade reports query.
+2. **Broken Object Level Authorization (BOLA)**: Endpoints allowed modifying enrollment data of other students by tampering with the user ID in the payload.
+3. **Cross-Site Scripting (XSS)**: Persistent XSS vulnerability in the announcement board feature.
+
+### Remediation & Outcomes
+
+All discovered vulnerabilities were documented and patched. BOLA issues were solved using rigorous middleware checks validating resource ownership, and input sanitization was implemented globally. SISGAA was successfully secured, earning the highest grade from the evaluation board.

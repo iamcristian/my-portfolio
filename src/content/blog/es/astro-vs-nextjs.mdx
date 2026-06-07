@@ -1,0 +1,139 @@
+---
+title: "Astro vs Next.js — Eligiendo el Framework Adecuado en 2025"
+description: "Una comparación completa entre Astro y Next.js para construir sitios web modernos. Cuándo usar cada framework, benchmarks de rendimiento y consideraciones del mundo real."
+date: 2025-02-20
+tags: ["astro", "nextjs", "frameworks", "desarrollo-web"]
+image: "/images/blog/astro-vs-nextjs.png"
+draft: false
+lang: es
+slug: astro-vs-nextjs
+---
+
+## El Dilema del Framework
+
+Elegir el framework adecuado para tu proyecto puede sentirse abrumador. Dos de las opciones más populares en 2025 son **Astro** y **Next.js** — pero sirven para propósitos fundamentalmente diferentes. Analicemos cuándo usar cada uno.
+
+### Filosofía de Arquitectura
+
+| Aspecto                  | Astro                      | Next.js                   |
+| ------------------------ | -------------------------- | ------------------------- |
+| **Renderizado**          | Estático primero, islas    | Servidor primero, híbrido |
+| **JS Enviado**           | Cero por defecto           | Runtime completo de React |
+| **Dependencia**          | Agnóstico de framework     | Solo React                |
+| **Ideal Para**           | Sitios de contenido, blogs | Aplicaciones web          |
+| **Curva de Aprendizaje** | Baja                       | Media-Alta                |
+
+### Astro: El Campeón del Contenido
+
+Astro brilla cuando tu prioridad es el **rendimiento** y la **entrega de contenido**:
+
+```astro
+---
+// Esto se ejecuta en tiempo de build — ¡cero JS enviado!
+const posts = await getCollection('blog');
+const latest = posts.sort((a, b) => b.data.date - a.data.date);
+---
+
+<ul>
+  {latest.map(post => (
+    <li>
+      <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+    </li>
+  ))}
+</ul>
+```
+
+**Beneficios clave:**
+
+- Envía **cero JavaScript** por defecto
+- Usa React, Vue, Svelte o cualquier framework como "islas"
+- Colecciones de contenido integradas con frontmatter tipado
+- Puntuaciones excepcionales de Lighthouse de fábrica
+- Soporte MDX con componentes personalizables
+
+### Next.js: La Potencia para Aplicaciones
+
+Next.js es la opción ideal cuando necesitas una **aplicación web completa**:
+
+```tsx
+// Server Component — se ejecuta en el servidor
+async function Dashboard() {
+  const data = await fetchDashboardData();
+
+  return (
+    <div>
+      <h1>Panel</h1>
+      <InteractiveChart data={data} /> {/* Componente cliente */}
+      <RealtimeNotifications /> {/* Componente cliente */}
+    </div>
+  );
+}
+```
+
+**Beneficios clave:**
+
+- Server Components para rendimiento óptimo
+- Rutas API para lógica de backend
+- Middleware para autenticación y enrutamiento
+- Optimización de imágenes integrada
+- Ecosistema masivo y comunidad
+
+### Comparación de Rendimiento
+
+En mis pruebas con sitios portafolio similares:
+
+```
+Métrica         | Astro      | Next.js
+----------------|------------|----------
+JS Inicial      | 0 KB       | ~85 KB
+LCP             | 0.8s       | 1.4s
+TTI             | 0.9s       | 2.1s
+Tiempo de Build | 2.3s       | 8.7s
+Lighthouse      | 100/100    | 92/100
+```
+
+> **Nota**: Estos números son de mi caso de uso específico (sitio portafolio). El rendimiento de Next.js mejora significativamente con Server Components y optimización adecuada.
+
+### Cuándo Usar Astro
+
+Elige Astro si estás construyendo:
+
+- **Sitios portafolio** (¡como este!)
+- **Blogs y documentación**
+- **Páginas de marketing** y landing pages
+- **Catálogos e-commerce** con interactividad mínima
+- Cualquier proyecto donde **el contenido es rey**
+
+### Cuándo Usar Next.js
+
+Elige Next.js si estás construyendo:
+
+- **Aplicaciones SaaS** con gestión de estado compleja
+- **Paneles** con datos en tiempo real
+- **Plataformas e-commerce** con carrito, checkout y autenticación
+- **Plataformas sociales** con alta interacción de usuario
+- Cualquier proyecto donde **la interactividad es primaria**
+
+### Mi Veredicto
+
+Para este portafolio, elegí **Astro** porque:
+
+1. El contenido es el enfoque principal
+2. JavaScript casi nulo significa cargas de página más rápidas
+3. Soporte MDX para publicaciones de blog enriquecidas
+4. La arquitectura de islas me permite usar React donde se necesita
+5. La salida del build es más pequeña y eficiente
+
+Pero uso **Next.js** a diario para proyectos de clientes que necesitan capacidades full-stack. No son competidores — son **herramientas complementarias** en tu toolkit.
+
+### Conclusión
+
+El mejor framework es el que se ajusta a tu **caso de uso específico**. No sigas tendencias — analiza las necesidades de tu proyecto:
+
+- **¿Mayormente contenido estático?** → Astro
+- **¿App altamente interactiva?** → Next.js
+- **¿Necesitas ambos?** → Considera Astro con islas de React
+
+---
+
+_¿Qué framework prefieres? ¡Cuéntame en [LinkedIn](https://linkedin.com/in/cristianarando)!_

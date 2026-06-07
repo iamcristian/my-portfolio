@@ -1,0 +1,35 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { useTranslations, getProjectsForLang } from "../../i18n/utils";
+import { defaultLang } from "../../i18n/ui";
+import ProjectCard from "../ui/cards/ProjectCard.astro";
+
+const lang = (Astro.currentLocale || defaultLang) as any;
+const t = useTranslations(lang);
+
+const PROJECTS = getProjectsForLang(lang);
+const featuredProjects = PROJECTS.filter((p) => p.featured).slice(0, 3);
+---
+
+<section id="projects" class="py-16 md:py-24 max-w-6xl mx-auto px-4 md:px-8">
+  <div class="text-center mb-12">
+    <span class="font-mono text-xs tracking-widest uppercase text-primary mb-2 block">{t("projects.subtitle")}</span>
+    <h2 class="text-3xl lg:text-4xl font-bold">{t("projects.title")}</h2>
+    <div class="w-12 h-1 bg-primary mt-3 mx-auto rounded-full"></div>
+  </div>
+
+  <!-- Grid de Tarjetas -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {
+      featuredProjects.map((project) => (
+        <ProjectCard project={project} />
+      ))
+    }
+  </div>
+
+  <div class="text-center mt-10">
+    <a href={getRelativeLocaleUrl(lang, "projects")} class="btn btn-outline">
+      {t("projects.viewAll")}
+    </a>
+  </div>
+</section>

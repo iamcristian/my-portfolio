@@ -1,0 +1,33 @@
+---
+title: "Mi Proyecto de Grado - Pruebas de Penetración con OWASP - Cristian Arando"
+description: "Mi proyecto de grado para obtener mi título de Ingeniería de Sistemas, una prueba de penetración aplicando OWASP en un sistema académico fullstack."
+date: 2024-09-20
+tags: ["cybersecurity", "penetration testing", "owasp"]
+image: "/images/blog/my-final-project.png"
+featured: true
+draft: false
+lang: es
+slug: my-final-project
+---
+
+## Descripción del Proyecto
+
+Para mi tesis de grado en Ingeniería de Sistemas, realicé una evaluación de seguridad integral y pruebas de penetración en **SISGAA**, un sistema académico de administración fullstack. El objetivo principal fue identificar vulnerabilidades críticas e implementar mitigaciones defensivas utilizando las guías del estándar de la industria OWASP.
+
+### Metodología y Alcance
+
+Las pruebas siguieron un enfoque híbrido combinando análisis de código estático (SAST) y pruebas dinámicas de seguridad de aplicaciones (DAST). El alcance cubrió:
+
+- **Autenticación y Gestión de Sesiones**: Verificación de vulnerabilidades a fuerza bruta, políticas de contraseñas débiles y vectores de secuestro de sesión.
+- **Seguridad de APIs**: Auditoría de endpoints de la API REST frente al OWASP API Security Top 10.
+- **Protección de Datos**: Revisión de cifrado en reposo y en tránsito.
+
+### Principales Vulnerabilidades Identificadas
+
+1. **Inyección SQL (SQLi)**: Se encontraron problemas de análisis de parámetros en la consulta de reportes de calificaciones de estudiantes.
+2. **Autorización a Nivel de Objeto Rota (BOLA)**: Endpoints permitían modificar los datos de inscripción de otros estudiantes manipulando el ID de usuario en el payload.
+3. **Cross-Site Scripting (XSS)**: Vulnerabilidad XSS persistente en la funcionalidad del tablero de anuncios.
+
+### Mitigación y Resultados
+
+Todas las vulnerabilidades descubiertas fueron documentadas y corregidas. Los problemas de BOLA se resolvieron utilizando comprobaciones estrictas en el middleware para validar la propiedad de los recursos, y se implementó la sanitización de entradas a nivel global. SISGAA fue asegurado con éxito, obteniendo la calificación máxima por parte del tribunal evaluador.

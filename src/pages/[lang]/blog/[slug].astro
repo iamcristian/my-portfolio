@@ -1,60 +1,23 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 import Header from "../../../components/header/Header.astro";
-import { getRelativeLocaleUrl } from "astro:i18n";
-import { MOCK_BLOGS } from "../../../data/mockData";
+import BlogPostDetail from "../../../components/blog/BlogPostDetail.astro";
+import { getCollection } from "astro:content";
+import { defaultLang } from "../../../i18n/ui";
 
-export function getStaticPaths() {
-  const locales = ["en", "es", "de", "ru", "ja"];
-
-  return locales.flatMap((lang) =>
-    MOCK_BLOGS.map((post) => ({
-      params: { lang, slug: post.slug },
-      props: { post },
-    }))
-  );
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { lang: post.data.lang, slug: post.data.slug },
+    props: { post },
+  }));
 }
 
-const { lang } = Astro.params;
+const { lang = defaultLang } = Astro.params;
 const { post } = Astro.props;
-
-const title = post.title[lang] || post.title.en;
-const content = post.content[lang] || post.content.en;
-
-const backTexts: Record<string, string> = {
-  en: "Back to Blog",
-  es: "Volver al Blog",
-  de: "Zurück zum Blog",
-  ru: "Назад в блог",
-  ja: "ブログに戻る",
-};
-
-const backText = backTexts[lang] || backTexts.en;
 ---
 
 <Layout>
   <Header />
-
-  <main class="max-w-3xl mx-auto px-4 py-12 flex flex-col gap-6">
-    <div class="mb-4">
-      <a
-        href={getRelativeLocaleUrl(lang, "blog")}
-        class="btn btn-ghost btn-sm gap-2"
-      >
-        &larr; {backText}
-      </a>
-    </div>
-
-    <article class="prose lg:prose-xl bg-base-200 p-8 rounded-3xl shadow-md">
-      <div class="flex items-center gap-2 text-xs opacity-50 mb-3 font-semibold">
-        <span>{post.date}</span>
-      </div>
-      <h1 class="text-3xl lg:text-4xl font-extrabold text-primary mb-6">
-        {title}
-      </h1>
-      <p class="opacity-80 leading-relaxed text-lg whitespace-pre-line">
-        {content}
-      </p>
-    </article>
-  </main>
+  <BlogPostDetail post={post} lang={lang} />
 </Layout>

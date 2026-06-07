@@ -1,0 +1,221 @@
+---
+import { getCollection } from "astro:content";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { useTranslations } from "../../i18n/utils";
+import { defaultLang } from "../../i18n/ui";
+import BlogCard from "../ui/cards/BlogCard.astro";
+import ChevronLeftIcon from "../../assets/chevron-left.svg";
+import ChevronRightIcon from "../../assets/chevron-right.svg";
+
+const lang = (Astro.currentLocale || defaultLang) as any;
+const t = useTranslations(lang);
+
+// Fetch Blog Posts from Content Collection
+const blogPosts = await getCollection("blog", ({ data }) => {
+  return data.lang === lang && !data.draft;
+});
+
+// Sort by date descending
+const sortedPosts = blogPosts.sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+
+// All featured posts (from frontmatter "featured: true")
+const featuredBlogPosts = sortedPosts.filter((p) => p.data.featured);
+// Fall back to latest post if no featured posts are defined
+if (featuredBlogPosts.length === 0 && sortedPosts.length > 0) {
+  featuredBlogPosts.push(sortedPosts[0]);
+}
+
+// Recent posts excluding the featured ones, up to 3 cards
+const featuredIds = new Set(featuredBlogPosts.map((p) => p.id));
+const recentBlogPosts = sortedPosts.filter((p) => !featuredIds.has(p.id)).slice(0, 3);
+---
+
+<section id="blog" class="py-16 md:py-24 max-w-6xl mx-auto px-4 md:px-8">
+  <div class="text-center mb-12">
+    <span class="font-mono text-xs tracking-widest uppercase text-primary mb-2 block">{t("blog.subtitle")}</span>
+    <h2 class="text-3xl lg:text-4xl font-bold">{t("blog.title")}</h2>
+    <div class="w-12 h-1 bg-primary mt-3 mx-auto rounded-full"></div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Row 1: Featured Carousel spanning all 3 columns in desktop -->
+    {featuredBlogPosts.length > 0 && (
+      <div class="md:col-span-3 relative group">
+        <div class="carousel w-full rounded-2xl scroll-smooth" id="featured-carousel">
+          {featuredBlogPosts.map((post, index) => (
+            <div 
+              id={`featured-slide-${index}`}
+              class="carousel-item relative w-full"
+            >
+              <div class="w-full">
+                <BlogCard post={post} isFeatured={true} />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <!-- Navigation Arrows (only if more than 1 featured post) -->
+        {featuredBlogPosts.length > 1 && (
+          <>
+            <button 
+              class="carousel-prev btn btn-circle btn-sm md:btn-md bg-base-100 hover:bg-base-200 text-base-content border border-base-300 shadow-md absolute -left-4 md:-left-5 top-1/2 -translate-y-1/2 z-10 transition-transform hover:scale-105 duration-200"
+              aria-label="Previous slide"
+            >
+              <ChevronLeftIcon class="w-4 h-4 md:w-5 md:h-5" />
+            </button>
+            <button 
+              class="carousel-next btn btn-circle btn-sm md:btn-md bg-base-100 hover:bg-base-200 text-base-content border border-base-300 shadow-md absolute -right-4 md:-right-5 top-1/2 -translate-y-1/2 z-10 transition-transform hover:scale-105 duration-200"
+              aria-label="Next slide"
+            >
+              <ChevronRightIcon class="w-4 h-4 md:w-5 md:h-5" />
+            </button>
+          </>
+        )}
+
+        <!-- Indicator Dots (aligned to bottom of text column on desktop, bottom center on mobile) -->
+        {featuredBlogPosts.length > 1 && (
+          <div class="absolute bottom-[38px] left-1/2 md:left-[71%] -translate-x-1/2 z-10 flex gap-2 pointer-events-auto">
+            {featuredBlogPosts.map((_, index) => (
+              <button
+                class={`carousel-dot h-2 rounded-full transition-all duration-300 cursor-pointer ${index === 0 ? 'bg-base-content w-4' : 'bg-base-content/30 hover:bg-base-content/60 w-2'}`}
+                data-index={index}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    )}
+
+    <!-- Row 2: 3 Recent cards, each taking 1 column -->
+    {recentBlogPosts.map((post) => (
+      <BlogCard post={post} />
+    ))}
+  </div>
+
+  <div class="text-center mt-10">
+    <a href={getRelativeLocaleUrl(lang, "blog")} class="btn btn-outline">
+      {t("blog.viewAll")}
+    </a>
+  </div>
+</section>
+
+<script>
+  function setupCarousel() {
+    const carousel = document.getElementById('featured-carousel');
+    if (!carousel) return;
+
+    const slides = carousel.querySelectorAll('.carousel-item');
+    const prevBtn = carousel.parentElement?.querySelector('.carousel-prev');
+    const nextBtn = carousel.parentElement?.querySelector('.carousel-next');
+    const dots = carousel.parentElement?.querySelectorAll('.carousel-dot');
+
+    if (slides.length <= 1) return;
+
+    let currentIndex = 0;
+    let autoplayInterval: any = null;
+    const autoplayDelay = 5000; // 5 seconds
+
+    const updateActiveDot = (index: number) => {
+      dots?.forEach((dot, idx) => {
+        if (idx === index) {
+          dot.classList.add('bg-base-content', 'w-4');
+          dot.classList.remove('bg-base-content/30', 'w-2');
+        } else {
+          dot.classList.remove('bg-base-content', 'w-4');
+          dot.classList.add('bg-base-content/30', 'w-2');
+        }
+      });
+    };
+
+    const scrollToSlide = (index: number) => {
+      const slide = slides[index] as HTMLElement;
+      if (slide) {
+        carousel.scrollTo({
+          left: slide.offsetLeft,
+          behavior: 'smooth'
+        });
+        currentIndex = index;
+        updateActiveDot(currentIndex);
+      }
+    };
+
+    const nextSlide = () => {
+      currentIndex = (currentIndex + 1) % slides.length;
+      scrollToSlide(currentIndex);
+    };
+
+    const prevSlide = () => {
+      currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+      scrollToSlide(currentIndex);
+    };
+
+    const startAutoplay = () => {
+      if (!autoplayInterval) {
+        autoplayInterval = window.setInterval(nextSlide, autoplayDelay);
+      }
+    };
+
+    const stopAutoplay = () => {
+      if (autoplayInterval) {
+        window.clearInterval(autoplayInterval);
+        autoplayInterval = null;
+      }
+    };
+
+    prevBtn?.addEventListener('click', () => {
+      prevSlide();
+      stopAutoplay();
+      startAutoplay();
+    });
+
+    nextBtn?.addEventListener('click', () => {
+      nextSlide();
+      stopAutoplay();
+      startAutoplay();
+    });
+
+    dots?.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const index = parseInt(dot.getAttribute('data-index') || '0', 10);
+        scrollToSlide(index);
+        stopAutoplay();
+        startAutoplay();
+      });
+    });
+
+    // Pause autoplay on mouse enter, resume on leave
+    const parentContainer = carousel.parentElement;
+    if (parentContainer) {
+      parentContainer.addEventListener('mouseenter', stopAutoplay);
+      parentContainer.addEventListener('mouseleave', startAutoplay);
+    }
+
+    // Sync active dot on manual scroll/swipe
+    let scrollTimeout: number;
+    carousel.addEventListener('scroll', () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = window.setTimeout(() => {
+        const scrollPosition = carousel.scrollLeft;
+        const slideWidth = (slides[0] as HTMLElement).offsetWidth;
+        if (slideWidth > 0) {
+          const newIndex = Math.round(scrollPosition / slideWidth);
+          if (newIndex !== currentIndex && newIndex >= 0 && newIndex < slides.length) {
+            currentIndex = newIndex;
+            updateActiveDot(currentIndex);
+          }
+        }
+      }, 100);
+    });
+
+    startAutoplay();
+  }
+
+  // Initialize
+  setupCarousel();
+  
+  // Support Astro view transitions
+  document.addEventListener('astro:after-swap', setupCarousel);
+</script>

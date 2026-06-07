@@ -1,0 +1,43 @@
+---
+import { useTranslations } from "../../../i18n/utils";
+import { defaultLang } from "../../../i18n/ui";
+
+interface Props {
+  item: {
+    logo: string;
+    institution: string;
+    title: string;
+    date: string;
+    description: string;
+    link?: string;
+  };
+}
+
+const { item } = Astro.props;
+
+const lang = (Astro.currentLocale || defaultLang) as any;
+const t = useTranslations(lang);
+---
+
+<div class="card bg-base-200 border border-base-300 shadow-sm p-4 flex flex-row gap-4 items-start hover:border-primary/45 transition-colors">
+  <div class="avatar placeholder shrink-0">
+    <div class="bg-base-300 rounded-lg w-12 h-12 flex items-center justify-center overflow-hidden">
+      <img src={item.logo} alt={item.institution} class="p-1 object-contain w-full h-full" />
+    </div>
+  </div>
+  <div class="flex-1 min-w-0">
+    <h5 class="font-bold text-sm leading-snug">{item.title}</h5>
+    <p class="text-xs opacity-75 mt-0.5">{item.institution} · {item.date}</p>
+    <p class="text-xs mt-2 opacity-80 leading-relaxed">{item.description}</p>
+    {item.link && (
+      <a
+        href={item.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="link link-primary text-xs font-semibold inline-flex items-center gap-1 mt-2 hover:underline"
+      >
+        {t("education.viewCredential")} &rarr;
+      </a>
+    )}
+  </div>
+</div>

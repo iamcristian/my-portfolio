@@ -1,0 +1,139 @@
+---
+title: "Astro vs Next.js — Das richtige Framework wählen in 2025"
+description: "Ein umfassender Vergleich zwischen Astro und Next.js für moderne Webseiten. Wann welches Framework nutzen, Leistungsbenchmarks und Praxisüberlegungen."
+date: 2025-02-20
+tags: ["astro", "nextjs", "frameworks", "webentwicklung"]
+image: "/images/blog/astro-vs-nextjs.png"
+draft: false
+lang: de
+slug: astro-vs-nextjs
+---
+
+## Das Framework-Dilemma
+
+Das richtige Framework für dein Projekt zu wählen, kann sich überwältigend anfühlen. Zwei der beliebtesten Optionen in 2025 sind **Astro** und **Next.js** — aber sie dienen grundlegend verschiedenen Zwecken. Schauen wir uns an, wann man welches verwenden sollte.
+
+### Architektur-Philosophie
+
+| Aspekt                | Astro                   | Next.js                    |
+| --------------------- | ----------------------- | -------------------------- |
+| **Rendering**         | Statisch zuerst, Inseln | Server zuerst, hybrid      |
+| **JS geliefert**      | Null standardmäßig      | Vollständige React-Runtime |
+| **Framework-Bindung** | Framework-agnostisch    | Nur React                  |
+| **Am besten für**     | Content-Seiten, Blogs   | Webanwendungen             |
+| **Lernkurve**         | Niedrig                 | Mittel-Hoch                |
+
+### Astro: Der Content-Champion
+
+Astro glänzt, wenn deine Priorität **Leistung** und **Content-Auslieferung** ist:
+
+```astro
+---
+// Dies wird zur Build-Zeit ausgeführt — null JS geliefert!
+const posts = await getCollection('blog');
+const latest = posts.sort((a, b) => b.data.date - a.data.date);
+---
+
+<ul>
+  {latest.map(post => (
+    <li>
+      <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+    </li>
+  ))}
+</ul>
+```
+
+**Hauptvorteile:**
+
+- Liefert standardmäßig **null JavaScript**
+- Verwende React, Vue, Svelte oder jedes Framework als „Inseln"
+- Eingebaute Content-Collections mit typensicherem Frontmatter
+- Hervorragende Lighthouse-Ergebnisse von Haus aus
+- MDX-Unterstützung mit anpassbaren Komponenten
+
+### Next.js: Das Anwendungs-Kraftpaket
+
+Next.js ist die erste Wahl, wenn du eine **vollwertige Webanwendung** brauchst:
+
+```tsx
+// Server Component — läuft auf dem Server
+async function Dashboard() {
+  const data = await fetchDashboardData();
+
+  return (
+    <div>
+      <h1>Dashboard</h1>
+      <InteractiveChart data={data} /> {/* Client-Komponente */}
+      <RealtimeNotifications /> {/* Client-Komponente */}
+    </div>
+  );
+}
+```
+
+**Hauptvorteile:**
+
+- Server Components für optimale Leistung
+- API-Routen für Backend-Logik
+- Middleware für Authentifizierung und Routing
+- Eingebaute Bildoptimierung
+- Riesiges Ökosystem und Community
+
+### Leistungsvergleich
+
+In meinen Tests mit ähnlichen Portfolio-Seiten:
+
+```
+Metrik          | Astro      | Next.js
+----------------|------------|----------
+Initiales JS    | 0 KB       | ~85 KB
+LCP             | 0.8s       | 1.4s
+TTI             | 0.9s       | 2.1s
+Build-Zeit      | 2.3s       | 8.7s
+Lighthouse      | 100/100    | 92/100
+```
+
+> **Hinweis**: Diese Zahlen stammen aus meinem spezifischen Anwendungsfall (Portfolio-Seite). Die Leistung von Next.js verbessert sich deutlich mit Server Components und richtiger Optimierung.
+
+### Wann Astro verwenden
+
+Wähle Astro, wenn du baust:
+
+- **Portfolio-Webseiten** (wie diese hier!)
+- **Blogs und Dokumentation**
+- **Marketing-Seiten** und Landing Pages
+- **E-Commerce-Kataloge** mit minimaler Interaktivität
+- Jedes Projekt, bei dem **Content König ist**
+
+### Wann Next.js verwenden
+
+Wähle Next.js, wenn du baust:
+
+- **SaaS-Anwendungen** mit komplexem State-Management
+- **Dashboards** mit Echtzeit-Daten
+- **E-Commerce-Plattformen** mit Warenkorb, Checkout und Authentifizierung
+- **Soziale Plattformen** mit starker Benutzerinteraktion
+- Jedes Projekt, bei dem **Interaktivität primär ist**
+
+### Mein Urteil
+
+Für dieses Portfolio habe ich **Astro** gewählt, weil:
+
+1. Content der Hauptfokus ist
+2. Fast null JavaScript bedeutet schnellere Seitenladezeiten
+3. MDX-Unterstützung für reichhaltige Blog-Beiträge
+4. Die Insel-Architektur mir erlaubt, React dort zu nutzen, wo es gebraucht wird
+5. Die Build-Ausgabe kleiner und effizienter ist
+
+Aber ich nutze **Next.js** täglich für Kundenprojekte, die Full-Stack-Fähigkeiten benötigen. Sie sind keine Konkurrenten — sie sind **komplementäre Werkzeuge** in deinem Toolkit.
+
+### Fazit
+
+Das beste Framework ist das, das zu deinem **spezifischen Anwendungsfall** passt. Folge keinem Hype — analysiere die Bedürfnisse deines Projekts:
+
+- **Überwiegend statischer Content?** → Astro
+- **Hochinteraktive App?** → Next.js
+- **Beides nötig?** → Erwäge Astro mit React-Inseln
+
+---
+
+_Welches Framework bevorzugst du? Sag es mir auf [LinkedIn](https://linkedin.com/in/cristianarando)!_

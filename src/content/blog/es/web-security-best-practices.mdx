@@ -1,0 +1,217 @@
+---
+title: "Mejores Prácticas de Seguridad Web que Todo Desarrollador Debe Conocer"
+description: "Prácticas esenciales de seguridad para desarrolladores web cubriendo OWASP Top 10, seguridad de APIs, patrones de autenticación y técnicas de codificación defensiva."
+date: 2025-03-10
+tags: ["seguridad", "owasp", "backend", "buenas-prácticas"]
+image: "/images/blog/security-best-practices.png"
+featured: true
+draft: false
+lang: es
+slug: web-security-best-practices
+---
+
+## Por qué Importa la Seguridad
+
+Como desarrollador con un **Diplomado de Posgrado en Seguridad de la Información**, he visto de primera mano cómo incluso pequeñas vulnerabilidades pueden llevar a brechas catastróficas. Esta publicación cubre las prácticas esenciales de seguridad que todo desarrollador debe implementar.
+
+### El OWASP Top 10 (Edición 2025)
+
+El OWASP Top 10 es el estándar de oro para riesgos de seguridad en aplicaciones web:
+
+1. **Control de Acceso Roto** — La vulnerabilidad más crítica
+2. **Fallos Criptográficos** — Implementación incorrecta de cifrado
+3. **Inyección** — SQL, NoSQL, LDAP, inyección de comandos del SO
+4. **Diseño Inseguro** — Fallos de seguridad a nivel de arquitectura
+5. **Configuración Incorrecta** — Credenciales por defecto, almacenamiento cloud abierto
+6. **Componentes Vulnerables** — Dependencias desactualizadas
+7. **Fallos de Autenticación** — Políticas de contraseña débiles, secuestro de sesión
+8. **Fallos de Integridad de Datos** — Manipulación del pipeline CI/CD
+9. **Fallos de Registro** — Monitoreo insuficiente
+10. **Falsificación de Solicitudes del Lado del Servidor** — Ataques SSRF
+
+### Validación de Entrada — Tu Primera Línea de Defensa
+
+**Nunca confíes en la entrada del usuario.** Siempre valida tanto en el cliente como en el servidor:
+
+```typescript
+import { z } from "zod";
+
+// Define esquemas estrictos para todas las entradas
+const CreateUserSchema = z.object({
+  email: z.string().email().max(255),
+  password: z
+    .string()
+    .min(12, "La contraseña debe tener al menos 12 caracteres")
+    .regex(/[A-Z]/, "Debe contener una letra mayúscula")
+    .regex(/[a-z]/, "Debe contener una letra minúscula")
+    .regex(/[0-9]/, "Debe contener un número")
+    .regex(/[^A-Za-z0-9]/, "Debe contener un carácter especial"),
+  name: z
+    .string()
+    .min(2)
+    .max(100)
+    .regex(/^[a-zA-ZÀ-ÿ\s'-]+$/),
+});
+
+// En tu controlador/handler
+async function createUser(req: Request) {
+  const result = CreateUserSchema.safeParse(await req.json());
+
+  if (!result.success) {
+    return new Response(
+      JSON.stringify({
+        error: "Validación fallida",
+        details: result.error.flatten(),
+      }),
+      { status: 400 },
+    );
+  }
+
+  // Seguro usar result.data
+  const { email, password, name } = result.data;
+  // ... crear usuario con contraseña hasheada
+}
+```
+
+### Mejores Prácticas de Autenticación
+
+#### Usa bcrypt o Argon2 para Hash de Contraseñas
+
+```typescript
+import bcrypt from "bcrypt";
+
+const SALT_ROUNDS = 12;
+
+async function hashPassword(password: string): Promise<string> {
+  return bcrypt.hash(password, SALT_ROUNDS);
+}
+
+async function verifyPassword(
+  password: string,
+  hash: string,
+): Promise<boolean> {
+  return bcrypt.compare(password, hash);
+}
+```
+
+> **Nunca** almacenes contraseñas en texto plano. Nunca uses MD5 o SHA para contraseñas. Siempre usa un algoritmo de hash lento diseñado para contraseñas.
+
+#### Mejores Prácticas con JWT
+
+```typescript
+import jwt from "jsonwebtoken";
+
+// ✅ Bien: Tokens de acceso de corta vida + rotación de refresh token
+const accessToken = jwt.sign(
+  { userId: user.id, role: user.role },
+  process.env.JWT_SECRET!,
+  {
+    expiresIn: "15m", // Corta vida
+    issuer: "cristianarando.app",
+    audience: "api",
+  },
+);
+
+// ✅ Bien: Cookies HTTP-only, Secure, SameSite
+response.cookie("refreshToken", refreshToken, {
+  httpOnly: true, // No accesible por JavaScript
+  secure: true, // Solo enviado sobre HTTPS
+  sameSite: "strict", // Protección CSRF
+  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 días
+  path: "/api/auth", // Solo enviado a endpoints de auth
+});
+```
+
+### Lista de Verificación de Seguridad API
+
+Al construir APIs, siempre implementa:
+
+#### Limitación de Tasa
+
+```typescript
+import rateLimit from "express-rate-limit";
+
+// Límite general de API
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutos
+  max: 100, // 100 solicitudes por ventana
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: "Demasiadas solicitudes, intenta de nuevo más tarde." },
+});
+
+// Límite estricto para endpoints de auth
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5, // Solo 5 intentos por 15 minutos
+  skipSuccessfulRequests: true,
+});
+```
+
+#### Cabeceras de Seguridad
+
+```typescript
+import helmet from "helmet";
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'"],
+        styleSrc: ["'self'", "'unsafe-inline'", "fonts.googleapis.com"],
+        fontSrc: ["'self'", "fonts.gstatic.com"],
+        imgSrc: ["'self'", "data:", "https:"],
+        connectSrc: ["'self'"],
+        frameSrc: ["'none'"],
+        objectSrc: ["'none'"],
+      },
+    },
+  }),
+);
+```
+
+### Prevención de Inyección SQL
+
+**Siempre usa consultas parametrizadas:**
+
+```typescript
+// ❌ PELIGROSO — Vulnerabilidad de Inyección SQL
+const query = `SELECT * FROM users WHERE email = '${email}'`;
+
+// ✅ SEGURO — Consulta parametrizada
+const result = await db.query("SELECT * FROM users WHERE email = $1", [email]);
+
+// ✅ SEGURO — Usando un ORM (Prisma)
+const user = await prisma.user.findUnique({
+  where: { email },
+});
+```
+
+### Lista de Verificación de Seguridad para Cada Proyecto
+
+Usa esta lista antes de desplegar cualquier aplicación:
+
+- [ ] Todas las entradas validadas y saneadas
+- [ ] Contraseñas hasheadas con bcrypt/Argon2 (rondas de sal ≥ 12)
+- [ ] Tokens JWT de corta vida (≤ 15 minutos)
+- [ ] Refresh tokens usan cookies HTTP-only seguras
+- [ ] Limitación de tasa en todos los endpoints (más estricta en auth)
+- [ ] Cabeceras de seguridad configuradas (CSP, CORS, HSTS)
+- [ ] Consultas SQL parametrizadas
+- [ ] Dependencias actualizadas (`npm audit`)
+- [ ] Variables de entorno no en control de versiones
+- [ ] HTTPS forzado en todas partes
+- [ ] Mensajes de error no filtran detalles internos
+- [ ] El registro captura eventos de seguridad
+- [ ] CORS configurado correctamente (no `*` en producción)
+
+### Conclusión
+
+La seguridad no es una característica — es una **base**. Cada línea de código que escribes debe escribirse con la seguridad en mente. Las prácticas anteriores no son exhaustivas, pero implementarlas te protegerá de los vectores de ataque más comunes.
+
+Recuerda: **siempre es más barato prevenir una brecha que recuperarse de una.**
+
+---
+
+_¿Quieres discutir temas de seguridad? Conéctate conmigo en [LinkedIn](https://linkedin.com/in/cristianarando) o revisa mi [certificación de Seguridad API](https://www.credly.com/badges/b845b494-cb64-4434-8cec-9e24e696c310/public_url)._
