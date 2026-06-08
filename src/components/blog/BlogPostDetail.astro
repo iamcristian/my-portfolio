@@ -50,7 +50,7 @@ const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).forma
   <header class="max-w-3xl space-y-4">
     <div class="flex flex-wrap gap-1.5">
       {post.data.tags.map((tag) => (
-        <span class="badge badge-primary">{tag}</span>
+        <span class="badge badge-outline text-xs">{tag}</span>
       ))}
     </div>
     <h1 class="text-xl md:text-3xl font-extrabold tracking-tight leading-tight">

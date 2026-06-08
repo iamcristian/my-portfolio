@@ -8,6 +8,7 @@ export const header = {
   "nav.blog": "Blog",
   "nav.toggleMenu": "Navigationsmenü umschalten",
   "theme.title": "Thema wechseln",
+  "language.title": "Sprache wechseln",
   "theme.light": "Hell",
   "theme.dark": "Dunkel",
   "theme.cyberpunk": "Cyberpunk",

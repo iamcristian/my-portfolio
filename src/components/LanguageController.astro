@@ -1,10 +1,12 @@
 ---
 import ChevronDown from "../assets/chevron-down.svg";
 import Globe from "../assets/globe.svg";
+import Check from "../assets/check.svg";
 import { languages } from "../i18n/ui";
-import { getLang } from "../i18n/utils";
+import { getLang, useTranslations } from "../i18n/utils";
 
 const currentLang = getLang(Astro.currentLocale || Astro.params.lang);
+const t = useTranslations(currentLang);
 
 const pathname = Astro.url.pathname;
 const segments = pathname.split("/").filter(Boolean);
@@ -17,9 +19,9 @@ function getPathForLocale(targetLang: string) {
 }
 ---
 
-<div title="Change Language" class="dropdown dropdown-end">
+<div title={t("language.title")} class="dropdown dropdown-end">
   <button
-    class="flex items-center gap-1 px-1.5 font-medium text-sm opacity-70 hover:opacity-100 transition-opacity duration-200 cursor-pointer"
+    class="flex items-center gap-1.5 px-1.5 opacity-70 hover:opacity-100 transition-opacity duration-200 cursor-pointer group"
     aria-label="Language"
   >
     <Globe />
@@ -28,9 +30,10 @@ function getPathForLocale(targetLang: string) {
   </button>
   <div
     tabindex="0"
-    class="dropdown-content bg-base-200 text-base-content rounded-box mt-2 max-h-[calc(100vh-10rem)] overflow-y-auto border border-base-content/10 shadow-2xl z-50 w-40"
+    class="dropdown-content bg-base-200 text-base-content rounded-box mt-2 max-h-[calc(100vh-10rem)] overflow-y-auto border border-base-content/10 shadow-2xl z-50 w-36"
   >
-    <ul class="menu menu-sm w-full">
+    <ul class="menu">
+      <li class="menu-title text-xs">{t("language.title")}</li>
       {
         Object.entries(languages).map(([code, { name }]) => {
           const active = code === currentLang;
@@ -38,12 +41,14 @@ function getPathForLocale(targetLang: string) {
             <li>
               <a
                 href={getPathForLocale(code)}
-                class:list={["gap-3 px-2", { active }]}
+                class:list={["flex items-center gap-3 px-2 w-full", { active }]}
               >
-                <span class="pe-4 font-mono text-[.5625rem] font-bold tracking-[0.09375rem] opacity-40">
+                <!-- Mini flag/code preview matching theme grid size -->
+                <div class="bg-base-100 flex items-center justify-center rounded-md border border-base-content/10 shadow-sm size-6 shrink-0 text-[10px] font-bold font-mono tracking-wider opacity-75">
                   {code.toUpperCase()}
-                </span>
-                <span class="font-[sans-serif]">{name}</span>
+                </div>
+                <span class="text-left font-normal text-xs"> {name}</span>
+                {active && <Check class="visible!" />}
               </a>
             </li>
           );

@@ -274,10 +274,10 @@ export function initListManager(config: ListManagerConfig) {
     btn.addEventListener("click", () => {
       filterButtons.forEach((b) => {
         b.classList.remove("btn-neutral", "active");
-        b.classList.add("btn-ghost");
+        b.classList.add("btn-outline");
       });
       btn.classList.add("btn-neutral", "active");
-      btn.classList.remove("btn-ghost");
+      btn.classList.remove("btn-outline");
 
       currentFilter =
         btn.getAttribute("data-tag") ||

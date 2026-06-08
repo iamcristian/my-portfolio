@@ -74,7 +74,7 @@ const allTags = Array.from(new Set(blogPosts.flatMap(post => post.data.tags)));
         <button class="btn btn-xs btn-neutral tag-btn active" data-tag="all">{t("projects.all")}</button>
         {
           allTags.map((tag) => (
-            <button class="btn btn-xs btn-ghost tag-btn" data-tag={tag}>
+            <button class="btn btn-xs btn-outline tag-btn" data-tag={tag}>
               {tag}
             </button>
           ))
