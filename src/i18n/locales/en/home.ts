@@ -6,6 +6,8 @@ export const home = {
     "Strategy-driven developer passionate about solving complex problems with technology",
   "home.downloadCv": "Download CV",
   "home.contactMe": "Contact Me",
+  "site.title": "Cristian Arando — Full Stack Developer",
+  "site.description": "Strategy-driven developer passionate about solving complex problems with technology. Portfolio showcasing full-stack projects, blog articles, and professional experience.",
   "about.title": "About Me",
   "about.subtitle": "// About Me",
   "about.p1":

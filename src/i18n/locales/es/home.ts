@@ -6,6 +6,8 @@ export const home = {
     "Estratega apasionado por resolver problemas complejos con tecnología",
   "home.downloadCv": "Descargar CV",
   "home.contactMe": "Contáctame",
+  "site.title": "Cristian Arando — Desarrollador Full Stack",
+  "site.description": "Estratega apasionado por resolver problemas complejos con tecnología. Portafolio que muestra proyectos full-stack, artículos de blog y experiencia profesional.",
   "about.title": "Sobre Mí",
   "about.subtitle": "// Sobre Mí",
   "about.p1":

@@ -39,19 +39,19 @@ const isBlogIndex = (pathname.endsWith("/blog") || pathname.endsWith("/blog/")) 
 let title = Astro.props.title;
 if (title) {
   if (type === "article") {
-    title = `${title} | Blog | ${SITE.name}`;
+    title = `${title} | Blog | ${t("home.name")}`;
   } else {
-    title = `${title} | ${SITE.name}`;
+    title = `${title} | ${t("home.name")}`;
   }
 } else {
   if (isHome) {
-    title = `${SITE.name} — ${t("home.subtitle")}`;
+    title = `${t("home.name")} — ${t("home.subtitle")}`;
   } else if (isProjects) {
-    title = `${t("projects.title")} | ${SITE.name}`;
+    title = `${t("projects.title")} | ${t("home.name")}`;
   } else if (isBlogIndex) {
-    title = `${t("blog.title")} | ${SITE.name}`;
+    title = `${t("blog.title")} | ${t("home.name")}`;
   } else {
-    title = SITE.title;
+    title = t("site.title") || SITE.title;
   }
 }
 
@@ -59,13 +59,13 @@ if (title) {
 let description = Astro.props.description;
 if (!description) {
   if (isHome) {
-    description = t("home.tagline") || SITE.description;
+    description = t("home.tagline") || t("site.description") || SITE.description;
   } else if (isProjects) {
-    description = t("projects.subtitlePage") || SITE.description;
+    description = t("projects.subtitlePage") || t("site.description") || SITE.description;
   } else if (isBlogIndex) {
-    description = t("blog.subtitlePage") || SITE.description;
+    description = t("blog.subtitlePage") || t("site.description") || SITE.description;
   } else {
-    description = SITE.description;
+    description = t("site.description") || SITE.description;
   }
 }
 
@@ -115,7 +115,7 @@ const imageSource = Astro.props.image || meImage;
 const fullImageUrl = typeof imageSource === "string" 
   ? (imageSource.startsWith("http") ? imageSource : `${cleanSiteUrl}${imageSource}`)
   : new URL(imageSource.src, cleanSiteUrl).href;
-const fullImageAlt = Astro.props.imageAlt || title || SITE.name;
+const fullImageAlt = Astro.props.imageAlt || title || t("home.name");
 ---
 
 <!-- Primary Meta Tags -->
@@ -148,7 +148,7 @@ const fullImageAlt = Astro.props.imageAlt || title || SITE.name;
       <meta property="og:locale:alternate" content={OG_LOCALES[l] || "en_US"} />
     ))
 }
-<meta property="og:site_name" content={SITE.name} />
+<meta property="og:site_name" content={t("home.name")} />
 
 <!-- Article-specific meta tags for blog posts -->
 {
@@ -160,7 +160,7 @@ const fullImageAlt = Astro.props.imageAlt || title || SITE.name;
           content={publishDate.toISOString()}
         />
       )}
-      <meta property="article:author" content={SITE.name} />
+      <meta property="article:author" content={t("home.name")} />
       <meta property="article:section" content="Technology" />
       {tags?.map((tag) => (
         <meta property="article:tag" content={tag} />

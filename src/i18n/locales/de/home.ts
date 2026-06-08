@@ -5,6 +5,8 @@ export const home = {
   "home.tagline": "Strategischer Entwickler mit Leidenschaft für die Lösung komplexer Probleme durch Technologie",
   "home.downloadCv": "Lebenslauf herunterladen",
   "home.contactMe": "Kontaktiere mich",
+  "site.title": "Cristian Arando — Full-Stack-Entwickler",
+  "site.description": "Strategischer Entwickler mit Leidenschaft für die Lösung komplexer Probleme durch Technologie. Portfolio mit Full-Stack-Projekten, Blog-Artikeln und Berufserfahrung.",
   "about.title": "Über Mich",
   "about.subtitle": "// Über Mich",
   "about.p1": "Strategisch denkender Entwickler, der sich der Umsetzung ehrgeiziger Ideen in die Realität durch Technologie verschrieben hat. Mein Ansatz kombiniert analytisches Denken und Innovation, um komplexe Probleme zu lösen und herausragende Lösungen zu liefern.",
