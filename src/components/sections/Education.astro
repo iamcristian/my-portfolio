@@ -1,5 +1,11 @@
 ---
-import { getLang, useTranslations, getEducationForLang, getCertificationsForLang, getLanguagesForLang } from "../../i18n/utils";
+import {
+  getLang,
+  useTranslations,
+  getEducationForLang,
+  getCertificationsForLang,
+  getLanguagesForLang,
+} from "../../i18n/utils";
 import SectionHeading from "../ui/SectionHeading.astro";
 import AcademicCard from "../ui/cards/AcademicCard.astro";
 import CertificationCard from "../ui/cards/CertificationCard.astro";
@@ -14,37 +20,61 @@ const localizedLanguages = getLanguagesForLang(lang);
 ---
 
 <section id="education" class="py-16 md:py-24 max-w-6xl mx-auto px-4 md:px-8">
-  <SectionHeading subtitle={t("education.subtitle")} title={t("education.title")} />
-  
+  <SectionHeading
+    subtitle={t("education.subtitle")}
+    title={t("education.title")}
+  />
+
   <!-- Main Radio-based CSS Tabs (Lifted) -->
   <div role="tablist" class="tabs tabs-lifted justify-center w-full">
-    
     <!-- TAB 1: Academic Background -->
-    <input type="radio" name="edu_tabs" role="tab" class="tab text-sm font-semibold text-nowrap" aria-label={t("education.tabAcademic")} checked="checked" />
-    <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6 space-y-6">
-      {
-        academicEducation.map((item) => (
-          <AcademicCard item={item} />
-        ))
-      }
+    <input
+      type="radio"
+      name="edu_tabs"
+      role="tab"
+      class="tab text-sm font-semibold text-nowrap"
+      aria-label={t("education.tabAcademic")}
+      checked="checked"
+    />
+    <div
+      role="tabpanel"
+      class="tab-content bg-base-100 border-base-300 rounded-box p-6 space-y-6"
+    >
+      {academicEducation.map((item) => <AcademicCard item={item} />)}
     </div>
 
     <!-- TAB 2: Certifications -->
-    <input type="radio" name="edu_tabs" role="tab" class="tab text-sm font-semibold text-nowrap" aria-label={t("education.tabCerts")} />
-    <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6 space-y-6 max-h-[600px] overflow-y-auto">
-      
+    <input
+      type="radio"
+      name="edu_tabs"
+      role="tab"
+      class="tab text-sm font-semibold text-nowrap"
+      aria-label={t("education.tabCerts")}
+    />
+    <div
+      role="tabpanel"
+      class="tab-content bg-base-100 border-base-300 rounded-box p-6 space-y-6 max-h-[600px] overflow-y-auto"
+    >
       <!-- Nested Sub-tabs for certification categories -->
-      <div role="tablist" class="tabs tabs-box justify-center w-full">
-        
+      <div role="tablist" class="tabs tabs-bordered justify-center w-full">
         <!-- Sub-Tab 1: All -->
-        <input type="radio" name="cert_tabs" role="tab" class="tab" aria-label={t("education.certsAll")} checked="checked" />
+        <input
+          type="radio"
+          name="cert_tabs"
+          role="tab"
+          class="tab"
+          aria-label={t("education.certsAll")}
+          checked="checked"
+        />
         <div role="tabpanel" class="tab-content p-4 space-y-8 mt-2 w-full">
           {
             certifications.map((category) => (
               <div class="space-y-4">
                 <div class="flex items-center gap-2 border-b border-base-300 pb-2">
-                  <span class="w-1.5 h-4 bg-primary rounded"></span>
-                  <h4 class="font-bold text-xs uppercase tracking-wider opacity-80">{category.name}</h4>
+                  <span class="w-1.5 h-4 bg-primary rounded" />
+                  <h4 class="font-bold text-xs uppercase tracking-wider opacity-80">
+                    {category.name}
+                  </h4>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {category.items.map((item) => (
@@ -60,30 +90,51 @@ const localizedLanguages = getLanguagesForLang(lang);
         {
           certifications.map((category) => (
             <>
-              <input type="radio" name="cert_tabs" role="tab" class="tab" aria-label={category.name} />
-              <div role="tabpanel" class="tab-content p-4 space-y-4 mt-2 w-full">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {category.items.map((item) => (
-                    <CertificationCard item={item} />
-                  ))}
+              <input
+                type="radio"
+                name="cert_tabs"
+                role="tab"
+                class="tab"
+                aria-label={category.name}
+              />
+              <div
+                role="tabpanel"
+                class="tab-content p-4 space-y-8 mt-2 w-full"
+              >
+                <div class="space-y-4">
+                  <div class="flex items-center gap-2 border-b border-base-300 pb-2">
+                    <span class="w-1.5 h-4 bg-primary rounded" />
+                    <h4 class="font-bold text-xs uppercase tracking-wider opacity-80">
+                      {category.name}
+                    </h4>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {category.items.map((item) => (
+                      <CertificationCard item={item} />
+                    ))}
+                  </div>
                 </div>
               </div>
             </>
           ))
         }
-
       </div>
     </div>
 
     <!-- TAB 3: Languages -->
-    <input type="radio" name="edu_tabs" role="tab" class="tab text-sm font-semibold text-nowrap" aria-label={t("education.tabLanguages")} />
-    <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+    <input
+      type="radio"
+      name="edu_tabs"
+      role="tab"
+      class="tab text-sm font-semibold text-nowrap"
+      aria-label={t("education.tabLanguages")}
+    />
+    <div
+      role="tabpanel"
+      class="tab-content bg-base-100 border-base-300 rounded-box p-6"
+    >
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-        {
-          localizedLanguages.map((item) => (
-            <LanguageCard item={item} />
-          ))
-        }
+        {localizedLanguages.map((item) => <LanguageCard item={item} />)}
       </div>
     </div>
   </div>

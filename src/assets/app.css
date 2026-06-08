@@ -13,5 +13,97 @@
 }
 @plugin "daisyui/theme" {
   name: "business";
-  /* --color-base-content: oklch(95% 0.003 247.858); */
+  prefersdark: true;
+  color-scheme: dark;
+  
+  /* Backgrounds & Text (Monochromatic base requested by user) */
+  --color-base-100: oklch(24.353% 0 0);
+  --color-base-200: oklch(22.648% 0 0);
+  --color-base-300: oklch(20.944% 0 0);
+  --color-base-content: oklch(84.87% 0 0);
+
+  /* Brand Colors (Sleek Monochromatic / Metallic Silver / Cool Slate) */
+  --color-primary: oklch(93% 0.005 250);
+  --color-primary-content: oklch(24.353% 0 0); /* High contrast dark text on silver button */
+  
+  --color-secondary: oklch(65% 0.01 250);
+  --color-secondary-content: oklch(98% 0 0);
+  
+  --color-accent: oklch(85% 0.01 250);
+  --color-accent-content: oklch(24.353% 0 0);
+  
+  --color-neutral: oklch(32% 0 0);
+  --color-neutral-content: oklch(88% 0 0);
+
+  /* Muted Feedback Colors (Extremely low chroma for high-end minimalist integration) */
+  --color-info: oklch(76% 0.02 210);
+  --color-info-content: oklch(20% 0 0);
+  
+  --color-success: oklch(78% 0.03 145);
+  --color-success-content: oklch(20% 0 0);
+  
+  --color-warning: oklch(82% 0.03 85);
+  --color-warning-content: oklch(20% 0 0);
+  
+  --color-error: oklch(70% 0.03 25);
+  --color-error-content: oklch(98% 0 0);
+
+  /* Sizing, borders & effects */
+  --radius-selector: 0rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.25rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+  
+  /* Backgrounds & Text (Inverse of dark theme) */
+  --color-base-100: oklch(98% 0 0);
+  --color-base-200: oklch(95% 0 0);
+  --color-base-300: oklch(90% 0 0);
+  --color-base-content: oklch(24.353% 0 0);
+
+  /* Brand Colors (Sleek Monochromatic / Black & Steel Gray) */
+  --color-primary: oklch(24.353% 0 0);
+  --color-primary-content: oklch(98% 0 0);
+  
+  --color-secondary: oklch(50% 0.01 250);
+  --color-secondary-content: oklch(98% 0 0);
+  
+  --color-accent: oklch(35% 0.01 250);
+  --color-accent-content: oklch(98% 0 0);
+  
+  --color-neutral: oklch(92% 0 0);
+  --color-neutral-content: oklch(24.353% 0 0);
+
+  /* Muted Feedback Colors (Extremely low chroma) */
+  --color-info: oklch(92% 0.02 210);
+  --color-info-content: oklch(30% 0.02 210);
+  
+  --color-success: oklch(92% 0.02 145);
+  --color-success-content: oklch(25% 0.02 145);
+  
+  --color-warning: oklch(94% 0.02 85);
+  --color-warning-content: oklch(35% 0.02 85);
+  
+  --color-error: oklch(90% 0.02 25);
+  --color-error-content: oklch(30% 0.03 25);
+
+  /* Sizing, borders & effects */
+  --radius-selector: 0rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.25rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
 }
