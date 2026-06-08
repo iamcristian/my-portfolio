@@ -22,7 +22,8 @@ const NAV_LINKS = [
 ];
 ---
 
-<header class="navbar sticky top-0 z-50 backdrop-blur-md bg-base-200/80 border-b border-base-content/10">
+<header class="sticky top-0 z-50 backdrop-blur-md bg-base-200/80 border-b border-base-content/10 w-full">
+  <div class="navbar max-w-6xl mx-auto px-4 md:px-8">
   <!-- Navbar Start: Burger menu (mobile) + Name -->
   <div class="navbar-start">
     <div class="dropdown lg:hidden">
@@ -67,5 +68,6 @@ const NAV_LINKS = [
   <div class="navbar-end gap-2">
     <LanguageController />
     <ThemeController />
+  </div>
   </div>
 </header>

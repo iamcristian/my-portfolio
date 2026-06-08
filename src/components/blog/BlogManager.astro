@@ -27,7 +27,7 @@ const blogPosts = await getCollection("blog", ({ data }) => {
 const allTags = Array.from(new Set(blogPosts.flatMap(post => post.data.tags)));
 ---
 
-<main class="max-w-6xl mx-auto px-4 py-12 flex flex-col gap-8 min-h-screen">
+<main class="max-w-6xl mx-auto px-4 md:px-8 pt-8 md:pt-12 pb-16 md:pb-24 flex flex-col gap-8 min-h-screen">
   <!-- Header -->
   <PageHeading subtitle={t("blog.subtitle")} title={t("blog.title")} description={t("blog.subtitlePage")} />
 

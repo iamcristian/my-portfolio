@@ -37,9 +37,9 @@ const nextPost = currentIndex > 0 ? langPosts[currentIndex - 1] : null;
 const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).format(post.data.date);
 ---
 
-<main class="max-w-6xl mx-auto px-4 md:px-8 min-h-screen">
+<main class="max-w-6xl mx-auto px-4 md:px-8 pt-8 md:pt-12 pb-16 md:pb-24 min-h-screen">
   <!-- Back to Blog Button -->
-  <div class="my-4 md:my-8">
+  <div class="mb-6 md:mb-8">
     <a href={getRelativeLocaleUrl(lang, "blog")} class="btn btn-ghost btn-sm gap-2">
       &larr; {t("blog.back")}
     </a>
