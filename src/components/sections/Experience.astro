@@ -8,7 +8,7 @@ const t = useTranslations(lang);
 const experienceItems = getExperienceForLang(lang);
 ---
 
-<section id="experience" class="py-16 md:py-24 max-w-3xl mx-auto px-4 md:px-8">
+<section id="experience" class="py-16 md:py-24 max-w-5xl mx-auto px-4 md:px-8">
   <SectionHeading subtitle={t("experience.subtitle")} title={t("experience.title")} />
 
   <!-- Timeline DaisyUI -->
@@ -16,14 +16,14 @@ const experienceItems = getExperienceForLang(lang);
     {
       experienceItems.map((item, index) => (
         <TimelineItem
-          num={index + 1}
+          index={index}
+          totalItems={experienceItems.length}
           title={item.title}
           company={item.company}
           companyUrl={item.companyUrl}
           date={item.date}
           description={item.description}
           tags={item.tags}
-          isLast={index === experienceItems.length - 1}
         />
       ))
     }

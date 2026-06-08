@@ -93,7 +93,7 @@ const allTags = Array.from(new Set(blogPosts.flatMap(post => post.data.tags)));
       blogPosts.map((post) => {
         const title = post.data.title;
         const description = post.data.description;
-        const isFeatured = post.data.slug === "astro-vs-nextjs" || post.data.tags.includes("featured");
+        const isFeatured = post.data.featured;
         
         return (
           <BlogCard
