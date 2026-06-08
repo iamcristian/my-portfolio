@@ -18,7 +18,14 @@ const lang = getLang(Astro.currentLocale || Astro.params.lang);
 const { post } = Astro.props;
 ---
 
-<Layout>
+<Layout
+  title={post.data.title}
+  description={post.data.description}
+  image={post.data.image}
+  type="article"
+  publishDate={post.data.date}
+  tags={post.data.tags}
+>
   <Header />
   <BlogPostDetail post={post} lang={lang} />
   <Footer />

@@ -19,8 +19,15 @@ const langCode = getLang(lang || Astro.params.lang);
 const t = useTranslations(langCode);
 
 // Fetch Blog Posts from Content Collection
-const blogPosts = await getCollection("blog", ({ data }) => {
-  return data.lang === langCode && !data.draft;
+const blogPosts = (
+  await getCollection("blog", ({ data }) => {
+    return data.lang === langCode && !data.draft;
+  })
+).sort((a, b) => {
+  const featA = a.data.featured ? 1 : 0;
+  const featB = b.data.featured ? 1 : 0;
+  if (featA !== featB) return featB - featA;
+  return b.data.date.getTime() - a.data.date.getTime();
 });
 
 // Calculate unique tags from posts
@@ -90,7 +97,7 @@ const allTags = Array.from(new Set(blogPosts.flatMap(post => post.data.tags)));
   <!-- Blog Posts Grid / List Container -->
   <div id="blog-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-h-[300px]">
     {
-      blogPosts.map((post) => {
+      blogPosts.map((post, index) => {
         const title = post.data.title;
         const description = post.data.description;
         const isFeatured = post.data.featured;
@@ -99,6 +106,7 @@ const allTags = Array.from(new Set(blogPosts.flatMap(post => post.data.tags)));
           <BlogCard
             post={post}
             showFeaturedBadge={isFeatured}
+            loading={index < 6 ? "eager" : "lazy"}
             data-id={post.id}
             data-featured={isFeatured ? "true" : "false"}
             data-date={post.data.date.toISOString()}

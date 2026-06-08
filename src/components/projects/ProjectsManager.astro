@@ -16,7 +16,9 @@ interface Props {
 const { lang } = Astro.props;
 const langCode = getLang(lang || Astro.params.lang);
 const t = useTranslations(langCode);
-const PROJECTS = getProjectsForLang(langCode);
+const PROJECTS = getProjectsForLang(langCode).sort(
+  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+);
 ---
 
 <main class="max-w-6xl mx-auto px-4 md:px-8 pt-8 md:pt-12 pb-16 md:pb-24 flex flex-col gap-8 min-h-screen">
@@ -78,12 +80,13 @@ const PROJECTS = getProjectsForLang(langCode);
   <!-- Projects Container -->
   <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-h-[300px]">
     {
-      PROJECTS.map((project) => {
+      PROJECTS.map((project, index) => {
         const title = project.title;
         const description = project.description;
         return (
           <ProjectCard
             project={project}
+            loading={index < 6 ? "eager" : "lazy"}
             data-id={project.id}
             data-category={project.category}
             data-date={project.date}

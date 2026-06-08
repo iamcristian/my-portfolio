@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+
 interface Props {
   item: {
     logo: string;
@@ -20,7 +22,7 @@ const glowColor = item.color === "primary" ? "hover:shadow-[0_0_20px_rgba(var(--
   <!-- Flag container with hover scale and gradient border -->
   <div class={`relative w-16 h-16 mb-4 rounded-full p-[3px] bg-linear-to-tr ${item.color === "primary" ? "from-primary to-secondary" : "from-secondary to-accent"} group-hover:scale-110 transition-transform duration-300 shrink-0 shadow-md`}>
     <div class="w-full h-full rounded-full overflow-hidden border-2 border-base-200 shrink-0">
-      <img src={item.logo} alt={item.name} class="w-full h-full object-cover" />
+      <Image src={item.logo} alt={item.name} width={48} height={32} class="w-full h-full object-cover" />
     </div>
   </div>
   

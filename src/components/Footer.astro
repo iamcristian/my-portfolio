@@ -76,10 +76,9 @@ const homeUrl = getRelativeLocaleUrl(lang, "");
         <span class="text-error">❤️</span>
       </div>
       <div>
-        <a 
-          href="#" 
+        <button 
           id="back-to-top" 
-          class="link link-hover flex items-center gap-1 font-medium transition-colors hover:text-primary"
+          class="link link-hover flex items-center gap-1 font-medium transition-colors hover:text-primary bg-transparent border-0 cursor-pointer p-0 font-[inherit] text-inherit h-auto min-h-0"
         >
           <svg 
             xmlns="http://www.w3.org/2000/svg" 
@@ -94,7 +93,7 @@ const homeUrl = getRelativeLocaleUrl(lang, "");
             <path d="m18 15-6-6-6 6"/>
           </svg>
           <span>{t("footer.backToTop")}</span>
-        </a>
+        </button>
       </div>
     </div>
   </div>

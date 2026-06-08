@@ -8,9 +8,11 @@ export const SITE = {
   description:
     "Strategy-driven developer passionate about solving complex problems with technology. Portfolio showcasing full-stack projects, blog articles, and professional experience.",
   email: "crisarandosyse@gmail.com",
+  url: "https://cristianarando.vercel.app",
   social: {
     github: "https://github.com/iamcristian",
     linkedin: "https://linkedin.com/in/cristianarando",
+    twitter: "@cristianarando",
   },
   cv: {
     en: "/cv/cv_en.pdf",

@@ -1,6 +1,7 @@
 ---
 import { getLang, useTranslations } from "../../../i18n/utils";
 import type { Certification } from "../../../types";
+import { Image } from "astro:assets";
 
 interface Props {
   item: Certification;
@@ -15,7 +16,7 @@ const t = useTranslations(lang);
 <div class="card bg-base-200 border border-base-300 shadow-sm p-4 flex flex-row gap-4 items-start hover:border-primary/45 transition-colors">
   <div class="avatar placeholder shrink-0">
     <div class="bg-base-300 rounded-lg w-12 h-12 flex items-center justify-center overflow-hidden">
-      <img src={item.logo} alt={item.institution} class="p-1 object-contain w-full h-full" />
+      <Image src={item.logo} alt={item.institution} width={48} height={48} class="p-1 object-contain w-full h-full" />
     </div>
   </div>
   <div class="flex-1 min-w-0">

@@ -6,16 +6,18 @@ import { getReadTime } from "../../../utils/blog";
 import CalendarIcon from "../../../assets/calendar.svg";
 import ClockIcon from "../../../assets/clock.svg";
 import ShieldIcon from "../../../assets/shield.svg";
+import { Image } from "astro:assets";
 
 interface Props {
   post: CollectionEntry<"blog">;
   isFeatured?: boolean;
   showFeaturedBadge?: boolean;
+  loading?: "lazy" | "eager";
   class?: string;
   [key: string]: any;
 }
 
-const { post, isFeatured = false, showFeaturedBadge = false, class: className, ...rest } = Astro.props;
+const { post, isFeatured = false, showFeaturedBadge = false, loading = "lazy", class: className, ...rest } = Astro.props;
 
 const lang = getLang(Astro.currentLocale || Astro.params.lang);
 const t = useTranslations(lang);
@@ -24,7 +26,15 @@ const t = useTranslations(lang);
 {isFeatured ? (
   <article class="card md:card-side bg-base-200 border border-base-300 shadow-md hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col md:flex-row gap-6 p-6">
     <div class="w-full md:w-5/12 overflow-hidden rounded-lg bg-base-300 relative min-h-[200px] shrink-0">
-      <img src={post.data.image} alt={post.data.title} class="absolute inset-0 w-full h-full object-cover" />
+      <Image
+        src={post.data.image}
+        alt={post.data.title}
+        width={600}
+        height={350}
+        loading={loading}
+        fetchpriority={loading === "eager" ? "high" : undefined}
+        class="absolute inset-0 w-full h-full object-cover"
+      />
       <span class="badge bg-neutral-900/60 text-white border-none gap-1.5 py-3 px-3.5 absolute top-3 left-3 backdrop-blur-md text-xs font-semibold rounded-full shadow-sm">
         <ShieldIcon class="w-3.5 h-3.5 text-secondary" />
         <span>{t("blog.featured")}</span>
@@ -69,7 +79,15 @@ const t = useTranslations(lang);
 ) : (
   <article class:list={["blog-card card card-compact bg-base-200 border border-base-300 shadow-md hover:-translate-y-1 transition-transform duration-300 flex flex-col h-full", className]} {...rest}>
     <figure class="blog-figure relative h-44 bg-base-300 shrink-0 transition-all">
-      <img src={post.data.image} alt={post.data.title} class="w-full h-full object-cover" />
+      <Image
+        src={post.data.image}
+        alt={post.data.title}
+        width={400}
+        height={225}
+        loading={loading}
+        fetchpriority={loading === "eager" ? "high" : undefined}
+        class="w-full h-full object-cover"
+      />
       {showFeaturedBadge && (
         <span class="badge bg-neutral-900/60 text-white border-none gap-1.5 py-3 px-3.5 absolute top-3 left-3 backdrop-blur-md text-xs font-semibold rounded-full shadow-sm">
           <ShieldIcon class="w-3.5 h-3.5 text-secondary" />
