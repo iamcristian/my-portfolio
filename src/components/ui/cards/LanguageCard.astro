@@ -6,34 +6,24 @@ interface Props {
     logo: string;
     name: string;
     description: string;
-    color: string;
   };
 }
 
 const { item } = Astro.props;
 
-const badgeColor = item.color === "primary" ? "badge-primary" : "badge-secondary";
-const hoverBorderColor = item.color === "primary" ? "hover:border-primary/50" : "hover:border-secondary/50";
-const textHoverColor = item.color === "primary" ? "group-hover:text-primary" : "group-hover:text-secondary";
-const glowColor = item.color === "primary" ? "hover:shadow-[0_0_20px_rgba(var(--color-primary),0.05)]" : "hover:shadow-[0_0_20px_rgba(var(--color-secondary),0.05)]";
-
 // Dynamically resolve optimized language flag from src/assets/images/languages/
 const images = import.meta.glob<{ default: ImageMetadata }>("/src/assets/images/languages/*.{jpeg,jpg,png,gif,webp}");
-const imageImport = images[item.logo];
+const imageImport = images[item.logo]!;
 ---
 
-<div class={`group card bg-base-200/50 backdrop-blur-md border border-base-300 ${hoverBorderColor} p-6 text-center items-center transition-all duration-300 ${glowColor}`}>
+<div class="group card bg-base-200/50 backdrop-blur-md border border-base-300 hover:border-primary/50 p-6 text-center items-center transition-all duration-300 hover:shadow-[0_0_20px_rgba(var(--color-primary),0.05)]">
   <!-- Flag container with hover scale and gradient border -->
-  <div class={`relative w-16 h-16 mb-4 rounded-full p-[3px] bg-linear-to-tr ${item.color === "primary" ? "from-primary to-secondary" : "from-secondary to-accent"} group-hover:scale-110 transition-transform duration-300 shrink-0 shadow-md`}>
+  <div class="relative w-16 h-16 mb-4 rounded-full p-[3px] bg-linear-to-tr from-primary to-secondary group-hover:scale-110 transition-transform duration-300 shrink-0 shadow-md">
     <div class="w-full h-full rounded-full overflow-hidden border-2 border-base-200 shrink-0">
-      {imageImport ? (
-        <Image src={imageImport()} alt={item.name} width={48} height={32} class="w-full h-full object-cover" />
-      ) : (
-        <Image src={item.logo} alt={item.name} width={48} height={32} class="w-full h-full object-cover" />
-      )}
+      <Image src={imageImport()} alt={item.name} width={48} height={32} class="w-full h-full object-cover" />
     </div>
   </div>
   
-  <h3 class={`font-bold text-lg ${textHoverColor} transition-colors`}>{item.name}</h3>
-  <span class={`badge ${badgeColor} badge-outline text-xs mt-1 font-semibold px-3 py-1.5`}>{item.description}</span>
+  <h3 class="font-bold text-lg group-hover:text-primary transition-colors">{item.name}</h3>
+  <span class="badge badge-outline text-xs mt-1 px-3 py-1.5">{item.description}</span>
 </div>

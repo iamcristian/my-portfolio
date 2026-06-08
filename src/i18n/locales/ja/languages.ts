@@ -8,7 +8,6 @@ export const languages: LanguageItem[] = [
     fluency: "100%",
     level: 5,
     logo: "/src/assets/images/languages/spanish.png",
-    color: "primary",
   },
   {
     id: "en",
@@ -17,6 +16,5 @@ export const languages: LanguageItem[] = [
     fluency: "80%",
     level: 4,
     logo: "/src/assets/images/languages/english.png",
-    color: "secondary",
   },
 ];

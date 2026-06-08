@@ -52,7 +52,6 @@ export interface LanguageItem {
   fluency: string;
   level: number;
   logo: string;
-  color: string;
 }
 
 /** A skill category with a list of skill names. */

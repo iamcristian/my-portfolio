@@ -1,4 +1,5 @@
 import type { AcademicItem } from "../../../types";
+export type { AcademicItem };
 
 export const education: AcademicItem[] = [
   {
