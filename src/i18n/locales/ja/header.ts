@@ -7,6 +7,7 @@ export const header = {
   "nav.skills": "スキル",
   "nav.blog": "ブログ",
   "nav.toggleMenu": "ナビゲーションメニューの切り替え",
+  "nav.title": "メニュー",
   "theme.title": "テーマ変更",
   "language.title": "言語変更",
   "theme.light": "ライト",

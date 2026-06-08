@@ -7,6 +7,7 @@ export const header = {
   "nav.skills": "Fähigkeiten",
   "nav.blog": "Blog",
   "nav.toggleMenu": "Navigationsmenü umschalten",
+  "nav.title": "Menü",
   "theme.title": "Thema wechseln",
   "language.title": "Sprache wechseln",
   "theme.light": "Hell",

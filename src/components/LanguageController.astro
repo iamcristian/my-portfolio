@@ -30,9 +30,9 @@ function getPathForLocale(targetLang: string) {
   </button>
   <div
     tabindex="0"
-    class="dropdown-content bg-base-200 text-base-content rounded-box mt-2 max-h-[calc(100vh-10rem)] overflow-y-auto border border-base-content/10 shadow-2xl z-50 w-36"
+    class="dropdown-content bg-base-200 text-base-content rounded-box mt-3 max-h-[calc(100vh-10rem)] overflow-y-auto border border-base-content/10 shadow-2xl z-50 w-36"
   >
-    <ul class="menu">
+    <ul class="menu menu-sm">
       <li class="menu-title text-xs">{t("language.title")}</li>
       {
         Object.entries(languages).map(([code, { name }]) => {
@@ -47,7 +47,7 @@ function getPathForLocale(targetLang: string) {
                 <div class="bg-base-100 flex items-center justify-center rounded-md border border-base-content/10 shadow-sm size-6 shrink-0 text-[10px] font-bold font-mono tracking-wider opacity-75">
                   {code.toUpperCase()}
                 </div>
-                <span class="text-left font-normal text-xs"> {name}</span>
+                <span class="text-left font-normal"> {name}</span>
                 {active && <Check class="visible!" />}
               </a>
             </li>
