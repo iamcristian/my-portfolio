@@ -70,18 +70,6 @@ const recentBlogPosts = sortedPosts.filter((p) => !featuredIds.has(p.id)).slice(
           </>
         )}
 
-        <!-- Indicator Dots (aligned to bottom of text column on desktop, bottom center on mobile) -->
-        {featuredBlogPosts.length > 1 && (
-          <div class="absolute bottom-[38px] left-1/2 md:left-[71%] -translate-x-1/2 z-10 flex gap-2 pointer-events-auto">
-            {featuredBlogPosts.map((_, index) => (
-              <button
-                class={`carousel-dot h-2 rounded-full transition-all duration-300 cursor-pointer ${index === 0 ? 'bg-base-content w-4' : 'bg-base-content/30 hover:bg-base-content/60 w-2'}`}
-                data-index={index}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </div>
-        )}
       </div>
     )}
 
@@ -106,25 +94,12 @@ const recentBlogPosts = sortedPosts.filter((p) => !featuredIds.has(p.id)).slice(
     const slides = carousel.querySelectorAll('.carousel-item');
     const prevBtn = carousel.parentElement?.querySelector('.carousel-prev');
     const nextBtn = carousel.parentElement?.querySelector('.carousel-next');
-    const dots = carousel.parentElement?.querySelectorAll('.carousel-dot');
 
     if (slides.length <= 1) return;
 
     let currentIndex = 0;
     let autoplayInterval: any = null;
     const autoplayDelay = 5000; // 5 seconds
-
-    const updateActiveDot = (index: number) => {
-      dots?.forEach((dot, idx) => {
-        if (idx === index) {
-          dot.classList.add('bg-base-content', 'w-4');
-          dot.classList.remove('bg-base-content/30', 'w-2');
-        } else {
-          dot.classList.remove('bg-base-content', 'w-4');
-          dot.classList.add('bg-base-content/30', 'w-2');
-        }
-      });
-    };
 
     const scrollToSlide = (index: number) => {
       const slide = slides[index] as HTMLElement;
@@ -134,7 +109,6 @@ const recentBlogPosts = sortedPosts.filter((p) => !featuredIds.has(p.id)).slice(
           behavior: 'smooth'
         });
         currentIndex = index;
-        updateActiveDot(currentIndex);
       }
     };
 
@@ -173,15 +147,6 @@ const recentBlogPosts = sortedPosts.filter((p) => !featuredIds.has(p.id)).slice(
       startAutoplay();
     });
 
-    dots?.forEach((dot) => {
-      dot.addEventListener('click', () => {
-        const index = parseInt(dot.getAttribute('data-index') || '0', 10);
-        scrollToSlide(index);
-        stopAutoplay();
-        startAutoplay();
-      });
-    });
-
     // Pause autoplay on mouse enter, resume on leave
     const parentContainer = carousel.parentElement;
     if (parentContainer) {
@@ -189,7 +154,7 @@ const recentBlogPosts = sortedPosts.filter((p) => !featuredIds.has(p.id)).slice(
       parentContainer.addEventListener('mouseleave', startAutoplay);
     }
 
-    // Sync active dot on manual scroll/swipe
+    // Sync active index on manual scroll/swipe
     let scrollTimeout: number;
     carousel.addEventListener('scroll', () => {
       clearTimeout(scrollTimeout);
@@ -200,7 +165,6 @@ const recentBlogPosts = sortedPosts.filter((p) => !featuredIds.has(p.id)).slice(
           const newIndex = Math.round(scrollPosition / slideWidth);
           if (newIndex !== currentIndex && newIndex >= 0 && newIndex < slides.length) {
             currentIndex = newIndex;
-            updateActiveDot(currentIndex);
           }
         }
       }, 100);
@@ -215,3 +179,4 @@ const recentBlogPosts = sortedPosts.filter((p) => !featuredIds.has(p.id)).slice(
   // Support Astro view transitions
   document.addEventListener('astro:after-swap', setupCarousel);
 </script>
+

@@ -13,12 +13,21 @@ interface Props {
 }
 
 const { item } = Astro.props;
+
+// Dynamically resolve optimized certificate image from src/assets/images/certs/
+const images = import.meta.glob<{ default: ImageMetadata }>("/src/assets/images/certs/*.{jpeg,jpg,png,gif,webp}");
+const assetPath = item.logo.replace("/images/certs/", "/src/assets/images/certs/");
+const imageImport = images[assetPath];
 ---
 
 <div class="card card-side bg-base-200 border border-base-300 shadow-md p-4 flex gap-4 items-start">
   <div class="avatar placeholder shrink-0">
     <div class="bg-base-300 text-neutral-content rounded-lg w-12 h-12">
-      <Image src={item.logo} alt={item.institution} width={48} height={48} class="p-1 object-contain" />
+      {imageImport ? (
+        <Image src={imageImport()} alt={item.institution} width={48} height={48} class="p-1 object-contain" />
+      ) : (
+        <Image src={item.logo} alt={item.institution} width={48} height={48} class="p-1 object-contain" />
+      )}
     </div>
   </div>
   <div class="flex-1 min-w-0">

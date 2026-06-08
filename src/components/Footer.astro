@@ -25,7 +25,7 @@ const homeUrl = getRelativeLocaleUrl(lang, "");
 
     <!-- Column 2: Quick Links -->
     <div>
-      <h6 class="footer-title opacity-60 font-semibold tracking-wider text-xs uppercase mb-3">{t("footer.quickLinks")}</h6>
+      <p class="footer-title opacity-60 font-semibold tracking-wider text-xs uppercase mb-3">{t("footer.quickLinks")}</p>
       <div class="flex flex-col gap-2">
         <a href={homeUrl} class="link link-hover text-sm opacity-80 hover:text-primary transition-colors">{t("nav.home")}</a>
         <a href={`${homeUrl}#about`} class="link link-hover text-sm opacity-80 hover:text-primary transition-colors">{t("nav.about")}</a>
@@ -36,7 +36,7 @@ const homeUrl = getRelativeLocaleUrl(lang, "");
 
     <!-- Column 3: Connect -->
     <div>
-      <h6 class="footer-title opacity-60 font-semibold tracking-wider text-xs uppercase mb-3">{t("footer.connect")}</h6>
+      <p class="footer-title opacity-60 font-semibold tracking-wider text-xs uppercase mb-3">{t("footer.connect")}</p>
       <SocialLinks size="sm" showLabels={true} class="flex-col" />
       <a 
         href={`mailto:${SITE.email}`}
@@ -49,7 +49,7 @@ const homeUrl = getRelativeLocaleUrl(lang, "");
 
     <!-- Column 4: Let's Collaborate -->
     <div class="max-w-xs space-y-3">
-      <h6 class="footer-title opacity-60 font-semibold tracking-wider text-xs uppercase mb-1">{t("footer.collaborate")}</h6>
+      <p class="footer-title opacity-60 font-semibold tracking-wider text-xs uppercase mb-1">{t("footer.collaborate")}</p>
       <p class="text-sm opacity-70 leading-relaxed">
         {t("footer.collaborateText")}
       </p>

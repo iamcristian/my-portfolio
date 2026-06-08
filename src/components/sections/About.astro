@@ -2,6 +2,7 @@
 import { getLang, useTranslations } from "../../i18n/utils";
 import SectionHeading from "../ui/SectionHeading.astro";
 import { Image } from "astro:assets";
+import meImage from "../../assets/images/me.webp";
 
 const lang = getLang(Astro.currentLocale || Astro.params.lang);
 const t = useTranslations(lang);
@@ -47,7 +48,7 @@ const t = useTranslations(lang);
         <div class="absolute -inset-8 rounded-3xl border border-base-content/5 opacity-40"></div>
         
         <div class="relative w-64 h-64 lg:w-72 lg:h-72 rounded-2xl overflow-hidden shadow-2xl border border-base-300">
-          <Image src="/images/me.webp" alt="Cristian Arando" width={300} height={300} class="w-full h-full object-cover" />
+          <Image src={meImage} alt="Cristian Arando" width={300} height={300} class="w-full h-full object-cover" />
         </div>
         
         <div class="absolute -bottom-2 -right-2 w-6 h-6 border-b-2 border-r-2 border-primary rounded-br-lg"></div>
