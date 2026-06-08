@@ -7,4 +7,5 @@ export const footer = {
   "footer.rights": "© 2026 Cristian Arando. Все права защищены.",
   "footer.builtWith": "Сделано на Astro",
   "footer.backToTop": "Наверх",
+  "footer.email": "Эл. почта",
 } as const;

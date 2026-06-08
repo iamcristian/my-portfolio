@@ -5,7 +5,7 @@ import SocialLinks from "../ui/SocialLinks.astro";
 import DownloadIcon from "../../assets/download.svg";
 import MailIcon from "../../assets/mail.svg";
 
-const lang = getLang(Astro.currentLocale);
+const lang = getLang(Astro.currentLocale || Astro.params.lang);
 const t = useTranslations(lang);
 
 const cvPath = SITE.cv[lang] || SITE.cv.en;

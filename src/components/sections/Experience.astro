@@ -3,7 +3,7 @@ import { getLang, useTranslations, getExperienceForLang } from "../../i18n/utils
 import TimelineItem from "../ui/TimelineItem.astro";
 import SectionHeading from "../ui/SectionHeading.astro";
 
-const lang = getLang(Astro.currentLocale);
+const lang = getLang(Astro.currentLocale || Astro.params.lang);
 const t = useTranslations(lang);
 const experienceItems = getExperienceForLang(lang);
 ---

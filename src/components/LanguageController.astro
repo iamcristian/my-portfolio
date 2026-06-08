@@ -4,7 +4,7 @@ import Globe from "../assets/globe.svg";
 import { languages } from "../i18n/ui";
 import { getLang } from "../i18n/utils";
 
-const currentLang = getLang(Astro.currentLocale);
+const currentLang = getLang(Astro.currentLocale || Astro.params.lang);
 
 const pathname = Astro.url.pathname;
 const segments = pathname.split("/").filter(Boolean);

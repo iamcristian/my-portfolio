@@ -14,7 +14,7 @@ export async function getStaticPaths() {
   }));
 }
 
-const lang = getLang(Astro.currentLocale);
+const lang = getLang(Astro.currentLocale || Astro.params.lang);
 const { post } = Astro.props;
 ---
 

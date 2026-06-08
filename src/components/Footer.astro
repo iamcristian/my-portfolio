@@ -5,7 +5,7 @@ import { SITE } from "../config/site";
 import SocialLinks from "./ui/SocialLinks.astro";
 import MailIcon from "../assets/mail.svg";
 
-const lang = getLang(Astro.currentLocale);
+const lang = getLang(Astro.currentLocale || Astro.params.lang);
 const t = useTranslations(lang);
 
 const homeUrl = getRelativeLocaleUrl(lang, "");
@@ -43,7 +43,7 @@ const homeUrl = getRelativeLocaleUrl(lang, "");
         class="link link-hover flex items-center gap-2 text-sm opacity-80 hover:text-primary transition-colors mt-2"
       >
         <MailIcon class="w-4 h-4" />
-        <span>Email</span>
+        <span>{t("footer.email")}</span>
       </a>
     </div>
 

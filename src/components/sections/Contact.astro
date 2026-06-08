@@ -5,7 +5,7 @@ import MailIcon from "../../assets/mail.svg";
 import SectionHeading from "../ui/SectionHeading.astro";
 import SocialLinks from "../ui/SocialLinks.astro";
 
-const lang = getLang(Astro.currentLocale);
+const lang = getLang(Astro.currentLocale || Astro.params.lang);
 const t = useTranslations(lang);
 ---
 

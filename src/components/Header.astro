@@ -6,7 +6,7 @@ import LanguageController from "./LanguageController.astro";
 import MenuIcon from "../assets/menu.svg";
 import { SITE } from "../config/site";
 
-const lang = getLang(Astro.currentLocale);
+const lang = getLang(Astro.currentLocale || Astro.params.lang);
 const t = useTranslations(lang);
 
 const homeUrl = getRelativeLocaleUrl(lang, "");

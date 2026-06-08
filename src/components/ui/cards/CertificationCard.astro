@@ -8,7 +8,7 @@ interface Props {
 
 const { item } = Astro.props;
 
-const lang = getLang(Astro.currentLocale);
+const lang = getLang(Astro.currentLocale || Astro.params.lang);
 const t = useTranslations(lang);
 ---
 

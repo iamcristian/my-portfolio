@@ -7,7 +7,7 @@ import ChevronLeftIcon from "../../assets/chevron-left.svg";
 import ChevronRightIcon from "../../assets/chevron-right.svg";
 import SectionHeading from "../ui/SectionHeading.astro";
 
-const lang = getLang(Astro.currentLocale);
+const lang = getLang(Astro.currentLocale || Astro.params.lang);
 const t = useTranslations(lang);
 
 // Fetch Blog Posts from Content Collection

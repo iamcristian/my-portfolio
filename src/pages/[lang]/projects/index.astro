@@ -10,7 +10,7 @@ export function getStaticPaths() {
   return getLocaleStaticPaths();
 }
 
-const lang = getLang(Astro.currentLocale);
+const lang = getLang(Astro.currentLocale || Astro.params.lang);
 ---
 
 <Layout>

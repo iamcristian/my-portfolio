@@ -7,4 +7,5 @@ export const footer = {
   "footer.rights": "© 2026 Cristian Arando. 全著作権所有。",
   "footer.builtWith": "Astroで構築",
   "footer.backToTop": "トップへ戻る",
+  "footer.email": "メール",
 } as const;

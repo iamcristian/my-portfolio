@@ -14,7 +14,7 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const langCode = getLang(lang);
+const langCode = getLang(lang || Astro.params.lang);
 const t = useTranslations(langCode);
 const PROJECTS = getProjectsForLang(langCode);
 ---
@@ -66,10 +66,10 @@ const PROJECTS = getProjectsForLang(langCode);
       <div class="flex items-center gap-2">
         <SortIcon class="w-5 h-5 opacity-60" />
         <select id="projects-sort" class="select select-bordered select-sm bg-base-100">
-          <option value="date-desc">{t("projects.sortDate")} (Newest)</option>
-          <option value="date-asc">{t("projects.sortDate")} (Oldest)</option>
-          <option value="name-asc">{t("projects.sortName")} (A-Z)</option>
-          <option value="name-desc">{t("projects.sortName")} (Z-A)</option>
+          <option value="date-desc">{t("projects.sortDateNewest")}</option>
+          <option value="date-asc">{t("projects.sortDateOldest")}</option>
+          <option value="name-asc">{t("projects.sortNameAsc")}</option>
+          <option value="name-desc">{t("projects.sortNameDesc")}</option>
         </select>
       </div>
     </div>
