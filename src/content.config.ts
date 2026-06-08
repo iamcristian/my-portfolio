@@ -11,12 +11,12 @@ const blog = defineCollection({
       return entry.replace(/\.[^/.]+$/, "");
     },
   }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     title: z.string(),
     description: z.string(),
     date: z.coerce.date(),
     tags: z.array(z.string()).default([]),
-    image: z.string(),
+    image: image(),
     draft: z.boolean().default(false),
     featured: z.boolean().default(false),
     lang: z.string(),

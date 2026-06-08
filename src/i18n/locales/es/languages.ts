@@ -7,7 +7,7 @@ export const languages: LanguageItem[] = [
     description: "Hablante nativo",
     fluency: "100%",
     level: 5,
-    logo: "/images/languages/spanish.png",
+    logo: "/src/assets/images/languages/spanish.png",
     color: "primary",
   },
   {
@@ -16,7 +16,7 @@ export const languages: LanguageItem[] = [
     description: "B2 - Intermedio Alto",
     fluency: "80%",
     level: 4,
-    logo: "/images/languages/english.png",
+    logo: "/src/assets/images/languages/english.png",
     color: "secondary",
   },
 ];

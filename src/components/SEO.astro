@@ -2,11 +2,12 @@
 import { SITE } from "../config/site";
 import { getLang, useTranslations } from "../i18n/utils";
 import { getCollection } from "astro:content";
+import meImage from "../assets/images/me.webp";
 
 export interface Props {
   title?: string;
   description?: string;
-  image?: string;
+  image?: string | ImageMetadata;
   imageAlt?: string;
   type?: "website" | "article";
   publishDate?: Date;
@@ -110,8 +111,10 @@ if (defaultSegments.length > 1 && locales.includes(defaultSegments[1])) {
 const defaultUrl = new URL(defaultSegments.join("/"), cleanSiteUrl).href;
 
 // 5. OpenGraph & Twitter Image
-const imagePath = Astro.props.image || "/images/me.webp";
-const fullImageUrl = imagePath.startsWith("http") ? imagePath : `${cleanSiteUrl}${imagePath}`;
+const imageSource = Astro.props.image || meImage;
+const fullImageUrl = typeof imageSource === "string" 
+  ? (imageSource.startsWith("http") ? imageSource : `${cleanSiteUrl}${imageSource}`)
+  : new URL(imageSource.src, cleanSiteUrl).href;
 const fullImageAlt = Astro.props.imageAlt || title || SITE.name;
 ---
 

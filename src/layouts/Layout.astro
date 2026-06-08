@@ -5,7 +5,7 @@ import SEO from "../components/SEO.astro";
 interface Props {
   title?: string;
   description?: string;
-  image?: string;
+  image?: string | ImageMetadata;
   imageAlt?: string;
   type?: "website" | "article";
   publishDate?: Date;

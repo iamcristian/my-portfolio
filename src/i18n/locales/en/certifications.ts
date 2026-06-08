@@ -13,7 +13,7 @@ export const certifications: CertificationCategory[] = [
         description:
           "Comprehensive course covering Next.js App Router, Server Components, Server Actions, authentication, database integration, and deployment strategies for production-grade applications.",
         link: "https://cursos.devtalles.com/certificates/nextjs",
-        logo: "/images/certs/devtalles.webp",
+        logo: "/src/assets/images/certs/devtalles.webp",
       },
       {
         id: "nestjs-microservices",
@@ -23,7 +23,7 @@ export const certifications: CertificationCategory[] = [
         description:
           "Advanced course on building scalable microservices architectures with NestJS, covering message brokers, NATS, Docker containerization, API Gateway patterns, and production deployment.",
         link: "https://cursos.devtalles.com/certificates/nestjs-microservices",
-        logo: "/images/certs/devtalles.webp",
+        logo: "/src/assets/images/certs/devtalles.webp",
       },
       {
         id: "node-rest-auth",
@@ -33,7 +33,7 @@ export const certifications: CertificationCategory[] = [
         description:
           "In-depth course on building RESTful APIs with Node.js and TypeScript, implementing JWT authentication, clean architecture patterns, repository pattern, and SOLID principles.",
         link: "https://cursos.devtalles.com/certificates/node-rest-auth",
-        logo: "/images/certs/devtalles.webp",
+        logo: "/src/assets/images/certs/devtalles.webp",
       },
       {
         id: "modern-javascript",
@@ -43,7 +43,7 @@ export const certifications: CertificationCategory[] = [
         description:
           "Comprehensive JavaScript course covering ES6+ features, async programming, DOM manipulation, design patterns, modules, testing, and modern development workflows.",
         link: "https://cursos.devtalles.com/certificates/javascript-moderno",
-        logo: "/images/certs/devtalles.webp",
+        logo: "/src/assets/images/certs/devtalles.webp",
       },
     ],
   },
@@ -59,7 +59,7 @@ export const certifications: CertificationCategory[] = [
         description:
           "Course focused on writing maintainable, scalable code using SOLID principles, clean code practices, refactoring techniques, and design patterns for professional software development.",
         link: "https://cursos.devtalles.com/certificates/solid-clean-code",
-        logo: "/images/certs/devtalles.webp",
+        logo: "/src/assets/images/certs/devtalles.webp",
       },
       {
         id: "software-foundations-escuelait",
@@ -69,7 +69,7 @@ export const certifications: CertificationCategory[] = [
         description:
           "Foundational course covering core software engineering concepts, programming paradigms, software architecture fundamentals, and best practices for building robust applications.",
         link: "https://escuela.it/",
-        logo: "/images/certs/escuelait.webp",
+        logo: "/src/assets/images/certs/escuelait.webp",
       },
       {
         id: "java-escuelait",
@@ -79,7 +79,7 @@ export const certifications: CertificationCategory[] = [
         description:
           "Comprehensive Java programming course covering OOP principles, collections framework, exception handling, generics, multithreading, and Java ecosystem tools.",
         link: "https://escuela.it/",
-        logo: "/images/certs/escuelait.webp",
+        logo: "/src/assets/images/certs/escuelait.webp",
       },
       {
         id: "git-coursera",
@@ -89,7 +89,7 @@ export const certifications: CertificationCategory[] = [
         description:
           "Professional course on Git version control covering branching strategies, merge conflict resolution, rebasing, collaborative workflows, and Bitbucket/GitHub integration.",
         link: "https://www.coursera.org/account/accomplishments/verify/git-atlassian",
-        logo: "/images/certs/coursera.webp",
+        logo: "/src/assets/images/certs/coursera.webp",
       },
       {
         id: "diff-equations",
@@ -100,7 +100,7 @@ export const certifications: CertificationCategory[] = [
         description:
           "Mathematical course covering ordinary differential equations, Laplace transforms, systems of equations, and numerical methods applied to engineering problems.",
         link: "https://www.coursera.org/account/accomplishments/verify/diff-equations",
-        logo: "/images/certs/coursera.webp",
+        logo: "/src/assets/images/certs/coursera.webp",
       },
     ],
   },
@@ -116,7 +116,7 @@ export const certifications: CertificationCategory[] = [
         description:
           "Standardized English proficiency test scoring at B2 (Upper Intermediate) level on the CEFR scale, demonstrating strong reading and listening comprehension skills.",
         link: "https://www.efset.org/cert/",
-        logo: "/images/certs/efset.webp",
+        logo: "/src/assets/images/certs/efset.webp",
       },
     ],
   },
@@ -132,7 +132,7 @@ export const certifications: CertificationCategory[] = [
         description:
           "Professional course on Agile project management using Jira, covering Scrum and Kanban frameworks, sprint planning, backlog management, and team velocity tracking.",
         link: "https://www.coursera.org/account/accomplishments/verify/agile-jira",
-        logo: "/images/certs/coursera.webp",
+        logo: "/src/assets/images/certs/coursera.webp",
       },
     ],
   },
@@ -148,7 +148,7 @@ export const certifications: CertificationCategory[] = [
         description:
           "Specialized course on API security testing covering OWASP API Top 10, authentication bypass, injection attacks, broken authorization, rate limiting, and automated security scanning tools.",
         link: "https://www.apisecuniversity.com/",
-        logo: "/images/certs/apisec.webp",
+        logo: "/src/assets/images/certs/apisec.webp",
       },
     ],
   },
@@ -164,7 +164,7 @@ export const certifications: CertificationCategory[] = [
         description:
           "Advanced Cisco certification course covering enterprise network architectures, WAN technologies, network security concepts, SDN, network automation with Python, and REST APIs.",
         link: "https://www.credly.com/badges/ccna-enterprise",
-        logo: "/images/certs/cisco.webp",
+        logo: "/src/assets/images/certs/cisco.webp",
       },
       {
         id: "ccna-switching",
@@ -174,7 +174,7 @@ export const certifications: CertificationCategory[] = [
         description:
           "Intermediate Cisco course covering VLAN configuration, inter-VLAN routing, STP, EtherChannel, DHCPv4/v6, FHRP, wireless LAN concepts, and switch security features.",
         link: "https://www.credly.com/badges/ccna-switching",
-        logo: "/images/certs/cisco.webp",
+        logo: "/src/assets/images/certs/cisco.webp",
       },
       {
         id: "ccna-intro",
@@ -184,7 +184,7 @@ export const certifications: CertificationCategory[] = [
         description:
           "Foundational Cisco course covering network fundamentals, Ethernet concepts, IPv4/IPv6 addressing, OSI and TCP/IP models, subnetting, and basic router/switch configuration.",
         link: "https://www.credly.com/badges/ccna-intro",
-        logo: "/images/certs/cisco.webp",
+        logo: "/src/assets/images/certs/cisco.webp",
       },
     ],
   },
@@ -199,7 +199,7 @@ export const certifications: CertificationCategory[] = [
         date: "December 2023",
         description:
           "Recognition awarded for outstanding academic performance throughout the Systems Engineering program, demonstrating excellence in coursework, research, and thesis defense.",
-        logo: "/images/certs/umss.webp",
+        logo: "/src/assets/images/certs/umss.webp",
       },
     ],
   },

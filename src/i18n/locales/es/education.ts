@@ -9,7 +9,7 @@ export const education: AcademicItem[] = [
     location: "Remoto",
     description:
       "Actualmente inscrito en estudios avanzados de inglés en Cambridge English Centre, enfocado en habilidades de comunicación profesional y académica, preparación de exámenes y desarrollo de fluidez.",
-    logo: "/images/certs/cec.webp",
+    logo: "/src/assets/images/certs/cec.webp",
   },
   {
     id: "umss-dip",
@@ -19,7 +19,7 @@ export const education: AcademicItem[] = [
     location: "Cochabamba, Bolivia",
     description:
       "Programa de posgrado especializado que cubre seguridad de la información, marcos de ciberseguridad, defensa de redes, evaluación de vulnerabilidades, hacking ético y gobernanza de seguridad alineada con estándares internacionales.",
-    logo: "/images/certs/posgradoumss.webp",
+    logo: "/src/assets/images/certs/posgradoumss.webp",
   },
   {
     id: "umss-lic",
@@ -29,6 +29,6 @@ export const education: AcademicItem[] = [
     location: "Cochabamba, Bolivia",
     description:
       "Programa integral de ingeniería de cinco años que abarca desarrollo de software, algoritmos, estructuras de datos, bases de datos, redes, sistemas operativos y gestión de proyectos de software. Graduado con proyecto de tesis sobre sistemas de información basados en web.",
-    logo: "/images/certs/umss.webp",
+    logo: "/src/assets/images/certs/umss.webp",
   },
 ];

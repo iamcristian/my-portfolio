@@ -16,8 +16,7 @@ const { item } = Astro.props;
 
 // Dynamically resolve optimized certificate image from src/assets/images/certs/
 const images = import.meta.glob<{ default: ImageMetadata }>("/src/assets/images/certs/*.{jpeg,jpg,png,gif,webp}");
-const assetPath = item.logo.replace("/images/certs/", "/src/assets/images/certs/");
-const imageImport = images[assetPath];
+const imageImport = images[item.logo];
 ---
 
 <div class="card card-side bg-base-200 border border-base-300 shadow-md p-4 flex gap-4 items-start">

@@ -16,12 +16,14 @@ export async function getStaticPaths() {
 
 const lang = getLang(Astro.currentLocale || Astro.params.lang);
 const { post } = Astro.props;
+
+const ogImage = post.data.image ? post.data.image.src : undefined;
 ---
 
 <Layout
   title={post.data.title}
   description={post.data.description}
-  image={post.data.image}
+  image={ogImage}
   type="article"
   publishDate={post.data.date}
   tags={post.data.tags}

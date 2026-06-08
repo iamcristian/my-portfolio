@@ -9,7 +9,7 @@ export const education: AcademicItem[] = [
     location: "リモート",
     description:
       "現在、ケンブリッジ・イングリッシュ・センターで上級英語を学んでおり、ビジネスおよびアカデミックなコミュニケーションスキル、試験対策、および流暢さの向上に焦点を当てています。",
-    logo: "/images/certs/cec.webp",
+    logo: "/src/assets/images/certs/cec.webp",
   },
   {
     id: "umss-dip",
@@ -19,7 +19,7 @@ export const education: AcademicItem[] = [
     location: "ボリビア、コチャバンバ",
     description:
       "情報セキュリティ、サイバーセキュリティフレームワーク、ネットワーク防御、脆弱性評価、エシカルハッキング、国際基準に準拠したセキュリティガバナンスをカバーする専門的なポストグラデュエートプログラム。",
-    logo: "/images/certs/posgradoumss.webp",
+    logo: "/src/assets/images/certs/posgradoumss.webp",
   },
   {
     id: "umss-lic",
@@ -29,6 +29,6 @@ export const education: AcademicItem[] = [
     location: "ボリビア、コチャバンバ",
     description:
       "ソフトウェア開発、アルゴリズム、データ構造、データベース、ネットワーク、オペレーティングシステム、ソフトウェアプロジェクト管理を網羅する包括的な5年間の工学プログラム。Webベースの情報システムに関する卒業論文プロジェクトを完了して卒業。",
-    logo: "/images/certs/umss.webp",
+    logo: "/src/assets/images/certs/umss.webp",
   },
 ];
