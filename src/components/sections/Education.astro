@@ -1,11 +1,11 @@
 ---
-import { useTranslations, getEducationForLang, getCertificationsForLang, getLanguagesForLang } from "../../i18n/utils";
-import { defaultLang } from "../../i18n/ui";
+import { getLang, useTranslations, getEducationForLang, getCertificationsForLang, getLanguagesForLang } from "../../i18n/utils";
+import SectionHeading from "../ui/SectionHeading.astro";
 import AcademicCard from "../ui/cards/AcademicCard.astro";
 import CertificationCard from "../ui/cards/CertificationCard.astro";
 import LanguageCard from "../ui/cards/LanguageCard.astro";
 
-const lang = (Astro.currentLocale || defaultLang) as any;
+const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
 
 const academicEducation = getEducationForLang(lang);
@@ -14,11 +14,7 @@ const localizedLanguages = getLanguagesForLang(lang);
 ---
 
 <section id="education" class="py-16 md:py-24 max-w-6xl mx-auto px-4 md:px-8">
-  <div class="text-center mb-12">
-    <span class="font-mono text-xs tracking-widest uppercase text-primary mb-2 block">{t("education.subtitle")}</span>
-    <h2 class="text-3xl lg:text-4xl font-bold">{t("education.title")}</h2>
-    <div class="w-12 h-1 bg-primary mt-3 mx-auto rounded-full"></div>
-  </div>
+  <SectionHeading subtitle={t("education.subtitle")} title={t("education.title")} />
   
   <!-- Main Radio-based CSS Tabs (Lifted) -->
   <div role="tablist" class="tabs tabs-lifted justify-center w-full">
@@ -37,7 +33,7 @@ const localizedLanguages = getLanguagesForLang(lang);
     <input type="radio" name="edu_tabs" role="tab" class="tab text-sm font-semibold text-nowrap" aria-label={t("education.tabCerts")} />
     <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6 space-y-6 max-h-[600px] overflow-y-auto">
       
-      <!-- Nested Sub-tabs for certification categories (CSS-only) -->
+      <!-- Nested Sub-tabs for certification categories -->
       <div role="tablist" class="tabs tabs-box justify-center w-full">
         
         <!-- Sub-Tab 1: All -->

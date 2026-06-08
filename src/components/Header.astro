@@ -1,12 +1,12 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
-import { useTranslations } from "../../i18n/utils";
-import { defaultLang } from "../../i18n/ui";
-import ThemeController from "./theme-controller.astro";
-import LanguageController from "./language-controller.astro";
-import MenuIcon from "../../assets/menu.svg";
+import { getLang, useTranslations } from "../i18n/utils";
+import ThemeController from "./ThemeController.astro";
+import LanguageController from "./LanguageController.astro";
+import MenuIcon from "../assets/menu.svg";
+import { SITE } from "../config/site";
 
-const lang = (Astro.currentLocale || defaultLang) as any;
+const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
 
 const homeUrl = getRelativeLocaleUrl(lang, "");
@@ -22,7 +22,7 @@ const NAV_LINKS = [
 ];
 ---
 
-<header class="navbar sticky top-0 z-50 backdrop-blur-md bg-base-200/80 border-b border-base-content/10 px-4 lg:px-8">
+<header class="navbar sticky top-0 z-50 backdrop-blur-md bg-base-200/80 border-b border-base-content/10">
   <!-- Navbar Start: Burger menu (mobile) + Name -->
   <div class="navbar-start">
     <div class="dropdown lg:hidden">
@@ -45,7 +45,7 @@ const NAV_LINKS = [
         }
       </ul>
     </div>
-    <a href={homeUrl} class="text-xl font-bold ml-2 lg:ml-0">Cristian Arando</a>
+    <a href={homeUrl} class="lg:text-xl font-bold ml-2 lg:ml-0">{SITE.name}</a>
   </div>
 
   <!-- Navbar Center: Navigation links (desktop) -->

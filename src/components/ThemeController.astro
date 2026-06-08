@@ -1,11 +1,10 @@
 ---
-import ChevronDown from "../../assets/chevron-down.svg";
-import Check from "../../assets/check.svg";
-import { useTranslations } from "../../i18n/utils";
-import { defaultLang } from "../../i18n/ui";
+import ChevronDown from "../assets/chevron-down.svg";
+import Check from "../assets/check.svg";
+import { getLang, useTranslations } from "../i18n/utils";
 
-const lang = Astro.currentLocale || defaultLang;
-const t = useTranslations(lang as any);
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
 
 const THEMES = [
   { key: "light", labelKey: "theme.light" },

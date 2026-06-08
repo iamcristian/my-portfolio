@@ -1,0 +1,42 @@
+---
+import { SITE } from "../../config/site";
+import GithubIcon from "../../assets/github.svg";
+import LinkedinIcon from "../../assets/linkedin.svg";
+
+interface Props {
+  /** Icon and button size */
+  size?: "sm" | "md";
+  /** Whether to show text labels next to icons */
+  showLabels?: boolean;
+  /** Additional CSS classes for the wrapper */
+  class?: string;
+}
+
+const { size = "md", showLabels = false, class: className } = Astro.props;
+
+const iconSize = size === "sm" ? "w-4 h-4" : "w-5 h-5";
+const btnSize = size === "sm" ? "" : "";
+---
+
+<div class:list={["flex gap-3", className]}>
+  <a
+    href={SITE.social.github}
+    target="_blank"
+    rel="noopener noreferrer"
+    class:list={["btn btn-ghost btn-circle", btnSize]}
+    aria-label="GitHub"
+  >
+    <GithubIcon class={iconSize} />
+    {showLabels && <span>GitHub</span>}
+  </a>
+  <a
+    href={SITE.social.linkedin}
+    target="_blank"
+    rel="noopener noreferrer"
+    class:list={["btn btn-ghost btn-circle", btnSize]}
+    aria-label="LinkedIn"
+  >
+    <LinkedinIcon class={iconSize} />
+    {showLabels && <span>LinkedIn</span>}
+  </a>
+</div>

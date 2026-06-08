@@ -1,8 +1,8 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
-import { useTranslations } from "../../../i18n/utils";
-import { defaultLang } from "../../../i18n/ui";
+import { getLang, useTranslations } from "../../../i18n/utils";
+import { getReadTime } from "../../../utils/blog";
 import CalendarIcon from "../../../assets/calendar.svg";
 import ClockIcon from "../../../assets/clock.svg";
 import ShieldIcon from "../../../assets/shield.svg";
@@ -17,7 +17,7 @@ interface Props {
 
 const { post, isFeatured = false, showFeaturedBadge = false, class: className, ...rest } = Astro.props;
 
-const lang = (Astro.currentLocale || defaultLang) as any;
+const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
 ---
 
@@ -39,7 +39,7 @@ const t = useTranslations(lang);
           </span>
           <span class="flex items-center gap-1">
             <ClockIcon class="w-4 h-4" />
-            <span>{Math.ceil((post.body || "").split(/\s+/).length / 200) || 1} {t("blog.readTime")}</span>
+            <span>{getReadTime(post.body)} {t("blog.readTime")}</span>
           </span>
         </div>
         <h3 class="card-title text-xl md:text-2xl font-bold">
@@ -86,7 +86,7 @@ const t = useTranslations(lang);
           </span>
           <span class="flex items-center gap-1">
             <ClockIcon class="w-3.5 h-3.5" />
-            <span>{Math.ceil((post.body || "").split(/\s+/).length / 200) || 1} {t("blog.readTime")}</span>
+            <span>{getReadTime(post.body)} {t("blog.readTime")}</span>
           </span>
         </div>
         <h3 class="card-title text-base font-bold leading-snug">

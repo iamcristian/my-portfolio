@@ -1,9 +1,9 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { render } from "astro:content";
+import { render, getCollection } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
-import { useTranslations } from "../../i18n/utils";
-import { getCollection } from "astro:content";
+import { getLang, useTranslations } from "../../i18n/utils";
+import { getReadTime } from "../../utils/blog";
 
 // SVGs
 import CalendarIcon from "../../assets/calendar.svg";
@@ -16,7 +16,8 @@ interface Props {
 }
 
 const { post, lang } = Astro.props;
-const t = useTranslations(lang as any);
+const langCode = getLang(lang);
+const t = useTranslations(langCode);
 
 // Render markdown content and retrieve headings
 const { Content, headings } = await render(post);
@@ -36,22 +37,22 @@ const nextPost = currentIndex > 0 ? langPosts[currentIndex - 1] : null;
 const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).format(post.data.date);
 ---
 
-<main class="max-w-6xl mx-auto px-4 md:px-8 py-12 min-h-screen">
+<main class="max-w-6xl mx-auto px-4 md:px-8 min-h-screen">
   <!-- Back to Blog Button -->
-  <div class="mb-8">
+  <div class="my-4 md:my-8">
     <a href={getRelativeLocaleUrl(lang, "blog")} class="btn btn-ghost btn-sm gap-2">
       &larr; {t("blog.back")}
     </a>
   </div>
 
   <!-- Article Header -->
-  <header class="max-w-3xl mb-10 space-y-4">
+  <header class="max-w-3xl space-y-4">
     <div class="flex flex-wrap gap-1.5">
       {post.data.tags.map((tag) => (
         <span class="badge badge-primary">{tag}</span>
       ))}
     </div>
-    <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight leading-tight">
+    <h1 class="text-xl md:text-3xl font-extrabold tracking-tight leading-tight">
       {post.data.title}
     </h1>
     <div class="flex items-center gap-4 text-xs opacity-60">
@@ -61,23 +62,26 @@ const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).forma
       </span>
       <span class="flex items-center gap-1">
         <ClockIcon class="w-4 h-4" />
-        <span>{Math.ceil((post.body || "").split(/\s+/).length / 200) || 1} {t("blog.readTime")}</span>
+        <span>{getReadTime(post.body)} {t("blog.readTime")}</span>
       </span>
     </div>
   </header>
 
-  <hr class="border-base-300 my-8" />
+  <hr class="border-base-300 my-4 md:my-8" />
 
   <!-- Content Layout Grid -->
   <div class="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-12 items-start">
     
-    <!-- Left Column: Markdown Content -->
-    <article class="prose max-w-none prose-headings:scroll-mt-24 prose-headings:font-bold prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl">
+        <!-- Left Column: Markdown Content -->
+    <div class="flex flex-col gap-6">
       {post.data.image && (
-        <img src={post.data.image} alt={post.data.title} class="w-full object-cover aspect-21/9 max-h-[300px] rounded-xl border border-base-300 shadow-md mb-8" />
+        <img src={post.data.image} alt={post.data.title} class="w-full object-cover aspect-21/9 max-h-[300px] rounded-xl border border-base-300 shadow-md" />
       )}
-      <Content />
-    </article>
+      <article class="prose prose-sm max-w-none prose-headings:scroll-mt-24 prose-headings:font-bold prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl">
+        <Content />
+      </article>
+    </div>
+
 
     <!-- Right Column: Sidebar Table of Contents (Desktop only) -->
     {tocHeadings.length > 0 && (
@@ -135,7 +139,7 @@ const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).forma
           </nav>
           <div class="modal-action">
             <form method="dialog">
-              <button class="btn btn-sm btn-outline">Close</button>
+              <button class="btn btn-sm btn-outline">{t("blog.close")}</button>
             </form>
           </div>
         </div>

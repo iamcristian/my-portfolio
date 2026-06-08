@@ -1,18 +1,14 @@
 ---
-import { useTranslations } from "../../i18n/utils";
-import { defaultLang } from "../../i18n/ui";
-
-// SVGs
+import { getLang, useTranslations } from "../../i18n/utils";
+import { SITE } from "../../config/site";
+import SocialLinks from "../ui/SocialLinks.astro";
 import DownloadIcon from "../../assets/download.svg";
 import MailIcon from "../../assets/mail.svg";
-import GithubIcon from "../../assets/github.svg";
-import LinkedinIcon from "../../assets/linkedin.svg";
 
-const lang = (Astro.currentLocale || defaultLang) as any;
+const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
 
-// CV filename mapping
-const cvPath = lang === "es" ? "/cv/cv_es.pdf" : "/cv/cv_en.pdf";
+const cvPath = SITE.cv[lang] || SITE.cv.en;
 ---
 
 <section id="home" class="hero min-h-[calc(100vh-4rem)] bg-base-100 relative overflow-hidden">
@@ -20,7 +16,7 @@ const cvPath = lang === "es" ? "/cv/cv_es.pdf" : "/cv/cv_en.pdf";
   <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px); background-size: 4rem 4rem;"></div>
   
   <div class="hero-content flex-col lg:flex-row gap-12 lg:gap-16 max-w-6xl w-full justify-between px-4 md:px-8 mx-auto">
-    <!-- Columna Izquierda: Texto y CTAs -->
+    <!-- Left Column: Text & CTAs -->
     <div class="flex flex-col gap-6 text-center lg:text-left max-w-xl">
       <div>
         <span class="font-mono text-sm tracking-widest uppercase text-primary font-semibold block mb-2">
@@ -39,30 +35,23 @@ const cvPath = lang === "es" ? "/cv/cv_es.pdf" : "/cv/cv_en.pdf";
         {t("home.tagline")}
       </p>
       
-      <!-- Botones CTA -->
+      <!-- CTA Buttons -->
       <div class="flex flex-wrap gap-4 justify-center lg:justify-start mt-4">
         <a href={cvPath} class="btn btn-primary gap-2" target="_blank">
           <DownloadIcon class="w-5 h-5" />
           <span>{t("home.downloadCv")}</span>
         </a>
-        <a href="mailto:crisarandosyse@gmail.com" class="btn btn-outline gap-2">
+        <a href={`mailto:${SITE.email}`} class="btn btn-outline gap-2">
           <MailIcon class="w-5 h-5" />
           <span>{t("home.contactMe")}</span>
         </a>
       </div>
       
-      <!-- Redes Sociales -->
-      <div class="flex justify-center lg:justify-start gap-3 mt-2">
-        <a href="https://github.com/iamcristian" target="_blank" class="btn btn-ghost btn-circle" aria-label="GitHub">
-          <GithubIcon class="w-5 h-5" />
-        </a>
-        <a href="https://linkedin.com/in/cristianarando" target="_blank" class="btn btn-ghost btn-circle" aria-label="LinkedIn">
-          <LinkedinIcon class="w-5 h-5" />
-        </a>
-      </div>
+      <!-- Social Links -->
+      <SocialLinks class="justify-center lg:justify-start mt-2" />
     </div>
     
-    <!-- Columna Derecha: Elemento Decorativo Flotante (Oculto en móvil) -->
+    <!-- Right Column: Decorative Element (Hidden on mobile) -->
     <div class="hidden lg:flex justify-center items-center relative w-80 h-80">
       <div class="absolute inset-0 rounded-full border border-base-content/10 animate-[spin_20s_linear_infinite]"></div>
       <div class="absolute inset-4 rounded-full border border-base-content/20 animate-[spin_15s_linear_infinite_reverse]"></div>

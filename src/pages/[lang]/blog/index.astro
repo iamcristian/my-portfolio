@@ -1,21 +1,16 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
-import Header from "../../../components/header/Header.astro";
+import Header from "../../../components/Header.astro";
 import BlogManager from "../../../components/blog/BlogManager.astro";
-import Footer from "../../../components/footer/Footer.astro";
-import { defaultLang } from "../../../i18n/ui";
+import Footer from "../../../components/Footer.astro";
+import { getLang } from "../../../i18n/utils";
+import { getLocaleStaticPaths } from "../../../config/paths";
 
 export function getStaticPaths() {
-  return [
-    { params: { lang: "en" } },
-    { params: { lang: "es" } },
-    { params: { lang: "de" } },
-    { params: { lang: "ru" } },
-    { params: { lang: "ja" } },
-  ];
+  return getLocaleStaticPaths();
 }
 
-const { lang = defaultLang } = Astro.params;
+const lang = getLang(Astro.currentLocale);
 ---
 
 <Layout>

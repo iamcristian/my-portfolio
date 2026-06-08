@@ -21,6 +21,7 @@ export const home = {
   "blog.searchPlaceholder": "Поиск статей...",
   "blog.noResults": "Статей не найдено.",
   "blog.back": "Назад в блог",
+  "blog.close": "Закрыть",
   "blog.toc": "Содержание",
   "blog.prev": "Предыдущая статья",
   "blog.next": "Следующая статья",

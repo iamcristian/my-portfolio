@@ -1,12 +1,4 @@
-export interface LanguageItem {
-  id: string;
-  name: string;
-  description: string;
-  fluency: string;
-  level: number;
-  logo: string;
-  color: string;
-}
+import type { LanguageItem } from "../../../types";
 
 export const languages: LanguageItem[] = [
   {

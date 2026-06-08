@@ -1,21 +1,14 @@
 ---
-import { useTranslations } from "../../../i18n/utils";
-import { defaultLang } from "../../../i18n/ui";
+import { getLang, useTranslations } from "../../../i18n/utils";
+import type { Certification } from "../../../types";
 
 interface Props {
-  item: {
-    logo: string;
-    institution: string;
-    title: string;
-    date: string;
-    description: string;
-    link?: string;
-  };
+  item: Certification;
 }
 
 const { item } = Astro.props;
 
-const lang = (Astro.currentLocale || defaultLang) as any;
+const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
 ---
 

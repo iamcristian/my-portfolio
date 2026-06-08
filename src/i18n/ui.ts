@@ -1,3 +1,6 @@
+// ── i18n UI translations registry ──
+// Merges all locale modules into a single lookup map.
+
 import { header as enHeader } from "./locales/en/header";
 import { header as esHeader } from "./locales/es/header";
 import { header as deHeader } from "./locales/de/header";
@@ -26,30 +29,13 @@ export const languages = {
 
 export const defaultLang = "en";
 
+/** All supported locale codes, derived from the languages map. */
+export const locales = Object.keys(languages) as (keyof typeof languages)[];
+
 export const ui = {
-  en: {
-    ...enHeader,
-    ...enHome,
-    ...enFooter,
-  },
-  es: {
-    ...esHeader,
-    ...esHome,
-    ...esFooter,
-  },
-  de: {
-    ...deHeader,
-    ...deHome,
-    ...deFooter,
-  },
-  ru: {
-    ...ruHeader,
-    ...ruHome,
-    ...ruFooter,
-  },
-  ja: {
-    ...jaHeader,
-    ...jaHome,
-    ...jaFooter,
-  },
+  en: { ...enHeader, ...enHome, ...enFooter },
+  es: { ...esHeader, ...esHome, ...esFooter },
+  de: { ...deHeader, ...deHome, ...deFooter },
+  ru: { ...ruHeader, ...ruHome, ...ruFooter },
+  ja: { ...jaHeader, ...jaHome, ...jaFooter },
 } as const;

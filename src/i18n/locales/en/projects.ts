@@ -1,15 +1,4 @@
-export interface Project {
-  id: string;
-  title: string;
-  description: string;
-  tech: string[];
-  category: "frontend" | "backend" | "fullstack";
-  github: string;
-  live?: string;
-  image: string;
-  featured: boolean;
-  date: string;
-}
+import type { Project } from "../../../types";
 
 export const projects: Project[] = [
   {

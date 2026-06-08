@@ -1,12 +1,4 @@
-export interface AcademicItem {
-  id: string;
-  title: string;
-  institution: string;
-  date: string;
-  location: string;
-  description: string;
-  logo: string;
-}
+import type { AcademicItem } from "../../../types";
 
 export const education: AcademicItem[] = [
   {

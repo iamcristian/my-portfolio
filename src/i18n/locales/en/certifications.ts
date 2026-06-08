@@ -1,18 +1,4 @@
-export interface Certification {
-  id: string;
-  title: string;
-  institution: string;
-  date: string;
-  description: string;
-  link?: string;
-  logo: string;
-}
-
-export interface CertificationCategory {
-  id: string;
-  name: string;
-  items: Certification[];
-}
+import type { CertificationCategory } from "../../../types";
 
 export const certifications: CertificationCategory[] = [
   {

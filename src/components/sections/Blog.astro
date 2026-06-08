@@ -1,13 +1,13 @@
 ---
 import { getCollection } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
-import { useTranslations } from "../../i18n/utils";
-import { defaultLang } from "../../i18n/ui";
+import { getLang, useTranslations } from "../../i18n/utils";
 import BlogCard from "../ui/cards/BlogCard.astro";
 import ChevronLeftIcon from "../../assets/chevron-left.svg";
 import ChevronRightIcon from "../../assets/chevron-right.svg";
+import SectionHeading from "../ui/SectionHeading.astro";
 
-const lang = (Astro.currentLocale || defaultLang) as any;
+const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
 
 // Fetch Blog Posts from Content Collection
@@ -33,11 +33,7 @@ const recentBlogPosts = sortedPosts.filter((p) => !featuredIds.has(p.id)).slice(
 ---
 
 <section id="blog" class="py-16 md:py-24 max-w-6xl mx-auto px-4 md:px-8">
-  <div class="text-center mb-12">
-    <span class="font-mono text-xs tracking-widest uppercase text-primary mb-2 block">{t("blog.subtitle")}</span>
-    <h2 class="text-3xl lg:text-4xl font-bold">{t("blog.title")}</h2>
-    <div class="w-12 h-1 bg-primary mt-3 mx-auto rounded-full"></div>
-  </div>
+  <SectionHeading subtitle={t("blog.subtitle")} title={t("blog.title")} />
 
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
     <!-- Row 1: Featured Carousel spanning all 3 columns in desktop -->

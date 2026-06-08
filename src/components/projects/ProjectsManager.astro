@@ -1,6 +1,7 @@
 ---
-import { useTranslations, getProjectsForLang } from "../../i18n/utils";
+import { getLang, useTranslations, getProjectsForLang } from "../../i18n/utils";
 import ProjectCard from "../ui/cards/ProjectCard.astro";
+import PageHeading from "../ui/PageHeading.astro";
 
 // SVGs
 import SearchIcon from "../../assets/search.svg";
@@ -13,19 +14,14 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const t = useTranslations(lang as any);
-const PROJECTS = getProjectsForLang(lang as any);
+const langCode = getLang(lang);
+const t = useTranslations(langCode);
+const PROJECTS = getProjectsForLang(langCode);
 ---
 
 <main class="max-w-6xl mx-auto px-4 py-12 flex flex-col gap-8 min-h-screen">
   <!-- Header -->
-  <div class="text-center space-y-4 max-w-2xl mx-auto">
-    <span class="font-mono text-xs tracking-widest uppercase text-primary font-semibold block">// {t("projects.title")}</span>
-    <h1 class="text-4xl font-extrabold tracking-tight bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
-      {t("projects.title")}
-    </h1>
-    <p class="text-md opacity-80">{t("projects.subtitlePage")}</p>
-  </div>
+  <PageHeading subtitle={t("projects.subtitle")} title={t("projects.title")} description={t("projects.subtitlePage")} />
 
   <!-- Controls: Search, View Toggle, Category Filters, Sort -->
   <div class="flex flex-col gap-6 bg-base-200 p-6 rounded-2xl border border-base-300">
@@ -112,213 +108,44 @@ const PROJECTS = getProjectsForLang(lang as any);
 </main>
 
 <script>
-  let currentView = "grid";
-  let currentCategory = "all";
-  let currentSort = "date-desc";
-  let searchQuery = "";
-  let currentPage = 1;
-  const itemsPerPage = 10;
+  import { initListManager } from "../../scripts/list-manager";
 
-  // Cache elements
-  const container = document.getElementById("projects-container") as HTMLElement;
-  const noResults = document.getElementById("no-results-state") as HTMLElement;
-  const paginationControls = document.getElementById("pagination-controls") as HTMLElement;
-  const allCards = Array.from(document.querySelectorAll(".project-card")) as HTMLElement[];
+  function setup() {
+    initListManager({
+      containerId: "projects-container",
+      cardSelector: ".project-card",
+      searchInputId: "projects-search",
+      sortSelectId: "projects-sort",
+      filterBtnSelector: "#category-filters .cat-btn",
+      filterAttr: "data-category",
+      gridBtnId: "view-grid-btn",
+      listBtnId: "view-list-btn",
+      noResultsId: "no-results-state",
+      paginationId: "pagination-controls",
+      itemsPerPage: 10,
+      hasFeatured: false,
 
-  const searchInput = document.getElementById("projects-search") as HTMLInputElement;
-  const sortSelect = document.getElementById("projects-sort") as HTMLSelectElement;
-  const catButtons = document.querySelectorAll(".cat-btn") as NodeListOf<HTMLElement>;
-  
-  const gridBtn = document.getElementById("view-grid-btn") as HTMLElement;
-  const listBtn = document.getElementById("view-list-btn") as HTMLElement;
+      // CSS class sets
+      gridContainerClass: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-h-[300px]",
+      listContainerClass: "flex flex-col gap-3",
+      gridCardClass: "project-card card card-compact bg-base-200 border border-base-300 shadow-xl overflow-hidden hover:-translate-y-1 transition-transform duration-300 flex flex-col h-full",
+      listCardClass: "project-card card bg-base-200 border border-base-300 shadow-sm p-4 hover:border-primary/55 transition-all flex flex-col md:flex-row items-center justify-between gap-4 w-full",
+      gridFigureClass: "project-figure relative h-48 bg-base-300 shrink-0 transition-all",
+      listFigureClass: "project-figure hidden",
+      gridBodyClass: "project-body card-body flex-1 flex flex-col justify-between p-5 transition-all",
+      listBodyClass: "project-body card-body flex-1 min-w-0 p-0 flex flex-col md:flex-row md:items-center md:justify-between gap-4 w-full",
+      gridFooterClass: "project-footer card-actions justify-start gap-2 pt-4 mt-auto border-t border-base-300",
+      listFooterClass: "project-footer flex gap-2 flex-shrink-0 border-t-0 pt-0 mt-0",
 
-  // View Switchers
-  function updateViewLayout() {
-    if (currentView === "grid") {
-      gridBtn.classList.add("btn-active");
-      listBtn.classList.remove("btn-active");
-      
-      container.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6";
-      allCards.forEach(card => {
-        card.className = "project-card card card-compact bg-base-200 border border-base-300 shadow-xl overflow-hidden hover:-translate-y-1 transition-all duration-300 flex flex-col h-full";
-        const fig = card.querySelector(".project-figure");
-        if (fig) fig.className = "project-figure relative h-48 bg-base-300 shrink-0 transition-all";
-        const body = card.querySelector(".project-body");
-        if (body) body.className = "project-body flex-1 flex flex-col justify-between p-5 transition-all";
-        const footer = card.querySelector(".project-footer");
-        if (footer) footer.className = "project-footer card-actions justify-start gap-2 pt-4 mt-auto border-t border-base-300";
-      });
-    } else {
-      listBtn.classList.add("btn-active");
-      gridBtn.classList.remove("btn-active");
-
-      container.className = "flex flex-col gap-3";
-      allCards.forEach(card => {
-        card.className = "project-card card bg-base-200 border border-base-300 shadow-sm p-4 hover:border-primary/55 transition-all flex flex-col md:flex-row items-center justify-between gap-4 w-full";
-        const fig = card.querySelector(".project-figure");
-        if (fig) fig.className = "project-figure hidden";
-        const body = card.querySelector(".project-body");
-        if (body) body.className = "project-body flex-1 min-w-0 p-0 flex flex-col md:flex-row md:items-center md:justify-between gap-4 w-full";
-        const footer = card.querySelector(".project-footer");
-        if (footer) footer.className = "project-footer flex gap-2 flex-shrink-0 border-t-0 pt-0 mt-0";
-      });
-    }
+      figureSelector: ".project-figure",
+      bodySelector: ".project-body",
+      footerSelector: ".project-footer"
+    });
   }
-
-  // Filter, Sort, Paginate
-  function processProjects() {
-    // 1. Filter
-    let filtered = allCards.filter(card => {
-      // Category match
-      const cat = card.getAttribute("data-category");
-      const categoryMatch = currentCategory === "all" || cat === currentCategory;
-
-      // Search match
-      const title = card.getAttribute("data-name") || "";
-      const tech = card.getAttribute("data-tech") || "";
-      const desc = card.getAttribute("data-description") || "";
-      const searchMatch = !searchQuery || 
-        title.includes(searchQuery) || 
-        tech.includes(searchQuery) || 
-        desc.includes(searchQuery);
-
-      return categoryMatch && searchMatch;
-    });
-
-    // 2. Sort
-    filtered.sort((a, b) => {
-      if (currentSort.startsWith("date")) {
-        const dateA = new Date(a.getAttribute("data-date") || "").getTime();
-        const dateB = new Date(b.getAttribute("data-date") || "").getTime();
-        return currentSort === "date-desc" ? dateB - dateA : dateA - dateB;
-      } else {
-        const nameA = a.getAttribute("data-name") || "";
-        const nameB = b.getAttribute("data-name") || "";
-        return currentSort === "name-asc" ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
-      }
-    });
-
-    // 3. Hide all first
-    allCards.forEach(c => c.classList.add("hidden"));
-
-    // 4. Handle Empty State
-    if (filtered.length === 0) {
-      noResults.classList.remove("hidden");
-      paginationControls.innerHTML = "";
-      return;
-    }
-    noResults.classList.add("hidden");
-
-    // 5. Paginate
-    const totalPages = Math.ceil(filtered.length / itemsPerPage);
-    if (currentPage > totalPages) currentPage = totalPages || 1;
-
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const paginated = filtered.slice(startIndex, endIndex);
-
-    // Show current page items and reorder in the DOM
-    paginated.forEach(c => {
-      c.classList.remove("hidden");
-      container.appendChild(c);
-    });
-
-    // Render pagination controls
-    renderPagination(totalPages);
-  }
-
-  function renderPagination(totalPages: number) {
-    paginationControls.innerHTML = "";
-    if (totalPages <= 1) return;
-
-    // Prev Button
-    const prevBtn = document.createElement("button");
-    prevBtn.className = "join-item btn btn-sm" + (currentPage === 1 ? " btn-disabled" : "");
-    prevBtn.innerHTML = "«";
-    prevBtn.addEventListener("click", () => {
-      if (currentPage > 1) {
-        currentPage--;
-        processProjects();
-        window.scrollTo({ top: container.offsetTop - 100, behavior: "smooth" });
-      }
-    });
-    paginationControls.appendChild(prevBtn);
-
-    // Page numbers
-    for (let i = 1; i <= totalPages; i++) {
-      const pageBtn = document.createElement("button");
-      pageBtn.className = `join-item btn btn-sm ${i === currentPage ? "btn-active btn-primary" : ""}`;
-      pageBtn.innerText = i.toString();
-      pageBtn.addEventListener("click", () => {
-        currentPage = i;
-        processProjects();
-        window.scrollTo({ top: container.offsetTop - 100, behavior: "smooth" });
-      });
-      paginationControls.appendChild(pageBtn);
-    }
-
-    // Next Button
-    const nextBtn = document.createElement("button");
-    nextBtn.className = "join-item btn btn-sm" + (currentPage === totalPages ? " btn-disabled" : "");
-    nextBtn.innerHTML = "»";
-    nextBtn.addEventListener("click", () => {
-      if (currentPage < totalPages) {
-        currentPage++;
-        processProjects();
-        window.scrollTo({ top: container.offsetTop - 100, behavior: "smooth" });
-      }
-    });
-    paginationControls.appendChild(nextBtn);
-  }
-
-  // Debounced Search Handler
-  let timer: number;
-  searchInput.addEventListener("input", (e) => {
-    clearTimeout(timer);
-    timer = window.setTimeout(() => {
-      searchQuery = (e.target as HTMLInputElement).value.toLowerCase().trim();
-      currentPage = 1;
-      processProjects();
-    }, 300); // 300ms debounce
-  });
-
-  // Sort Selector Change
-  sortSelect.addEventListener("change", (e) => {
-    currentSort = (e.target as HTMLSelectElement).value;
-    processProjects();
-  });
-
-  // Category Buttons Click
-  catButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      catButtons.forEach(b => {
-        b.classList.remove("btn-neutral", "active");
-        b.classList.add("btn-ghost");
-      });
-      btn.classList.add("btn-neutral", "active");
-      btn.classList.remove("btn-ghost");
-
-      currentCategory = btn.getAttribute("data-category") || "all";
-      currentPage = 1;
-      processProjects();
-    });
-  });
-
-  // View Layout Buttons Click
-  gridBtn.addEventListener("click", () => {
-    if (currentView !== "grid") {
-      currentView = "grid";
-      updateViewLayout();
-    }
-  });
-  listBtn.addEventListener("click", () => {
-    if (currentView !== "list") {
-      currentView = "list";
-      updateViewLayout();
-    }
-  });
 
   // Init
-  updateViewLayout();
-  processProjects();
+  setup();
+  
+  // Support Astro view transitions
+  document.addEventListener('astro:after-swap', setup);
 </script>

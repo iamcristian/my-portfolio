@@ -1,23 +1,18 @@
 ---
-import ChevronDown from "../../assets/chevron-down.svg";
-import Globe from "../../assets/globe.svg";
-import { languages, defaultLang } from "../../i18n/ui";
+import ChevronDown from "../assets/chevron-down.svg";
+import Globe from "../assets/globe.svg";
+import { languages } from "../i18n/ui";
+import { getLang } from "../i18n/utils";
 
-const currentLang = Astro.currentLocale || defaultLang;
+const currentLang = getLang(Astro.currentLocale);
 
-// Path matching segments for switching language of the current page
-const pathname = Astro.url.pathname; // e.g. "/es/blog/mi-post"
-const segments = pathname.split("/").filter(Boolean); // e.g. ["es", "blog", "mi-post"]
+const pathname = Astro.url.pathname;
+const segments = pathname.split("/").filter(Boolean);
 
 function getPathForLocale(targetLang: string) {
-  // If prefixDefaultLocale is true, all paths start with a locale.
-  // The first segment of segments will match one of the supported languages.
-  const hasLocalePrefix = Object.keys(languages).includes(segments[0]); // e.g. true (since "es" is in languages)
-  const restSegments = hasLocalePrefix ? segments.slice(1) : segments; // e.g. ["blog", "mi-post"]
-
-  // Construct new path with target locale prefix, and preserve trailing slash if present
-  const path = `/${targetLang}/${restSegments.join("/")}`; // e.g. "/en/blog/mi-post" (when targetLang is "en")
-  // Ensure we don't end up with dual slashes
+  const hasLocalePrefix = Object.keys(languages).includes(segments[0]);
+  const restSegments = hasLocalePrefix ? segments.slice(1) : segments;
+  const path = `/${targetLang}/${restSegments.join("/")}`;
   return path.replace(/\/+/g, "/");
 }
 ---
@@ -28,7 +23,7 @@ function getPathForLocale(targetLang: string) {
     aria-label="Language"
   >
     <Globe />
-    <span>{currentLang.toUpperCase()}</span>
+    <span class="text-xs">{currentLang.toUpperCase()}</span>
     <ChevronDown />
   </button>
   <div

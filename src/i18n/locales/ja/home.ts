@@ -21,6 +21,7 @@ export const home = {
   "blog.searchPlaceholder": "記事を検索...",
   "blog.noResults": "記事が見つかりませんでした。",
   "blog.back": "ブログに戻る",
+  "blog.close": "閉じる",
   "blog.toc": "目次",
   "blog.prev": "前の記事",
   "blog.next": "次の記事",
