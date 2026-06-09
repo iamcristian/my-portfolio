@@ -73,6 +73,16 @@ export const home = {
   "blog.next": "Next Article",
   "blog.subtitlePage":
     "Thoughts, tutorials, and articles on software development, security, and technology.",
+  "blog.filterDateRange": "Date Range",
+  "blog.dateAll": "All Time",
+  "blog.dateYesterday": "Yesterday",
+  "blog.dateWeek": "Past Week",
+  "blog.dateMonth": "Past Month",
+  "blog.dateYear": "Past Year",
+  "blog.dateCustom": "Custom Range...",
+  "blog.sortRelevance": "Relevance",
+  "blog.startDate": "Start Date",
+  "blog.endDate": "End Date",
   "contact.title": "Let's Work Together",
   "contact.subtitle": "// Contact",
   "contact.tagline":

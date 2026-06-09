@@ -32,8 +32,14 @@ export interface ListManagerConfig {
   bodySelector: string;
   footerSelector: string;
 
-  // Optional: featured items always first
+  // Optional: featured items always first (default when sorting by relevance)
   hasFeatured?: boolean;
+
+  // Optional: date range filtering elements
+  dateRangeSelectId?: string;
+  customDateContainerId?: string;
+  startDateInputId?: string;
+  endDateInputId?: string;
 }
 
 export function initListManager(config: ListManagerConfig) {
@@ -63,13 +69,11 @@ export function initListManager(config: ListManagerConfig) {
     bodySelector,
     footerSelector,
     hasFeatured = false,
+    dateRangeSelectId,
+    customDateContainerId,
+    startDateInputId,
+    endDateInputId,
   } = config;
-
-  let currentView = "grid";
-  let currentFilter = "all";
-  let currentSort = "date-desc";
-  let searchQuery = "";
-  let currentPage = 1;
 
   const container = document.getElementById(containerId);
   const noResults = document.getElementById(noResultsId);
@@ -89,6 +93,21 @@ export function initListManager(config: ListManagerConfig) {
   ) as NodeListOf<HTMLElement>;
   const gridBtn = document.getElementById(gridBtnId);
   const listBtn = document.getElementById(listBtnId);
+
+  const dateRangeSelect = dateRangeSelectId ? (document.getElementById(dateRangeSelectId) as HTMLSelectElement | null) : null;
+  const customDateContainer = customDateContainerId ? document.getElementById(customDateContainerId) : null;
+  const startDateInput = startDateInputId ? (document.getElementById(startDateInputId) as HTMLInputElement | null) : null;
+  const endDateInput = endDateInputId ? (document.getElementById(endDateInputId) as HTMLInputElement | null) : null;
+
+  let currentView = "grid";
+  let currentFilter = "all";
+  let currentSort = sortSelect ? sortSelect.value : "date-desc";
+  let searchQuery = "";
+  let currentPage = 1;
+
+  let currentDateRange = dateRangeSelect ? dateRangeSelect.value : "all";
+  let customStartDate = startDateInput ? startDateInput.value : "";
+  let customEndDate = endDateInput ? endDateInput.value : "";
 
   if (!container || !paginationControls) return;
 
@@ -146,17 +165,53 @@ export function initListManager(config: ListManagerConfig) {
         desc.includes(searchQuery) ||
         extra.includes(searchQuery);
 
-      return filterMatch && searchMatch;
+      // Date range filter
+      let dateMatch = true;
+      if (dateRangeSelect) {
+        const itemDateStr = card.getAttribute("data-date");
+        if (itemDateStr) {
+          const itemTime = new Date(itemDateStr).getTime();
+          const now = new Date().getTime();
+          
+          if (currentDateRange === "yesterday") {
+            dateMatch = itemTime >= now - 24 * 60 * 60 * 1000;
+          } else if (currentDateRange === "week") {
+            dateMatch = itemTime >= now - 7 * 24 * 60 * 60 * 1000;
+          } else if (currentDateRange === "month") {
+            dateMatch = itemTime >= now - 30 * 24 * 60 * 60 * 1000;
+          } else if (currentDateRange === "year") {
+            dateMatch = itemTime >= now - 365 * 24 * 60 * 60 * 1000;
+          } else if (currentDateRange === "custom") {
+            if (customStartDate) {
+              const startTime = new Date(customStartDate + "T00:00:00").getTime();
+              if (!isNaN(startTime) && itemTime < startTime) dateMatch = false;
+            }
+            if (customEndDate) {
+              const endTime = new Date(customEndDate + "T23:59:59").getTime();
+              if (!isNaN(endTime) && itemTime > endTime) dateMatch = false;
+            }
+          }
+        }
+      }
+
+      return filterMatch && searchMatch && dateMatch;
     });
 
-    // 2. Sort (featured first if enabled, then by chosen order)
+    // 2. Sort
     filtered.sort((a, b) => {
-      if (hasFeatured) {
+      // Relevance sort (featured first, then date descending)
+      if (currentSort === "relevance" && hasFeatured) {
         const featA = a.getAttribute("data-featured") === "true" ? 1 : 0;
         const featB = b.getAttribute("data-featured") === "true" ? 1 : 0;
         if (featA !== featB) return featB - featA;
+        
+        // Within the same featured status, sort by date-desc
+        const dateA = new Date(a.getAttribute("data-date") || "").getTime();
+        const dateB = new Date(b.getAttribute("data-date") || "").getTime();
+        return dateB - dateA;
       }
 
+      // Pure date sorting or name sorting
       if (currentSort.startsWith("date")) {
         const dateA = new Date(a.getAttribute("data-date") || "").getTime();
         const dateB = new Date(b.getAttribute("data-date") || "").getTime();
@@ -269,6 +324,30 @@ export function initListManager(config: ListManagerConfig) {
     processItems();
   });
 
+  // Date Range
+  dateRangeSelect?.addEventListener("change", (e) => {
+    currentDateRange = (e.target as HTMLSelectElement).value;
+    if (currentDateRange === "custom") {
+      customDateContainer?.classList.remove("hidden");
+    } else {
+      customDateContainer?.classList.add("hidden");
+    }
+    currentPage = 1;
+    processItems();
+  });
+
+  startDateInput?.addEventListener("input", (e) => {
+    customStartDate = (e.target as HTMLInputElement).value;
+    currentPage = 1;
+    processItems();
+  });
+
+  endDateInput?.addEventListener("input", (e) => {
+    customEndDate = (e.target as HTMLInputElement).value;
+    currentPage = 1;
+    processItems();
+  });
+
   // Filter buttons
   filterButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -301,6 +380,15 @@ export function initListManager(config: ListManagerConfig) {
       updateViewLayout();
     }
   });
+
+  // Init custom date container visibility
+  if (dateRangeSelect) {
+    if (dateRangeSelect.value === "custom") {
+      customDateContainer?.classList.remove("hidden");
+    } else {
+      customDateContainer?.classList.add("hidden");
+    }
+  }
 
   // Init
   updateViewLayout();
