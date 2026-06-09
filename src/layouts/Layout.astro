@@ -16,7 +16,7 @@ const lang = Astro.currentLocale || "en";
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang={lang} class="preload">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -45,6 +45,11 @@ const lang = Astro.currentLocale || "en";
     <script>
       import { themeChange } from "theme-change";
       themeChange();
+
+      // Remove preload class after page load to re-enable transitions
+      window.addEventListener("load", () => {
+        document.documentElement.classList.remove("preload");
+      });
     </script>
   </head>
   <body>

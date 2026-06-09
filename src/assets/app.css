@@ -4,10 +4,8 @@
   themes:
     light --default,
     business --prefersdark,
-    cyberpunk,
     dracula,
-    forest,
-    luxury;
+    forest;
   root: ":root";
   logs: false;
 }
@@ -106,4 +104,12 @@
   --border: 1px;
   --depth: 0;
   --noise: 0;
+}
+
+/* Prevent transitions on page load to improve TBT and eliminate non-composited animation warnings */
+.preload *,
+.preload *::before,
+.preload *::after {
+  transition: none !important;
+  animation: none !important;
 }
