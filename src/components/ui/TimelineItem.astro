@@ -30,8 +30,8 @@ const num = index + 1;
       isEven && "md:flex-row-reverse"
     ]}>
       <div>
-        <h3 class="text-lg font-bold text-primary">{title}</h3>
-        <p class="text-sm font-semibold opacity-75">
+        <h3 class="text-sm md:text-base font-bold text-primary">{title}</h3>
+        <p class="text-xs font-semibold opacity-75">
           {companyUrl ? (
             <a href={companyUrl} target="_blank" class="hover:underline">{company}</a>
           ) : (
@@ -39,9 +39,9 @@ const num = index + 1;
           )}
         </p>
       </div>
-      <span class="font-mono text-xs opacity-60">{date}</span>
+      <span class="font-mono text-[10px] sm:text-xs opacity-60">{date}</span>
     </div>
-    <p class="text-sm leading-relaxed mb-4">{description}</p>
+    <p class="text-xs leading-relaxed mb-4">{description}</p>
     <div class:list={[
       "flex flex-wrap gap-1.5",
       isEven && "md:justify-end"

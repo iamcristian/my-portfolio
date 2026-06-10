@@ -84,11 +84,6 @@ export const home = {
   "blog.sortRelevance": "Relevance",
   "blog.startDate": "Start Date",
   "blog.endDate": "End Date",
-  "contact.title": "Let's Work Together",
-  "contact.subtitle": "// Contact",
-  "contact.tagline":
-    "I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.",
-  "contact.sendEmail": "Send an Email",
 
   "lagrange.equilibrium": "SYSTEM.EQUILIBRIUM",
   "lagrange.active": "ACTIVE",

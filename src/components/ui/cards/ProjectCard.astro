@@ -46,11 +46,11 @@ const imageImport = images[project.image];
   </figure>
   <div class="project-body card-body flex-1 flex flex-col justify-between p-5 transition-all">
     <div class="space-y-3">
-      <h3 class="card-title text-lg hover:text-primary transition-colors project-title">{project.title}</h3>
-      <p class="text-sm opacity-80 line-clamp-3 leading-relaxed project-desc">{project.description}</p>
+      <h3 class="card-title text-sm md:text-base hover:text-primary transition-colors project-title">{project.title}</h3>
+      <p class="text-xs opacity-80 line-clamp-3 leading-relaxed project-desc">{project.description}</p>
       <div class="flex flex-wrap gap-1 mt-2">
         {project.tech.map((techItem) => (
-          <span class="badge badge-sm badge-neutral">{techItem}</span>
+          <span class="badge badge-xs badge-neutral">{techItem}</span>
         ))}
       </div>
     </div>

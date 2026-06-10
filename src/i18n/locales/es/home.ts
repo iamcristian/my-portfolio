@@ -83,11 +83,6 @@ export const home = {
   "blog.next": "Siguiente Artículo",
   "blog.subtitlePage":
     "Reflexiones, tutoriales y artículos sobre desarrollo de software, seguridad y tecnología.",
-  "contact.title": "Trabajemos Juntos",
-  "contact.subtitle": "// Contacto",
-  "contact.tagline":
-    "Siempre estoy abierto a discutir nuevos proyectos, ideas creativas u oportunidades para ser parte de tu visión.",
-  "contact.sendEmail": "Enviar un Email",
   "lagrange.equilibrium": "SISTEMA.EQUILIBRIO",
   "lagrange.active": "ACTIVO",
   "lagrange.title": "ÓRBITA_SISTEMA",

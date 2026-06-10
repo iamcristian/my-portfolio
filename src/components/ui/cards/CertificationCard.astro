@@ -24,15 +24,15 @@ const imageImport = images[item.logo]!;
     </div>
   </div>
   <div class="flex-1 min-w-0">
-    <h5 class="font-bold text-sm leading-snug group-hover:text-primary transition-colors">{item.title}</h5>
-    <p class="text-xs opacity-75 mt-0.5">{item.institution} · {item.date}</p>
+    <h5 class="font-bold text-xs md:text-sm leading-snug group-hover:text-primary transition-colors">{item.title}</h5>
+    <p class="text-[10px] sm:text-xs opacity-75 mt-0.5">{item.institution} · {item.date}</p>
     <p class="text-xs mt-2 opacity-80 leading-relaxed">{item.description}</p>
     {item.link && (
       <a
         href={item.link}
         target="_blank"
         rel="noopener noreferrer"
-        class="link link-primary text-xs font-semibold inline-flex items-center gap-1 mt-2 hover:underline"
+        class="link link-primary text-[10px] sm:text-xs font-semibold inline-flex items-center gap-1 mt-2 hover:underline"
       >
         {t("education.viewCredential")} &rarr;
       </a>

@@ -8,13 +8,13 @@ const lang = getLang(Astro.currentLocale || Astro.params.lang);
 const t = useTranslations(lang);
 ---
 
-<section id="about" class="py-16 md:py-24 max-w-6xl mx-auto px-4 md:px-8">
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16 items-center">
+<section id="about" class="py-10 md:py-20 lg:py-24 max-w-6xl mx-auto px-4 md:px-8">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 lg:gap-16 items-center">
     <!-- Info Column -->
-    <div class="lg:col-span-2 space-y-6">
+    <div class="md:col-span-2 space-y-5 md:space-y-6">
       <SectionHeading subtitle={t("about.subtitle")} title={t("about.title")} centered={false} />
       
-      <div class="space-y-4 opacity-90 leading-relaxed">
+      <div class="space-y-3 md:space-y-4 opacity-90 leading-relaxed text-xs md:text-sm">
         <p>{t("about.p1")}</p>
         <p>{t("about.p2")}</p>
         <p>{t("about.p3")}</p>
@@ -25,34 +25,34 @@ const t = useTranslations(lang);
       </div>
       
       <!-- Metric Cards -->
-      <div class="stats stats-vertical md:stats-horizontal shadow bg-base-200 w-full mt-6">
-        <div class="stat place-items-center text-center">
-          <div class="stat-value text-primary">{t("about.expValue")}</div>
-          <div class="stat-title text-sm mt-1">{t("about.expTitle")}</div>
+      <div class="stats stats-horizontal shadow bg-base-200 w-full mt-4 md:mt-6">
+        <div class="stat place-items-center text-center p-3 sm:p-4 md:p-6">
+          <div class="stat-value text-primary text-xl sm:text-2xl md:text-3xl lg:text-4xl">{t("about.expValue")}</div>
+          <div class="stat-title text-[10px] sm:text-xs md:text-sm mt-1 whitespace-normal leading-tight">{t("about.expTitle")}</div>
         </div>
-        <div class="stat place-items-center text-center">
-          <div class="stat-value text-secondary">{t("about.passionValue")}</div>
-          <div class="stat-title text-sm mt-1">{t("about.passionTitle")}</div>
+        <div class="stat place-items-center text-center p-3 sm:p-4 md:p-6">
+          <div class="stat-value text-secondary text-xl sm:text-2xl md:text-3xl lg:text-4xl">{t("about.passionValue")}</div>
+          <div class="stat-title text-[10px] sm:text-xs md:text-sm mt-1 whitespace-normal leading-tight">{t("about.passionTitle")}</div>
         </div>
-        <div class="stat place-items-center text-center">
-          <div class="stat-value text-accent">{t("about.stratValue")}</div>
-          <div class="stat-title text-sm mt-1">{t("about.stratTitle")}</div>
+        <div class="stat place-items-center text-center p-3 sm:p-4 md:p-6">
+          <div class="stat-value text-accent text-xl sm:text-2xl md:text-3xl lg:text-4xl">{t("about.stratValue")}</div>
+          <div class="stat-title text-[10px] sm:text-xs md:text-sm mt-1 whitespace-normal leading-tight">{t("about.stratTitle")}</div>
         </div>
       </div>
     </div>
     
     <!-- Photo Column -->
-    <div class="flex justify-center">
+    <div class="flex justify-center mt-4 md:mt-0">
       <div class="relative">
-        <div class="absolute -inset-4 rounded-2xl border border-base-content/10 opacity-60"></div>
-        <div class="absolute -inset-8 rounded-3xl border border-base-content/5 opacity-40"></div>
+        <div class="absolute -inset-2 sm:-inset-4 rounded-2xl border border-base-content/10 opacity-60"></div>
+        <div class="absolute -inset-4 sm:-inset-8 rounded-3xl border border-base-content/5 opacity-40"></div>
         
-        <div class="relative w-64 h-64 lg:w-72 lg:h-72 rounded-2xl overflow-hidden shadow-2xl border border-base-300">
+        <div class="relative w-44 h-44 sm:w-56 sm:h-56 lg:w-72 lg:h-72 rounded-2xl overflow-hidden shadow-2xl border border-base-300">
           <Image src={meImage} alt="Cristian Arando" width={300} height={300} class="w-full h-full object-cover" />
         </div>
         
-        <div class="absolute -bottom-2 -right-2 w-6 h-6 border-b-2 border-r-2 border-primary rounded-br-lg"></div>
-        <div class="absolute -top-2 -left-2 w-6 h-6 border-t-2 border-l-2 border-primary rounded-tl-lg"></div>
+        <div class="absolute -bottom-1 sm:-bottom-2 -right-1 sm:-right-2 w-6 h-6 border-b-2 border-r-2 border-primary rounded-br-lg"></div>
+        <div class="absolute -top-1 sm:-top-2 -left-1 sm:-left-2 w-6 h-6 border-t-2 border-l-2 border-primary rounded-tl-lg"></div>
       </div>
     </div>
   </div>
