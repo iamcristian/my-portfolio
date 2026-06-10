@@ -3,8 +3,8 @@ import { getCollection } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { getLang, useTranslations } from "../../i18n/utils";
 import BlogCard from "../ui/cards/BlogCard.astro";
-import ChevronLeftIcon from "../../assets/chevron-left.svg";
-import ChevronRightIcon from "../../assets/chevron-right.svg";
+import ChevronLeftIcon from "../../assets/icons/chevron-left.svg";
+import ChevronRightIcon from "../../assets/icons/chevron-right.svg";
 import SectionHeading from "../ui/SectionHeading.astro";
 
 const lang = getLang(Astro.currentLocale || Astro.params.lang);

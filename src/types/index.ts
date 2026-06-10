@@ -59,6 +59,8 @@ export interface SkillCategory {
   id: string;
   name: string;
   items: string[];
+  icon?: string;
+  description?: string;
 }
 
 /** A single work-experience entry for the timeline. */

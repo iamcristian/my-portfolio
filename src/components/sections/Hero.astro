@@ -2,8 +2,8 @@
 import { getLang, useTranslations } from "../../i18n/utils";
 import { SITE } from "../../config/site";
 import SocialLinks from "../ui/SocialLinks.astro";
-import DownloadIcon from "../../assets/download.svg";
-import MailIcon from "../../assets/mail.svg";
+import DownloadIcon from "../../assets/icons/download.svg";
+import MailIcon from "../../assets/icons/mail.svg";
 
 const lang = getLang(Astro.currentLocale || Astro.params.lang);
 const t = useTranslations(lang);
