@@ -1,26 +1,27 @@
 export const home = {
   "home.hello": "Hola, soy",
   "home.name": "Cristian Arando",
-  "home.subtitle": "Desarrollador de Software Full Stack",
+  "home.subtitle": "Ingeniero de Software y Sistemas",
   "home.tagline":
-    "Estratega apasionado por resolver problemas complejos con tecnología",
+    "Diseño de sistemas de software mediante estructura, modularidad y una cuidadosa descomposición de la complejidad",
   "home.downloadCv": "Descargar CV",
   "home.contactMe": "Contáctame",
-  "site.title": "Cristian Arando — Desarrollador Full Stack",
-  "site.description": "Estratega apasionado por resolver problemas complejos con tecnología. Portafolio que muestra proyectos full-stack, artículos de blog y experiencia profesional.",
+  "site.title": "Cristian Arando | Ingeniero de Software y Sistemas",
+  "site.description":
+    "Ingeniero de Software y Sistemas enfocado en diseñar y construir sistemas web escalables. Priorizo el diseño de sistemas, la arquitectura y la calidad del software, utilizando tecnologías modernas como herramientas de implementación en lugar de definir restricciones.",
   "about.title": "Sobre Mí",
   "about.subtitle": "// Sobre Mí",
   "about.p1":
-    "Estratega dedicado a convertir ideas ambiciosas en realidad a través de la tecnología. Mi enfoque combina el pensamiento analítico y la innovación para resolver problemas complejos y entregar soluciones que destaquen.",
+    "Soy un Ingeniero de Software y Sistemas enfocado en diseñar y construir sistemas web full-stack. Mi trabajo enfatiza la claridad, el rendimiento y la mantenibilidad a largo plazo mediante un diseño de sistemas reflexivo.",
   "about.p2":
-    "Mi experiencia se centra en el desarrollo web moderno con Next.js, React, NestJS, Express y TypeScript. Disfruto explorando donde la tecnología se encuentra con la realidad, y me apasionan los videojuegos y los libros filosóficos, siempre buscando nuevas formas de expandir mi perspectiva y habilidades.",
+    "Mi enfoque prioriza los sistemas antes que la tecnología. Pienso en términos de diseño de sistemas, límites de API, arquitectura modular y estructura mantenible. Las tecnologías son detalles de implementación; los principios de diseño definen el sistema.",
   "about.p3":
-    "Con base en Cochabamba, Bolivia, aporto una perspectiva única a cada proyecto, siempre esforzándome por crear soluciones que sean significativas e impactantes. Creo en el aprendizaje continuo y en encontrar inspiración en intereses diversos para impulsar mi trabajo.",
+    "Estudio activamente arquitectura de software y prácticas de diseño de sistemas, incluyendo diseño de APIs, principios de Clean Architecture, Metodologías Ágiles y más. Complemento esto con literatura técnica para profundizar mi comprensión sobre cómo se estructuran y evolucionan los sistemas escalables.",
   "about.location": "Cochabamba, Bolivia",
   "about.expValue": "1+",
   "about.expTitle": "Años de Experiencia",
   "about.passionValue": "100%",
-  "about.passionTitle": "Impulsado por la Pasión",
+  "about.passionTitle": "Enfoque Analítico",
   "about.stratValue": "S+",
   "about.stratTitle": "Pensamiento Estratégico",
   "education.title": "Educación",
@@ -50,7 +51,7 @@ export const home = {
   "projects.backend": "Backend",
   "projects.fullstack": "Fullstack",
   "projects.subtitlePage":
-    "Una selección de proyectos que muestran mi trabajo en desarrollo web, backend y full stack.",
+    "Una selección de sistemas de software y proyectos de ingeniería enfocados en arquitectura, lógica de backend y diseño práctico de sistemas.",
   "projects.viewGrid": "Vista Rejilla",
   "projects.viewList": "Vista Lista",
   "projects.sortBy": "Ordenar por",
@@ -85,7 +86,7 @@ export const home = {
   "blog.prev": "Artículo Anterior",
   "blog.next": "Siguiente Artículo",
   "blog.subtitlePage":
-    "Reflexiones, tutoriales y artículos sobre desarrollo de software, seguridad y tecnología.",
+    "Reflexiones, notas de aprendizaje y exploraciones sobre software, inteligencia artificial, ciberseguridad, filosofía y aprendizaje de idiomas.",
   "lagrange.equilibrium": "SISTEMA.EQUILIBRIO",
   "lagrange.active": "ACTIVO",
   "lagrange.title": "ÓRBITA_SISTEMA",

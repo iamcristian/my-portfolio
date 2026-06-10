@@ -12,8 +12,6 @@ export const header = {
   "language.title": "言語変更",
   "theme.light": "ライト",
   "theme.dark": "ダーク",
-  "theme.cyberpunk": "サイバーパンク",
   "theme.dracula": "ドラキュラ",
   "theme.forest": "フォレスト",
-  "theme.luxury": "ラグジュアリー",
 } as const;

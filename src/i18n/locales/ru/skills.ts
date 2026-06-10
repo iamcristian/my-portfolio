@@ -43,4 +43,18 @@ export const skills: SkillCategory[] = [
     description: "Защита приложений, сканирование уязвимостей и сети",
     items: ["OWASP", "API Security", "Penetration Testing", "Network Security"],
   },
+  {
+    id: "ai",
+    name: "ИИ и агентные системы",
+    icon: "sparkles",
+    description: "Генеративный ИИ и архитектуры интеллектуальных агентов",
+    items: ["Model Context Protocol (MCP)", "Промпт-инжиниринг", "Агентные рабочие процессы", "Skills"],
+  },
+  {
+    id: "soft-skills",
+    name: "Гибкие навыки",
+    icon: "brain",
+    description: "Межличностные качества и профессиональное мышление для эффективного сотрудничества",
+    items: ["Лидерство", "Ассертивная коммуникация", "Решение проблем", "Адаптивность"],
+  },
 ];

@@ -1,9 +1,14 @@
 export const footer = {
-  "footer.tagline": "Building digital experiences with passion and precision.",
+  "footer.tagline":
+    "Software & Systems Engineer focused on building structured, maintainable, and purpose-driven software systems.",
+
   "footer.quickLinks": "Quick Links",
   "footer.connect": "Connect",
-  "footer.collaborate": "Let's Collaborate",
-  "footer.collaborateText": "Have a project in mind? Let's create something extraordinary together.",
+
+  "footer.collaborate": "Let’s Build Systems",
+  "footer.collaborateText":
+    "Open to collaboration on software systems, explorations in AI, security, and software design.",
+
   "footer.rights": "© 2026 {name}",
   "footer.backToTop": "Back to top",
   "footer.email": "Email",
