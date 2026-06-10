@@ -8,7 +8,13 @@ export const experience: ExperienceItem[] = [
     companyUrl: "https://xpanddigital.com/",
     date: "October 2024 – February 2025",
     description:
-      "Designed and implemented scalable backend services using NestJS with microservices architecture. Built event-driven systems using RabbitMQ for service communication. Developed RESTful APIs with PostgreSQL, implemented authentication flows, containerized services with Docker, and maintained CI/CD pipelines for automated deployments.",
+      "Designed and implemented scalable backend services using NestJS and a microservices architecture.",
+    responsibilities: [
+      "Built event-driven systems using RabbitMQ for service communication",
+      "Developed secure, high-performance RESTful APIs integrated with PostgreSQL",
+      "Implemented robust user authentication and authorization flows",
+      "Containerized services with Docker and maintained CI/CD pipelines for automated deployments",
+    ],
     tags: ["NestJS", "PostgreSQL", "Docker", "TypeScript", "RabbitMQ"],
   },
   {
@@ -18,7 +24,13 @@ export const experience: ExperienceItem[] = [
     companyUrl: "https://xpanddigital.com/",
     date: "March 2024 – September 2024",
     description:
-      "Developed full-stack web applications using Next.js and React for the frontend with server-side rendering and static generation. Built backend APIs with NestJS, managed PostgreSQL databases, styled interfaces with Tailwind CSS, and deployed containerized applications using Docker in production environments.",
+      "Developed full-stack web applications using Next.js and React for the frontend with backend services in NestJS.",
+    responsibilities: [
+      "Built responsive, user-friendly frontend interfaces with Next.js (SSR/SSG) and React",
+      "Designed and implemented robust backend APIs using NestJS",
+      "Managed PostgreSQL databases and designed optimized schemas",
+      "Styled interfaces with Tailwind CSS and deployed containerized services using Docker",
+    ],
     tags: ["Next.js", "React", "NestJS", "PostgreSQL", "Tailwind CSS", "Docker"],
   },
   {
@@ -27,7 +39,13 @@ export const experience: ExperienceItem[] = [
     company: "Universidad Mayor de San Simón",
     date: "February 2023 – December 2023",
     description:
-      "Developed a web-based information system as part of the undergraduate thesis project. Built the backend with Python and Flask following clean architecture principles, created interactive frontend interfaces with React, and designed the database schema in PostgreSQL. Conducted requirements analysis, system design, testing, and documentation.",
+      "Developed a web-based information system as part of the undergraduate thesis project.",
+    responsibilities: [
+      "Built backend APIs with Python and Flask following clean architecture principles",
+      "Created interactive and dynamic user interfaces with React",
+      "Designed and optimized database schemas in PostgreSQL",
+      "Conducted comprehensive requirements analysis, testing, and system documentation",
+    ],
     tags: ["Python", "Flask", "React", "PostgreSQL"],
   },
   {
@@ -36,7 +54,13 @@ export const experience: ExperienceItem[] = [
     company: "Sorelcom SRL",
     date: "June 2022 – November 2022",
     description:
-      "Contributed to web development projects by building responsive websites and internal tools. Developed dynamic pages with HTML, CSS, and JavaScript, implemented server-side logic with PHP, managed MySQL databases, and collaborated with the team using version control and agile methodologies.",
+      "Contributed to web development projects by building responsive websites and internal tools.",
+    responsibilities: [
+      "Developed dynamic and responsive pages using HTML, CSS, and JavaScript",
+      "Implemented server-side business logic and APIs with PHP",
+      "Managed and queried MySQL databases for internal web tools",
+      "Collaborated with team members using version control (Git) and agile methodologies",
+    ],
     tags: ["HTML", "CSS", "JavaScript", "PHP", "MySQL"],
   },
 ];

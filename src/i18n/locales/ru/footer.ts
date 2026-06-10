@@ -4,7 +4,7 @@ export const footer = {
   "footer.connect": "Связаться",
   "footer.collaborate": "Давайте сотрудничать",
   "footer.collaborateText": "Есть проект на примете? Давайте создадим что-то необыкновенное вместе.",
-  "footer.rights": "© 2026 Cristian Arando",
+  "footer.rights": "© 2026 {name}",
   "footer.backToTop": "Наверх",
   "footer.email": "Эл. почта",
 } as const;

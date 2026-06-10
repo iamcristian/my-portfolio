@@ -24,6 +24,11 @@ export interface AcademicItem {
   location: string;
   description: string;
   logo: string;
+  gpa?: string;
+  link?: {
+    text: string;
+    url: string;
+  };
 }
 
 /** A single certification entry. */
@@ -71,5 +76,6 @@ export interface ExperienceItem {
   companyUrl?: string;
   date: string;
   description: string;
+  responsibilities: string[];
   tags: string[];
 }

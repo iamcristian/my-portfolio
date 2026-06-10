@@ -20,6 +20,11 @@ export const education: AcademicItem[] = [
     description:
       "情報セキュリティ、サイバーセキュリティフレームワーク、ネットワーク防御、脆弱性評価、エシカルハッキング、国際基準に準拠したセキュリティガバナンスをカバーする専門的なポストグラデュエートプログラム。",
     logo: "/src/assets/images/certs/posgradoumss.webp",
+    gpa: "90/100",
+    link: {
+      text: "掲載記事を読む（最終プロジェクト）",
+      url: "blog/my-final-project",
+    },
   },
   {
     id: "umss-lic",
@@ -30,5 +35,6 @@ export const education: AcademicItem[] = [
     description:
       "ソフトウェア開発、アルゴリズム、データ構造、データベース、ネットワーク、オペレーティングシステム、ソフトウェアプロジェクト管理を網羅する包括的な5年間の工学プログラム。Webベースの情報システムに関する卒業論文プロジェクトを完了して卒業。",
     logo: "/src/assets/images/certs/umss.webp",
+    gpa: "85/100",
   },
 ];

@@ -20,6 +20,11 @@ export const education: AcademicItem[] = [
     description:
       "Programa de posgrado especializado que cubre seguridad de la información, marcos de ciberseguridad, defensa de redes, evaluación de vulnerabilidades, hacking ético y gobernanza de seguridad alineada con estándares internacionales.",
     logo: "/src/assets/images/certs/posgradoumss.webp",
+    gpa: "90/100",
+    link: {
+      text: "Ver publicación (Mi Proyecto Final)",
+      url: "blog/my-final-project",
+    },
   },
   {
     id: "umss-lic",
@@ -30,5 +35,6 @@ export const education: AcademicItem[] = [
     description:
       "Programa integral de ingeniería de cinco años que abarca desarrollo de software, algoritmos, estructuras de datos, bases de datos, redes, sistemas operativos y gestión de proyectos de software. Graduado con proyecto de tesis sobre sistemas de información basados en web.",
     logo: "/src/assets/images/certs/umss.webp",
+    gpa: "85/100",
   },
 ];

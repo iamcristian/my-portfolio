@@ -20,6 +20,11 @@ export const education: AcademicItem[] = [
     description:
       "Spezialisiertes Postgraduiertenprogramm, das Informationssicherheit, Cybersicherheits-Frameworks, Netzwerkverteidigung, Schwachstellenbewertung, ethisches Hacken und Sicherheits-Governance gemäß internationalen Standards abdeckt.",
     logo: "/src/assets/images/certs/posgradoumss.webp",
+    gpa: "90/100",
+    link: {
+      text: "Beitrag lesen (Mein Abschlussprojekt)",
+      url: "blog/my-final-project",
+    },
   },
   {
     id: "umss-lic",
@@ -30,5 +35,6 @@ export const education: AcademicItem[] = [
     description:
       "Umfassendes fünfjähriges Ingenieurstudium in den Bereichen Softwareentwicklung, Algorithmen, Datenstrukturen, Datenbanken, Netzwerke, Betriebssysteme und Softwareprojektmanagement. Abschluss mit einer Bachelorarbeit über webbasierte Informationssysteme.",
     logo: "/src/assets/images/certs/umss.webp",
+    gpa: "85/100",
   },
 ];

@@ -8,7 +8,13 @@ export const experience: ExperienceItem[] = [
     companyUrl: "https://xpanddigital.com/",
     date: "Oktober 2024 – Februar 2025",
     description:
-      "Konzeption und Implementierung skalierbarer Backend-Dienste mit NestJS unter Verwendung einer Microservice-Architektur. Aufbau ereignisgesteuerter Systeme mit RabbitMQ für die Service-Kommunikation. Entwicklung von RESTful APIs mit PostgreSQL, Implementierung von Authentifizierungs-Flows, Containerisierung von Diensten mit Docker und Pflege von CI/CD-Pipelines für automatisierte Deployments.",
+      "Konzeption und Implementierung skalierbarer Backend-Dienste mit NestJS unter Verwendung einer Microservice-Architektur.",
+    responsibilities: [
+      "Aufbau ereignisgesteuerter Systeme mit RabbitMQ für die Service-Kommunikation",
+      "Entwicklung sicherer und hochperformanter RESTful APIs mit PostgreSQL",
+      "Implementierung robuster Authentifizierungs- und Autorisierungs-Flows",
+      "Containerisierung von Diensten mit Docker und Pflege von CI/CD-Pipelines für automatisierte Deployments",
+    ],
     tags: ["NestJS", "PostgreSQL", "Docker", "TypeScript", "RabbitMQ"],
   },
   {
@@ -18,7 +24,13 @@ export const experience: ExperienceItem[] = [
     companyUrl: "https://xpanddigital.com/",
     date: "März 2024 – September 2024",
     description:
-      "Entwicklung von Full-Stack-Webanwendungen mit Next.js und React für das Frontend mit serverseitigem Rendering und statischer Generierung. Erstellung von Backend-APIs mit NestJS, Verwaltung von PostgreSQL-Datenbanken, Gestaltung von Benutzeroberflächen mit Tailwind CSS und Bereitstellung containerisierter Anwendungen mit Docker in Produktionsumgebungen.",
+      "Entwicklung von Full-Stack-Webanwendungen mit Next.js und React für das Frontend mit Backend-Diensten in NestJS.",
+    responsibilities: [
+      "Aufbau responsiver und benutzerfreundlicher Frontend-Schnittstellen mit Next.js (SSR/SSG) und React",
+      "Konzeption und Implementierung robuster Backend-APIs mit NestJS",
+      "Verwaltung von PostgreSQL-Datenbanken und Entwurf optimaler Schemata",
+      "Gestaltung von Benutzeroberflächen mit Tailwind CSS und Bereitstellung containerisierter Dienste mit Docker",
+    ],
     tags: ["Next.js", "React", "NestJS", "PostgreSQL", "Tailwind CSS", "Docker"],
   },
   {
@@ -27,7 +39,13 @@ export const experience: ExperienceItem[] = [
     company: "Universidad Mayor de San Simón",
     date: "Februar 2023 – Dezember 2023",
     description:
-      "Entwicklung eines webbasierten Informationssystems im Rahmen des Bachelor-Thesis-Projekts. Erstellung des Backends mit Python und Flask nach Prinzipien der Clean Architecture, Gestaltung interaktiver Frontend-Benutzeroberflächen mit React und Entwurf des Datenbankschemas in PostgreSQL. Durchführung von Anforderungsanalysen, Systemdesign, Tests und Dokumentation.",
+      "Entwicklung eines webbasierten Informationssystems im Rahmen des Bachelor-Thesis-Projekts.",
+    responsibilities: [
+      "Erstellung von Backend-APIs mit Python und Flask nach Prinzipien der Clean Architecture",
+      "Gestaltung interaktiver und dynamischer Benutzeroberflächen mit React",
+      "Entwurf und Optimierung von Datenbankschemata in PostgreSQL",
+      "Durchführung umfassender Anforderungsanalysen, Tests und Systemdokumentation",
+    ],
     tags: ["Python", "Flask", "React", "PostgreSQL"],
   },
   {
@@ -36,7 +54,13 @@ export const experience: ExperienceItem[] = [
     company: "Sorelcom SRL",
     date: "Juni 2022 – November 2022",
     description:
-      "Mitwirkung an Webentwicklungsprojekten durch die Erstellung responsiver Websites und interner Tools. Entwicklung dynamischer Seiten mit HTML, CSS und JavaScript, Implementierung serverseitiger Logik mit PHP, Verwaltung von MySQL-Datenbanken und Zusammenarbeit im Team mittels Versionskontrolle und agiler Methoden.",
+      "Mitwirkung an Webentwicklungsprojekten durch die Erstellung responsiver Websites und interner Tools.",
+    responsibilities: [
+      "Entwicklung dynamischer und responsiver Webseiten mit HTML, CSS und JavaScript",
+      "Implementierung serverseitiger Geschäftslogik und APIs mit PHP",
+      "Verwaltung und Abfrage von MySQL-Datenbanken für interne Web-Tools",
+      "Zusammenarbeit im Team unter Verwendung von Versionskontrolle (Git) und agilen Methoden",
+    ],
     tags: ["HTML", "CSS", "JavaScript", "PHP", "MySQL"],
   },
 ];

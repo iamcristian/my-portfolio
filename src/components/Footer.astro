@@ -69,7 +69,7 @@ const homeUrl = getRelativeLocaleUrl(lang, "");
   <div class="border-t border-base-content/10 bg-base-200/50">
     <div class="max-w-6xl mx-auto px-4 md:px-8 py-4 md:py-6 flex flex-col md:flex-row justify-between items-center gap-2 md:gap-4 text-xs opacity-75">
       <div>
-        <p>{t("footer.rights")}</p>
+        <p>{t("footer.rights").replace("{name}", t("home.name"))}</p>
       </div>
       <div>
         <button 

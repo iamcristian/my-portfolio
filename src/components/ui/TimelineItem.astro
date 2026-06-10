@@ -1,4 +1,6 @@
 ---
+import { getLang, useTranslations } from "../../i18n/utils";
+
 interface Props {
   index: number;
   totalItems: number;
@@ -7,13 +9,17 @@ interface Props {
   companyUrl?: string;
   date: string;
   description: string;
+  responsibilities: string[];
   tags: string[];
 }
 
-const { index, totalItems, title, company, companyUrl, date, description, tags } = Astro.props;
+const { index, totalItems, title, company, companyUrl, date, description, responsibilities, tags } = Astro.props;
 
 const isEven = index % 2 === 0;
 const num = index + 1;
+
+const lang = getLang(Astro.currentLocale || Astro.params.lang);
+const t = useTranslations(lang);
 ---
 
 <li>
@@ -22,33 +28,44 @@ const num = index + 1;
     <div class="bg-primary text-primary-content rounded-full p-1.5 w-6 h-6 flex items-center justify-center font-bold text-xs">{num}</div>
   </div>
   <div class:list={[
-    isEven ? "timeline-start md:text-end mb-10" : "timeline-end mb-10",
-    "card bg-base-200 border border-base-300 p-6 shadow-md w-full ml-2 md:ml-0"
+    isEven ? "timeline-start mb-10" : "timeline-end mb-10",
+    "card bg-base-200 border border-base-300 p-6 shadow-md w-full ml-2 md:ml-0 text-left"
   ]}>
-    <div class:list={[
-      "flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3",
-      isEven && "md:flex-row-reverse"
-    ]}>
-      <div>
-        <h3 class="text-sm md:text-base font-bold text-primary">{title}</h3>
-        <p class="text-xs font-semibold opacity-75">
-          {companyUrl ? (
-            <a href={companyUrl} target="_blank" class="hover:underline">{company}</a>
-          ) : (
-            company
-          )}
-        </p>
+    <!-- Header: Position, Company, Date -->
+    <div class="flex flex-col gap-1 mb-4">
+      <h3 class="text-base md:text-lg font-bold text-primary leading-tight">{title}</h3>
+      <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
+        {companyUrl ? (
+          <a href={companyUrl} target="_blank" class="font-semibold text-secondary hover:underline">{company}</a>
+        ) : (
+          <span class="font-semibold text-secondary">{company}</span>
+        )}
+        <span class="text-base-content/30">•</span>
+        <span class="font-mono text-[11px] sm:text-xs opacity-70">{date}</span>
       </div>
-      <span class="font-mono text-[10px] sm:text-xs opacity-60">{date}</span>
     </div>
-    <p class="text-xs leading-relaxed mb-4">{description}</p>
-    <div class:list={[
-      "flex flex-wrap gap-1.5",
-      isEven && "md:justify-end"
-    ]}>
-      {tags.map((tag) => (
-        <span class="badge badge-outline text-xs">{tag}</span>
-      ))}
+
+    <!-- Brief Description -->
+    <p class="text-xs md:text-sm leading-relaxed mb-4 opacity-85">{description}</p>
+
+    <!-- Key Responsibilities -->
+    <div class="mb-4">
+      <h4 class="text-[10px] md:text-[11px] font-bold tracking-wider uppercase opacity-55 mb-2">{t("experience.responsibilities")}</h4>
+      <ul class="list-disc list-outside pl-4 space-y-1.5 text-xs opacity-80">
+        {responsibilities.map((resp) => (
+          <li>{resp}</li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Technologies Stack -->
+    <div>
+      <h4 class="text-[10px] md:text-[11px] font-bold tracking-wider uppercase opacity-55 mb-2">{t("experience.technologies")}</h4>
+      <div class="flex flex-wrap gap-1.5">
+        {tags.map((tag) => (
+          <span class="badge badge-outline text-xs px-2.5 py-1 h-auto">{tag}</span>
+        ))}
+      </div>
     </div>
   </div>
   {index !== totalItems - 1 && <hr class="bg-base-300" />}
