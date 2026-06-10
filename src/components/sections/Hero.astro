@@ -4,6 +4,7 @@ import { SITE } from "../../config/site";
 import SocialLinks from "../ui/SocialLinks.astro";
 import DownloadIcon from "../../assets/icons/download.svg";
 import MailIcon from "../../assets/icons/mail.svg";
+import LagrangeSimulation from "../ui/LagrangeSimulation.astro";
 
 const lang = getLang(Astro.currentLocale || Astro.params.lang);
 const t = useTranslations(lang);
@@ -11,19 +12,55 @@ const t = useTranslations(lang);
 const cvPath = SITE.cv[lang] || SITE.cv.en;
 ---
 
-<section id="home" class="hero min-h-[calc(100vh-4rem)] bg-base-100 relative overflow-hidden">
-  <!-- Grid Pattern Background -->
-  <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px); background-size: 4rem 4rem;"></div>
-  
-  <div class="hero-content flex-col lg:flex-row gap-12 lg:gap-16 max-w-6xl w-full justify-between px-4 md:px-8 mx-auto">
+<section
+  id="home"
+  class="hero min-h-[calc(100vh-4rem)] bg-base-100 relative overflow-hidden group/hero"
+  style="--mouse-x: 50%; --mouse-y: 50%;"
+>
+  <!-- Ambient Cosmic Nebula Glows -->
+  <div class="absolute top-1/4 left-1/4 w-[400px] h-[400px] rounded-full bg-primary/8 blur-[100px] pointer-events-none nebula-glow-1"></div>
+  <div class="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] rounded-full bg-secondary/5 blur-[120px] pointer-events-none nebula-glow-2"></div>
+
+  <!-- Interactive Cosmic Nebula Spotlight -->
+  <div 
+    class="absolute inset-0 pointer-events-none opacity-0 group-hover/hero:opacity-100 transition-opacity duration-700"
+    style="background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), color-mix(in oklch, var(--color-primary) 10%, transparent) 0%, color-mix(in oklch, var(--color-secondary) 3%, transparent) 50%, transparent 80%);"
+  ></div>
+
+  <!-- Stars Backdrop Container -->
+  <div class="absolute inset-0 pointer-events-none stars-container overflow-hidden">
+    <div class="stars-layer stars-layer-1"></div>
+    <div class="stars-layer stars-layer-2"></div>
+    <div class="stars-layer stars-layer-3"></div>
+  </div>
+
+  <!-- Shooting Stars (Comets) -->
+  <div class="absolute top-[10%] right-[15%] w-[120px] h-px bg-linear-to-l from-primary to-transparent pointer-events-none opacity-0 shooting-star-animation-1"></div>
+  <div class="absolute top-[25%] right-[40%] w-[90px] h-px bg-linear-to-l from-secondary to-transparent pointer-events-none opacity-0 shooting-star-animation-2"></div>
+  <div class="absolute top-[40%] right-[60%] w-[100px] h-px bg-linear-to-l from-primary to-transparent pointer-events-none opacity-0 shooting-star-animation-3"></div>
+
+  <!-- Subtle Grid Pattern Background (masked by spotlight glow for premium touch) -->
+  <div
+    class="absolute inset-0 opacity-[0.02] pointer-events-none transition-opacity duration-300"
+    style="background-image: linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px); background-size: 4rem 4rem; -webkit-mask-image: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), black 20%, transparent 80%); mask-image: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), black 20%, transparent 80%);"
+  >
+  </div>
+
+  <div
+    class="hero-content flex-col lg:flex-row gap-12 lg:gap-16 max-w-6xl w-full justify-between px-4 md:px-8 mx-auto z-10"
+  >
     <!-- Left Column: Text & CTAs -->
     <div class="flex flex-col gap-6 text-center lg:text-left max-w-xl">
       <div>
-        <span class="font-mono text-sm tracking-widest uppercase text-primary font-semibold block mb-2">
+        <span
+          class="font-mono text-sm tracking-widest uppercase text-primary font-semibold block mb-2"
+        >
           {t("home.hello")}
         </span>
         <h1 class="text-5xl lg:text-7xl font-extrabold tracking-tight">
-          <span class="bg-linear-to-r from-primary via-neutral-content to-secondary bg-clip-text text-transparent">
+          <span
+            class="bg-linear-to-r from-primary via-neutral-content to-secondary bg-clip-text text-transparent"
+          >
             {t("home.name")}
           </span>
         </h1>
@@ -34,7 +71,7 @@ const cvPath = SITE.cv[lang] || SITE.cv.en;
       <p class="text-md lg:text-lg opacity-75 leading-relaxed">
         {t("home.tagline")}
       </p>
-      
+
       <!-- CTA Buttons -->
       <div class="flex flex-wrap gap-4 justify-center lg:justify-start mt-4">
         <a href={cvPath} class="btn btn-primary gap-2" target="_blank">
@@ -46,22 +83,214 @@ const cvPath = SITE.cv[lang] || SITE.cv.en;
           <span>{t("home.contactMe")}</span>
         </a>
       </div>
-      
+
       <!-- Social Links -->
       <SocialLinks class="justify-center lg:justify-start mt-2" />
     </div>
-    
-    <!-- Right Column: Decorative Element (Hidden on mobile) -->
-    <div class="hidden lg:flex justify-center items-center relative w-80 h-80">
-      <div class="absolute inset-0 rounded-full border border-base-content/10 animate-[spin_20s_linear_infinite]"></div>
-      <div class="absolute inset-4 rounded-full border border-base-content/20 animate-[spin_15s_linear_infinite_reverse]"></div>
-      
-      <div class="absolute inset-12 rounded-full bg-base-200/50 backdrop-blur-md border border-base-content/10 flex items-center justify-center shadow-xl">
-        <div class="text-center">
-          <span class="font-mono text-3xl font-bold bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">&lt;/&gt;</span>
-          <div class="font-mono text-xs opacity-50 mt-1">dev</div>
-        </div>
-      </div>
-    </div>
+
+    <!-- Right Column: Lagrange Star Chart Card (Hidden on mobile) -->
+    <LagrangeSimulation class="hidden lg:flex justify-center items-center relative w-[440px] h-[460px]" />
   </div>
 </section>
+
+<style>
+  /* Keyframes for Cosmic elements */
+  @keyframes float-nebula {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(15px, -15px) scale(1.03);
+    }
+  }
+
+  @keyframes float-svg {
+    0%, 100% {
+      transform: translateY(0px) translateX(0px);
+    }
+    50% {
+      transform: translateY(-6px) translateX(2px);
+    }
+  }
+
+  @keyframes twinkle {
+    0%, 100% {
+      opacity: 0.15;
+    }
+    50% {
+      opacity: 0.85;
+    }
+  }
+
+  @keyframes shooting-star {
+    0% {
+      transform: translate(150px, -150px) rotate(-45deg) scaleX(0);
+      opacity: 0;
+    }
+    5% {
+      opacity: 0.8;
+      transform: translate(100px, -100px) rotate(-45deg) scaleX(1.2);
+    }
+    15% {
+      transform: translate(-150px, 150px) rotate(-45deg) scaleX(0);
+      opacity: 0;
+    }
+    100% {
+      transform: translate(-150px, 150px) rotate(-45deg) scaleX(0);
+      opacity: 0;
+    }
+  }
+
+  @keyframes radar-sweep {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(100%);
+    }
+  }
+
+  /* Custom Classes */
+  .nebula-glow-1 {
+    animation: float-nebula 15s ease-in-out infinite;
+    will-change: transform;
+  }
+  .nebula-glow-2 {
+    animation: float-nebula 22s ease-in-out infinite reverse;
+    will-change: transform;
+  }
+  .shooting-star-animation-1 {
+    animation: shooting-star 8s linear infinite 2s;
+    will-change: transform, opacity;
+  }
+  .shooting-star-animation-2 {
+    animation: shooting-star 12s linear infinite 5s;
+    will-change: transform, opacity;
+  }
+  .shooting-star-animation-3 {
+    animation: shooting-star 15s linear infinite 9s;
+    will-change: transform, opacity;
+  }
+  
+  .hero-interactive-3d {
+    --rx: 0deg;
+    --ry: 0deg;
+    will-change: transform;
+  }
+
+  /* GPU-Optimized Box-Shadow Stars Layer */
+  .stars-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: transparent;
+    will-change: opacity;
+    backface-visibility: hidden;
+  }
+  .stars-layer-1 {
+    width: 1px;
+    height: 1px;
+    animation: twinkle-1 7s ease-in-out infinite;
+  }
+  .stars-layer-2 {
+    width: 2.25px;
+    height: 2.25px;
+    animation: twinkle-2 11s ease-in-out infinite;
+  }
+  .stars-layer-3 {
+    width: 3.5px;
+    height: 3.5px;
+    animation: twinkle-3 15s ease-in-out infinite;
+  }
+
+  @keyframes twinkle-1 {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 0.95; }
+  }
+  @keyframes twinkle-2 {
+    0%, 100% { opacity: 0.9; }
+    50% { opacity: 0.2; }
+  }
+  @keyframes twinkle-3 {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.85; }
+  }
+
+  /* Lagrange simulation styles removed (moved to LagrangeSimulation.astro) */
+</style>
+
+<script>
+  function initCosmicHero() {
+    const hero = document.getElementById('home');
+    if (!hero) return;
+    
+    const starsContainer = hero.querySelector('.stars-container');
+    const rightCol = hero.querySelector('.hero-interactive-3d') as HTMLElement;
+    const lagrangeNodes = hero.querySelectorAll('.lagrange-node');
+    const statusTitle = hero.querySelector('.system-status-title');
+    const statusDesc = hero.querySelector('.system-status-desc');
+    
+    // Node metrics mapping
+    const nodeData: Record<string, { title: string; desc: string }> = {
+      L1: { title: "VECTOR_01: PRECISION", desc: "High fidelity execution" },
+      L2: { title: "VECTOR_02: ADAPTABILITY", desc: "Responsive under uncertainty" },
+      L3: { title: "VECTOR_03: INSIGHT", desc: "Beyond surface-level patterns" },
+      L4: { title: "VECTOR_04: SYSTEM THINKING", desc: "Sees relationships, not parts" },
+      L5: { title: "VECTOR_05: AUTONOMY", desc: "Operates without external dependency" }
+    };
+    
+    // 1. Generate stars dynamically using box-shadow layers (0% CPU cost at runtime)
+    const layer1 = hero.querySelector('.stars-layer-1') as HTMLElement;
+    const layer2 = hero.querySelector('.stars-layer-2') as HTMLElement;
+    const layer3 = hero.querySelector('.stars-layer-3') as HTMLElement;
+
+    if (layer1 && layer2 && layer3 && !layer1.style.boxShadow) {
+      const generateShadows = (count: number) => {
+        const shadows = [];
+        for (let i = 0; i < count; i++) {
+          const x = Math.floor(Math.random() * 100);
+          const y = Math.floor(Math.random() * 100);
+          const opacity = 0.2 + Math.random() * 0.6;
+          shadows.push(`${x}vw ${y}vh rgba(255, 255, 255, ${opacity.toFixed(2)})`);
+        }
+        return shadows.join(', ');
+      };
+
+      layer1.style.boxShadow = generateShadows(25);
+      layer2.style.boxShadow = generateShadows(25);
+      layer3.style.boxShadow = generateShadows(20);
+    }
+    
+    // Set initial mouse position values to center
+    hero.style.setProperty('--mouse-x', '50%');
+    hero.style.setProperty('--mouse-y', '50%');
+    
+    // 2. Throttled Mousemove handler for interactive nebula spotlight (0% idle CPU, minimal active CPU)
+    let ticking = false;
+    hero.addEventListener('mousemove', (e) => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const rect = hero.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          
+          hero.style.setProperty('--mouse-x', `${x}px`);
+          hero.style.setProperty('--mouse-y', `${y}px`);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+    
+    hero.addEventListener('mouseleave', () => {
+      hero.style.setProperty('--mouse-x', '50%');
+      hero.style.setProperty('--mouse-y', '50%');
+    });
+  }
+  
+  // Initialize on load
+  initCosmicHero();
+  
+  // Re-run on View Transitions navigation if applicable
+  document.addEventListener('astro:after-swap', initCosmicHero);
+</script>

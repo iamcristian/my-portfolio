@@ -1,0 +1,417 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div class={className} id="lagrange-container">
+  <!-- Ambient Orbit Glow behind card -->
+  <div class="absolute inset-10 rounded-full border border-primary/5 bg-primary/2 pointer-events-none blur-xs"></div>
+  
+  <!-- Star Chart Card (Lagrange Simulation) -->
+  <div class="relative w-[380px] h-[420px] rounded-2xl border border-base-content/10 bg-base-200/30 backdrop-blur-md p-7 shadow-2xl flex flex-col justify-between overflow-hidden lagrange-card"
+       style="box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.05);">
+    
+    <!-- Grid overlay -->
+    <div class="absolute inset-0 opacity-[0.03] pointer-events-none bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-size-[24px_24px]"></div>
+    
+    <!-- Radar Sweep Line -->
+    <div class="absolute inset-x-0 h-1/2 bg-linear-to-b from-transparent via-primary/4 to-transparent pointer-events-none"
+         style="animation: radar-sweep 5s linear infinite;"></div>
+
+    <!-- Header -->
+    <div class="flex justify-between items-center border-b border-base-content/10 pb-4 z-10">
+      <span class="font-mono text-[10px] tracking-widest uppercase opacity-70">System.Equilibrium</span>
+      <div class="flex items-center gap-1.5">
+        <span class="w-1.5 h-1.5 rounded-full bg-success animate-ping"></span>
+        <span class="font-mono text-[10px] text-success tracking-wider uppercase">Active</span>
+      </div>
+    </div>
+    
+    <!-- Constellation SVG (Lagrange Points) -->
+    <div class="relative grow flex items-center justify-center py-3 z-10 svg-container">
+      <svg class="w-56 h-56 text-primary" viewBox="0 0 200 200" fill="none">
+        <defs>
+          <!-- Sun Glow Gradient -->
+          <radialGradient id="sun-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#fef08a" stop-opacity="0.8" />
+            <stop offset="40%" stop-color="#fbbf24" stop-opacity="0.3" />
+            <stop offset="100%" stop-color="#d97706" stop-opacity="0" />
+          </radialGradient>
+          
+          <!-- Earth Gradient -->
+          <radialGradient id="earth-glow" cx="35%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#60a5fa" />
+            <stop offset="60%" stop-color="#2563eb" />
+            <stop offset="100%" stop-color="#1d4ed8" />
+          </radialGradient>
+        </defs>
+
+        <!-- Center body (Self - Sun) -->
+        <!-- Outer corona glow -->
+        <circle cx="100" cy="100" r="38" fill="url(#sun-glow)" class="opacity-80 corona-pulse pointer-events-none" />
+        <!-- Intermediate corona -->
+        <circle cx="100" cy="100" r="22" fill="#f59e0b" class="opacity-20 pointer-events-none" />
+        <!-- Star Core -->
+        <circle cx="100" cy="100" r="14" fill="#fbbf24" stroke="#d97706" stroke-width="1.25" class="pointer-events-none" />
+        
+        <!-- Secondary body (Environment - Earth & Moon) -->
+        <g class="pointer-events-none">
+          <!-- Moon orbit around Earth -->
+          <circle cx="150" cy="100" r="9.5" stroke="currentColor" stroke-width="0.35" stroke-dasharray="1 2" class="opacity-25" />
+          <!-- Earth body -->
+          <circle cx="150" cy="100" r="4.5" fill="url(#earth-glow)" stroke="#3b82f6" stroke-width="0.5" />
+          <!-- Moon -->
+          <circle cx="156.5" cy="93.5" r="1.2" fill="#e5e7eb" class="opacity-90" />
+        </g>
+        
+        <!-- Orbit line -->
+        <circle cx="100" cy="100" r="50" stroke="currentColor" stroke-width="0.5" stroke-dasharray="2 4" class="opacity-20" />
+        
+        <!-- Horizontal axis line -->
+        <line x1="15" y1="100" x2="185" y2="100" stroke="currentColor" stroke-width="0.5" stroke-dasharray="1 3" class="opacity-20" />
+
+        <!-- Gravitational Potential Contour Lines (Waves) -->
+        <!-- 1. Inner Sun contours (concentric circles) -->
+        <circle cx="100" cy="100" r="18" stroke="currentColor" stroke-width="0.35" class="contour-element contour-L3 contour-L4 contour-L5 opacity-10 pointer-events-none" />
+        <circle cx="100" cy="100" r="30" stroke="currentColor" stroke-width="0.35" class="contour-element contour-L3 contour-L4 contour-L5 opacity-10 pointer-events-none" />
+        <circle cx="100" cy="100" r="42" stroke="currentColor" stroke-width="0.35" class="contour-element contour-L1 contour-L3 contour-L4 contour-L5 opacity-10 pointer-events-none" />
+
+        <!-- 2. Earth contours (concentric circles) -->
+        <circle cx="150" cy="100" r="6" stroke="currentColor" stroke-width="0.35" class="contour-element contour-L1 opacity-10 pointer-events-none" />
+        <circle cx="150" cy="100" r="10" stroke="currentColor" stroke-width="0.35" class="contour-element contour-L1 opacity-10 pointer-events-none" />
+
+        <!-- 3. L1 contour (Roche lobe figure-8 pinching at L1: 130, 100) -->
+        <path d="M 130,100 C 130,112 142,112 155,110 C 165,108 165,92 155,90 C 142,88 130,88 130,100 C 130,120 110,140 85,140 C 50,140 50,60 85,60 C 110,60 130,80 130,100 Z" stroke="currentColor" stroke-width="0.35" class="contour-element contour-L1 opacity-10 pointer-events-none" />
+
+        <!-- 4. L2/L3 contour (pinch/loop wrapping Sun and Earth, touching L2: 175, 100 and passing near L3: 30, 100) -->
+        <path d="M 175,100 C 175,122 142,150 100,150 C 45,150 25,128 25,100 C 25,72 45,50 100,50 C 142,50 175,78 175,100 Z" stroke="currentColor" stroke-width="0.35" class="contour-element contour-L2 contour-L3 opacity-10 pointer-events-none" />
+
+        <!-- 5. L4 kidney loops -->
+        <path d="M 105,65 Q 125,50 142,75 Q 128,63 105,65 Z" stroke="currentColor" stroke-width="0.35" class="contour-element contour-L4 opacity-10 pointer-events-none" />
+        <path d="M 95,73 Q 125,44 146,86 Q 128,58 95,73 Z" stroke="currentColor" stroke-width="0.35" class="contour-element contour-L4 opacity-10 pointer-events-none" />
+
+        <!-- 6. L5 kidney loops -->
+        <path d="M 105,135 Q 125,150 142,125 Q 128,137 105,135 Z" stroke="currentColor" stroke-width="0.35" class="contour-element contour-L5 opacity-10 pointer-events-none" />
+        <path d="M 95,127 Q 125,156 146,114 Q 128,142 95,127 Z" stroke="currentColor" stroke-width="0.35" class="contour-element contour-L5 opacity-10 pointer-events-none" />
+
+        <!-- 7. Outer system contours (large enclosing waves) -->
+        <circle cx="100" cy="100" r="85" stroke="currentColor" stroke-width="0.35" class="contour-element contour-L2 contour-L3 contour-L4 contour-L5 opacity-10 pointer-events-none" />
+        <circle cx="100" cy="100" r="95" stroke="currentColor" stroke-width="0.35" class="contour-element contour-L2 contour-L3 contour-L4 contour-L5 opacity-10 pointer-events-none" />
+        
+        <!-- Equilateral triangle lines to L4/L5 -->
+        <line x1="100" y1="100" x2="125" y2="57" stroke="currentColor" stroke-width="0.5" stroke-dasharray="1 3" class="line-element line-L4 opacity-15" />
+        <line x1="150" y1="100" x2="125" y2="57" stroke="currentColor" stroke-width="0.5" stroke-dasharray="1 3" class="line-element line-L4 opacity-15" />
+        <line x1="100" y1="100" x2="125" y2="143" stroke="currentColor" stroke-width="0.5" stroke-dasharray="1 3" class="line-element line-L5 opacity-15" />
+        <line x1="150" y1="100" x2="125" y2="143" stroke="currentColor" stroke-width="0.5" stroke-dasharray="1 3" class="line-element line-L5 opacity-15" />
+
+        <!-- Node Gravitational Lines (L1, L2, L3) -->
+        <line x1="100" y1="100" x2="130" y2="100" stroke="currentColor" stroke-width="0.75" class="line-element line-L1 opacity-20" />
+        <line x1="150" y1="100" x2="130" y2="100" stroke="currentColor" stroke-width="0.75" class="line-element line-L1 opacity-20" />
+        <line x1="150" y1="100" x2="175" y2="100" stroke="currentColor" stroke-width="0.75" class="line-element line-L2 opacity-20" />
+        <line x1="100" y1="100" x2="30" y2="100" stroke="currentColor" stroke-width="0.75" class="line-element line-L3 opacity-20" />
+
+        <!-- Lagrange Point Nodes (Crosshair Reticles with Gravitational Ripple Waves) -->
+        <!-- L1: PRECISION (130, 100) -->
+        <g class="lagrange-node cursor-pointer group/node" data-id="L1">
+          <circle cx="130" cy="100" r="10" fill="transparent" />
+          <!-- Concentric Force Waves (Glow/potential lines rippling on hover) -->
+          <circle cx="130" cy="100" r="3" fill="none" stroke="currentColor" stroke-width="0.5" class="force-wave force-wave-1 opacity-0 pointer-events-none" />
+          <circle cx="130" cy="100" r="3" fill="none" stroke="currentColor" stroke-width="0.5" class="force-wave force-wave-2 opacity-0 pointer-events-none" />
+          <!-- Outer hover ring -->
+          <circle cx="130" cy="100" r="5.5" fill="currentColor" class="opacity-0 group-hover/node:opacity-30 group-hover/node:scale-125 transition-all duration-200" />
+          <!-- Crosshair center circle -->
+          <circle cx="130" cy="100" r="2.5" stroke="currentColor" stroke-width="0.75" fill="none" class="transition-transform duration-200 group-hover/node:scale-110" />
+          <!-- Crosshair lines -->
+          <line x1="130" y1="95" x2="130" y2="105" stroke="currentColor" stroke-width="0.75" />
+          <line x1="125" y1="100" x2="135" y2="100" stroke="currentColor" stroke-width="0.75" />
+        </g>
+        
+        <!-- L2: ADAPTABILITY (175, 100) -->
+        <g class="lagrange-node cursor-pointer group/node" data-id="L2">
+          <circle cx="175" cy="100" r="10" fill="transparent" />
+          <circle cx="175" cy="100" r="3" fill="none" stroke="currentColor" stroke-width="0.5" class="force-wave force-wave-1 opacity-0 pointer-events-none" />
+          <circle cx="175" cy="100" r="3" fill="none" stroke="currentColor" stroke-width="0.5" class="force-wave force-wave-2 opacity-0 pointer-events-none" />
+          <circle cx="175" cy="100" r="5.5" fill="currentColor" class="opacity-0 group-hover/node:opacity-30 group-hover/node:scale-125 transition-all duration-200" />
+          <circle cx="175" cy="100" r="2.5" stroke="currentColor" stroke-width="0.75" fill="none" class="transition-transform duration-200 group-hover/node:scale-110" />
+          <line x1="175" y1="95" x2="175" y2="105" stroke="currentColor" stroke-width="0.75" />
+          <line x1="170" y1="100" x2="180" y2="100" stroke="currentColor" stroke-width="0.75" />
+        </g>
+        
+        <!-- L3: INSIGHT (30, 100) -->
+        <g class="lagrange-node cursor-pointer group/node" data-id="L3">
+          <circle cx="30" cy="100" r="10" fill="transparent" />
+          <circle cx="30" cy="100" r="3" fill="none" stroke="currentColor" stroke-width="0.5" class="force-wave force-wave-1 opacity-0 pointer-events-none" />
+          <circle cx="30" cy="100" r="3" fill="none" stroke="currentColor" stroke-width="0.5" class="force-wave force-wave-2 opacity-0 pointer-events-none" />
+          <circle cx="30" cy="100" r="5.5" fill="currentColor" class="opacity-0 group-hover/node:opacity-30 group-hover/node:scale-125 transition-all duration-200" />
+          <circle cx="30" cy="100" r="2.5" stroke="currentColor" stroke-width="0.75" fill="none" class="transition-transform duration-200 group-hover/node:scale-110" />
+          <line x1="30" y1="95" x2="30" y2="105" stroke="currentColor" stroke-width="0.75" />
+          <line x1="25" y1="100" x2="35" y2="100" stroke="currentColor" stroke-width="0.75" />
+        </g>
+        
+        <!-- L4: SYSTEM THINKING (125, 57) -->
+        <g class="lagrange-node cursor-pointer group/node" data-id="L4">
+          <circle cx="125" cy="57" r="10" fill="transparent" />
+          <circle cx="125" cy="57" r="3" fill="none" stroke="currentColor" stroke-width="0.5" class="force-wave force-wave-1 opacity-0 pointer-events-none" />
+          <circle cx="125" cy="57" r="3" fill="none" stroke="currentColor" stroke-width="0.5" class="force-wave force-wave-2 opacity-0 pointer-events-none" />
+          <circle cx="125" cy="57" r="5.5" fill="currentColor" class="opacity-0 group-hover/node:opacity-30 group-hover/node:scale-125 transition-all duration-200" />
+          <circle cx="125" cy="57" r="2.5" stroke="currentColor" stroke-width="0.75" fill="none" class="transition-transform duration-200 group-hover/node:scale-110" />
+          <line x1="125" y1="52" x2="125" y2="62" stroke="currentColor" stroke-width="0.75" />
+          <line x1="120" y1="57" x2="130" y2="57" stroke="currentColor" stroke-width="0.75" />
+        </g>
+        
+        <!-- L5: AUTONOMY (125, 143) -->
+        <g class="lagrange-node cursor-pointer group/node" data-id="L5">
+          <circle cx="125" cy="143" r="10" fill="transparent" />
+          <circle cx="125" cy="143" r="3" fill="none" stroke="currentColor" stroke-width="0.5" class="force-wave force-wave-1 opacity-0 pointer-events-none" />
+          <circle cx="125" cy="143" r="3" fill="none" stroke="currentColor" stroke-width="0.5" class="force-wave force-wave-2 opacity-0 pointer-events-none" />
+          <circle cx="125" cy="143" r="5.5" fill="currentColor" class="opacity-0 group-hover/node:opacity-30 group-hover/node:scale-125 transition-all duration-200" />
+          <circle cx="125" cy="143" r="2.5" stroke="currentColor" stroke-width="0.75" fill="none" class="transition-transform duration-200 group-hover/node:scale-110" />
+          <line x1="125" y1="138" x2="125" y2="148" stroke="currentColor" stroke-width="0.75" />
+          <line x1="120" y1="143" x2="130" y2="143" stroke="currentColor" stroke-width="0.75" />
+        </g>
+        
+        <!-- Label tags (hidden by default, fade in on hover) -->
+        <text x="130" y="88" fill="currentColor" font-family="monospace" font-size="8" class="text-node-label opacity-0 pointer-events-none select-none" data-id="L1">L1</text>
+        <text x="175" y="88" fill="currentColor" font-family="monospace" font-size="8" class="text-node-label opacity-0 pointer-events-none select-none" data-id="L2">L2</text>
+        <text x="26" y="88" fill="currentColor" font-family="monospace" font-size="8" class="text-node-label opacity-0 pointer-events-none select-none" data-id="L3">L3</text>
+        <text x="129" y="47" fill="currentColor" font-family="monospace" font-size="8" class="text-node-label opacity-0 pointer-events-none select-none" data-id="L4">L4</text>
+        <text x="129" y="154" fill="currentColor" font-family="monospace" font-size="8" class="text-node-label opacity-0 pointer-events-none select-none" data-id="L5">L5</text>
+      </svg>
+    </div>
+
+    <!-- Interactive Microcopy Area -->
+    <div class="h-12 flex flex-col justify-center text-center z-10 px-2 select-none border-t border-b border-base-content/5 py-1">
+      <span class="system-status-title font-mono text-xs font-bold uppercase tracking-widest opacity-80 transition-colors duration-200">SYSTEM_ORBIT</span>
+      <span class="system-status-desc font-mono text-[10px] opacity-70 mt-0.5 transition-opacity duration-200">Hover vectors to inspect Lagrange engine metrics</span>
+    </div>
+    
+    <!-- Footer -->
+    <div class="pt-4 flex justify-between items-center z-10 font-mono text-[9px] opacity-80 tracking-wider text-base-content">
+      <div class="flex flex-col text-left">
+        <span>SYS.STATUS: BALANCED</span>
+        <span>DRIFT: MINIMAL</span>
+      </div>
+      <div class="text-right">
+        <span>SIGNAL.INTEGRITY: HIGH</span>
+        <span>SYSTEM_V.04</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  @keyframes float-svg {
+    0%, 100% {
+      transform: translateY(0px) translateX(0px);
+    }
+    50% {
+      transform: translateY(-6px) translateX(2px);
+    }
+  }
+
+  @keyframes radar-sweep {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(100%);
+    }
+  }
+
+  /* SVG Lagrange simulation styles */
+  .svg-container svg {
+    animation: float-svg 10s ease-in-out infinite;
+    will-change: transform;
+  }
+  
+  :global(.line-element) {
+    transition: opacity 0.3s ease, stroke-width 0.3s ease;
+  }
+  
+  :global(.line-active) {
+    opacity: 0.75 !important;
+    stroke-width: 1.25px !important;
+    color: var(--color-primary);
+  }
+  
+  :global(.line-inactive) {
+    opacity: 0.04 !important;
+  }
+
+  :global(.contour-element) {
+    transition: opacity 0.35s ease, stroke 0.35s ease, stroke-width 0.35s ease;
+  }
+
+  :global(.contour-active) {
+    opacity: 0.45 !important;
+    stroke-width: 0.65px !important;
+    stroke: var(--color-primary) !important;
+    filter: drop-shadow(0 0 1px var(--color-primary));
+  }
+
+  :global(.contour-inactive) {
+    opacity: 0.03 !important;
+  }
+  
+  :global(.lagrange-node) {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  :global(.node-inactive) {
+    opacity: 0.25 !important;
+  }
+  
+  :global(.text-node-label) {
+    transition: opacity 0.3s ease;
+  }
+
+  /* Concentric Gravitational Force Waves */
+  @keyframes force-ripple {
+    0% {
+      r: 3px;
+      opacity: 0.8;
+    }
+    100% {
+      r: 24px;
+      opacity: 0;
+    }
+  }
+
+  :global(.force-wave) {
+    transition: opacity 0.3s ease;
+  }
+
+  :global(.lagrange-node:hover .force-wave-1) {
+    animation: force-ripple 2s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+    opacity: 1;
+  }
+  
+  :global(.lagrange-node:hover .force-wave-2) {
+    animation: force-ripple 2s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+    animation-delay: 1s;
+    opacity: 1;
+  }
+
+  :global(.corona-pulse) {
+    animation: corona-glow-pulse 4s ease-in-out infinite;
+    will-change: opacity;
+  }
+  @keyframes corona-glow-pulse {
+    0%, 100% { opacity: 0.55; }
+    50% { opacity: 0.85; }
+  }
+</style>
+
+<script>
+  function initLagrangeCard() {
+    const card = document.getElementById('lagrange-container');
+    if (!card) return;
+    
+    const lagrangeNodes = card.querySelectorAll('.lagrange-node');
+    const statusTitle = card.querySelector('.system-status-title');
+    const statusDesc = card.querySelector('.system-status-desc');
+    
+    // Node metrics mapping
+    const nodeData: Record<string, { title: string; desc: string }> = {
+      L1: { title: "VECTOR_01: PRECISION", desc: "High fidelity execution" },
+      L2: { title: "VECTOR_02: ADAPTABILITY", desc: "Responsive under uncertainty" },
+      L3: { title: "VECTOR_03: INSIGHT", desc: "Beyond surface-level patterns" },
+      L4: { title: "VECTOR_04: SYSTEM THINKING", desc: "Sees relationships, not parts" },
+      L5: { title: "VECTOR_05: AUTONOMY", desc: "Operates without external dependency" }
+    };
+    
+    // Lagrange Nodes Hover Interactivity
+    lagrangeNodes.forEach(node => {
+      node.addEventListener('mouseenter', () => {
+        const id = node.getAttribute('data-id');
+        if (!id) return;
+        
+        // Show status text
+        if (nodeData[id] && statusTitle && statusDesc) {
+          statusTitle.textContent = nodeData[id].title;
+          statusDesc.textContent = nodeData[id].desc;
+          statusTitle.classList.add('text-primary');
+        }
+        
+        // Fade other nodes
+        lagrangeNodes.forEach(otherNode => {
+          if (otherNode !== node) {
+            otherNode.classList.add('node-inactive');
+          }
+        });
+        
+        // Show text label
+        const targetLabel = card.querySelector(`.text-node-label[data-id="${id}"]`);
+        if (targetLabel) {
+          targetLabel.classList.remove('opacity-0');
+          targetLabel.classList.add('opacity-100');
+        }
+        
+        // Highlight connected lines
+        const lines = card.querySelectorAll('.line-element');
+        lines.forEach(line => {
+          if (line.classList.contains(`line-${id}`)) {
+            line.classList.add('line-active');
+          } else {
+            line.classList.add('line-inactive');
+          }
+        });
+
+        // Highlight contours
+        const contours = card.querySelectorAll('.contour-element');
+        contours.forEach(contour => {
+          if (contour.classList.contains(`contour-${id}`)) {
+            contour.classList.add('contour-active');
+          } else {
+            contour.classList.add('contour-inactive');
+          }
+        });
+      });
+      
+      node.addEventListener('mouseleave', () => {
+        const id = node.getAttribute('data-id');
+        if (!id) return;
+        
+        // Reset status text
+        if (statusTitle && statusDesc) {
+          statusTitle.textContent = "SYSTEM_ORBIT";
+          statusDesc.textContent = "Hover vectors to inspect Lagrange engine metrics";
+          statusTitle.classList.remove('text-primary');
+        }
+        
+        // Reset all nodes
+        lagrangeNodes.forEach(otherNode => {
+          otherNode.classList.remove('node-inactive');
+        });
+        
+        // Hide text label
+        const targetLabel = card.querySelector(`.text-node-label[data-id="${id}"]`);
+        if (targetLabel) {
+          targetLabel.classList.remove('opacity-100');
+          targetLabel.classList.add('opacity-0');
+        }
+        
+        // Reset lines
+        const lines = card.querySelectorAll('.line-element');
+        lines.forEach(line => {
+          line.classList.remove('line-active', 'line-inactive');
+        });
+
+        // Reset contours
+        const contours = card.querySelectorAll('.contour-element');
+        contours.forEach(contour => {
+          contour.classList.remove('contour-active', 'contour-inactive');
+        });
+      });
+    });
+  }
+  
+  // Initialize
+  initLagrangeCard();
+  
+  // Re-run on View Transitions
+  document.addEventListener('astro:after-swap', initLagrangeCard);
+</script>
