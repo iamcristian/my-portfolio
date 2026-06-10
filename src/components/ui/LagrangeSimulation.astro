@@ -1,9 +1,13 @@
 ---
+import { getLang, useTranslations } from "../../i18n/utils";
+
 interface Props {
   class?: string;
 }
 
 const { class: className } = Astro.props;
+const lang = getLang(Astro.currentLocale || Astro.params.lang);
+const t = useTranslations(lang);
 ---
 
 <div class={className} id="lagrange-container">
@@ -11,8 +15,10 @@ const { class: className } = Astro.props;
   <div class="absolute inset-10 rounded-full border border-primary/5 bg-primary/2 pointer-events-none blur-xs"></div>
   
   <!-- Star Chart Card (Lagrange Simulation) -->
-  <div class="relative w-[380px] h-[420px] rounded-2xl border border-base-content/10 bg-base-200/30 backdrop-blur-md p-7 shadow-2xl flex flex-col justify-between overflow-hidden lagrange-card"
-       style="box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.05);">
+  <div class="relative w-[400px] h-[470px] rounded-2xl border border-base-content/10 bg-base-200/30 backdrop-blur-md p-7 shadow-2xl flex flex-col justify-between overflow-hidden lagrange-card"
+       style="box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.05);"
+       data-default-title={t("lagrange.title")}
+       data-default-desc={t("lagrange.desc")}>
     
     <!-- Grid overlay -->
     <div class="absolute inset-0 opacity-[0.03] pointer-events-none bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-size-[24px_24px]"></div>
@@ -23,10 +29,10 @@ const { class: className } = Astro.props;
 
     <!-- Header -->
     <div class="flex justify-between items-center border-b border-base-content/10 pb-4 z-10">
-      <span class="font-mono text-[10px] tracking-widest uppercase opacity-70">System.Equilibrium</span>
+      <span class="font-mono text-xs tracking-widest uppercase opacity-70">{t("lagrange.equilibrium")}</span>
       <div class="flex items-center gap-1.5">
         <span class="w-1.5 h-1.5 rounded-full bg-success animate-ping"></span>
-        <span class="font-mono text-[10px] text-success tracking-wider uppercase">Active</span>
+        <span class="font-mono text-xs text-success tracking-wider uppercase">{t("lagrange.active")}</span>
       </div>
     </div>
     
@@ -115,7 +121,7 @@ const { class: className } = Astro.props;
 
         <!-- Lagrange Point Nodes (Crosshair Reticles with Gravitational Ripple Waves) -->
         <!-- L1: PRECISION (130, 100) -->
-        <g class="lagrange-node cursor-pointer group/node" data-id="L1">
+        <g class="lagrange-node cursor-pointer group/node" data-id="L1" data-title={t("lagrange.v1.title")} data-desc={t("lagrange.v1.desc")}>
           <circle cx="130" cy="100" r="10" fill="transparent" />
           <!-- Concentric Force Waves (Glow/potential lines rippling on hover) -->
           <circle cx="130" cy="100" r="3" fill="none" stroke="currentColor" stroke-width="0.5" class="force-wave force-wave-1 opacity-0 pointer-events-none" />
@@ -130,7 +136,7 @@ const { class: className } = Astro.props;
         </g>
         
         <!-- L2: ADAPTABILITY (175, 100) -->
-        <g class="lagrange-node cursor-pointer group/node" data-id="L2">
+        <g class="lagrange-node cursor-pointer group/node" data-id="L2" data-title={t("lagrange.v2.title")} data-desc={t("lagrange.v2.desc")}>
           <circle cx="175" cy="100" r="10" fill="transparent" />
           <circle cx="175" cy="100" r="3" fill="none" stroke="currentColor" stroke-width="0.5" class="force-wave force-wave-1 opacity-0 pointer-events-none" />
           <circle cx="175" cy="100" r="3" fill="none" stroke="currentColor" stroke-width="0.5" class="force-wave force-wave-2 opacity-0 pointer-events-none" />
@@ -141,7 +147,7 @@ const { class: className } = Astro.props;
         </g>
         
         <!-- L3: INSIGHT (30, 100) -->
-        <g class="lagrange-node cursor-pointer group/node" data-id="L3">
+        <g class="lagrange-node cursor-pointer group/node" data-id="L3" data-title={t("lagrange.v3.title")} data-desc={t("lagrange.v3.desc")}>
           <circle cx="30" cy="100" r="10" fill="transparent" />
           <circle cx="30" cy="100" r="3" fill="none" stroke="currentColor" stroke-width="0.5" class="force-wave force-wave-1 opacity-0 pointer-events-none" />
           <circle cx="30" cy="100" r="3" fill="none" stroke="currentColor" stroke-width="0.5" class="force-wave force-wave-2 opacity-0 pointer-events-none" />
@@ -152,7 +158,7 @@ const { class: className } = Astro.props;
         </g>
         
         <!-- L4: SYSTEM THINKING (125, 57) -->
-        <g class="lagrange-node cursor-pointer group/node" data-id="L4">
+        <g class="lagrange-node cursor-pointer group/node" data-id="L4" data-title={t("lagrange.v4.title")} data-desc={t("lagrange.v4.desc")}>
           <circle cx="125" cy="57" r="10" fill="transparent" />
           <circle cx="125" cy="57" r="3" fill="none" stroke="currentColor" stroke-width="0.5" class="force-wave force-wave-1 opacity-0 pointer-events-none" />
           <circle cx="125" cy="57" r="3" fill="none" stroke="currentColor" stroke-width="0.5" class="force-wave force-wave-2 opacity-0 pointer-events-none" />
@@ -163,7 +169,7 @@ const { class: className } = Astro.props;
         </g>
         
         <!-- L5: AUTONOMY (125, 143) -->
-        <g class="lagrange-node cursor-pointer group/node" data-id="L5">
+        <g class="lagrange-node cursor-pointer group/node" data-id="L5" data-title={t("lagrange.v5.title")} data-desc={t("lagrange.v5.desc")}>
           <circle cx="125" cy="143" r="10" fill="transparent" />
           <circle cx="125" cy="143" r="3" fill="none" stroke="currentColor" stroke-width="0.5" class="force-wave force-wave-1 opacity-0 pointer-events-none" />
           <circle cx="125" cy="143" r="3" fill="none" stroke="currentColor" stroke-width="0.5" class="force-wave force-wave-2 opacity-0 pointer-events-none" />
@@ -174,29 +180,29 @@ const { class: className } = Astro.props;
         </g>
         
         <!-- Label tags (hidden by default, fade in on hover) -->
-        <text x="130" y="88" fill="currentColor" font-family="monospace" font-size="8" class="text-node-label opacity-0 pointer-events-none select-none" data-id="L1">L1</text>
-        <text x="175" y="88" fill="currentColor" font-family="monospace" font-size="8" class="text-node-label opacity-0 pointer-events-none select-none" data-id="L2">L2</text>
-        <text x="26" y="88" fill="currentColor" font-family="monospace" font-size="8" class="text-node-label opacity-0 pointer-events-none select-none" data-id="L3">L3</text>
-        <text x="129" y="47" fill="currentColor" font-family="monospace" font-size="8" class="text-node-label opacity-0 pointer-events-none select-none" data-id="L4">L4</text>
-        <text x="129" y="154" fill="currentColor" font-family="monospace" font-size="8" class="text-node-label opacity-0 pointer-events-none select-none" data-id="L5">L5</text>
+        <text x="130" y="88" fill="currentColor" font-family="monospace" font-size="10" class="text-node-label opacity-0 pointer-events-none select-none" data-id="L1">L1</text>
+        <text x="175" y="88" fill="currentColor" font-family="monospace" font-size="10" class="text-node-label opacity-0 pointer-events-none select-none" data-id="L2">L2</text>
+        <text x="26" y="88" fill="currentColor" font-family="monospace" font-size="10" class="text-node-label opacity-0 pointer-events-none select-none" data-id="L3">L3</text>
+        <text x="129" y="47" fill="currentColor" font-family="monospace" font-size="10" class="text-node-label opacity-0 pointer-events-none select-none" data-id="L4">L4</text>
+        <text x="129" y="154" fill="currentColor" font-family="monospace" font-size="10" class="text-node-label opacity-0 pointer-events-none select-none" data-id="L5">L5</text>
       </svg>
     </div>
 
     <!-- Interactive Microcopy Area -->
     <div class="h-12 flex flex-col justify-center text-center z-10 px-2 select-none border-t border-b border-base-content/5 py-1">
-      <span class="system-status-title font-mono text-xs font-bold uppercase tracking-widest opacity-80 transition-colors duration-200">SYSTEM_ORBIT</span>
-      <span class="system-status-desc font-mono text-[10px] opacity-70 mt-0.5 transition-opacity duration-200">Hover vectors to inspect Lagrange engine metrics</span>
+      <span class="system-status-title font-mono text-sm font-bold uppercase tracking-widest opacity-80 transition-colors duration-200">{t("lagrange.title")}</span>
+      <span class="system-status-desc font-mono text-xs opacity-70 mt-0.5 transition-opacity duration-200">{t("lagrange.desc")}</span>
     </div>
     
     <!-- Footer -->
-    <div class="pt-4 flex justify-between items-center z-10 font-mono text-[9px] opacity-80 tracking-wider text-base-content">
+    <div class="pt-4 flex justify-between items-center z-10 font-mono text-[10px] opacity-80 tracking-wider text-base-content">
       <div class="flex flex-col text-left">
-        <span>SYS.STATUS: BALANCED</span>
-        <span>DRIFT: MINIMAL</span>
+        <span>{t("lagrange.status")}</span>
+        <span>{t("lagrange.drift")}</span>
       </div>
-      <div class="text-right">
-        <span>SIGNAL.INTEGRITY: HIGH</span>
-        <span>SYSTEM_V.04</span>
+      <div class="flex flex-col text-right">
+        <span>{t("lagrange.integrity")}</span>
+        <span>{t("lagrange.version")}</span>
       </div>
     </div>
   </div>
@@ -314,25 +320,18 @@ const { class: className } = Astro.props;
     const statusTitle = card.querySelector('.system-status-title');
     const statusDesc = card.querySelector('.system-status-desc');
     
-    // Node metrics mapping
-    const nodeData: Record<string, { title: string; desc: string }> = {
-      L1: { title: "VECTOR_01: PRECISION", desc: "High fidelity execution" },
-      L2: { title: "VECTOR_02: ADAPTABILITY", desc: "Responsive under uncertainty" },
-      L3: { title: "VECTOR_03: INSIGHT", desc: "Beyond surface-level patterns" },
-      L4: { title: "VECTOR_04: SYSTEM THINKING", desc: "Sees relationships, not parts" },
-      L5: { title: "VECTOR_05: AUTONOMY", desc: "Operates without external dependency" }
-    };
-    
     // Lagrange Nodes Hover Interactivity
     lagrangeNodes.forEach(node => {
       node.addEventListener('mouseenter', () => {
         const id = node.getAttribute('data-id');
+        const title = node.getAttribute('data-title');
+        const desc = node.getAttribute('data-desc');
         if (!id) return;
         
         // Show status text
-        if (nodeData[id] && statusTitle && statusDesc) {
-          statusTitle.textContent = nodeData[id].title;
-          statusDesc.textContent = nodeData[id].desc;
+        if (title && desc && statusTitle && statusDesc) {
+          statusTitle.textContent = title;
+          statusDesc.textContent = desc;
           statusTitle.classList.add('text-primary');
         }
         
@@ -375,10 +374,13 @@ const { class: className } = Astro.props;
         const id = node.getAttribute('data-id');
         if (!id) return;
         
-        // Reset status text
+        // Reset status text to default localized translations from data attributes
         if (statusTitle && statusDesc) {
-          statusTitle.textContent = "SYSTEM_ORBIT";
-          statusDesc.textContent = "Hover vectors to inspect Lagrange engine metrics";
+          const lagrangeCard = card.querySelector('.lagrange-card');
+          const defaultTitle = lagrangeCard?.getAttribute('data-default-title') || "SYSTEM_ORBIT";
+          const defaultDesc = lagrangeCard?.getAttribute('data-default-desc') || "Hover vectors to inspect Lagrange engine metrics";
+          statusTitle.textContent = defaultTitle;
+          statusDesc.textContent = defaultDesc;
           statusTitle.classList.remove('text-primary');
         }
         

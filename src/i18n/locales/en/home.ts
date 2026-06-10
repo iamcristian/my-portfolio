@@ -7,7 +7,8 @@ export const home = {
   "home.downloadCv": "Download CV",
   "home.contactMe": "Contact Me",
   "site.title": "Cristian Arando — Full Stack Developer",
-  "site.description": "Strategy-driven developer passionate about solving complex problems with technology. Portfolio showcasing full-stack projects, blog articles, and professional experience.",
+  "site.description":
+    "Strategy-driven developer passionate about solving complex problems with technology. Portfolio showcasing full-stack projects, blog articles, and professional experience.",
   "about.title": "About Me",
   "about.subtitle": "// About Me",
   "about.p1":
@@ -88,4 +89,29 @@ export const home = {
   "contact.tagline":
     "I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.",
   "contact.sendEmail": "Send an Email",
+
+  "lagrange.equilibrium": "SYSTEM.EQUILIBRIUM",
+  "lagrange.active": "ACTIVE",
+  "lagrange.title": "SYSTEM_ORBIT",
+  "lagrange.desc": "A dynamic equilibrium of engineering vectors",
+
+  "lagrange.status": "SYS.STATUS: BALANCED",
+  "lagrange.drift": "DRIFT: MINIMAL",
+  "lagrange.integrity": "SIGNAL.INTEGRITY: HIGH",
+  "lagrange.version": "SYS.REV: 04",
+
+  "lagrange.v1.title": "VECTOR_01: PRECISION",
+  "lagrange.v1.desc": "High fidelity execution",
+
+  "lagrange.v2.title": "VECTOR_02: ADAPTABILITY",
+  "lagrange.v2.desc": "Responsive under uncertainty",
+
+  "lagrange.v3.title": "VECTOR_03: INSIGHT",
+  "lagrange.v3.desc": "Beyond surface-level patterns",
+
+  "lagrange.v4.title": "VECTOR_04: SYSTEM THINKING",
+  "lagrange.v4.desc": "Sees relationships, not parts",
+
+  "lagrange.v5.title": "VECTOR_05: AUTONOMY",
+  "lagrange.v5.desc": "Operates without external dependency",
 } as const;

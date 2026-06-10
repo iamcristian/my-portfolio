@@ -89,7 +89,7 @@ const cvPath = SITE.cv[lang] || SITE.cv.en;
     </div>
 
     <!-- Right Column: Lagrange Star Chart Card (Hidden on mobile) -->
-    <LagrangeSimulation class="hidden lg:flex justify-center items-center relative w-[440px] h-[460px]" />
+    <LagrangeSimulation class="hidden lg:flex justify-center items-center relative w-[460px] h-[510px]" />
   </div>
 </section>
 
@@ -223,21 +223,6 @@ const cvPath = SITE.cv[lang] || SITE.cv.en;
   function initCosmicHero() {
     const hero = document.getElementById('home');
     if (!hero) return;
-    
-    const starsContainer = hero.querySelector('.stars-container');
-    const rightCol = hero.querySelector('.hero-interactive-3d') as HTMLElement;
-    const lagrangeNodes = hero.querySelectorAll('.lagrange-node');
-    const statusTitle = hero.querySelector('.system-status-title');
-    const statusDesc = hero.querySelector('.system-status-desc');
-    
-    // Node metrics mapping
-    const nodeData: Record<string, { title: string; desc: string }> = {
-      L1: { title: "VECTOR_01: PRECISION", desc: "High fidelity execution" },
-      L2: { title: "VECTOR_02: ADAPTABILITY", desc: "Responsive under uncertainty" },
-      L3: { title: "VECTOR_03: INSIGHT", desc: "Beyond surface-level patterns" },
-      L4: { title: "VECTOR_04: SYSTEM THINKING", desc: "Sees relationships, not parts" },
-      L5: { title: "VECTOR_05: AUTONOMY", desc: "Operates without external dependency" }
-    };
     
     // 1. Generate stars dynamically using box-shadow layers (0% CPU cost at runtime)
     const layer1 = hero.querySelector('.stars-layer-1') as HTMLElement;
