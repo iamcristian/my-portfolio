@@ -133,6 +133,14 @@ const fullImageAlt = Astro.props.imageAlt || title || t("home.name");
 }
 <link rel="alternate" hreflang="x-default" href={defaultUrl} />
 
+<!-- RSS Feed Autodiscovery -->
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title={`${t("site.title") || SITE.title} RSS Feed`}
+  href={new URL(`/${lang}/rss.xml`, cleanSiteUrl).href}
+/>
+
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content={type === "article" ? "article" : "website"} />
 <meta property="og:url" content={canonicalUrl} />
