@@ -4,8 +4,7 @@ export const footer = {
   "footer.connect": "Verbinden",
   "footer.collaborate": "Lass uns zusammenarbeiten",
   "footer.collaborateText": "Haben Sie ein Projekt im Sinn? Lassen Sie uns gemeinsam etwas Außergewöhnliches schaffen.",
-  "footer.rights": "© 2026 Cristian Arando. Alle Rechte vorbehalten.",
-  "footer.builtWith": "Erstellt mit Astro",
+  "footer.rights": "© 2026 Cristian Arando",
   "footer.backToTop": "Zurück nach oben",
   "footer.email": "E-Mail",
 } as const;

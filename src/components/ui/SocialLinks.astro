@@ -10,20 +10,27 @@ interface Props {
   showLabels?: boolean;
   /** Additional CSS classes for the wrapper */
   class?: string;
+  /** Style variant: 'button' or 'link' */
+  variant?: "button" | "link";
 }
 
-const { size = "md", showLabels = false, class: className } = Astro.props;
+const { size = "md", showLabels = false, class: className, variant = "button" } = Astro.props;
 
 const iconSize = size === "sm" ? "w-4 h-4" : "w-5 h-5";
-const btnSize = size === "sm" ? "" : "";
+
+const isLink = variant === "link";
+const wrapperClass = isLink ? "flex flex-col gap-1.5 md:gap-2" : "flex gap-3";
+const linkClass = isLink
+  ? "link link-hover flex items-center gap-2 text-sm opacity-80 hover:text-primary transition-colors"
+  : "btn btn-ghost btn-circle";
 ---
 
-<div class:list={["flex gap-3", className]}>
+<div class:list={[wrapperClass, className]}>
   <a
     href={SITE.social.github}
     target="_blank"
     rel="noopener noreferrer"
-    class:list={["btn btn-ghost btn-circle", btnSize]}
+    class:list={[linkClass]}
     aria-label="GitHub"
   >
     <GithubIcon class={iconSize} />
@@ -33,7 +40,7 @@ const btnSize = size === "sm" ? "" : "";
     href={SITE.social.linkedin}
     target="_blank"
     rel="noopener noreferrer"
-    class:list={["btn btn-ghost btn-circle", btnSize]}
+    class:list={[linkClass]}
     aria-label="LinkedIn"
   >
     <LinkedinIcon class={iconSize} />
