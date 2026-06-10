@@ -137,7 +137,6 @@ const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).forma
             {tocHeadings.map((h) => (
               <a
                 href={`#${h.slug}`}
-                onclick="toc_modal.close()"
                 aria-label={h.text}
                 class:list={[
                   "block p-2 rounded-lg bg-base-100 hover:bg-base-300 text-sm font-medium transition-colors",
@@ -154,6 +153,9 @@ const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).forma
             </form>
           </div>
         </div>
+        <form method="dialog" class="modal-backdrop">
+          <button>{t("blog.close")}</button>
+        </form>
       </dialog>
     </>
   )}

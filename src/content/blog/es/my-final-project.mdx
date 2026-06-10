@@ -1,8 +1,8 @@
 ---
-title: "Mi Proyecto de Grado - Pruebas de Penetración con OWASP - Cristian Arando"
-description: "Mi proyecto de grado para obtener mi título de Ingeniería de Sistemas, una prueba de penetración aplicando OWASP en un sistema académico fullstack."
+title: "Mi Proyecto Final - Pruebas de Penetración con OWASP - Cristian Arando"
+description: "Mi proyecto final para obtener mi título en Ingeniería de Sistemas, una prueba de penetración aplicando OWASP en un sistema académico fullstack."
 date: 2024-09-20
-tags: ["cybersecurity", "penetration testing", "owasp"]
+tags: ["ciberseguridad", "pruebas de penetración", "owasp"]
 image: "../../../assets/images/blog/my-final-project.png"
 featured: true
 draft: false
@@ -10,24 +10,88 @@ lang: es
 slug: my-final-project
 ---
 
-## Descripción del Proyecto
+## Introducción
 
-Para mi tesis de grado en Ingeniería de Sistemas, realicé una evaluación de seguridad integral y pruebas de penetración en **SISGAA**, un sistema académico de administración fullstack. El objetivo principal fue identificar vulnerabilidades críticas e implementar mitigaciones defensivas utilizando las guías del estándar de la industria OWASP.
+Como proyecto final para obtener mi título de Ingeniería de Sistemas, realicé una evaluación exhaustiva mediante pruebas de penetración al sistema web SISGAA de la Universidad Mayor de San Simón. El proyecto aplicó metodologías estándar de la industria bajo OWASP Top 10 y OWASP API Security Top 10 para identificar, analizar y recomendar mitigaciones para vulnerabilidades de seguridad.
 
-### Metodología y Alcance
+> **Nota:** Puedes ver el documento completo de este proyecto en el <a href="http://atlas.umss.edu.bo/handle/123456789/47539" target="_blank" rel="noopener noreferrer">repositorio institucional de la UMSS</a>.
 
-Las pruebas siguieron un enfoque híbrido combinando análisis de código estático (SAST) y pruebas dinámicas de seguridad de aplicaciones (DAST). El alcance cubrió:
+## Antecedentes del Proyecto
 
-- **Autenticación y Gestión de Sesiones**: Verificación de vulnerabilidades a fuerza bruta, políticas de contraseñas débiles y vectores de secuestro de sesión.
-- **Seguridad de APIs**: Auditoría de endpoints de la API REST frente al OWASP API Security Top 10.
-- **Protección de Datos**: Revisión de cifrado en reposo y en tránsito.
+El sistema SISGAA (Sistema de Gestión Académica y Administrativa) es una aplicación web crítica utilizada por el Departamento de Informática y Sistemas. Gestiona datos académicos y administrativos sensibles, haciendo que su seguridad sea esencial para proteger tanto la información personal como institucional.
 
-### Principales Vulnerabilidades Identificadas
+## Metodología
 
-1. **Inyección SQL (SQLi)**: Se encontraron problemas de análisis de parámetros en la consulta de reportes de calificaciones de estudiantes.
-2. **Autorización a Nivel de Objeto Rota (BOLA)**: Endpoints permitían modificar los datos de inscripción de otros estudiantes manipulando el ID de usuario en el payload.
-3. **Cross-Site Scripting (XSS)**: Vulnerabilidad XSS persistente en la funcionalidad del tablero de anuncios.
+Mi enfoque siguió una metodología estructurada para pruebas de penetración:
 
-### Mitigación y Resultados
+1. **Planificación y Definición del Alcance**: Establecimiento de límites y objetivos claros para la evaluación de seguridad.
+2. **Recopilación de Información**: Recolección de datos sobre la arquitectura del sistema y su base tecnológica.
+3. **Análisis de Vulnerabilidades**: Identificación de posibles deficiencias en seguridad.
+4. **Explotación**: Verificación de vulnerabilidades mediante pruebas controladas.
+5. **Documentación**: Hallazgos y recomendaciones detalladas.
 
-Todas las vulnerabilidades descubiertas fueron documentadas y corregidas. Los problemas de BOLA se resolvieron utilizando comprobaciones estrictas en el middleware para validar la propiedad de los recursos, y se implementó la sanitización de entradas a nivel global. SISGAA fue asegurado con éxito, obteniendo la calificación máxima por parte del tribunal evaluador.
+## Enfoque Técnico
+
+El proceso de pruebas de penetración incorporó dos marcos complementarios:
+
+### Pruebas de Aplicaciones Web (OWASP Top 10)
+
+Realicé pruebas detalladas para vulnerabilidades web comunes, las cuales incluyeron:
+
+- Cross-Site Scripting (XSS)
+- Autenticación Rota (Broken Authentication)
+- Exposición de Datos Sensibles
+- Configuraciones Erróneas de Seguridad
+
+### Pruebas de Seguridad en APIs (OWASP API Security Top 10)
+
+Dado que las aplicaciones modernas dependen en gran medida de las APIs, implementé una metodología especializada:
+
+1. **Descubrimiento**: Mapeo de la estructura de la API y sus endpoints.
+2. **Análisis de Endpoints**: Examen de patrones en peticiones y respuestas.
+3. **Pruebas de Autenticación**: Verificación de mecanismos de ingreso.
+4. **Explotación de Autorizaciones**: Pruebas de los límites del control de acceso.
+
+## Hallazgos Clave
+
+Mi evaluación reveló varias vulnerabilidades de seguridad en el sistema SISGAA:
+
+1. **Cross Site Scripting (Reflejado)**: Permitía la inyección potencial de scripts maliciosos.
+2. **Autorización a Nivel de Objetos Rota**: Permitía acceso no autorizado a recursos.
+3. **Autorización a Nivel de Funciones Rota**: Habilitaba acceso a funcionalidades no autorizadas.
+4. **Fuga de Documentación en la API**: Exponía información delicada de endpoints a través de Swagger.
+5. **Falta de Cabeceras de Seguridad**: Ausencia de configuraciones críticas de seguridad para el navegador.
+6. **Librerías JavaScript Vulnerables**: Uso de componentes desactualizados con fallas conocidas.
+
+## Implementación Técnica
+
+El proyecto utilizó herramientas especializadas de seguridad:
+
+- **OWASP ZAP**: Para escaneo automatizado de vulnerabilidades.
+- **Burp Suite**: Para interceptar y analizar solicitudes HTTP.
+- **Scripts Personalizados**: Para probar fallas de autorización en la API.
+- **Herramientas de Desarrollo del Navegador**: Para analizar el comportamiento de la aplicación.
+
+## Impacto y Mitigación
+
+Para cada vulnerabilidad, proporcioné estrategias detalladas de mitigación:
+
+- **Validación de Entradas y Codificación de Salidas**: Para prevenir ataques XSS.
+- **Controles Adecuados de Autorización**: Para hacer cumplir el control de acceso.
+- **Controles de Seguridad de API**: Para proteger endpoints sensibles.
+- **Implementación de Cabeceras de Seguridad**: Para potenciar la seguridad del navegador.
+- **Actualización de Componentes**: Para eliminar vulnerabilidades conocidas.
+
+## Conclusión
+
+Este proyecto demostró cómo las pruebas de penetración sistemáticas pueden identificar vulnerabilidades de seguridad críticas en aplicaciones web antes de que sean explotadas por actores maliciosos. Los resultados enfatizaron la importancia de incorporar la seguridad a lo largo de todo el ciclo de desarrollo, particularmente en sistemas que manejan información sensible.
+
+Las recomendaciones dadas ayudarán a fortalecer la postura de seguridad del sistema SISGAA, protegiendo tanto a la institución como a sus usuarios de posibles ciberamenazas.
+
+## Habilidades Técnicas Demostradas
+
+- Evaluación de seguridad en aplicaciones web
+- Pruebas de seguridad de APIs
+- Técnicas de explotación de vulnerabilidades
+- Documentación y elaboración de reportes de seguridad
+- Aplicación práctica de metodologías OWASP
