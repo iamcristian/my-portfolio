@@ -35,6 +35,6 @@ export const education: AcademicItem[] = [
     description:
       "ソフトウェア開発、アルゴリズム、データ構造、データベース、ネットワーク、オペレーティングシステム、ソフトウェアプロジェクト管理を網羅する包括的な5年間の工学プログラム。Webベースの情報システムに関する卒業論文プロジェクトを完了して卒業。",
     logo: "/src/assets/images/certs/umss.webp",
-    gpa: "85/100",
+    gpa: "74/100",
   },
 ];

@@ -43,4 +43,18 @@ export const skills: SkillCategory[] = [
     description: "Anwendungsschutz, Penetrationstests und Netzwerksicherheit",
     items: ["OWASP", "API Security", "Penetration Testing", "Network Security"],
   },
+  {
+    id: "ai",
+    name: "KI & Agentensysteme",
+    icon: "sparkles",
+    description: "Generative KI und intelligente Agentenarchitekturen",
+    items: ["Model Context Protocol (MCP)", "Prompt Engineering", "Agenten-Workflows", "Skills"],
+  },
+  {
+    id: "soft-skills",
+    name: "Soft Skills",
+    icon: "brain",
+    description: "Interpersonelle Eigenschaften und professionelle Denkweise für effektive Zusammenarbeit",
+    items: ["Führungskompetenz", "Assertive Kommunikation", "Problemlösung", "Anpassungsfähigkeit"],
+  },
 ];

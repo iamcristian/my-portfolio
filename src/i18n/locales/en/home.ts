@@ -1,29 +1,34 @@
 export const home = {
   "home.hello": "Hello, I'm",
   "home.name": "Cristian Arando",
-  "home.subtitle": "Full Stack Software Developer",
+  "home.subtitle": "Software & Systems Engineer",
   "home.tagline":
-    "Strategy-driven developer passionate about solving complex problems with technology",
+    "Designing software systems through structure, modularity, and careful decomposition of complexity",
   "home.downloadCv": "Download CV",
   "home.contactMe": "Contact Me",
-  "site.title": "Cristian Arando — Full Stack Developer",
+
+  "site.title": "Cristian Arando | Software & Systems Engineer",
   "site.description":
-    "Strategy-driven developer passionate about solving complex problems with technology. Portfolio showcasing full-stack projects, blog articles, and professional experience.",
+    "Software & Systems Engineer focused on designing and building scalable web systems. I prioritize system design, architecture, and software quality, using modern technologies as implementation tools rather than defining constraints.",
+
   "about.title": "About Me",
   "about.subtitle": "// About Me",
   "about.p1":
-    "Strategy-driven developer dedicated to turning ambitious ideas into reality through technology. My approach combines analytical thinking and innovation to solve complex problems and deliver standout solutions.",
+    "I’m a Software & Systems Engineer focused on designing and building full-stack web systems. My work emphasizes clarity, performance, and long-term maintainability through thoughtful system design.",
   "about.p2":
-    "My experience is focused on modern web development with Next.js, React, NestJS, Express, and TypeScript. I enjoy exploring where technology meets reality, and I am passionate about gaming and philosophical books, always seeking new ways to expand my perspective and skills.",
+    "My approach is systems-first rather than technology-first. I think in terms of system design, API boundaries, modular architecture, and maintainable structure. Technologies are implementation details; design principles define the system.",
   "about.p3":
-    "Based in Cochabamba, Bolivia, I bring a unique perspective to every project, always striving to build meaningful and high-impact solutions. I believe in continuous learning and finding inspiration in diverse interests to fuel my work.",
+    "I actively study software architecture and system design practices, including API design, Clean Architecture principles, Agile Methodologies, and more. I complement this with technical literature to deepen my understanding of how scalable systems are structured and evolved.",
+
   "about.location": "Cochabamba, Bolivia",
+
   "about.expValue": "1+",
   "about.expTitle": "Years of Experience",
   "about.passionValue": "100%",
-  "about.passionTitle": "Passion Driven",
+  "about.passionTitle": "Analytical Focus",
   "about.stratValue": "S+",
   "about.stratTitle": "Strategic Thinking",
+
   "education.title": "Education",
   "education.subtitle": "// Education",
   "education.tabAcademic": "Academic Background",
@@ -33,12 +38,15 @@ export const home = {
   "education.viewCredential": "View Credential",
   "education.gpa": "GPA",
   "education.fluency": "Fluency",
+
   "experience.title": "Experience",
   "experience.subtitle": "// Experience",
   "experience.responsibilities": "Key Responsibilities",
   "experience.technologies": "Technologies",
+
   "skills.title": "Skills",
   "skills.subtitle": "// Skills",
+
   "projects.title": "Projects",
   "projects.subtitle": "// Projects",
   "projects.viewAll": "View All Projects",
@@ -51,7 +59,7 @@ export const home = {
   "projects.backend": "Backend",
   "projects.fullstack": "Fullstack",
   "projects.subtitlePage":
-    "A selection of projects demonstrating my work in web development, backend, and full stack.",
+    "A selection of software systems and engineering projects focused on architecture, backend logic, and practical system design.",
   "projects.viewGrid": "Grid View",
   "projects.viewList": "List View",
   "projects.sortBy": "Sort by",
@@ -61,6 +69,7 @@ export const home = {
   "projects.sortDateOldest": "Date (Oldest)",
   "projects.sortNameAsc": "Name (A-Z)",
   "projects.sortNameDesc": "Name (Z-A)",
+
   "blog.title": "Blog",
   "blog.subtitle": "// Blog",
   "blog.viewAll": "Read All Articles",
@@ -76,7 +85,7 @@ export const home = {
   "blog.prev": "Previous Article",
   "blog.next": "Next Article",
   "blog.subtitlePage":
-    "Thoughts, tutorials, and articles on software development, security, and technology.",
+    "Thoughts, learning notes, and explorations across software, artificial intelligence, cybersecurity, philosophy, and language learning.",
   "blog.filterDateRange": "Date Range",
   "blog.dateAll": "All Time",
   "blog.dateYesterday": "Yesterday",

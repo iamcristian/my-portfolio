@@ -2,120 +2,243 @@ import type { CertificationCategory } from "../../../types";
 
 export const certifications: CertificationCategory[] = [
   {
+    id: "ai",
+    name: "人工知能",
+    items: [
+      {
+        id: "anthropic-ai-fluency",
+        title: "AI Fluency for Small Businesses",
+        institution: "Anthropic Education",
+        date: "2026年6月",
+        description:
+          "Claudeや生成AIソリューションを活用した小規模ビジネスのワークフロー最適化に焦点を当てた、AI流暢性コースを修了。",
+        link: "https://verify.skilljar.com/c/o8qcyn4zjny6",
+        logo: "/src/assets/images/certs/anthropic.webp",
+      },
+      {
+        id: "anthropic-mcp-advanced",
+        title: "Model Context Protocol: Advanced Topics",
+        institution: "Anthropic Education",
+        date: "2026年6月",
+        description:
+          "カスタムMCPサーバーの構築、安全なコンテキスト共有、および高度なデータソースのLLMへの接続に焦点を当てた、Model Context Protocolコースを修了。",
+        link: "https://verify.skilljar.com/c/gepbvmqygu8v",
+        logo: "/src/assets/images/certs/anthropic.webp",
+      },
+      {
+        id: "anthropic-claude-code",
+        title: "Claude Code in Action",
+        institution: "Anthropic Education",
+        date: "2026年5月",
+        description:
+          "コード編集、ターミナルコマンド、および自動開発タスクのためのAnthropicのエージェントCLIツールの活用に焦点を当てた、Claude Codeコースを修了。",
+        link: "https://verify.skilljar.com/c/225fw8837oo8",
+        logo: "/src/assets/images/certs/anthropic.webp",
+      },
+      {
+        id: "devtalles-openai-react-nest",
+        title: "OpenAI: Ejercicios prácticos y asistentes con React + NestJS",
+        institution: "DevTalles",
+        date: "2024年4月",
+        description:
+          "ReactフロントエンドとNestJSバックエンドを使用した実用的な生成AIアプリケーションの構築を網羅する、OpenAIアシスタント統合のコースを修了。",
+        link: "https://cursos.devtalles.com/certificates/blhvfvmceg",
+        logo: "/src/assets/images/certs/devtalles.webp",
+      },
+    ],
+  },
+  {
     id: "fullstack",
     name: "フルスタック開発",
     items: [
       {
         id: "nextjs-fullstack",
-        title: "Next.js – 本番環境向けReactフレームワーク",
+        title: "Next.js: The React Framework for Production",
         institution: "DevTalles",
         date: "2024年6月",
         description:
-          "Next.js App Router、サーバーコンポーネント、サーバーアクション、認証、データベース統合、本番環境へのデプロイ戦略を網羅した包括的なコース。",
-        link: "https://cursos.devtalles.com/certificates/nextjs",
+          "SSR、SSG、フック、ベストプラクティス、およびデプロイを網羅するNext.jsの包括的なコースを修了。",
+        link: "https://cursos.devtalles.com/certificates/ot6ijhzpfs",
         logo: "/src/assets/images/certs/devtalles.webp",
       },
       {
         id: "nestjs-microservices",
-        title: "NestJS + マイクロサービス：構築とデプロイ",
+        title: "NestJS + Microservices: Scalable and Modular Applications",
         institution: "DevTalles",
         date: "2024年5月",
         description:
-          "NestJSを使用したスケーラブルなマイクロサービスアーキテクチャの構築に関する高度なコース。メッセージブローカー、NATS、Dockerコンテナ化、APIゲートウェイパターン、本番環境へのデプロイを網羅。",
-        link: "https://cursos.devtalles.com/certificates/nestjs-microservices",
+          "スケーラブルでモジュール化されたアプリケーションの構築に焦点を当てた、NestJSとマイクロサービスのコースを修了。",
+        link: "https://cursos.devtalles.com/certificates/q52zqaoqna",
+        logo: "/src/assets/images/certs/devtalles.webp",
+      },
+      {
+        id: "react-pro",
+        title: "React PRO: Lleva tus bases al siguiente nivel",
+        institution: "DevTalles",
+        date: "2024年4月",
+        description:
+          "デザインパターン、状態管理、カスタムフック、パフォーマンスの最適化、およびTypeScriptの統合を網羅する、高度なReactコースを修了。",
+        link: "https://cursos.devtalles.com/certificates/8hfx0odnmi",
         logo: "/src/assets/images/certs/devtalles.webp",
       },
       {
         id: "node-rest-auth",
-        title: "Node.js RESTサーバー、認証とクリーンアーキテクチャ",
+        title: "Node - REST Authentication with Clean Architecture",
         institution: "DevTalles",
         date: "2024年4月",
         description:
-          "Node.jsとTypeScriptを使用したRESTful API of 構築、JWT認証の実装、クリーンアーキテクチャパターン、リポジトリパターン、SOLID原則について深く掘り下げるコース。",
-        link: "https://cursos.devtalles.com/certificates/node-rest-auth",
+          "クリーンアーキテクチャの原則を使用したNode.js認証コースを修了し、セキュリティとメンテナンス性を向上。",
+        link: "https://cursos.devtalles.com/certificates/icacthbzrc",
         logo: "/src/assets/images/certs/devtalles.webp",
       },
       {
         id: "modern-javascript",
-        title: "モダンJavaScript – ゼロからエキスパートへ",
+        title: "Modern JavaScript: Guide to Mastering the Language",
         institution: "DevTalles",
         date: "2023年8月",
         description:
-          "ES6+の機能、非同期プログラミング、DOM操作、デザインパターン、モジュール、テスト、モダンな開発ワークフローを網罗した包括的なJavaScriptコース。",
-        link: "https://cursos.devtalles.com/certificates/javascript-moderno",
+          "ES6+の機能、非同期プログラミング、およびベストプラクティスを網羅するモダンJavaScriptのコースを修了。",
+        link: "https://cursos.devtalles.com/certificates/jyflbutxb0",
         logo: "/src/assets/images/certs/devtalles.webp",
+      },
+    ],
+  },
+  {
+    id: "web-security",
+    name: "Webセキュリティ",
+    items: [
+      {
+        id: "api-pentest",
+        title: "API Penetration Testing",
+        institution: "APISEC",
+        date: "2024年5月",
+        description:
+          "OWASP API Security Top 10 2023を使用して、Web APIの脆弱性の特定と悪用に焦点を当てた、APIペネトレーションテストコースを修了。",
+        link: "https://www.credly.com/badges/b845b494-cb64-4434-8cec-9e24e696c310/public_url",
+        logo: "/src/assets/images/certs/apisec.webp",
       },
     ],
   },
   {
     id: "software-foundations",
-    name: "ソフトウェアの基礎",
+    name: "ソフトウェア基礎",
     items: [
       {
         id: "solid-clean-code",
-        title: "SOLID原則とクリーンコード",
+        title: "SOLID Principles and Clean Code",
         institution: "DevTalles",
         date: "2024年4月",
         description:
-          "SOLID原則, クリーンコードの実践、リファクタリング手法、プロフェッショナルなソフトウェア開発のためのデザインパターンを使用して、メンテナンスしやすくスケーラブルなコードを書くことに焦点を当てたコース。",
-        link: "https://cursos.devtalles.com/certificates/solid-clean-code",
+          "SOLID原則とクリーンコードの実践に関するコースを修了し、ソフトウェア設計とメンテナンス性を向上。",
+        link: "https://cursos.devtalles.com/certificates/fbyc1og4td",
         logo: "/src/assets/images/certs/devtalles.webp",
       },
       {
         id: "software-foundations-escuelait",
-        title: "ソフトウェアの基礎",
+        title: "Software Foundations",
         institution: "EscuelaIT",
         date: "2023年8月",
         description:
-          "ソフトウェアエンジニアリングの基本概念、プログラミングパラダイム、ソフトウェアアーキテクチャの基礎、堅牢なアプリケーションを構築するためのベストプラクティスをカバーする基礎コース。",
-        link: "https://escuela.it/",
+          "デザインパターン、アーキテクチャ、ベストプラクティスを含むソフトウェア開発の主要な概念を網羅する、ソフトウェア基礎コースを修了。",
+        link: "https://escuela.it/certificado/CERT-6bUoExVq",
         logo: "/src/assets/images/certs/escuelait.webp",
       },
       {
         id: "java-escuelait",
-        title: "Javaプログラミング",
+        title: "Programming with Java",
         institution: "EscuelaIT",
         date: "2023年7月",
         description:
-          "OOP原則、コレクションフレームワーク、例外処理、ジェネリクス、マルチスレッド、Javaエコシステムツールを網羅した包括的なJavaプログラミングコース。",
-        link: "https://escuela.it/",
+          "オブジェクト指向プログラミングの原則、データ構造、およびアルゴリズムに焦点を当てた、Javaプログラミングコースを修了。",
+        link: "https://escuela.it/certificado/CERT-neGp23aM",
         logo: "/src/assets/images/certs/escuelait.webp",
       },
       {
         id: "git-coursera",
-        title: "Gitによるバージョン管理",
-        institution: "Coursera – Atlassian",
+        title: "Version Control with Git",
+        institution: "Coursera - Atlassian",
         date: "2023年1月",
         description:
-          "ブランチ戦略、マージ競合の解決、リベース、共同ワークフロー、Bitbucket/GitHub統合をカバーするGitバージョン管理に関するプロフェッショナルコース。",
-        link: "https://www.coursera.org/account/accomplishments/verify/git-atlassian",
+          "ブランチ、マージ、およびコラボレーションワークフローを網羅する、Gitを使用したバージョン管理コースを修了。",
+        link: "https://coursera.org/share/b90c858376ed4333bb46c751295dcd67",
         logo: "/src/assets/images/certs/coursera.webp",
       },
       {
         id: "diff-equations",
-        title: "技術者のための微分方程式",
-        institution:
-          "Coursera – Hong Kong University of Science and Technology",
+        title: "Differential Equations for Engineers",
+        institution: "Coursera - The Hong Kong University",
         date: "2022年12月",
         description:
-          "常微分方程式、ラプラス変換、連立方程式、工学問題に応用される数値手法をカバーする数学コース。",
-        link: "https://www.coursera.org/account/accomplishments/verify/diff-equations",
+          "工学および技術への応用に焦点を当てた、微分方程式コースを修了。",
+        link: "https://coursera.org/share/b2dd83ae991c55dc66cf59fee04730a4",
         logo: "/src/assets/images/certs/coursera.webp",
       },
     ],
   },
   {
+    id: "networks",
+    name: "ネットワーク",
+    items: [
+      {
+        id: "ccna-enterprise",
+        title: "CCNA: Enterprise Networking, Security, and Automation",
+        institution: "Cisco",
+        date: "2024年1月",
+        description:
+          "高度なネットワーク概念とセキュリティ実践を網羅する、CCNA Enterprise Networking, Security, and Automationコースを修了。",
+        link: "https://www.credly.com/badges/5850eb71-fb55-4692-b3d1-4402a12887d5/public_url",
+        logo: "/src/assets/images/certs/cisco.webp",
+      },
+      {
+        id: "ccna-switching",
+        title: "CCNA: Switching, Routing, and Wireless Essentials",
+        institution: "Cisco",
+        date: "2023年7月",
+        description:
+          "ネットワーク設計、構成、およびトラブルシューティングに焦点を当てた、CCNA Switching, Routing, and Wireless Essentialsコースを修了。",
+        link: "https://www.credly.com/badges/30da6658-bb81-470e-ba01-fe922d220168/public_url",
+        logo: "/src/assets/images/certs/cisco.webp",
+      },
+      {
+        id: "ccna-intro",
+        title: "CCNA: Introduction to Networks",
+        institution: "Cisco",
+        date: "2023年1月",
+        description:
+          "ネットワークの基礎、IPアドレス指定、および基本的なネットワークセキュリティを網羅する、CCNA Introduction to Networksコースを修了。",
+        link: "https://www.credly.com/badges/7828169a-a251-4156-9cc4-6badc6c3799b/public_url",
+        logo: "/src/assets/images/certs/cisco.webp",
+      },
+    ],
+  },
+  {
+    id: "academic-distinctions",
+    name: "学術的表彰",
+    items: [
+      {
+        id: "excellent-student",
+        title: "優秀生徒表彰",
+        institution: "高校最終学年",
+        date: "2018年12月",
+        description:
+          "高校の最終学年における卓越した学業成績を称えられ、優秀生徒として表彰されました。",
+        link: "https://drive.google.com/file/d/1ijJqIJjJ7dsUUxPuLJD1nCyyYeaErVRa/view",
+        logo: "/src/assets/images/certs/award.webp",
+      },
+    ],
+  },
+  {
     id: "linguistics",
-    name: "言語学",
+    name: "語学",
     items: [
       {
         id: "efset-b2",
-        title: "EF SET英語認定証 – B2 Upper Intermediate",
-        institution: "EF Education First",
+        title: "EFSET 英語認定証 B2 Upper Intermediate",
+        institution: "EF Standard English Test",
         date: "2023年11月",
         description:
-          "CEFR尺度でB2（中上級）レベルをスコアした標準的な英語能力テストで、高い読解力とリスニング力を証明します。",
-        link: "https://www.efset.org/cert/",
+          "英語力においてB2（中上級）レベルを達成し、プロフェッショナルな環境で効果的にコミュニケーションできる能力を実証。",
+        link: "https://www.efset.org/cert/eHmQk3",
         logo: "/src/assets/images/certs/efset.webp",
       },
     ],
@@ -126,81 +249,13 @@ export const certifications: CertificationCategory[] = [
     items: [
       {
         id: "agile-jira",
-        title: "Atlassian Jiraによるアジャイル",
-        institution: "Coursera – Atlassian",
+        title: "Agile with Atlassian Jira",
+        institution: "Coursera - Atlassian",
         date: "2023年7月",
         description:
-          "ScrumとKanbanフレームワーク、スプリント計画、バックログ管理、チームベロシティ追跡をカバーする、Jiraを使用したアジャイルプロジェクト管理に関するプロフェッショナルコース。",
-        link: "https://www.coursera.org/account/accomplishments/verify/agile-jira",
+          "プロジェクト管理とチームコラボレーションに焦点を当てた、Atlassian Jiraを使用したアジャイル開発手法のコースを修了。",
+        link: "https://coursera.org/share/b97617897c0dc270bad0c9d1fcb34c37",
         logo: "/src/assets/images/certs/coursera.webp",
-      },
-    ],
-  },
-  {
-    id: "web-security",
-    name: "Webセキュリティ",
-    items: [
-      {
-        id: "api-pentest",
-        title: "APIペネトレーションテスト",
-        institution: "APIsec University",
-        date: "2024年5月",
-        description:
-          "OWASP API Top 10、認証バイパス、インジェクション攻撃、認可の不備、レート制限、自動セキュリティスキャンツールをカバーするAPIセキュリティテストに関する専門コース。",
-        link: "https://www.apisecuniversity.com/",
-        logo: "/src/assets/images/certs/apisec.webp",
-      },
-    ],
-  },
-  {
-    id: "networks",
-    name: "ネットワーク",
-    items: [
-      {
-        id: "ccna-enterprise",
-        title:
-          "CCNA：エンタープライズ ネットワーキング、セキュリティ、および自動化",
-        institution: "Cisco Networking Academy",
-        date: "2024年1月",
-        description:
-          "エンタープライズネットワークアーキテクチャ、WANテクノロジー、ネットワークセキュリティの概念、SDN, Pythonによるネットワーク自動化、REST APIをカバーする高度なCisco認定コース。",
-        link: "https://www.credly.com/badges/ccna-enterprise",
-        logo: "/src/assets/images/certs/cisco.webp",
-      },
-      {
-        id: "ccna-switching",
-        title: "CCNA：スイッチング、ルーティング、およびワイヤレスの基礎",
-        institution: "Cisco Networking Academy",
-        date: "2023年7月",
-        description:
-          "VLAN構成, VLAN間ルーティング、STP、EtherChannel、DHCPv4/v6, FHRP、ワイヤレスLANの概念、スイッチセキュリティ機能をカバーするCiscoの中級コース。",
-        link: "https://www.credly.com/badges/ccna-switching",
-        logo: "/src/assets/images/certs/cisco.webp",
-      },
-      {
-        id: "ccna-intro",
-        title: "CCNA：ネットワークへの導入",
-        institution: "Cisco Networking Academy",
-        date: "2023年1月",
-        description:
-          "ネットワークの基礎, Ethernetの概念、IPv4/IPv6アドレッシング、OSIおよびTCP/IPモデル, サブネット化、ルーター/スイッチの基本構成をカバーするCiscoの基礎コース。",
-        link: "https://www.credly.com/badges/ccna-intro",
-        logo: "/src/assets/images/certs/cisco.webp",
-      },
-    ],
-  },
-  {
-    id: "academic-distinctions",
-    name: "学術的優秀賞",
-    items: [
-      {
-        id: "excellent-student",
-        title: "最優秀学生賞",
-        institution: "Universidad Mayor de San Simón",
-        date: "2023年12月",
-        description:
-          "システムエンジニアリングプログラム全体を通じて優れた学業成績を収め、講義、研究、論文発表における優秀さを実証したことに対して授与された賞。",
-        logo: "/src/assets/images/certs/umss.webp",
       },
     ],
   },

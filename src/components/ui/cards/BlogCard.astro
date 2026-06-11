@@ -103,7 +103,7 @@ const t = useTranslations(lang);
       <div class="space-y-3">
         <div class="flex flex-wrap gap-3 text-xs opacity-60 items-center">
           {showFeaturedBadge && (
-            <span class="badge badge-secondary badge-xs font-semibold gap-1 py-2 px-2 text-[10px] rounded-full shrink-0">
+            <span class="blog-metadata-featured-badge badge badge-secondary badge-xs font-semibold gap-1 py-2 px-2 text-[10px] rounded-full shrink-0">
               <ShieldIcon class="w-3 h-3 text-secondary-content" />
               <span>{t("blog.featured")}</span>
             </span>
@@ -141,3 +141,10 @@ const t = useTranslations(lang);
     </div>
   </article>
 )}
+
+<style>
+  /* Hide the metadata featured badge in grid view (where card-compact class is present) */
+  .blog-card.card-compact .blog-metadata-featured-badge {
+    display: none !important;
+  }
+</style>

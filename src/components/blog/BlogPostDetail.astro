@@ -202,24 +202,54 @@ const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).forma
   function initTOC() {
     const article = document.querySelector("article.prose");
     if (!article) return;
-    const headings = article.querySelectorAll("h2, h3");
+    const headings = Array.from(article.querySelectorAll("h2, h3"));
     const allTocLinks = document.querySelectorAll("#desktop-toc a, #toc_modal nav a");
 
     if (headings.length === 0 || allTocLinks.length === 0) return;
 
+    // Track intersection state of each heading by its ID
+    const headingStates = new Map();
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            allTocLinks.forEach((link) => link.classList.remove("toc-active"));
-            const activeLinks = document.querySelectorAll(
-              `#desktop-toc a[href="#${entry.target.id}"], #toc_modal nav a[href="#${entry.target.id}"]`
-            );
-            activeLinks.forEach((el) => el.classList.add("toc-active"));
-          }
+          headingStates.set(entry.target.id, entry.isIntersecting);
         });
+
+        // Determine which heading is active
+        // 1. Get all currently intersecting headings
+        const intersectingHeadings = headings.filter((h) => headingStates.get(h.id));
+
+        let activeId = null;
+
+        if (intersectingHeadings.length > 0) {
+          // If there are intersecting headings, the first one in document order is active
+          activeId = intersectingHeadings[0].id;
+        } else {
+          // If none are intersecting, find the last one that is above the viewport
+          // (i.e., we have scrolled past it)
+          const scrolledPast = headings.filter((h) => {
+            const rect = h.getBoundingClientRect();
+            return rect.top < 100; // Matches the top margin offset
+          });
+          if (scrolledPast.length > 0) {
+            activeId = scrolledPast[scrolledPast.length - 1].id;
+          }
+        }
+
+        // Update the active classes
+        if (activeId) {
+          allTocLinks.forEach((link) => {
+            const href = link.getAttribute("href");
+            if (href === `#${activeId}`) {
+              link.classList.add("toc-active");
+            } else {
+              link.classList.remove("toc-active");
+            }
+          });
+        }
       },
-      { rootMargin: "-100px 0px -70% 0px", threshold: 0 }
+      { rootMargin: "-95px 0px -70% 0px", threshold: 0 }
     );
 
     headings.forEach((heading) => observer.observe(heading));

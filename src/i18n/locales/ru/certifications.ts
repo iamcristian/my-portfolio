@@ -2,136 +2,104 @@ import type { CertificationCategory } from "../../../types";
 
 export const certifications: CertificationCategory[] = [
   {
+    id: "ai",
+    name: "Искусственный интеллект",
+    items: [
+      {
+        id: "anthropic-ai-fluency",
+        title: "AI Fluency for Small Businesses",
+        institution: "Anthropic Education",
+        date: "Июнь 2026",
+        description:
+          "Пройден курс по основам применения ИИ, посвященный использованию Claude и решений на базе генеративного ИИ для оптимизации рабочих процессов малого бизнеса.",
+        link: "https://verify.skilljar.com/c/o8qcyn4zjny6",
+        logo: "/src/assets/images/certs/anthropic.webp",
+      },
+      {
+        id: "anthropic-mcp-advanced",
+        title: "Model Context Protocol: Advanced Topics",
+        institution: "Anthropic Education",
+        date: "Июнь 2026",
+        description:
+          "Пройден курс по Model Context Protocol, посвященный созданию кастомных серверов MCP, безопасной передаче контекста и подключению расширенных источников данных к LLM.",
+        link: "https://verify.skilljar.com/c/gepbvmqygu8v",
+        logo: "/src/assets/images/certs/anthropic.webp",
+      },
+      {
+        id: "anthropic-claude-code",
+        title: "Claude Code in Action",
+        institution: "Anthropic Education",
+        date: "Май 2026",
+        description:
+          "Пройден курс по использованию Claude Code, посвященный применению агентного CLI-инструмента от Anthropic для редактирования кода, выполнения терминальных команд и автоматизации разработки.",
+        link: "https://verify.skilljar.com/c/225fw8837oo8",
+        logo: "/src/assets/images/certs/anthropic.webp",
+      },
+      {
+        id: "devtalles-openai-react-nest",
+        title: "OpenAI: Ejercicios prácticos и ассистенты с React + NestJS",
+        institution: "DevTalles",
+        date: "Апрель 2024",
+        description:
+          "Пройден курс по интеграции ассистентов OpenAI, охватывающий создание практических приложений на базе генеративного ИИ с фронтендом на React и бэкендом на NestJS.",
+        link: "https://cursos.devtalles.com/certificates/blhvfvmceg",
+        logo: "/src/assets/images/certs/devtalles.webp",
+      },
+    ],
+  },
+  {
     id: "fullstack",
-    name: "Разработка Full Stack",
+    name: "Фулстек-разработка",
     items: [
       {
         id: "nextjs-fullstack",
-        title: "Next.js – React-фреймворк для продакшена",
+        title: "Next.js: The React Framework for Production",
         institution: "DevTalles",
         date: "Июнь 2024",
         description:
-          "Комплексный курс, охватывающий Next.js App Router, Server Components, Server Actions, авторизацию, интеграцию баз данных и стратегии развертывания для приложений продакшн-уровня.",
-        link: "https://cursos.devtalles.com/certificates/nextjs",
+          "Пройден полный курс по Next.js, охватывающий SSR, SSG, хуки, лучшие практики и развертывание.",
+        link: "https://cursos.devtalles.com/certificates/ot6ijhzpfs",
         logo: "/src/assets/images/certs/devtalles.webp",
       },
       {
         id: "nestjs-microservices",
-        title: "NestJS + Микросервисы: сборка и развертывание",
+        title: "NestJS + Microservices: Scalable and Modular Applications",
         institution: "DevTalles",
         date: "Май 2024",
         description:
-          "Продвинутый курс по созданию масштабируемых архитектур микросервисов с использованием NestJS, брокеров сообщений, NATS, контейнеризации Docker, шаблонов API Gateway и развертывания в продакшене.",
-        link: "https://cursos.devtalles.com/certificates/nestjs-microservices",
+          "Пройден курс по NestJS и микросервисам с упором на создание масштабируемых и модульных приложений.",
+        link: "https://cursos.devtalles.com/certificates/q52zqaoqna",
+        logo: "/src/assets/images/certs/devtalles.webp",
+      },
+      {
+        id: "react-pro",
+        title: "React PRO: Lleva tus bases al siguiente nivel",
+        institution: "DevTalles",
+        date: "Апрель 2024",
+        description:
+          "Продленный курс по React, охватывающий паттерны проектирования, управление состоянием, кастомные хуки, оптимизацию производительности и интеграцию с TypeScript.",
+        link: "https://cursos.devtalles.com/certificates/8hfx0odnmi",
         logo: "/src/assets/images/certs/devtalles.webp",
       },
       {
         id: "node-rest-auth",
-        title: "REST-сервер Node.js с авторизацией и чистой архитектурой",
+        title: "Node - REST Authentication with Clean Architecture",
         institution: "DevTalles",
         date: "Апрель 2024",
         description:
-          "Углубленный курс по созданию RESTful API с использованием Node.js и TypeScript, внедрению JWT-авторизации, шаблонов чистой архитектуры, шаблона репозитория и принципов SOLID.",
-        link: "https://cursos.devtalles.com/certificates/node-rest-auth",
+          "Пройден курс по авторизации в Node.js на базе принципов чистой архитектуры, повышающей безопасность и удобство поддержки.",
+        link: "https://cursos.devtalles.com/certificates/icacthbzrc",
         logo: "/src/assets/images/certs/devtalles.webp",
       },
       {
         id: "modern-javascript",
-        title: "Современный JavaScript — от нуля до эксперта",
+        title: "Modern JavaScript: Guide to Mastering the Language",
         institution: "DevTalles",
         date: "Август 2023",
         description:
-          "Комплексный курс по JavaScript, охватывающий возможности ES6+, асинхронное программирование, манипуляции с DOM, шаблоны проектирования, модули, тестирование и современные рабочие процессы разработки.",
-        link: "https://cursos.devtalles.com/certificates/javascript-moderno",
+          "Пройден курс по современному JavaScript, охватывающий возможности ES6+, асинхронное программирование и лучшие практики.",
+        link: "https://cursos.devtalles.com/certificates/jyflbutxb0",
         logo: "/src/assets/images/certs/devtalles.webp",
-      },
-    ],
-  },
-  {
-    id: "software-foundations",
-    name: "Основы программного обеспечения",
-    items: [
-      {
-        id: "solid-clean-code",
-        title: "Принципы SOLID и чистый код",
-        institution: "DevTalles",
-        date: "Апрель 2024",
-        description:
-          "Курс, посвященный написанию поддерживаемого и масштабируемого кода с использованием принципов SOLID, практик чистого кода, методов рефакторинга и шаблонов проектирования для профессиональной разработки ПО.",
-        link: "https://cursos.devtalles.com/certificates/solid-clean-code",
-        logo: "/src/assets/images/certs/devtalles.webp",
-      },
-      {
-        id: "software-foundations-escuelait",
-        title: "Основы программного обеспечения",
-        institution: "EscuelaIT",
-        date: "Август 2023",
-        description:
-          "Базовый курс, охватывающий основные концепции программной инженерии, парадигмы программирования, основы архитектуры программного обеспечения и лучшие практики создания надежных приложений.",
-        link: "https://escuela.it/",
-        logo: "/src/assets/images/certs/escuelait.webp",
-      },
-      {
-        id: "java-escuelait",
-        title: "Программирование на Java",
-        institution: "EscuelaIT",
-        date: "Июль 2023",
-        description:
-          "Комплексный курс по программированию на Java, охватывающий принципы ООП, коллекции, обработку исключений, обобщения, многопоточность и инструменты экосистемы Java.",
-        link: "https://escuela.it/",
-        logo: "/src/assets/images/certs/escuelait.webp",
-      },
-      {
-        id: "git-coursera",
-        title: "Управление версиями с помощью Git",
-        institution: "Coursera – Atlassian",
-        date: "Январь 2023",
-        description:
-          "Профессиональный курс по управлению версиями в Git, охватывающий стратегии ветвления, разрешение конфликтов слияния, перебазирование, совместную работу и интеграцию с Bitbucket/GitHub.",
-        link: "https://www.coursera.org/account/accomplishments/verify/git-atlassian",
-        logo: "/src/assets/images/certs/coursera.webp",
-      },
-      {
-        id: "diff-equations",
-        title: "Дифференциальные уравнения для инженеров",
-        institution: "Coursera – HKUST",
-        date: "Декабрь 2022",
-        description:
-          "Математический курс, охватывающий обыкновенные дифференциальные уравнения, преобразования Лапласа, системы уравнений и численные методы применительно к инженерным задачам.",
-        link: "https://www.coursera.org/account/accomplishments/verify/diff-equations",
-        logo: "/src/assets/images/certs/coursera.webp",
-      },
-    ],
-  },
-  {
-    id: "linguistics",
-    name: "Лингвистика",
-    items: [
-      {
-        id: "efset-b2",
-        title: "Сертификат по английскому языку EF SET — B2 Upper Intermediate",
-        institution: "EF Education First",
-        date: "Ноябрь 2023",
-        description:
-          "Стандартизированный тест на знание английского языка на уровне B2 (Upper Intermediate) по шкале CEFR, подтверждающий сильные навыки чтения и аудирования.",
-        link: "https://www.efset.org/cert/",
-        logo: "/src/assets/images/certs/efset.webp",
-      },
-    ],
-  },
-  {
-    id: "methodologies",
-    name: "Методологии",
-    items: [
-      {
-        id: "agile-jira",
-        title: "Agile с Atlassian Jira",
-        institution: "Coursera – Atlassian",
-        date: "Июль 2023",
-        description:
-          "Профессиональный курс по гибкому управлению проектами с использованием Jira, охватывающий методологии Scrum и Kanban, планирование спринтов, управление бэклогом и отслеживание скорости команды.",
-        link: "https://www.coursera.org/account/accomplishments/verify/agile-jira",
-        logo: "/src/assets/images/certs/coursera.webp",
       },
     ],
   },
@@ -141,13 +109,69 @@ export const certifications: CertificationCategory[] = [
     items: [
       {
         id: "api-pentest",
-        title: "Тестирование API на проникновение",
-        institution: "APIsec University",
+        title: "API Penetration Testing",
+        institution: "APISEC",
         date: "Май 2024",
         description:
-          "Специализированный курс по тестированию безопасности API, охватывающий OWASP API Top 10, обход аутентификации, инъекционные атаки, нарушение авторизации, ограничение частоты запросов и инструменты автоматического сканирования безопасности.",
-        link: "https://www.apisecuniversity.com/",
+          "Пройден курс по тестированию API на проникновение с упором на выявление и эксплуатацию уязвимостей веб-API на основе OWASP API Security Top 10 2023.",
+        link: "https://www.credly.com/badges/b845b494-cb64-4434-8cec-9e24e696c310/public_url",
         logo: "/src/assets/images/certs/apisec.webp",
+      },
+    ],
+  },
+  {
+    id: "software-foundations",
+    name: "Основы разработки ПО",
+    items: [
+      {
+        id: "solid-clean-code",
+        title: "SOLID Principles and Clean Code",
+        institution: "DevTalles",
+        date: "Апрель 2024",
+        description:
+          "Пройден курс по принципам SOLID и практикам чистого кода, улучшающий проектирование и удобство поддержки программного обеспечения.",
+        link: "https://cursos.devtalles.com/certificates/fbyc1og4td",
+        logo: "/src/assets/images/certs/devtalles.webp",
+      },
+      {
+        id: "software-foundations-escuelait",
+        title: "Software Foundations",
+        institution: "EscuelaIT",
+        date: "Август 2023",
+        description:
+          "Пройден курс по основам разработки ПО, охватывающий ключевые понятия, включая паттерны проектирования, архитектуру и лучшие практики.",
+        link: "https://escuela.it/certificado/CERT-6bUoExVq",
+        logo: "/src/assets/images/certs/escuelait.webp",
+      },
+      {
+        id: "java-escuelait",
+        title: "Programming with Java",
+        institution: "EscuelaIT",
+        date: "Июль 2023",
+        description:
+          "Пройден курс по программированию на Java с упором на принципы объектно-ориентированного программирования, структуры данных и алгоритмы.",
+        link: "https://escuela.it/certificado/CERT-neGp23aM",
+        logo: "/src/assets/images/certs/escuelait.webp",
+      },
+      {
+        id: "git-coursera",
+        title: "Version Control with Git",
+        institution: "Coursera - Atlassian",
+        date: "Январь 2023",
+        description:
+          "Пройден курс по контролю версий с помощью Git, охватывающий ветвление, слияние и совместную работу.",
+        link: "https://coursera.org/share/b90c858376ed4333bb46c751295dcd67",
+        logo: "/src/assets/images/certs/coursera.webp",
+      },
+      {
+        id: "diff-equations",
+        title: "Differential Equations for Engineers",
+        institution: "Coursera - The Hong Kong University",
+        date: "Декабрь 2022",
+        description:
+          "Пройден курс по дифференциальным уравнениям, ориентированный на применение в инженерии и технологиях.",
+        link: "https://coursera.org/share/b2dd83ae991c55dc66cf59fee04730a4",
+        logo: "/src/assets/images/certs/coursera.webp",
       },
     ],
   },
@@ -157,32 +181,32 @@ export const certifications: CertificationCategory[] = [
     items: [
       {
         id: "ccna-enterprise",
-        title: "CCNA: Корпоративные сети, безопасность и автоматизация",
-        institution: "Cisco Networking Academy",
+        title: "CCNA: Enterprise Networking, Security, and Automation",
+        institution: "Cisco",
         date: "Январь 2024",
         description:
-          "Сертификационный курс Cisco продвинутого уровня, охватывающий архитектуры корпоративных сетей, технологии WAN, концепции сетевой безопасности, SDN, автоматизацию сетей с помощью Python и REST API.",
-        link: "https://www.credly.com/badges/ccna-enterprise",
+          "Пройден курс CCNA Enterprise Networking, Security, and Automation, охватывающий расширенные концепции сетевых технологий и методы безопасности.",
+        link: "https://www.credly.com/badges/5850eb71-fb55-4692-b3d1-4402a12887d5/public_url",
         logo: "/src/assets/images/certs/cisco.webp",
       },
       {
         id: "ccna-switching",
-        title: "CCNA: Основы коммутации, маршрутизации и беспроводных сетей",
-        institution: "Cisco Networking Academy",
+        title: "CCNA: Switching, Routing, and Wireless Essentials",
+        institution: "Cisco",
         date: "Июль 2023",
         description:
-          "Курс Cisco среднего уровня, охватывающий настройку VLAN, маршрутизацию между VLAN, STP, EtherChannel, DHCPv4/v6, FHRP, концепции беспроводных сетей и функции безопасности коммутаторов.",
-        link: "https://www.credly.com/badges/ccna-switching",
+          "Пройден курс CCNA Switching, Routing, and Wireless Essentials, посвященный проектированию, настройке и устранению неполадок в сетях.",
+        link: "https://www.credly.com/badges/30da6658-bb81-470e-ba01-fe922d220168/public_url",
         logo: "/src/assets/images/certs/cisco.webp",
       },
       {
         id: "ccna-intro",
-        title: "CCNA: Введение в сети",
-        institution: "Cisco Networking Academy",
+        title: "CCNA: Introduction to Networks",
+        institution: "Cisco",
         date: "Январь 2023",
         description:
-          "Базовый курс Cisco, охватывающий основы сетей, концепции Ethernet, адресацию IPv4/IPv6, модели OSI и TCP/IP, разделение на подсети и базовую настройку маршрутизатора/коммутатора.",
-        link: "https://www.credly.com/badges/ccna-intro",
+          "Пройден курс CCNA Introduction to Networks, охватывающий основы построения сетей, IP-адресацию и базовую сетевую безопасность.",
+        link: "https://www.credly.com/badges/7828169a-a251-4156-9cc4-6badc6c3799b/public_url",
         logo: "/src/assets/images/certs/cisco.webp",
       },
     ],
@@ -193,12 +217,45 @@ export const certifications: CertificationCategory[] = [
     items: [
       {
         id: "excellent-student",
-        title: "Награда за выдающиеся успехи в учебе",
-        institution: "Universidad Mayor de San Simón",
-        date: "Декабрь 2023",
+        title: "Награда лучшему ученику",
+        institution: "Выпускной класс старшей школы",
+        date: "Декабрь 2018",
         description:
-          "Награда за выдающуюся академическую успеваемость на протяжении всей программы системной инженерии, подтверждающая превосходные результаты в учебе, исследованиях и защите дипломной работы.",
-        logo: "/src/assets/images/certs/umss.webp",
+          "Награжден как лучший ученик за выдающиеся академические успехи в течение выпускного года в старшей школе.",
+        link: "https://drive.google.com/file/d/1ijJqIJjJ7dsUUxPuLJD1nCyyYeaErVRa/view",
+        logo: "/src/assets/images/certs/award.webp",
+      },
+    ],
+  },
+  {
+    id: "linguistics",
+    name: "Лингвистика",
+    items: [
+      {
+        id: "efset-b2",
+        title: "EFSET English Certificate B2 Upper Intermediate",
+        institution: "EF Standard English Test",
+        date: "Ноябрь 2023",
+        description:
+          "Достигнут уровень B2 (Upper Intermediate) по шкале владения английским языком, что демонстрирует способность эффективно общаться в профессиональной среде.",
+        link: "https://www.efset.org/cert/eHmQk3",
+        logo: "/src/assets/images/certs/efset.webp",
+      },
+    ],
+  },
+  {
+    id: "methodologies",
+    name: "Методологии",
+    items: [
+      {
+        id: "agile-jira",
+        title: "Agile with Atlassian Jira",
+        institution: "Coursera - Atlassian",
+        date: "Июль 2023",
+        description:
+          "Пройден курс по гибким методологиям разработки с использованием Atlassian Jira, посвященный управлению проектами и командному взаимодействию.",
+        link: "https://coursera.org/share/b97617897c0dc270bad0c9d1fcb34c37",
+        logo: "/src/assets/images/certs/coursera.webp",
       },
     ],
   },

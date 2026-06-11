@@ -2,15 +2,17 @@
 import { getLang, useTranslations } from "../../../i18n/utils";
 import type { Project } from "../../../types";
 import { Image } from "astro:assets";
+import ShieldIcon from "../../../assets/icons/shield.svg";
 
 interface Props {
   project: Project;
   loading?: "lazy" | "eager";
+  showFeaturedBadge?: boolean;
   class?: string;
   [key: string]: any;
 }
 
-const { project, loading = "lazy", class: className, ...rest } = Astro.props;
+const { project, loading = "lazy", showFeaturedBadge = false, class: className, ...rest } = Astro.props;
 
 const lang = getLang(Astro.currentLocale || Astro.params.lang);
 const t = useTranslations(lang);
@@ -43,10 +45,24 @@ const imageImport = images[project.image];
         class="w-full h-full object-cover"
       />
     )}
+    {(project.featured || showFeaturedBadge) && (
+      <span class="badge bg-neutral-900/60 text-white border-none gap-1.5 py-3 px-3.5 absolute top-3 left-3 backdrop-blur-md text-xs font-semibold rounded-full shadow-sm">
+        <ShieldIcon class="w-3.5 h-3.5 text-secondary" />
+        <span>{t("blog.featured")}</span>
+      </span>
+    )}
   </figure>
   <div class="project-body card-body flex-1 flex flex-col justify-between p-5 transition-all">
     <div class="space-y-3">
-      <h3 class="card-title text-sm md:text-base hover:text-primary transition-colors project-title">{project.title}</h3>
+      <div class="flex flex-col gap-2">
+        {(project.featured || showFeaturedBadge) && (
+          <span class="body-featured-badge badge badge-secondary badge-xs font-semibold gap-1 py-2 px-2 text-[10px] rounded-full shrink-0 w-fit">
+            <ShieldIcon class="w-3 h-3 text-secondary-content" />
+            <span>{t("blog.featured")}</span>
+          </span>
+        )}
+        <h3 class="card-title text-sm md:text-base hover:text-primary transition-colors project-title">{project.title}</h3>
+      </div>
       <p class="text-xs opacity-80 line-clamp-3 leading-relaxed project-desc">{project.description}</p>
       <div class="flex flex-wrap gap-1 mt-2">
         {project.tech.map((techItem) => (
@@ -66,3 +82,13 @@ const imageImport = images[project.image];
     </div>
   </div>
 </article>
+
+<style>
+  .body-featured-badge {
+    display: none;
+  }
+  
+  :global(.project-card:not(.card-compact)) .body-featured-badge {
+    display: inline-flex;
+  }
+</style>
