@@ -13,7 +13,7 @@ export const GET: APIRoute = async (context) => {
   }
 
   const siteUrl =
-    context.site?.toString() || "https://cristianarando.vercel.app";
+    context.site?.toString() || "https://cristianarando.dev";
   const twoDaysAgo = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000);
 
   const posts = await getCollection("blog", (entry) => {

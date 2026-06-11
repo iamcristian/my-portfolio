@@ -28,7 +28,7 @@ export const GET: APIRoute = async (context) => {
   return rss({
     title: t("site.title") || "Cristian Arando",
     description: t("site.description") || "Portfolio and blog",
-    site: context.site ? context.site.toString() : "https://cristianarando.vercel.app",
+    site: context.site ? context.site.toString() : "https://cristianarando.dev",
     trailingSlash: true,
     items: posts.map((post) => ({
       title: post.data.title,

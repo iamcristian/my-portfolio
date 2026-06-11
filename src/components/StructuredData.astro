@@ -27,7 +27,7 @@ const {
 const lang = getLang(Astro.currentLocale || Astro.params.lang);
 const t = useTranslations(lang);
 
-const siteUrl = Astro.site?.origin || SITE.url || "https://cristianarando.vercel.app";
+const siteUrl = Astro.site?.origin || SITE.url || "https://cristianarando.dev";
 const cleanSiteUrl = siteUrl.replace(/\/$/, "");
 const canonicalUrl = new URL(Astro.url.pathname, cleanSiteUrl).href;
 

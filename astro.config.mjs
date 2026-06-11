@@ -6,7 +6,7 @@ import sitemap, { ChangeFreqEnum } from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://cristianarando.vercel.app",
+  site: "https://cristianarando.dev",
   integrations: [
     mdx(),
     sitemap({

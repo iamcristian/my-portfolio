@@ -3,12 +3,12 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://cristianarando.vercel.app
+Host: https://cristianarando.dev
 
 # Sitemaps
-Sitemap: https://cristianarando.vercel.app/sitemap-index.xml
-Sitemap: https://cristianarando.vercel.app/en/news-sitemap.xml
-Sitemap: https://cristianarando.vercel.app/es/news-sitemap.xml
-Sitemap: https://cristianarando.vercel.app/de/news-sitemap.xml
-Sitemap: https://cristianarando.vercel.app/ru/news-sitemap.xml
-Sitemap: https://cristianarando.vercel.app/ja/news-sitemap.xml
+Sitemap: https://cristianarando.dev/sitemap-index.xml
+Sitemap: https://cristianarando.dev/en/news-sitemap.xml
+Sitemap: https://cristianarando.dev/es/news-sitemap.xml
+Sitemap: https://cristianarando.dev/de/news-sitemap.xml
+Sitemap: https://cristianarando.dev/ru/news-sitemap.xml
+Sitemap: https://cristianarando.dev/ja/news-sitemap.xml
