@@ -219,7 +219,7 @@ export const certifications: CertificationCategory[] = [
         id: "excellent-student",
         title: "Награда лучшему ученику",
         institution: "Выпускной класс старшей школы",
-        date: "Декабрь 2023",
+        date: "Декабрь 2018",
         description:
           "Награжден как лучший ученик за выдающиеся академические успехи в течение выпускного года в старшей школе.",
         link: "https://drive.google.com/file/d/1ijJqIJjJ7dsUUxPuLJD1nCyyYeaErVRa/view",

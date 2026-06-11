@@ -219,7 +219,7 @@ export const certifications: CertificationCategory[] = [
         id: "excellent-student",
         title: "優秀生徒表彰",
         institution: "高校最終学年",
-        date: "2023年12月",
+        date: "2018年12月",
         description:
           "高校の最終学年における卓越した学業成績を称えられ、優秀生徒として表彰されました。",
         link: "https://drive.google.com/file/d/1ijJqIJjJ7dsUUxPuLJD1nCyyYeaErVRa/view",

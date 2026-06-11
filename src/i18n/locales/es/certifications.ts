@@ -219,7 +219,7 @@ export const certifications: CertificationCategory[] = [
         id: "excellent-student",
         title: "Reconocimiento al Estudiante Excelente",
         institution: "Último Año de Secundaria",
-        date: "Diciembre 2023",
+        date: "Diciembre 2018",
         description:
           "Reconocimiento otorgado como estudiante excelente por rendimiento académico sobresaliente durante mi último año de secundaria.",
         link: "https://drive.google.com/file/d/1ijJqIJjJ7dsUUxPuLJD1nCyyYeaErVRa/view",

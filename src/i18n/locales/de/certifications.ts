@@ -219,7 +219,7 @@ export const certifications: CertificationCategory[] = [
         id: "excellent-student",
         title: "Auszeichnung als exzellenter Schüler",
         institution: "Abschlussjahr der Highschool",
-        date: "Dezember 2023",
+        date: "Dezember 2018",
         description:
           "Auszeichnung als exzellenter Schüler für herausragende akademische Leistungen im letzten Highschool-Jahr.",
         link: "https://drive.google.com/file/d/1ijJqIJjJ7dsUUxPuLJD1nCyyYeaErVRa/view",
