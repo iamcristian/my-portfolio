@@ -1,0 +1,96 @@
+---
+interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props;
+
+// Mapeo de idiomas de tu portafolio a los soportados por Giscus
+const giscusLangMap: Record<string, string> = {
+  en: "en",
+  es: "es",
+  de: "de",
+  ja: "ja",
+  ru: "ru",
+};
+const giscusLang = giscusLangMap[lang] || "en";
+
+// Repositorio y credenciales provistos por el usuario
+const repo = "iamcristian/my-portfolio";
+const repoId = "R_kgDOS3yNtQ";
+const category = "Announcements";
+const categoryId = "DIC_kwDOS3yNtc4C-918";
+---
+
+<div class="giscus-wrapper mt-12 pt-8 border-t border-base-300">
+  <h2 class="text-xl font-bold mb-6 text-base-content/90">
+    {
+      lang === "es"
+        ? "Comentarios"
+        : lang === "de"
+          ? "Kommentare"
+          : lang === "ja"
+            ? "コメント"
+            : lang === "ru"
+              ? "Комментарии"
+              : "Comments"
+    }
+  </h2>
+
+  <!-- Carga del script del Web Component de Giscus -->
+  <script type="module" src="https://esm.sh/giscus" async></script>
+
+  <!-- Elemento personalizado de Giscus -->
+  <giscus-widget
+    id="comments-widget"
+    repo={repo}
+    repoid={repoId}
+    category={category}
+    categoryid={categoryId}
+    mapping="pathname"
+    strict="0"
+    reactionsenabled="1"
+    emitmetadata="0"
+    inputposition="bottom"
+    theme="light"
+    lang={giscusLang}
+    loading="lazy"></giscus-widget>
+</div>
+
+<script>
+  function setupGiscusTheme() {
+    const widget = document.getElementById("comments-widget");
+    if (!widget) return;
+
+    // Detectamos el tema activo en el elemento html
+    const currentTheme = document.documentElement.getAttribute("data-theme");
+
+    // En tu portafolio los temas oscuros son 'business', 'dracula' y 'forest' (todo lo que no sea 'light')
+    const isDark = currentTheme !== "light";
+    const giscusTheme = isDark ? "dark" : "light";
+
+    widget.setAttribute("theme", giscusTheme);
+  }
+
+  // Inicializar al cargar
+  setupGiscusTheme();
+
+  // Observador para detectar cuando el usuario cambia el tema en tiempo real
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.attributeName === "data-theme") {
+        setupGiscusTheme();
+      }
+    });
+  });
+
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-theme"],
+  });
+
+  // Compatibilidad con Astro Page Transitions
+  document.addEventListener("astro:page-load", () => {
+    setupGiscusTheme();
+  });
+</script>
