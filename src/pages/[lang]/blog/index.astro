@@ -13,7 +13,7 @@ export function getStaticPaths() {
 const lang = getLang(Astro.currentLocale || Astro.params.lang);
 ---
 
-<Layout>
+<Layout structuredDataType="collection">
   <Header />
   <BlogManager lang={lang} />
   <Footer />

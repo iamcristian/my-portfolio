@@ -1,0 +1,13 @@
+{
+  "name": "Cristian Arando — Full Stack Developer",
+  "short_name": "Cristian Arando",
+  "description": "Portfolio and tech blog by Cristian Arando",
+  "start_url": "/en/",
+  "display": "standalone",
+  "background_color": "#1d232a",
+  "theme_color": "#570df8",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "/favicon.ico", "sizes": "32x32", "type": "image/x-icon" }
+  ]
+}
