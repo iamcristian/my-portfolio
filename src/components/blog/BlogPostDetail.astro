@@ -5,6 +5,7 @@ import { getRelativeLocaleUrl } from "astro:i18n";
 import { getLang, useTranslations } from "../../i18n/utils";
 import { getReadTime } from "../../utils/blog";
 import { Image } from "astro:assets";
+import Giscus from "./Giscus.astro";
 
 // SVGs
 import CalendarIcon from "../../assets/icons/calendar.svg";
@@ -89,6 +90,7 @@ const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).forma
       <article class="prose prose-sm max-w-none prose-headings:scroll-mt-24 prose-headings:font-bold prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl">
         <Content />
       </article>
+      <Giscus lang={lang} />
     </div>
 
 
