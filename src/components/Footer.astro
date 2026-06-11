@@ -4,6 +4,7 @@ import { getLang, useTranslations } from "../i18n/utils";
 import { SITE } from "../config/site";
 import SocialLinks from "./ui/SocialLinks.astro";
 import MailIcon from "../assets/icons/mail.svg";
+import ChevronUpIcon from "../assets/icons/chevron-up.svg";
 
 const lang = getLang(Astro.currentLocale || Astro.params.lang);
 const t = useTranslations(lang);
@@ -11,13 +12,19 @@ const t = useTranslations(lang);
 const homeUrl = getRelativeLocaleUrl(lang, "");
 ---
 
-<footer class="bg-base-200 text-base-content border-t border-base-content/10 mt-auto">
+<footer
+  class="bg-base-200 text-base-content border-t border-base-content/10 mt-auto"
+>
   <!-- Main Footer Content -->
-  <div class="max-w-6xl mx-auto px-4 md:px-8 py-8 md:py-16 grid grid-cols-2 md:flex md:flex-row md:justify-between gap-y-8 gap-x-4 md:gap-10">
+  <div
+    class="max-w-6xl mx-auto px-4 md:px-8 py-8 md:py-16 grid grid-cols-2 md:flex md:flex-row md:justify-between gap-y-8 gap-x-4 md:gap-10"
+  >
     <!-- Column 1: Info -->
     <div class="col-span-2 md:col-span-1 max-w-xs space-y-2 md:space-y-3">
       <h3 class="font-bold text-lg text-base-content">{t("home.name")}</h3>
-      <p class="text-sm opacity-80 font-medium leading-snug">{t("home.subtitle")}</p>
+      <p class="text-sm opacity-80 font-medium leading-snug">
+        {t("home.subtitle")}
+      </p>
       <p class="text-sm opacity-70 leading-relaxed">
         {t("footer.tagline")}
       </p>
@@ -25,20 +32,44 @@ const homeUrl = getRelativeLocaleUrl(lang, "");
 
     <!-- Column 2: Quick Links -->
     <div class="col-span-1">
-      <p class="footer-title opacity-60 font-semibold tracking-wider text-xs uppercase mb-2 md:mb-3">{t("footer.quickLinks")}</p>
+      <p
+        class="footer-title opacity-60 font-semibold tracking-wider text-xs uppercase mb-2 md:mb-3"
+      >
+        {t("footer.quickLinks")}
+      </p>
       <div class="flex flex-col gap-1.5 md:gap-2">
-        <a href={homeUrl} class="link link-hover text-sm opacity-80 hover:text-primary transition-colors">{t("nav.home")}</a>
-        <a href={`${homeUrl}#about`} class="link link-hover text-sm opacity-80 hover:text-primary transition-colors">{t("nav.about")}</a>
-        <a href={getRelativeLocaleUrl(lang, "projects")} class="link link-hover text-sm opacity-80 hover:text-primary transition-colors">{t("nav.projects")}</a>
-        <a href={getRelativeLocaleUrl(lang, "blog")} class="link link-hover text-sm opacity-80 hover:text-primary transition-colors">{t("nav.blog")}</a>
+        <a
+          href={homeUrl}
+          class="link link-hover text-sm opacity-80 hover:text-primary transition-colors"
+          >{t("nav.home")}</a
+        >
+        <a
+          href={`${homeUrl}#about`}
+          class="link link-hover text-sm opacity-80 hover:text-primary transition-colors"
+          >{t("nav.about")}</a
+        >
+        <a
+          href={getRelativeLocaleUrl(lang, "projects")}
+          class="link link-hover text-sm opacity-80 hover:text-primary transition-colors"
+          >{t("nav.projects")}</a
+        >
+        <a
+          href={getRelativeLocaleUrl(lang, "blog")}
+          class="link link-hover text-sm opacity-80 hover:text-primary transition-colors"
+          >{t("nav.blog")}</a
+        >
       </div>
     </div>
 
     <!-- Column 3: Connect -->
     <div class="col-span-1">
-      <p class="footer-title opacity-60 font-semibold tracking-wider text-xs uppercase mb-2 md:mb-3">{t("footer.connect")}</p>
+      <p
+        class="footer-title opacity-60 font-semibold tracking-wider text-xs uppercase mb-2 md:mb-3"
+      >
+        {t("footer.connect")}
+      </p>
       <SocialLinks size="sm" showLabels={true} variant="link" />
-      <a 
+      <a
         href={`mailto:${SITE.email}`}
         class="link link-hover flex items-center gap-2 text-sm opacity-80 hover:text-primary transition-colors mt-1.5 md:mt-2"
       >
@@ -49,17 +80,21 @@ const homeUrl = getRelativeLocaleUrl(lang, "");
 
     <!-- Column 4: Let's Collaborate -->
     <div class="col-span-2 md:col-span-1 max-w-xs space-y-2 md:space-y-3">
-      <p class="footer-title opacity-60 font-semibold tracking-wider text-xs uppercase mb-1">{t("footer.collaborate")}</p>
+      <p
+        class="footer-title opacity-60 font-semibold tracking-wider text-xs uppercase mb-1"
+      >
+        {t("footer.collaborate")}
+      </p>
       <p class="text-sm opacity-70 leading-relaxed">
         {t("footer.collaborateText")}
       </p>
       <div>
-        <a 
+        <a
           href={`mailto:${SITE.email}`}
           class="btn btn-neutral btn-sm gap-2 mt-1.5 md:mt-2 rounded-lg font-medium shadow-md transition-all hover:scale-105"
         >
           <MailIcon class="w-4 h-4" />
-          <span>{t("contact.sendEmail")}</span>
+          <span>{t("home.contactMe")}</span>
         </a>
       </div>
     </div>
@@ -67,27 +102,18 @@ const homeUrl = getRelativeLocaleUrl(lang, "");
 
   <!-- Bottom Bar -->
   <div class="border-t border-base-content/10 bg-base-200/50">
-    <div class="max-w-6xl mx-auto px-4 md:px-8 py-4 md:py-6 flex flex-col md:flex-row justify-between items-center gap-2 md:gap-4 text-xs opacity-75">
+    <div
+      class="max-w-6xl mx-auto px-4 md:px-8 py-4 md:py-6 flex flex-col md:flex-row justify-between items-center gap-2 md:gap-4 text-xs opacity-75"
+    >
       <div>
         <p>{t("footer.rights").replace("{name}", t("home.name"))}</p>
       </div>
       <div>
-        <button 
-          id="back-to-top" 
+        <button
+          id="back-to-top"
           class="link link-hover flex items-center gap-1 font-medium transition-colors hover:text-primary bg-transparent border-0 cursor-pointer p-0 font-[inherit] text-inherit h-auto min-h-0"
         >
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            class="w-3.5 h-3.5" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            stroke-width="2.5" 
-            stroke-linecap="round" 
-            stroke-linejoin="round"
-          >
-            <path d="m18 15-6-6-6 6"/>
-          </svg>
+          <ChevronUpIcon class="w-3.5 h-3.5" stroke-width="2.5" />
           <span>{t("footer.backToTop")}</span>
         </button>
       </div>

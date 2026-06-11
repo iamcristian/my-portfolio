@@ -43,4 +43,18 @@ export const skills: SkillCategory[] = [
     description: "アプリケーション保護、脆弱性診断、およびネットワーク防御",
     items: ["OWASP", "API Security", "Penetration Testing", "Network Security"],
   },
+  {
+    id: "ai",
+    name: "AI・エージェントシステム",
+    icon: "sparkles",
+    description: "生成AIとインテリジェントなエージェント・アーキテクチャ",
+    items: ["Model Context Protocol (MCP)", "プロンプトエンジニアリング", "エージェント・ワークフロー", "Skills"],
+  },
+  {
+    id: "soft-skills",
+    name: "ソフトスキル",
+    icon: "brain",
+    description: "効果的なコラボレーションのための対人スキルとプロフェッショナルなマインドセット",
+    items: ["リーダーシップ", "アサーティブ・コミュニケーション", "問題解決力", "適応力"],
+  },
 ];

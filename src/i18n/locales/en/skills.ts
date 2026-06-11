@@ -6,28 +6,28 @@ export const skills: SkillCategory[] = [
     name: "Languages",
     icon: "code",
     description: "Programming languages used to construct application logic",
-    items: ["JavaScript", "TypeScript", "Python", "Java", "HTML", "CSS", "SQL", "Bash"],
+    items: ["JavaScript", "TypeScript", "Python", "Java"],
   },
   {
     id: "frontend",
     name: "Frontend",
     icon: "monitor",
     description: "Technologies and libraries for building user interfaces",
-    items: ["React", "Next.js", "Astro", "Tailwind CSS", "Redux"],
+    items: ["React", "Next.js", "Angular", "Astro", "Tailwind CSS"],
   },
   {
     id: "backend",
     name: "Backend",
     icon: "server",
     description: "Server-side architectures, APIs, and business logic",
-    items: ["Node.js", "NestJS", "Express", "Flask"],
+    items: ["Node.js", "NestJS", "Express", "Django"],
   },
   {
     id: "databases",
     name: "Databases",
     icon: "database",
     description: "Relational and non-relational database storage engines",
-    items: ["PostgreSQL", "MongoDB", "MySQL", "Redis"],
+    items: ["PostgreSQL", "MongoDB", "MySQL"],
   },
   {
     id: "devops",
@@ -40,7 +40,24 @@ export const skills: SkillCategory[] = [
     id: "security",
     name: "Security",
     icon: "shield",
-    description: "Application protection, vulnerability scanning, and networking",
+    description:
+      "Application protection, vulnerability scanning, and networking",
     items: ["OWASP", "API Security", "Penetration Testing", "Network Security"],
+  },
+  {
+    id: "ai",
+    name: "AI & Agentic Systems",
+    icon: "sparkles",
+    description:
+      "Generative AI and intelligent agent architectures",
+    items: ["Model Context Protocol (MCP)", "Prompt Engineering", "Agentic Workflows", "Skills"],
+  },
+  {
+    id: "soft-skills",
+    name: "Soft Skills",
+    icon: "brain",
+    description:
+      "Interpersonal attributes and professional mindset for effective collaboration",
+    items: ["Leadership", "Assertive Communication", "Problem Solving", "Adaptability"],
   },
 ];

@@ -1,6 +1,7 @@
 ---
 import "../assets/app.css";
 import SEO from "../components/SEO.astro";
+import StructuredData from "../components/StructuredData.astro";
 
 interface Props {
   title?: string;
@@ -9,7 +10,10 @@ interface Props {
   imageAlt?: string;
   type?: "website" | "article";
   publishDate?: Date;
+  updatedDate?: Date;
   tags?: string[];
+  structuredDataType?: "profile" | "collection";
+  wordCount?: number;
 }
 
 const lang = Astro.currentLocale || "en";
@@ -23,7 +27,15 @@ const lang = Astro.currentLocale || "en";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
+    
+    <!-- Web App Manifest & Mobile optimization -->
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#570df8" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
     <SEO {...Astro.props} />
+    <StructuredData {...Astro.props} />
 
     <script is:inline>
       if (

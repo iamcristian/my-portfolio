@@ -7,3 +7,8 @@ Host: https://cristianarando.vercel.app
 
 # Sitemaps
 Sitemap: https://cristianarando.vercel.app/sitemap-index.xml
+Sitemap: https://cristianarando.vercel.app/en/news-sitemap.xml
+Sitemap: https://cristianarando.vercel.app/es/news-sitemap.xml
+Sitemap: https://cristianarando.vercel.app/de/news-sitemap.xml
+Sitemap: https://cristianarando.vercel.app/ru/news-sitemap.xml
+Sitemap: https://cristianarando.vercel.app/ja/news-sitemap.xml

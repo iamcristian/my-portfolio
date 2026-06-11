@@ -17,5 +17,8 @@ export const SITE = {
   cv: {
     en: "/cv/cv_en.pdf",
     es: "/cv/cv_es.pdf",
+    de: "/cv/cv_de.pdf",
+    ja: "/cv/cv_ja.pdf",
+    ru: "/cv/cv_ru.pdf",
   } as Record<string, string>,
 } as const;

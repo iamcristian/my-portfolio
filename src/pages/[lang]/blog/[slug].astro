@@ -17,16 +17,20 @@ export async function getStaticPaths() {
 const lang = getLang(Astro.currentLocale || Astro.params.lang);
 const { post } = Astro.props;
 
-const ogImage = post.data.image ? post.data.image.src : undefined;
+// Calculate word count from the post body
+const wordCount = post.body ? post.body.split(/\s+/).filter(Boolean).length : 0;
 ---
 
 <Layout
   title={post.data.title}
   description={post.data.description}
-  image={ogImage}
+  image={post.data.image}
+  imageAlt={post.data.imageAlt}
   type="article"
   publishDate={post.data.date}
+  updatedDate={post.data.updatedDate}
   tags={post.data.tags}
+  wordCount={wordCount}
 >
   <Header />
   <BlogPostDetail post={post} lang={lang} />

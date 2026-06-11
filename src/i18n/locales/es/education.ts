@@ -35,6 +35,6 @@ export const education: AcademicItem[] = [
     description:
       "Programa integral de ingeniería de cinco años que abarca desarrollo de software, algoritmos, estructuras de datos, bases de datos, redes, sistemas operativos y gestión de proyectos de software. Graduado con proyecto de tesis sobre sistemas de información basados en web.",
     logo: "/src/assets/images/certs/umss.webp",
-    gpa: "85/100",
+    gpa: "74/100",
   },
 ];

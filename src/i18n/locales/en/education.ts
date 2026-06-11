@@ -36,6 +36,6 @@ export const education: AcademicItem[] = [
     description:
       "Comprehensive five-year engineering program covering software development, algorithms, data structures, databases, networks, operating systems, and software project management. Graduated with a thesis project on web-based information systems.",
     logo: "/src/assets/images/certs/umss.webp",
-    gpa: "85/100",
+    gpa: "74/100",
   },
 ];

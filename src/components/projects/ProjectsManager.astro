@@ -15,9 +15,12 @@ interface Props {
 const { lang } = Astro.props;
 const langCode = getLang(lang || Astro.params.lang);
 const t = useTranslations(langCode);
-const PROJECTS = getProjectsForLang(langCode).sort(
-  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-);
+const PROJECTS = getProjectsForLang(langCode).sort((a, b) => {
+  const featA = a.featured ? 1 : 0;
+  const featB = b.featured ? 1 : 0;
+  if (featA !== featB) return featB - featA;
+  return new Date(b.date).getTime() - new Date(a.date).getTime();
+});
 ---
 
 <main
@@ -164,7 +167,9 @@ const PROJECTS = getProjectsForLang(langCode).sort(
           <ProjectCard
             project={project}
             loading={index < 6 ? "eager" : "lazy"}
+            showFeaturedBadge={project.featured}
             data-id={project.id}
+            data-featured={project.featured ? "true" : "false"}
             data-category={project.category}
             data-date={project.date}
             data-name={title.toLowerCase()}
@@ -203,7 +208,7 @@ const PROJECTS = getProjectsForLang(langCode).sort(
       noResultsId: "no-results-state",
       paginationId: "pagination-controls",
       itemsPerPage: 10,
-      hasFeatured: false,
+      hasFeatured: true,
       dateRangeSelectId: "projects-date-range",
       customDateContainerId: "projects-custom-date-container",
       startDateInputId: "projects-start-date",
