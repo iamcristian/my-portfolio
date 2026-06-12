@@ -4,7 +4,7 @@ import { useTranslations } from "../../i18n/utils";
 const { lang } = Astro.locals;
 const t = useTranslations(lang);
 
-// Mapeo de idiomas de tu portafolio a los soportados por Giscus
+// Mapping of portfolio languages to those supported by Giscus
 const giscusLangMap: Record<string, string> = {
   en: "en",
   es: "es",
@@ -14,7 +14,7 @@ const giscusLangMap: Record<string, string> = {
 };
 const giscusLang = giscusLangMap[lang] || "en";
 
-// Repositorio y credenciales provistos por el usuario
+// Repository and credentials provided by the user
 const repo = "iamcristian/my-portfolio";
 const repoId = "R_kgDOS3yNtQ";
 const category = "Announcements";
@@ -26,21 +26,15 @@ const categoryId = "DIC_kwDOS3yNtc4C-918";
     {t("blog.comments")}
   </h2>
 
-  <!-- Elemento personalizado de Giscus -->
-  <giscus-widget
-    id="comments-widget"
-    repo={repo}
-    repoid={repoId}
-    category={category}
-    categoryid={categoryId}
-    mapping="pathname"
-    strict="0"
-    reactionsenabled="1"
-    emitmetadata="0"
-    inputposition="bottom"
-    theme="light"
-    lang={giscusLang}
-    loading="lazy"></giscus-widget>
+  <!-- Container for dynamic initialization of Giscus -->
+  <div
+    id="giscus-container"
+    data-repo={repo}
+    data-repoid={repoId}
+    data-category={category}
+    data-categoryid={categoryId}
+    data-lang={giscusLang}
+  ></div>
 </div>
 
 <script>
@@ -55,28 +49,33 @@ const categoryId = "DIC_kwDOS3yNtc4C-918";
     widget.setAttribute("theme", giscusTheme);
   }
 
-  /**
-   * Re-mount the giscus-widget custom element to force it to reinitialize.
-   * After a View Transition, the web component's iframe may still show comments
-   * from the previous page. Detaching and re-attaching the element triggers
-   * disconnectedCallback → connectedCallback, which creates a fresh iframe
-   * using the current window.location.pathname.
-   */
-  function refreshGiscusWidget() {
-    const widget = document.getElementById("comments-widget");
-    if (!widget?.parentNode) return;
+  function createGiscusWidget() {
+    const container = document.getElementById("giscus-container");
+    if (!container) return;
 
-    const parent = widget.parentNode;
-    const next = widget.nextSibling;
+    // Avoid duplicates if the widget already exists in the DOM
+    if (document.getElementById("comments-widget")) return;
 
-    // Remove → disconnectedCallback (destroys old iframe)
-    parent.removeChild(widget);
+    const widget = document.createElement("giscus-widget");
+    widget.setAttribute("id", "comments-widget");
+    widget.setAttribute("repo", container.getAttribute("data-repo") || "");
+    widget.setAttribute("repoid", container.getAttribute("data-repoid") || "");
+    widget.setAttribute("category", container.getAttribute("data-category") || "");
+    widget.setAttribute("categoryid", container.getAttribute("data-categoryid") || "");
+    widget.setAttribute("mapping", "pathname");
+    widget.setAttribute("strict", "0");
+    widget.setAttribute("reactionsenabled", "1");
+    widget.setAttribute("emitmetadata", "0");
+    widget.setAttribute("inputposition", "bottom");
+    widget.setAttribute("lang", container.getAttribute("data-lang") || "en");
+    widget.setAttribute("loading", "lazy");
 
-    // Re-add → connectedCallback (creates new iframe with current pathname)
-    requestAnimationFrame(() => {
-      parent.insertBefore(widget, next);
-      setupGiscusTheme();
-    });
+    // Configure initial theme
+    const currentTheme = document.documentElement.getAttribute("data-theme");
+    const isDark = currentTheme !== "light";
+    widget.setAttribute("theme", isDark ? "dark" : "light");
+
+    container.appendChild(widget);
   }
 
   let giscusObserver: IntersectionObserver | null = null;
@@ -92,17 +91,17 @@ const categoryId = "DIC_kwDOS3yNtc4C-918";
           const scriptAlreadyLoaded = !!document.querySelector('script[src="https://esm.sh/giscus"]');
 
           if (!scriptAlreadyLoaded) {
-            // First blog visit: load the giscus web component script
+            // First visit: load the Giscus component script
             const script = document.createElement("script");
             script.type = "module";
             script.src = "https://esm.sh/giscus";
             script.async = true;
             document.head.appendChild(script);
-          } else {
-            // View Transition navigation: script is loaded but the widget
-            // may show stale comments — force re-creation for current URL
-            refreshGiscusWidget();
           }
+
+          // Create and append the widget. If the script is still loading,
+          // the browser will automatically upgrade the element when it finishes.
+          createGiscusWidget();
 
           giscusObserver?.disconnect();
           giscusObserver = null;
@@ -113,11 +112,7 @@ const categoryId = "DIC_kwDOS3yNtc4C-918";
     giscusObserver.observe(wrapper);
   }
 
-  // ── Initial setup ──
-  setupGiscusTheme();
-  initGiscusLazyLoad();
-
-  // ── Theme change observer ──
+  // ── Global theme change observer ──
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
       if (mutation.attributeName === "data-theme") {
@@ -133,7 +128,6 @@ const categoryId = "DIC_kwDOS3yNtc4C-918";
 
   // ── Astro View Transitions compatibility ──
   document.addEventListener("astro:page-load", () => {
-    setupGiscusTheme();
     initGiscusLazyLoad();
   });
 
