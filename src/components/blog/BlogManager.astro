@@ -1,8 +1,9 @@
 ---
-import { getLang, useTranslations } from "../../i18n/utils";
+import { useTranslations } from "../../i18n/utils";
 import { getCollection } from "astro:content";
 import BlogCard from "../ui/cards/BlogCard.astro";
 import PageHeading from "../ui/PageHeading.astro";
+import { sortFeaturedFirst } from "../../utils/sort";
 
 import SearchIcon from "../../assets/icons/search.svg";
 import GridIcon from "../../assets/icons/grid.svg";
@@ -10,24 +11,22 @@ import ListIcon from "../../assets/icons/list.svg";
 import SortIcon from "../../assets/icons/sort.svg";
 
 interface Props {
-  lang: string;
+  // Empty props
 }
 
-const { lang } = Astro.props;
-const langCode = getLang(lang || Astro.params.lang);
+const { lang: langCode } = Astro.locals;
 const t = useTranslations(langCode);
 
 // Fetch Blog Posts from Content Collection
-const blogPosts = (
-  await getCollection("blog", ({ data }) => {
-    return data.lang === langCode && !data.draft;
-  })
-).sort((a, b) => {
-  const featA = a.data.featured ? 1 : 0;
-  const featB = b.data.featured ? 1 : 0;
-  if (featA !== featB) return featB - featA;
-  return b.data.date.getTime() - a.data.date.getTime();
+const rawPosts = await getCollection("blog", ({ data }) => {
+  return data.lang === langCode && !data.draft;
 });
+
+const blogPosts = sortFeaturedFirst(
+  rawPosts,
+  (p) => p.data.featured,
+  (p) => p.data.date
+);
 
 // Calculate unique tags from posts
 const allTags = Array.from(

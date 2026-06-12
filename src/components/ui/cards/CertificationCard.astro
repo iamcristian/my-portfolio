@@ -1,5 +1,5 @@
 ---
-import { getLang, useTranslations } from "../../../i18n/utils";
+import { useTranslations } from "../../../i18n/utils";
 import type { Certification } from "../../../types";
 import { Image } from "astro:assets";
 
@@ -9,7 +9,7 @@ interface Props {
 
 const { item } = Astro.props;
 
-const lang = getLang(Astro.currentLocale || Astro.params.lang);
+const { lang } = Astro.locals;
 const t = useTranslations(lang);
 
 // Dynamically resolve optimized certificate image from src/assets/images/certs/

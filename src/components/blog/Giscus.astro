@@ -1,9 +1,8 @@
 ---
-interface Props {
-  lang: string;
-}
+import { useTranslations } from "../../i18n/utils";
 
-const { lang } = Astro.props;
+const { lang } = Astro.locals;
+const t = useTranslations(lang);
 
 // Mapeo de idiomas de tu portafolio a los soportados por Giscus
 const giscusLangMap: Record<string, string> = {
@@ -24,17 +23,7 @@ const categoryId = "DIC_kwDOS3yNtc4C-918";
 
 <div class="giscus-wrapper mt-12 pt-8 border-t border-base-300">
   <h2 class="text-xl font-bold mb-6 text-base-content/90">
-    {
-      lang === "es"
-        ? "Comentarios"
-        : lang === "de"
-          ? "Kommentare"
-          : lang === "ja"
-            ? "コメント"
-            : lang === "ru"
-              ? "Комментарии"
-              : "Comments"
-    }
+    {t("blog.comments")}
   </h2>
 
   <!-- Carga del script del Web Component de Giscus -->

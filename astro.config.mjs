@@ -3,6 +3,7 @@ import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import mdx from "@astrojs/mdx";
 import sitemap, { ChangeFreqEnum } from "@astrojs/sitemap";
+import { locales, SITEMAP_LOCALES } from "./src/i18n/ui";
 
 // https://astro.build/config
 export default defineConfig({
@@ -44,13 +45,7 @@ export default defineConfig({
       // Automatically generate localized alternate hreflang link tags inside the XML
       i18n: {
         defaultLocale: "en",
-        locales: {
-          en: "en-US",
-          es: "es-ES",
-          de: "de-DE",
-          ru: "ru-RU",
-          ja: "ja-JP",
-        },
+        locales: SITEMAP_LOCALES,
       },
     }),
   ],
@@ -59,7 +54,7 @@ export default defineConfig({
   },
   i18n: {
     defaultLocale: "en",
-    locales: ["en", "es", "de", "ru", "ja"],
+    locales: locales,
     routing: {
       prefixDefaultLocale: true,
       redirectToDefaultLocale: true,

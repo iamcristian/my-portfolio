@@ -1,12 +1,12 @@
 ---
-import { getLang, useTranslations } from "../../i18n/utils";
+import { useTranslations } from "../../i18n/utils";
 
 interface Props {
   class?: string;
 }
 
 const { class: className } = Astro.props;
-const lang = getLang(Astro.currentLocale || Astro.params.lang);
+const { lang } = Astro.locals;
 const t = useTranslations(lang);
 ---
 
@@ -312,7 +312,10 @@ const t = useTranslations(lang);
 </style>
 
 <script>
+  let lagrangeCleanup: (() => void) | null = null;
+
   function initLagrangeCard() {
+    lagrangeCleanup?.();
     const card = document.getElementById('lagrange-container');
     if (!card) return;
     
@@ -320,6 +323,9 @@ const t = useTranslations(lang);
     const statusTitle = card.querySelector('.system-status-title');
     const statusDesc = card.querySelector('.system-status-desc');
     
+    const controller = new AbortController();
+    const signal = controller.signal;
+
     // Lagrange Nodes Hover Interactivity
     lagrangeNodes.forEach(node => {
       node.addEventListener('mouseenter', () => {
@@ -368,7 +374,7 @@ const t = useTranslations(lang);
             contour.classList.add('contour-inactive');
           }
         });
-      });
+      }, { signal });
       
       node.addEventListener('mouseleave', () => {
         const id = node.getAttribute('data-id');
@@ -407,13 +413,19 @@ const t = useTranslations(lang);
         contours.forEach(contour => {
           contour.classList.remove('contour-active', 'contour-inactive');
         });
-      });
+      }, { signal });
     });
+
+    lagrangeCleanup = () => controller.abort();
   }
   
-  // Initialize
+  // Initialize on load
   initLagrangeCard();
-  
+
   // Re-run on View Transitions
-  document.addEventListener('astro:after-swap', initLagrangeCard);
+  document.addEventListener('astro:page-load', initLagrangeCard);
+  document.addEventListener('astro:before-swap', () => {
+    lagrangeCleanup?.();
+    lagrangeCleanup = null;
+  });
 </script>

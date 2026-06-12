@@ -1,7 +1,8 @@
 ---
-import { getLang, useTranslations, getProjectsForLang } from "../../i18n/utils";
+import { useTranslations, getProjectsForLang } from "../../i18n/utils";
 import ProjectCard from "../ui/cards/ProjectCard.astro";
 import PageHeading from "../ui/PageHeading.astro";
+import { sortFeaturedFirst } from "../../utils/sort";
 
 import SearchIcon from "../../assets/icons/search.svg";
 import GridIcon from "../../assets/icons/grid.svg";
@@ -9,18 +10,17 @@ import ListIcon from "../../assets/icons/list.svg";
 import SortIcon from "../../assets/icons/sort.svg";
 
 interface Props {
-  lang: string;
+  // Empty props
 }
 
-const { lang } = Astro.props;
-const langCode = getLang(lang || Astro.params.lang);
+const { lang: langCode } = Astro.locals;
 const t = useTranslations(langCode);
-const PROJECTS = getProjectsForLang(langCode).sort((a, b) => {
-  const featA = a.featured ? 1 : 0;
-  const featB = b.featured ? 1 : 0;
-  if (featA !== featB) return featB - featA;
-  return new Date(b.date).getTime() - new Date(a.date).getTime();
-});
+const rawProjects = getProjectsForLang(langCode);
+const PROJECTS = sortFeaturedFirst(
+  rawProjects,
+  (p) => p.featured,
+  (p) => p.date
+);
 ---
 
 <main

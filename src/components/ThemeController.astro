@@ -1,9 +1,9 @@
 ---
 import ChevronDown from "../assets/icons/chevron-down.svg";
 import Check from "../assets/icons/check.svg";
-import { getLang, useTranslations } from "../i18n/utils";
+import { useTranslations } from "../i18n/utils";
 
-const lang = getLang(Astro.currentLocale || Astro.params.lang);
+const { lang } = Astro.locals;
 const t = useTranslations(lang);
 
 const THEMES = [

@@ -1,13 +1,13 @@
 ---
 import { getCollection } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
-import { getLang, useTranslations } from "../../i18n/utils";
+import { useTranslations } from "../../i18n/utils";
 import BlogCard from "../ui/cards/BlogCard.astro";
 import ChevronLeftIcon from "../../assets/icons/chevron-left.svg";
 import ChevronRightIcon from "../../assets/icons/chevron-right.svg";
 import SectionHeading from "../ui/SectionHeading.astro";
 
-const lang = getLang(Astro.currentLocale || Astro.params.lang);
+const { lang } = Astro.locals;
 const t = useTranslations(lang);
 
 // Fetch Blog Posts from Content Collection
@@ -87,7 +87,10 @@ const recentBlogPosts = sortedPosts.filter((p) => !featuredIds.has(p.id)).slice(
 </section>
 
 <script>
+  let carouselCleanup: (() => void) | null = null;
+
   function setupCarousel() {
+    carouselCleanup?.();
     const carousel = document.getElementById('featured-carousel');
     if (!carousel) return;
 
@@ -135,23 +138,26 @@ const recentBlogPosts = sortedPosts.filter((p) => !featuredIds.has(p.id)).slice(
       }
     };
 
+    const controller = new AbortController();
+    const signal = controller.signal;
+
     prevBtn?.addEventListener('click', () => {
       prevSlide();
       stopAutoplay();
       startAutoplay();
-    });
+    }, { signal });
 
     nextBtn?.addEventListener('click', () => {
       nextSlide();
       stopAutoplay();
       startAutoplay();
-    });
+    }, { signal });
 
     // Pause autoplay on mouse enter, resume on leave
     const parentContainer = carousel.parentElement;
     if (parentContainer) {
-      parentContainer.addEventListener('mouseenter', stopAutoplay);
-      parentContainer.addEventListener('mouseleave', startAutoplay);
+      parentContainer.addEventListener('mouseenter', stopAutoplay, { signal });
+      parentContainer.addEventListener('mouseleave', startAutoplay, { signal });
     }
 
     // Sync active index on manual scroll/swipe
@@ -168,15 +174,25 @@ const recentBlogPosts = sortedPosts.filter((p) => !featuredIds.has(p.id)).slice(
           }
         }
       }, 100);
-    });
+    }, { signal });
 
     startAutoplay();
+
+    carouselCleanup = () => {
+      stopAutoplay();
+      controller.abort();
+      clearTimeout(scrollTimeout);
+    };
   }
 
-  // Initialize
+  // Initialize on load
   setupCarousel();
-  
+
   // Support Astro view transitions
-  document.addEventListener('astro:after-swap', setupCarousel);
+  document.addEventListener('astro:page-load', setupCarousel);
+  document.addEventListener('astro:before-swap', () => {
+    carouselCleanup?.();
+    carouselCleanup = null;
+  });
 </script>
 

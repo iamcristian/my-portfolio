@@ -1,10 +1,10 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
-import { getLang, useTranslations, getProjectsForLang } from "../../i18n/utils";
+import { useTranslations, getProjectsForLang } from "../../i18n/utils";
 import ProjectCard from "../ui/cards/ProjectCard.astro";
 import SectionHeading from "../ui/SectionHeading.astro";
 
-const lang = getLang(Astro.currentLocale || Astro.params.lang);
+const { lang } = Astro.locals;
 const t = useTranslations(lang);
 
 const PROJECTS = getProjectsForLang(lang);

@@ -3,9 +3,11 @@ import { getCollection } from "astro:content";
 import { languages } from "../../i18n/ui";
 import { useTranslations, type Lang } from "../../i18n/utils";
 import type { APIRoute } from "astro";
+import { getLocaleStaticPaths } from "../../config/paths";
+import { SITE } from "../../config/site";
 
 export async function getStaticPaths() {
-  return Object.keys(languages).map((lang) => ({ params: { lang } }));
+  return getLocaleStaticPaths();
 }
 
 export const GET: APIRoute = async (context) => {
@@ -26,9 +28,9 @@ export const GET: APIRoute = async (context) => {
   posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
   return rss({
-    title: t("site.title") || "Cristian Arando",
+    title: t("site.title") || SITE.name,
     description: t("site.description") || "Portfolio and blog",
-    site: context.site ? context.site.toString() : "https://cristianarando.dev",
+    site: context.site ? context.site.toString() : SITE.url,
     trailingSlash: true,
     items: posts.map((post) => ({
       title: post.data.title,

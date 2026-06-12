@@ -1,9 +1,9 @@
 ---
-import { getLang, useTranslations, getExperienceForLang } from "../../i18n/utils";
+import { useTranslations, getExperienceForLang } from "../../i18n/utils";
 import TimelineItem from "../ui/TimelineItem.astro";
 import SectionHeading from "../ui/SectionHeading.astro";
 
-const lang = getLang(Astro.currentLocale || Astro.params.lang);
+const { lang } = Astro.locals;
 const t = useTranslations(lang);
 const experienceItems = getExperienceForLang(lang);
 ---

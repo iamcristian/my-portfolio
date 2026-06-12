@@ -1,7 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
-import { getLang, useTranslations } from "../../../i18n/utils";
+import { useTranslations } from "../../../i18n/utils";
 import { getReadTime } from "../../../utils/blog";
 import CalendarIcon from "../../../assets/icons/calendar.svg";
 import ClockIcon from "../../../assets/icons/clock.svg";
@@ -19,7 +19,7 @@ interface Props {
 
 const { post, isFeatured = false, showFeaturedBadge = false, loading = "lazy", class: className, ...rest } = Astro.props;
 
-const lang = getLang(Astro.currentLocale || Astro.params.lang);
+const { lang } = Astro.locals;
 const t = useTranslations(lang);
 ---
 

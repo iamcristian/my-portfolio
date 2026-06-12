@@ -1,6 +1,5 @@
 ---
 import {
-  getLang,
   useTranslations,
   getEducationForLang,
   getCertificationsForLang,
@@ -11,7 +10,7 @@ import AcademicCard from "../ui/cards/AcademicCard.astro";
 import CertificationCard from "../ui/cards/CertificationCard.astro";
 import LanguageCard from "../ui/cards/LanguageCard.astro";
 
-const lang = getLang(Astro.currentLocale || Astro.params.lang);
+const { lang } = Astro.locals;
 const t = useTranslations(lang);
 
 const academicEducation = getEducationForLang(lang);

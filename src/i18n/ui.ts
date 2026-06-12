@@ -32,6 +32,22 @@ export const defaultLang = "en";
 /** All supported locale codes, derived from the languages map. */
 export const locales = Object.keys(languages) as (keyof typeof languages)[];
 
+export const SITEMAP_LOCALES = {
+  en: "en-US",
+  es: "es-ES",
+  de: "de-DE",
+  ru: "ru-RU",
+  ja: "ja-JP",
+} as const;
+
+export const OG_LOCALES = {
+  en: "en_US",
+  es: "es_ES",
+  de: "de_DE",
+  ru: "ru_RU",
+  ja: "ja_JP",
+} as const;
+
 export const ui = {
   en: { ...enHeader, ...enHome, ...enFooter },
   es: { ...esHeader, ...esHome, ...esFooter },

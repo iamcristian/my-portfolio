@@ -1,9 +1,9 @@
 ---
-import { getLang, useTranslations, getSkillsForLang } from "../../i18n/utils";
+import { useTranslations, getSkillsForLang } from "../../i18n/utils";
 import SectionHeading from "../ui/SectionHeading.astro";
 import SkillIcon from "../ui/SkillIcon.astro";
 
-const lang = getLang(Astro.currentLocale || Astro.params.lang);
+const { lang } = Astro.locals;
 const t = useTranslations(lang);
 const skillsCategories = getSkillsForLang(lang);
 ---

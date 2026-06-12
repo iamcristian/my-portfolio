@@ -225,8 +225,11 @@ export function initListManager(config: ListManagerConfig) {
       }
     });
 
-    // 3. Hide all
-    allCards.forEach((c) => c.classList.add("hidden"));
+    // 3. Hide all and reset order
+    allCards.forEach((c) => {
+      c.classList.add("hidden");
+      c.style.order = "";
+    });
 
     // 4. Empty state
     if (filtered.length === 0) {
@@ -243,9 +246,9 @@ export function initListManager(config: ListManagerConfig) {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const paginated = filtered.slice(startIndex, startIndex + itemsPerPage);
 
-    paginated.forEach((c) => {
+    paginated.forEach((c, index) => {
       c.classList.remove("hidden");
-      container.appendChild(c);
+      c.style.order = index.toString();
     });
 
     renderPagination(totalPages);

@@ -1,6 +1,7 @@
 ---
 import { SITE } from "../config/site";
-import { getLang, useTranslations } from "../i18n/utils";
+import { resolveSEOData } from "../utils/seo";
+import { locales } from "../i18n/ui";
 import meImage from "../assets/images/me.webp";
 
 export interface Props {
@@ -24,65 +25,23 @@ const {
   wordCount,
 } = Astro.props;
 
-const lang = getLang(Astro.currentLocale || Astro.params.lang);
-const t = useTranslations(lang);
+const { lang } = Astro.locals;
+const slug = Astro.params.slug;
 
-const siteUrl = Astro.site?.origin || SITE.url || "https://cristianarando.dev";
-const cleanSiteUrl = siteUrl.replace(/\/$/, "");
-const canonicalUrl = new URL(Astro.url.pathname, cleanSiteUrl).href;
-
-// Page route detection
-const pathname = Astro.url.pathname;
-const isHome = pathname === `/${lang}/` || pathname === `/${lang}` || pathname === "/";
-const isProjects = pathname.includes("/projects");
-const isBlogIndex = (pathname.endsWith("/blog") || pathname.endsWith("/blog/")) && !Astro.params.slug;
-
-// Resolve default localized title & description for schemas
-let title = Astro.props.title;
-if (!title) {
-  if (isHome) {
-    title = `${t("home.name")} — ${t("home.subtitle")}`;
-  } else if (isProjects) {
-    title = `${t("projects.title")} | ${t("home.name")}`;
-  } else if (isBlogIndex) {
-    title = `${t("blog.title")} | ${t("home.name")}`;
-  } else {
-    title = t("site.title") || SITE.title;
-  }
-}
-
-let description = Astro.props.description;
-if (!description) {
-  if (isHome) {
-    description = t("home.tagline") || t("site.description") || SITE.description;
-  } else if (isProjects) {
-    description = t("projects.subtitlePage") || t("site.description") || SITE.description;
-  } else if (isBlogIndex) {
-    description = t("blog.subtitlePage") || t("site.description") || SITE.description;
-  } else {
-    description = t("site.description") || SITE.description;
-  }
-}
-
-// Image resolution
-const imageSource = Astro.props.image || meImage;
-const imageUrl = typeof imageSource === "string"
-  ? (imageSource.startsWith("http") ? imageSource : `${cleanSiteUrl}${imageSource}`)
-  : new URL(imageSource.src, cleanSiteUrl).href;
+const seo = resolveSEOData(Astro.props, Astro.url, lang, slug);
+const t = seo.t;
 
 // Schemas list
 const schemas: any[] = [];
 
 // 1. BreadcrumbList for all pages
-const segments = pathname.split("/").filter(Boolean);
-// For localized sites, the first segment might be the lang. Remove it or handle it.
-const locales = ["en", "es", "de", "ru", "ja"];
+const segments = seo.pathname.split("/").filter(Boolean);
 let breadcrumbItems = [
   {
     "@type": "ListItem",
     "position": 1,
     "name": "Home",
-    "item": `${cleanSiteUrl}/${lang}/`
+    "item": `${seo.cleanSiteUrl}/${seo.lang}/`
   }
 ];
 
@@ -94,7 +53,7 @@ if (segments.length > 1) {
       "@type": "ListItem",
       "position": 2,
       "name": "Blog",
-      "item": `${cleanSiteUrl}/${lang}/blog/`
+      "item": `${seo.cleanSiteUrl}/${seo.lang}/blog/`
     });
     
     if (segments.length > 2) {
@@ -102,8 +61,8 @@ if (segments.length > 1) {
       breadcrumbItems.push({
         "@type": "ListItem",
         "position": 3,
-        "name": title,
-        "item": canonicalUrl
+        "name": seo.title,
+        "item": seo.canonicalUrl
       });
     }
   } else if (categorySegment === "projects") {
@@ -111,7 +70,7 @@ if (segments.length > 1) {
       "@type": "ListItem",
       "position": 2,
       "name": "Projects",
-      "item": `${cleanSiteUrl}/${lang}/projects/`
+      "item": `${seo.cleanSiteUrl}/${seo.lang}/projects/`
     });
   }
 }
@@ -123,36 +82,36 @@ schemas.push({
 });
 
 // 2. WebSite schema (Only on Home)
-if (isHome) {
+if (seo.isHome) {
   schemas.push({
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": t("home.name") || "Cristian Arando",
-    "url": cleanSiteUrl,
+    "name": t("home.name") || SITE.name,
+    "url": seo.cleanSiteUrl,
     "inLanguage": locales,
     "potentialAction": {
       "@type": "SearchAction",
-      "target": `${cleanSiteUrl}/${lang}/blog/?q={search_term_string}`,
+      "target": `${seo.cleanSiteUrl}/${seo.lang}/blog/?q={search_term_string}`,
       "query-input": "required name=search_term_string"
     }
   });
 }
 
 // 3. ProfilePage + Person schema (Only on Home or if structuredDataType === "profile")
-if (isHome || structuredDataType === "profile") {
+if (seo.isHome || structuredDataType === "profile") {
   schemas.push({
     "@context": "https://schema.org",
     "@type": "ProfilePage",
     "mainEntity": {
       "@type": "Person",
-      "name": "Cristian Arando",
+      "name": SITE.name,
       "jobTitle": "Full Stack Software Developer",
-      "url": `${cleanSiteUrl}/${lang}/`,
-      "email": "crisarandosyse@gmail.com",
-      "image": new URL(meImage.src, cleanSiteUrl).href,
+      "url": `${seo.cleanSiteUrl}/${seo.lang}/`,
+      "email": SITE.email,
+      "image": new URL(meImage.src, seo.cleanSiteUrl).href,
       "sameAs": [
-        "https://github.com/iamcristian",
-        "https://linkedin.com/in/cristianarando"
+        SITE.social.github,
+        SITE.social.linkedin
       ],
       "knowsLanguage": locales,
       "alumniOf": {
@@ -164,17 +123,17 @@ if (isHome || structuredDataType === "profile") {
 }
 
 // 4. CollectionPage schema (For blog index or projects index)
-if (isBlogIndex || isProjects || structuredDataType === "collection") {
+if (seo.isBlogIndex || seo.isProjects || structuredDataType === "collection") {
   schemas.push({
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    "name": title,
-    "description": description,
-    "url": canonicalUrl,
+    "name": seo.title,
+    "description": seo.description,
+    "url": seo.canonicalUrl,
     "isPartOf": {
       "@type": "WebSite",
-      "name": "Cristian Arando",
-      "url": cleanSiteUrl
+      "name": SITE.name,
+      "url": seo.cleanSiteUrl
     }
   });
 }
@@ -184,36 +143,36 @@ if (type === "article") {
   schemas.push({
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": title,
-    "description": description,
-    "image": imageUrl,
+    "headline": seo.title,
+    "description": seo.description,
+    "image": seo.imageUrl,
     "datePublished": publishDate ? publishDate.toISOString() : undefined,
     "dateModified": updatedDate ? updatedDate.toISOString() : (publishDate ? publishDate.toISOString() : undefined),
     "author": {
       "@type": "Person",
-      "name": "Cristian Arando",
-      "url": `${cleanSiteUrl}/${lang}/`,
+      "name": SITE.name,
+      "url": `${seo.cleanSiteUrl}/${seo.lang}/`,
       "sameAs": [
-        "https://github.com/iamcristian",
-        "https://linkedin.com/in/cristianarando"
+        SITE.social.github,
+        SITE.social.linkedin
       ]
     },
     "publisher": {
       "@type": "Person",
-      "name": "Cristian Arando",
+      "name": SITE.name,
       "logo": {
         "@type": "ImageObject",
-        "url": `${cleanSiteUrl}/favicon.svg`
+        "url": `${seo.cleanSiteUrl}/favicon.svg`
       }
     },
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": canonicalUrl
+      "@id": seo.canonicalUrl
     },
     "wordCount": wordCount,
     "articleSection": "Technology",
     "keywords": tags || [],
-    "inLanguage": lang
+    "inLanguage": seo.lang
   });
 }
 ---

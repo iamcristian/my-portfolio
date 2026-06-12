@@ -1,12 +1,12 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
-import { getLang, useTranslations } from "../i18n/utils";
+import { useTranslations } from "../i18n/utils";
 import { SITE } from "../config/site";
 import SocialLinks from "./ui/SocialLinks.astro";
 import MailIcon from "../assets/icons/mail.svg";
 import ChevronUpIcon from "../assets/icons/chevron-up.svg";
 
-const lang = getLang(Astro.currentLocale || Astro.params.lang);
+const { lang } = Astro.locals;
 const t = useTranslations(lang);
 
 const homeUrl = getRelativeLocaleUrl(lang, "");

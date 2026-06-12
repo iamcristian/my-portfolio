@@ -85,6 +85,7 @@ export const home = {
   "blog.toc": "Tabla de Contenidos",
   "blog.prev": "Artículo Anterior",
   "blog.next": "Siguiente Artículo",
+  "blog.comments": "Comentarios",
   "blog.subtitlePage":
     "Reflexiones, notas de aprendizaje y exploraciones sobre software, inteligencia artificial, ciberseguridad, filosofía y aprendizaje de idiomas.",
   "lagrange.equilibrium": "SISTEMA.EQUILIBRIO",

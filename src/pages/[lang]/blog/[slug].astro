@@ -1,10 +1,7 @@
 ---
-import Layout from "../../../layouts/Layout.astro";
-import Header from "../../../components/Header.astro";
-import BlogPostDetail from "../../../components/blog/BlogPostDetail.astro";
-import Footer from "../../../components/Footer.astro";
+import BlogLayout from "@layouts/BlogLayout.astro";
+import BlogPostDetail from "@components/blog/BlogPostDetail.astro";
 import { getCollection } from "astro:content";
-import { getLang } from "../../../i18n/utils";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -14,25 +11,12 @@ export async function getStaticPaths() {
   }));
 }
 
-const lang = getLang(Astro.currentLocale || Astro.params.lang);
 const { post } = Astro.props;
 
 // Calculate word count from the post body
 const wordCount = post.body ? post.body.split(/\s+/).filter(Boolean).length : 0;
 ---
 
-<Layout
-  title={post.data.title}
-  description={post.data.description}
-  image={post.data.image}
-  imageAlt={post.data.imageAlt}
-  type="article"
-  publishDate={post.data.date}
-  updatedDate={post.data.updatedDate}
-  tags={post.data.tags}
-  wordCount={wordCount}
->
-  <Header />
-  <BlogPostDetail post={post} lang={lang} />
-  <Footer />
-</Layout>
+<BlogLayout post={post} wordCount={wordCount}>
+  <BlogPostDetail post={post} />
+</BlogLayout>

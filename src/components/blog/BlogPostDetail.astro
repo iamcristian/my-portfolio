@@ -2,7 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 import { render, getCollection } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
-import { getLang, useTranslations } from "../../i18n/utils";
+import { useTranslations } from "../../i18n/utils";
 import { getReadTime } from "../../utils/blog";
 import { Image } from "astro:assets";
 import Giscus from "./Giscus.astro";
@@ -14,11 +14,11 @@ import ListIcon from "../../assets/icons/list.svg";
 
 interface Props {
   post: CollectionEntry<"blog">;
-  lang: string;
 }
 
-const { post, lang } = Astro.props;
-const langCode = getLang(lang);
+const { post } = Astro.props;
+const { lang } = Astro.locals;
+const langCode = lang;
 const t = useTranslations(langCode);
 
 // Render markdown content and retrieve headings
@@ -90,7 +90,7 @@ const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).forma
       <article class="prose prose-sm max-w-none prose-headings:scroll-mt-24 prose-headings:font-bold prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl">
         <Content />
       </article>
-      <Giscus lang={lang} />
+      <Giscus />
     </div>
 
 

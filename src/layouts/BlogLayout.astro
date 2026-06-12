@@ -1,0 +1,29 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  post: CollectionEntry<"blog">;
+  wordCount: number;
+}
+
+const { post, wordCount } = Astro.props;
+---
+
+<Layout
+  title={post.data.title}
+  description={post.data.description}
+  image={post.data.image}
+  imageAlt={post.data.imageAlt}
+  type="article"
+  publishDate={post.data.date}
+  updatedDate={post.data.updatedDate}
+  tags={post.data.tags}
+  wordCount={wordCount}
+>
+  <Header />
+  <slot />
+  <Footer />
+</Layout>

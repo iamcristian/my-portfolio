@@ -1,12 +1,12 @@
 ---
-import { getLang, useTranslations } from "../../i18n/utils";
+import { useTranslations } from "../../i18n/utils";
 import { SITE } from "../../config/site";
 import SocialLinks from "../ui/SocialLinks.astro";
 import DownloadIcon from "../../assets/icons/download.svg";
 import MailIcon from "../../assets/icons/mail.svg";
 import LagrangeSimulation from "../ui/LagrangeSimulation.astro";
 
-const lang = getLang(Astro.currentLocale || Astro.params.lang);
+const { lang } = Astro.locals;
 const t = useTranslations(lang);
 
 const cvPath = SITE.cv[lang] || SITE.cv.en;
@@ -220,7 +220,10 @@ const cvPath = SITE.cv[lang] || SITE.cv.en;
 </style>
 
 <script>
+  let heroCleanup: (() => void) | null = null;
+
   function initCosmicHero() {
+    heroCleanup?.();
     const hero = document.getElementById('home');
     if (!hero) return;
     
@@ -251,7 +254,10 @@ const cvPath = SITE.cv[lang] || SITE.cv.en;
     hero.style.setProperty('--mouse-y', '50%');
     
     // 2. Throttled Mousemove handler for interactive nebula spotlight (0% idle CPU, minimal active CPU)
+    const controller = new AbortController();
+    const signal = controller.signal;
     let ticking = false;
+
     hero.addEventListener('mousemove', (e) => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
@@ -265,17 +271,22 @@ const cvPath = SITE.cv[lang] || SITE.cv.en;
         });
         ticking = true;
       }
-    });
+    }, { signal });
     
     hero.addEventListener('mouseleave', () => {
       hero.style.setProperty('--mouse-x', '50%');
       hero.style.setProperty('--mouse-y', '50%');
-    });
+    }, { signal });
+
+    heroCleanup = () => controller.abort();
   }
-  
   // Initialize on load
   initCosmicHero();
   
   // Re-run on View Transitions navigation if applicable
-  document.addEventListener('astro:after-swap', initCosmicHero);
+  document.addEventListener('astro:page-load', initCosmicHero);
+  document.addEventListener('astro:before-swap', () => {
+    heroCleanup?.();
+    heroCleanup = null;
+  });
 </script>

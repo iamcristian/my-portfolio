@@ -1,9 +1,11 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import { languages } from "../../i18n/ui";
+import { getLocaleStaticPaths } from "../../config/paths";
+import { SITE } from "../../config/site";
 
 export async function getStaticPaths() {
-  return Object.keys(languages).map((lang) => ({ params: { lang } }));
+  return getLocaleStaticPaths();
 }
 
 export const GET: APIRoute = async (context) => {
@@ -12,8 +14,8 @@ export const GET: APIRoute = async (context) => {
     return new Response("Not Found", { status: 404 });
   }
 
-  const siteUrl =
-    context.site?.toString() || "https://cristianarando.dev";
+  const siteUrl = context.site?.toString() || SITE.url;
+  const cleanSiteUrl = siteUrl.replace(/\/$/, "");
   const twoDaysAgo = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000);
 
   const posts = await getCollection("blog", (entry) => {
@@ -30,10 +32,10 @@ export const GET: APIRoute = async (context) => {
     .map(
       (post) => `
     <url>
-      <loc>${siteUrl}/${lang}/blog/${post.data.slug}/</loc>
+      <loc>${cleanSiteUrl}/${lang}/blog/${post.data.slug}/</loc>
       <news:news>
         <news:publication>
-          <news:name>Cristian Arando</news:name>
+          <news:name>${SITE.name}</news:name>
           <news:language>${lang}</news:language>
         </news:publication>
         <news:publication_date>${post.data.date.toISOString()}</news:publication_date>

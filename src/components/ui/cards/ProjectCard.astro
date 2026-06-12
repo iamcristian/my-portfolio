@@ -1,8 +1,9 @@
 ---
-import { getLang, useTranslations } from "../../../i18n/utils";
+import { useTranslations } from "../../../i18n/utils";
 import type { Project } from "../../../types";
 import { Image } from "astro:assets";
 import ShieldIcon from "../../../assets/icons/shield.svg";
+import fallbackImage from "../../../assets/images/website.webp";
 
 interface Props {
   project: Project;
@@ -12,73 +13,119 @@ interface Props {
   [key: string]: any;
 }
 
-const { project, loading = "lazy", showFeaturedBadge = false, class: className, ...rest } = Astro.props;
+const {
+  project,
+  loading = "lazy",
+  showFeaturedBadge = false,
+  class: className,
+  ...rest
+} = Astro.props;
 
-const lang = getLang(Astro.currentLocale || Astro.params.lang);
+const { lang } = Astro.locals;
 const t = useTranslations(lang);
 
 // Dynamically resolve optimized project image from src/assets/images/projects/
-const images = import.meta.glob<{ default: ImageMetadata }>("/src/assets/images/projects/*.{jpeg,jpg,png,gif,webp}");
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/images/projects/*.{jpeg,jpg,png,gif,webp}",
+);
 const imageImport = images[project.image];
 ---
 
-<article class:list={["project-card card card-compact bg-base-200 border border-base-300 shadow-xl overflow-hidden hover:-translate-y-1 transition-transform duration-300 flex flex-col h-full", className]} {...rest}>
-  <figure class="project-figure relative h-48 bg-base-300 shrink-0 transition-all">
-    {imageImport ? (
-      <Image
-        src={imageImport()}
-        alt={project.title}
-        width={400}
-        height={225}
-        loading={loading}
-        fetchpriority={loading === "eager" ? "high" : undefined}
-        class="w-full h-full object-cover"
-      />
-    ) : (
-      <Image
-        src={project.image}
-        alt={project.title}
-        width={400}
-        height={225}
-        loading={loading}
-        fetchpriority={loading === "eager" ? "high" : undefined}
-        class="w-full h-full object-cover"
-      />
-    )}
-    {(project.featured || showFeaturedBadge) && (
-      <span class="badge bg-neutral-900/60 text-white border-none gap-1.5 py-3 px-3.5 absolute top-3 left-3 backdrop-blur-md text-xs font-semibold rounded-full shadow-sm">
-        <ShieldIcon class="w-3.5 h-3.5 text-secondary" />
-        <span>{t("blog.featured")}</span>
-      </span>
-    )}
+<article
+  class:list={[
+    "project-card card card-compact bg-base-200 border border-base-300 shadow-xl overflow-hidden hover:-translate-y-1 transition-transform duration-300 flex flex-col h-full",
+    className,
+  ]}
+  {...rest}
+>
+  <figure
+    class="project-figure relative h-48 bg-base-300 shrink-0 transition-all"
+  >
+    {
+      imageImport ? (
+        <Image
+          src={imageImport()}
+          alt={project.title}
+          width={400}
+          height={225}
+          loading={loading}
+          fetchpriority={loading === "eager" ? "high" : undefined}
+          class="w-full h-full object-cover"
+        />
+      ) : project.image.startsWith("http") ? (
+        <Image
+          src={project.image}
+          alt={project.title}
+          width={400}
+          height={225}
+          loading={loading}
+          fetchpriority={loading === "eager" ? "high" : undefined}
+          class="w-full h-full object-cover"
+        />
+      ) : (
+        <Image
+          src={fallbackImage}
+          alt={project.title}
+          width={400}
+          height={225}
+          loading={loading}
+          fetchpriority={loading === "eager" ? "high" : undefined}
+          class="w-full h-full object-cover"
+        />
+      )
+    }
+    {
+      (project.featured || showFeaturedBadge) && (
+        <span class="badge bg-neutral-900/60 text-white border-none gap-1.5 py-3 px-3.5 absolute top-3 left-3 backdrop-blur-md text-xs font-semibold rounded-full shadow-sm">
+          <ShieldIcon class="w-3.5 h-3.5 text-secondary" />
+          <span>{t("blog.featured")}</span>
+        </span>
+      )
+    }
   </figure>
-  <div class="project-body card-body flex-1 flex flex-col justify-between p-5 transition-all">
+  <div
+    class="project-body card-body flex-1 flex flex-col justify-between p-5 transition-all"
+  >
     <div class="space-y-3">
       <div class="flex flex-col gap-2">
-        {(project.featured || showFeaturedBadge) && (
-          <span class="body-featured-badge badge badge-secondary badge-xs font-semibold gap-1 py-2 px-2 text-[10px] rounded-full shrink-0 w-fit">
-            <ShieldIcon class="w-3 h-3 text-secondary-content" />
-            <span>{t("blog.featured")}</span>
-          </span>
-        )}
-        <h3 class="card-title text-sm md:text-base hover:text-primary transition-colors project-title">{project.title}</h3>
+        {
+          (project.featured || showFeaturedBadge) && (
+            <span class="body-featured-badge badge badge-secondary badge-xs font-semibold gap-1 py-2 px-2 text-[10px] rounded-full shrink-0 w-fit">
+              <ShieldIcon class="w-3 h-3 text-secondary-content" />
+              <span>{t("blog.featured")}</span>
+            </span>
+          )
+        }
+        <h3
+          class="card-title text-sm md:text-base hover:text-primary transition-colors project-title"
+        >
+          {project.title}
+        </h3>
       </div>
-      <p class="text-xs opacity-80 line-clamp-3 leading-relaxed project-desc">{project.description}</p>
+      <p class="text-xs opacity-80 line-clamp-3 leading-relaxed project-desc">
+        {project.description}
+      </p>
       <div class="flex flex-wrap gap-1 mt-2">
-        {project.tech.map((techItem) => (
-          <span class="badge badge-xs badge-neutral">{techItem}</span>
-        ))}
+        {
+          project.tech.map((techItem) => (
+            <span class="badge badge-xs badge-neutral">{techItem}</span>
+          ))
+        }
       </div>
     </div>
-    <div class="project-footer card-actions justify-start gap-2 pt-4 mt-auto border-t border-base-300 transition-all">
+    <div
+      class="project-footer card-actions justify-start gap-2 pt-4 mt-auto border-t border-base-300 transition-all"
+    >
       <a href={project.github} target="_blank" class="btn btn-xs btn-outline">
         {t("projects.code")}
       </a>
-      {project.live && (
-        <a href={project.live} target="_blank" class="btn btn-xs btn-primary">
-          {t("projects.demo")}
-        </a>
-      )}
+      {
+        project.live && (
+          <a href={project.live} target="_blank" class="btn btn-xs btn-primary">
+            {t("projects.demo")}
+          </a>
+        )
+      }
     </div>
   </div>
 </article>
@@ -87,7 +134,7 @@ const imageImport = images[project.image];
   .body-featured-badge {
     display: none;
   }
-  
+
   :global(.project-card:not(.card-compact)) .body-featured-badge {
     display: inline-flex;
   }

@@ -1,5 +1,6 @@
 import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
+import { SITE } from "./config/site";
 
 const blog = defineCollection({
   loader: glob({
@@ -16,7 +17,7 @@ const blog = defineCollection({
     description: z.string(),
     date: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
-    author: z.string().default("Cristian Arando"),
+    author: z.string().default(SITE.name),
     tags: z.array(z.string()).default([]),
     image: image(),
     imageAlt: z.string().optional(),

@@ -3,18 +3,17 @@ import Layout from "../../../layouts/Layout.astro";
 import Header from "../../../components/Header.astro";
 import BlogManager from "../../../components/blog/BlogManager.astro";
 import Footer from "../../../components/Footer.astro";
-import { getLang } from "../../../i18n/utils";
 import { getLocaleStaticPaths } from "../../../config/paths";
 
 export function getStaticPaths() {
   return getLocaleStaticPaths();
 }
 
-const lang = getLang(Astro.currentLocale || Astro.params.lang);
+const { lang } = Astro.locals;
 ---
 
 <Layout structuredDataType="collection">
   <Header />
-  <BlogManager lang={lang} />
+  <BlogManager />
   <Footer />
 </Layout>

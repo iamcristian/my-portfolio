@@ -1,8 +1,9 @@
 ---
-import "../assets/app.css";
-import SEO from "../components/SEO.astro";
-import StructuredData from "../components/StructuredData.astro";
+import "@assets/app.css";
+import SEO from "@components/SEO.astro";
+import StructuredData from "@components/StructuredData.astro";
 import Analytics from "@vercel/analytics/astro";
+import { ClientRouter } from "astro:transitions";
 
 interface Props {
   title?: string;
@@ -31,36 +32,38 @@ const lang = Astro.currentLocale || "en";
 
     <!-- Web App Manifest & Mobile optimization -->
     <link rel="manifest" href="/site.webmanifest" />
-    <meta name="theme-color" content="#570df8" />
+    <meta name="theme-color" content="#181818" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
     <SEO {...Astro.props} />
     <StructuredData {...Astro.props} />
+    <ClientRouter />
 
     <script is:inline>
-      if (
-        localStorage.getItem("theme") === null ||
-        localStorage.getItem("theme") === ""
-      ) {
-        const prefersDark = window.matchMedia(
-          "(prefers-color-scheme: dark)",
-        ).matches;
-        const defaultTheme = prefersDark ? "business" : "light";
-        document.documentElement.setAttribute("data-theme", defaultTheme);
-      } else {
-        document.documentElement.setAttribute(
-          "data-theme",
-          localStorage.getItem("theme"),
-        );
-      }
+      (function () {
+        function applyTheme() {
+          const stored = localStorage.getItem("theme");
+          const theme =
+            stored ||
+            (window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "business"
+              : "light");
+          document.documentElement.setAttribute("data-theme", theme);
+        }
+        applyTheme();
+        if (!window.__themeListenerAttached) {
+          document.addEventListener("astro:after-swap", applyTheme);
+          window.__themeListenerAttached = true;
+        }
+      })();
     </script>
     <script>
       import { themeChange } from "theme-change";
-      themeChange();
 
-      // Remove preload class after page load to re-enable transitions
-      window.addEventListener("load", () => {
+      document.addEventListener("astro:page-load", () => {
+        themeChange(false);
+        // Remove preload class after page load to re-enable transitions
         document.documentElement.classList.remove("preload");
       });
     </script>

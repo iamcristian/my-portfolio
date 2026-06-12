@@ -3,9 +3,9 @@ import ChevronDown from "../assets/icons/chevron-down.svg";
 import Globe from "../assets/icons/globe.svg";
 import Check from "../assets/icons/check.svg";
 import { languages } from "../i18n/ui";
-import { getLang, useTranslations } from "../i18n/utils";
+import { useTranslations } from "../i18n/utils";
 
-const currentLang = getLang(Astro.currentLocale || Astro.params.lang);
+const { lang: currentLang } = Astro.locals;
 const t = useTranslations(currentLang);
 
 const pathname = Astro.url.pathname;

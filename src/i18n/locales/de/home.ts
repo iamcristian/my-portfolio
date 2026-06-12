@@ -79,6 +79,7 @@ export const home = {
   "blog.toc": "Inhaltsverzeichnis",
   "blog.prev": "Vorheriger Artikel",
   "blog.next": "Nächster Artikel",
+  "blog.comments": "Kommentare",
   "blog.subtitlePage": "Gedanken, Lernnotizen und Erkundungen in den Bereichen Software, künstliche Intelligenz, Cybersicherheit, Philosophie und Sprachenlernen.",
   "lagrange.equilibrium": "SYSTEM.GLEICHGEWICHT",
   "lagrange.active": "AKTIV",

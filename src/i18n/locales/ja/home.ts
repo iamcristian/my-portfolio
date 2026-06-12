@@ -79,6 +79,7 @@ export const home = {
   "blog.toc": "目次",
   "blog.prev": "前の記事",
   "blog.next": "次の記事",
+  "blog.comments": "コメント",
   "blog.subtitlePage": "ソフトウェア、人工知能、サイバーセキュリティ、哲学、語学学習にわたる考察、学習ノート、および探求。",
   "lagrange.equilibrium": "システム.平衡状態",
   "lagrange.active": "アクティブ",

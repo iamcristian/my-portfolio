@@ -84,6 +84,7 @@ export const home = {
   "blog.toc": "Table of Contents",
   "blog.prev": "Previous Article",
   "blog.next": "Next Article",
+  "blog.comments": "Comments",
   "blog.subtitlePage":
     "Thoughts, learning notes, and explorations across software, artificial intelligence, cybersecurity, philosophy, and language learning.",
   "blog.filterDateRange": "Date Range",
