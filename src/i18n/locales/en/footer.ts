@@ -1,6 +1,6 @@
 export const footer = {
   "footer.tagline":
-    "Software & Systems Engineer focused on building structured, maintainable, and purpose-driven software systems.",
+    "Focused on building structured, maintainable, and purpose-driven software systems.",
 
   "footer.quickLinks": "Quick Links",
   "footer.connect": "Connect",

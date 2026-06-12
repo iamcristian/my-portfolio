@@ -6,24 +6,19 @@ export const uses: UsesCategory[] = [
     name: "Hardware & Arbeitsbereich",
     items: [
       {
-        name: "Lenovo Legion 5 Pro",
+        name: "ASUS TUF Dash F15",
         description:
-          "Hauptentwicklungsrechner ausgestattet mit AMD Ryzen 7 5800H, 32GB RAM und NVIDIA RTX 3070.",
+          "Haupt-Entwicklungslaptop mit Intel Core i5 der 11. Generation, 16 GB RAM und NVIDIA RTX 3050 — schnell und zuverlässig für den täglichen Einsatz.",
       },
       {
-        name: 'LG UltraGear 27"',
+        name: 'ASUS 27" IPS-Monitor',
         description:
-          "27-Zoll-IPS-Display mit 144 Hz für gestochen scharfe Textdarstellung und hohe Flüssigkeit.",
+          "27-Zoll-IPS-Panel mit präzisen Farben und scharfer Textdarstellung für lange Programmier- und Designsitzungen.",
       },
       {
-        name: "Keychron K2 Mechanische Tastatur",
+        name: "Redragon Kumara",
         description:
-          "Kabellose mechanische Tastatur, konfiguriert mit Gateron G Pro Brown Switches für taktiles Feedback.",
-      },
-      {
-        name: "Logitech MX Master 3S",
-        description:
-          "Ergonomische kabellose Maus mit Präzisions-Scrollrad und anpassbarer Gestensteuerung.",
+          "Kompakte mechanische Tastatur mit taktilen Switches, robustem Aufbau und roter LED-Beleuchtung für ein aufgeräumtes Schreibtisch-Setup.",
       },
     ],
   },
@@ -32,19 +27,24 @@ export const uses: UsesCategory[] = [
     name: "Software & Tools",
     items: [
       {
-        name: "Visual Studio Code & Claude Code",
+        name: "Visual Studio Code",
         description:
-          "Code-Editoren der Wahl, stark optimiert mit benutzerdefinierten Design-Konfigurationen und Erweiterungen für TypeScript/React/NestJS.",
+          "Haupt-Code-Editor, stark angepasst mit Erweiterungen und Themes für TypeScript, Astro und Web-Entwicklung.",
       },
       {
-        name: "Windows Terminal & PowerShell",
+        name: "Antigravity & Claude Code",
         description:
-          "Moderne Befehlszeilenumgebung mit Tabs, konfiguriert mit Oh My Posh für ein sauberes Prompt-Styling.",
+          "KI-gestützte Programmierassistenten, direkt in meinen Workflow integriert für Pair Programming, Code-Generierung und intelligente Refaktorierung.",
       },
       {
-        name: "Figma",
+        name: "Warp Terminal",
         description:
-          "Verwendet für schnelle UI-Design-Entwürfe, Asset-Erstellung und Layout-Prototyping.",
+          "Modernes, GPU-beschleunigtes Terminal mit KI-Befehlssuche und kollaborativen Funktionen, die die CLI-Arbeit deutlich schneller machen.",
+      },
+      {
+        name: "Obsidian",
+        description:
+          "Persönliches Wissensmanagement-Tool nach der Zettelkasten-Methode — alle meine Notizen, Ideen und Recherchen leben hier als vernetzter Graph.",
       },
     ],
   },

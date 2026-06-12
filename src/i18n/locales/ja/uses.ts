@@ -6,24 +6,19 @@ export const uses: UsesCategory[] = [
     name: "ハードウェア & ワークスペース",
     items: [
       {
-        name: "Lenovo Legion 5 Pro",
+        name: "ASUS TUF Dash F15",
         description:
-          "メインの開発用マシン。AMD Ryzen 7 5800H、32GB RAM、NVIDIA RTX 3070を搭載。",
+          "メインの開発用ラップトップ。第11世代 Intel Core i5、16GB RAM、NVIDIA RTX 3050搭載で、日常の開発に十分なパワーと安定性を発揮します。",
       },
       {
-        name: 'LG UltraGear 27"',
+        name: 'ASUS 27" IPSモニター',
         description:
-          "27インチIPSディスプレイ。144Hzのリフレッシュレートで、テキストの描画が鮮明かつスムーズです。",
+          "27インチIPSパネル。正確な色再現と鮮明なテキスト表示で、長時間のコーディングやデザイン作業を快適にサポートします。",
       },
       {
-        name: "Keychron K2 メカニカルキーボード",
+        name: "Redragon Kumara",
         description:
-          "Gateron G Pro Brown（茶軸）スイッチを採用したワイヤレスメカニカルキーボードで、心地よい打鍵感を実現しています。",
-      },
-      {
-        name: "Logitech MX Master 3S",
-        description:
-          "精密なスクロールホイールとカスタマイズ可能なジェスチャーコントロールを備えた、人間工学に基づいたワイヤレスマウス。",
+          "タクタイルスイッチを採用したコンパクトなメカニカルキーボード。堅牢な造りと赤色LEDバックライトで、すっきりとしたデスク環境を実現しています。",
       },
     ],
   },
@@ -32,19 +27,24 @@ export const uses: UsesCategory[] = [
     name: "ソフトウェア & ツール",
     items: [
       {
-        name: "Visual Studio Code & Claude Code",
+        name: "Visual Studio Code",
         description:
-          "メインのエディタ。TypeScript/React/NestJS向けにカスタムテーマや拡張機能を最適化しています。",
+          "メインのコードエディタ。TypeScript、Astro、Web開発に特化した拡張機能とテーマで高度にカスタマイズしています。",
       },
       {
-        name: "Windows Terminal & PowerShell",
+        name: "Antigravity & Claude Code",
         description:
-          "タブ機能付きのモダンなコマンドライン環境。Oh My Poshを導入し、プロンプトを整理しています。",
+          "ワークフローに直接統合されたAIコーディングアシスタント。ペアプログラミング、コード生成、インテリジェントなリファクタリングを支援します。",
       },
       {
-        name: "Figma",
+        name: "Warp ターミナル",
         description:
-          "UIのモックアップ作成、アセット作成、レイアウトプロトタイピングに使用。",
+          "GPUアクセラレーション対応のモダンなターミナル。AIコマンド検索とコラボレーション機能により、CLI作業を大幅に効率化します。",
+      },
+      {
+        name: "Obsidian",
+        description:
+          "ツェッテルカステン方式を採用した個人ナレッジマネジメントツール。すべてのメモ、アイデア、リサーチが相互リンクされたグラフとして蓄積されています。",
       },
     ],
   },

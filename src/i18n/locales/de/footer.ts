@@ -1,6 +1,6 @@
 export const footer = {
   "footer.tagline":
-    "Software- & Systemingenieur mit Fokus auf den Entwurf und Aufbau strukturierter, wartbarer und zielgerichteter Softwaresysteme.",
+    "Fokus auf den Aufbau strukturierter, wartbarer und zweckorientierter Softwaresysteme.",
   "footer.quickLinks": "Schnelllinks",
   "footer.connect": "Verbinden",
   "footer.collaborate": "Lass uns Systeme bauen",
