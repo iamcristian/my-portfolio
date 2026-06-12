@@ -6,24 +6,19 @@ export const uses: UsesCategory[] = [
     name: "Hardware y Estación de Trabajo",
     items: [
       {
-        name: "Lenovo Legion 5 Pro",
+        name: "ASUS TUF Dash F15",
         description:
-          "Máquina de desarrollo principal equipada con AMD Ryzen 7 5800H, 32 GB de RAM y NVIDIA RTX 3070.",
+          "Laptop principal de desarrollo con Intel Core i5 de 11.ª generación, 16 GB de RAM y NVIDIA RTX 3050 — rápida y confiable para el día a día.",
       },
       {
-        name: 'LG UltraGear 27"',
+        name: 'Monitor ASUS 27" IPS',
         description:
-          "Pantalla IPS de 27 pulgadas a 144 Hz para una renderización de texto nítida y alta fluidez.",
+          "Panel IPS de 27 pulgadas con colores precisos y texto nítido, ideal para largas sesiones de programación y diseño.",
       },
       {
-        name: "Teclado Mecánico Keychron K2",
+        name: "Redragon Kumara",
         description:
-          "Teclado mecánico inalámbrico configurado con interruptores Gateron G Pro Brown para una respuesta táctil óptima.",
-      },
-      {
-        name: "Logitech MX Master 3S",
-        description:
-          "Ratón inalámbrico ergonómico con desplazamiento de precisión y controles de gestos personalizables.",
+          "Teclado mecánico compacto con switches táctiles, construcción sólida e iluminación LED roja para un escritorio limpio.",
       },
     ],
   },
@@ -32,19 +27,24 @@ export const uses: UsesCategory[] = [
     name: "Software y Herramientas",
     items: [
       {
-        name: "Visual Studio Code y Claude Code",
+        name: "Visual Studio Code",
         description:
-          "Editores de código de preferencia, optimizados con temas personalizados y extensiones para TypeScript/React/NestJS.",
+          "Editor de código principal, altamente personalizado con extensiones y temas configurados para TypeScript, Astro y desarrollo web.",
       },
       {
-        name: "Windows Terminal y PowerShell",
+        name: "Antigravity y Claude Code",
         description:
-          "Entorno de línea de comandos moderno configurado con Oh My Posh para un estilo limpio del prompt.",
+          "Asistentes de programación con IA integrados directamente en mi flujo de trabajo para pair programming, generación de código y refactorización inteligente.",
       },
       {
-        name: "Figma",
+        name: "Warp Terminal",
         description:
-          "Utilizado para maquetación rápida de UI, creación de recursos y prototipos de diseño.",
+          "Terminal moderno acelerado por GPU con búsqueda de comandos por IA y funciones colaborativas que hacen el trabajo en CLI mucho más rápido.",
+      },
+      {
+        name: "Obsidian",
+        description:
+          "Herramienta de gestión del conocimiento personal usando el método Zettelkasten — todas mis notas, ideas e investigación viven aquí como un grafo interconectado.",
       },
     ],
   },

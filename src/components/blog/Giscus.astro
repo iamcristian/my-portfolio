@@ -48,14 +48,35 @@ const categoryId = "DIC_kwDOS3yNtc4C-918";
     const widget = document.getElementById("comments-widget");
     if (!widget) return;
 
-    // Detectamos el tema activo en el elemento html
     const currentTheme = document.documentElement.getAttribute("data-theme");
-
-    // En tu portafolio los temas oscuros son 'business', 'dracula' y 'forest' (todo lo que no sea 'light')
     const isDark = currentTheme !== "light";
     const giscusTheme = isDark ? "dark" : "light";
 
     widget.setAttribute("theme", giscusTheme);
+  }
+
+  /**
+   * Re-mount the giscus-widget custom element to force it to reinitialize.
+   * After a View Transition, the web component's iframe may still show comments
+   * from the previous page. Detaching and re-attaching the element triggers
+   * disconnectedCallback → connectedCallback, which creates a fresh iframe
+   * using the current window.location.pathname.
+   */
+  function refreshGiscusWidget() {
+    const widget = document.getElementById("comments-widget");
+    if (!widget?.parentNode) return;
+
+    const parent = widget.parentNode;
+    const next = widget.nextSibling;
+
+    // Remove → disconnectedCallback (destroys old iframe)
+    parent.removeChild(widget);
+
+    // Re-add → connectedCallback (creates new iframe with current pathname)
+    requestAnimationFrame(() => {
+      parent.insertBefore(widget, next);
+      setupGiscusTheme();
+    });
   }
 
   let giscusObserver: IntersectionObserver | null = null;
@@ -68,13 +89,21 @@ const categoryId = "DIC_kwDOS3yNtc4C-918";
     giscusObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          if (!document.querySelector('script[src="https://esm.sh/giscus"]')) {
+          const scriptAlreadyLoaded = !!document.querySelector('script[src="https://esm.sh/giscus"]');
+
+          if (!scriptAlreadyLoaded) {
+            // First blog visit: load the giscus web component script
             const script = document.createElement("script");
             script.type = "module";
             script.src = "https://esm.sh/giscus";
             script.async = true;
             document.head.appendChild(script);
+          } else {
+            // View Transition navigation: script is loaded but the widget
+            // may show stale comments — force re-creation for current URL
+            refreshGiscusWidget();
           }
+
           giscusObserver?.disconnect();
           giscusObserver = null;
         }
@@ -84,11 +113,11 @@ const categoryId = "DIC_kwDOS3yNtc4C-918";
     giscusObserver.observe(wrapper);
   }
 
-  // Inicializar al cargar
+  // ── Initial setup ──
   setupGiscusTheme();
   initGiscusLazyLoad();
 
-  // Observador para detectar cuando el usuario cambia el tema en tiempo real
+  // ── Theme change observer ──
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
       if (mutation.attributeName === "data-theme") {
@@ -102,7 +131,7 @@ const categoryId = "DIC_kwDOS3yNtc4C-918";
     attributeFilter: ["data-theme"],
   });
 
-  // Compatibilidad con Astro Page Transitions
+  // ── Astro View Transitions compatibility ──
   document.addEventListener("astro:page-load", () => {
     setupGiscusTheme();
     initGiscusLazyLoad();
