@@ -137,4 +137,6 @@ export const home = {
     "The page you are looking for does not exist or has been moved.",
   "404.button": "Back to Home",
   "accessibility.skipToContent": "Skip to main content",
+  "blog.fallbackWarning":
+    "This article is not available in English. Showing the version in {lang}.",
 } as const;

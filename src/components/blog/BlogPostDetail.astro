@@ -14,14 +14,19 @@ import CalendarIcon from "@assets/icons/calendar.svg";
 import ClockIcon from "@assets/icons/clock.svg";
 import ListIcon from "@assets/icons/list.svg";
 
+import { languages } from "@i18n/ui";
+
 interface Props {
   post: CollectionEntry<"blog">;
+  isFallback?: boolean;
+  originalLang?: string;
 }
 
-const { post } = Astro.props;
+const { post, isFallback = false, originalLang } = Astro.props;
 const { lang } = Astro.locals;
 const langCode = lang;
 const t = useTranslations(langCode);
+
 
 // Render markdown content and retrieve headings
 const { Content, headings } = await render(post);
@@ -58,8 +63,23 @@ const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).forma
     </a>
   </div>
 
+  <!-- Fallback translation warning banner -->
+  {isFallback && originalLang && (
+    <div class="alert alert-warning border border-warning/20 bg-warning/5 backdrop-blur-md text-xs md:text-sm rounded-xl mb-6 flex items-start gap-3 p-4 shadow-sm">
+      <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-5 w-5 text-warning" fill="none" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+      </svg>
+      <div>
+        <p class="font-semibold text-warning-content/90">
+          {t("blog.fallbackWarning").replace("{lang}", languages[originalLang as keyof typeof languages]?.name || originalLang)}
+        </p>
+      </div>
+    </div>
+  )}
+
   <!-- Article Header -->
   <header class="max-w-3xl space-y-4">
+
     <div class="flex flex-wrap gap-1.5">
       {post.data.tags.map((tag) => (
         <span class="badge badge-outline text-xs">{tag}</span>

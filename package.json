@@ -11,6 +11,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
+    "check:i18n": "node --experimental-strip-types scripts/check-i18n.ts",
+    "generate-assets": "node --experimental-strip-types scripts/generate-assets.ts",
     "lint": "prettier --check .",
     "lint:fix": "prettier --write ."
   },

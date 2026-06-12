@@ -121,4 +121,6 @@ export const home = {
   "404.subtitle": "La página que buscas no existe o ha sido movida.",
   "404.button": "Volver al inicio",
   "accessibility.skipToContent": "Saltar al contenido principal",
+  "blog.fallbackWarning":
+    "Este artículo no está disponible en Español. Mostrando la versión en {lang}.",
 } as const;

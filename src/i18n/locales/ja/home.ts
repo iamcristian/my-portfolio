@@ -121,4 +121,6 @@ export const home = {
   "404.subtitle": "お探しのページは存在しないか、移動された可能性があります。",
   "404.button": "ホームに戻る",
   "accessibility.skipToContent": "メインコンテンツにスキップ",
+  "blog.fallbackWarning":
+    "この記事は日本語では利用できません。{lang}のバージョンを表示しています。",
 } as const;

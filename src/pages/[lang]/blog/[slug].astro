@@ -2,21 +2,54 @@
 import BlogLayout from "@layouts/BlogLayout.astro";
 import BlogPostDetail from "@components/blog/BlogPostDetail.astro";
 import { getCollection } from "astro:content";
+import { locales, defaultLang } from "@i18n/ui";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
-  return posts.map((post) => ({
-    params: { lang: post.data.lang, slug: post.data.slug },
-    props: { post },
-  }));
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  
+  const postsBySlug = new Map<string, typeof posts>();
+  for (const post of posts) {
+    const slug = post.data.slug;
+    if (!postsBySlug.has(slug)) {
+      postsBySlug.set(slug, []);
+    }
+    postsBySlug.get(slug)!.push(post);
+  }
+  
+  const paths = [];
+  
+  for (const [slug, slugPosts] of postsBySlug.entries()) {
+    for (const lang of locales) {
+      const exactPost = slugPosts.find((p) => p.data.lang === lang);
+      
+      if (exactPost) {
+        paths.push({
+          params: { lang, slug },
+          props: { post: exactPost, isFallback: false, originalLang: lang },
+        });
+      } else {
+        const fallbackPost = slugPosts.find((p) => p.data.lang === defaultLang) || slugPosts[0];
+        
+        if (fallbackPost) {
+          paths.push({
+            params: { lang, slug },
+            props: { post: fallbackPost, isFallback: true, originalLang: fallbackPost.data.lang },
+          });
+        }
+      }
+    }
+  }
+  
+  return paths;
 }
 
-const { post } = Astro.props;
+const { post, isFallback = false, originalLang } = Astro.props;
 
 // Calculate word count from the post body
 const wordCount = post.body ? post.body.split(/\s+/).filter(Boolean).length : 0;
 ---
 
 <BlogLayout post={post} wordCount={wordCount}>
-  <BlogPostDetail post={post} />
+  <BlogPostDetail post={post} isFallback={isFallback} originalLang={originalLang} />
 </BlogLayout>
+

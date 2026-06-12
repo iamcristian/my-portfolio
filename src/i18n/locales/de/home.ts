@@ -122,4 +122,6 @@ export const home = {
     "Die von Ihnen gesuchte Seite existiert nicht oder wurde verschoben.",
   "404.button": "Zurück zur Startseite",
   "accessibility.skipToContent": "Zum Hauptinhalt springen",
+  "blog.fallbackWarning":
+    "Dieser Artikel ist nicht auf Deutsch verfügbar. Es wird die Version in {lang} angezeigt.",
 } as const;
