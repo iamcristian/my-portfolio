@@ -32,7 +32,7 @@ const featuredIds = new Set(featuredBlogPosts.map((p) => p.id));
 const recentBlogPosts = sortedPosts.filter((p) => !featuredIds.has(p.id)).slice(0, 3);
 ---
 
-<section id="blog" class="py-16 md:py-24 max-w-6xl mx-auto px-4 md:px-8">
+<section id="blog" class="py-16 md:py-24 max-w-6xl mx-auto px-4 md:px-8 scroll-reveal transition-all duration-700 ease-out opacity-0 translate-y-8">
   <SectionHeading subtitle={t("blog.subtitle")} title={t("blog.title")} />
 
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6">

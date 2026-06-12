@@ -77,10 +77,19 @@ export const home = {
   "blog.back": "ブログに戻る",
   "blog.close": "閉じる",
   "blog.toc": "目次",
-  "blog.prev": "前の記事",
-  "blog.next": "次の記事",
   "blog.comments": "コメント",
   "blog.subtitlePage": "ソフトウェア、人工知能、サイバーセキュリティ、哲学、語学学習にわたる考察、学習ノート、および探求。",
+
+  "blog.share": "共有:",
+  "blog.shareCopied": "コピーしました！",
+  "blog.relatedPosts": "関連記事",
+
+  "nav.uses": "愛用ツール",
+  "uses.title": "/uses",
+  "uses.subtitle": "// 愛用ツール＆環境",
+  "uses.subtitlePage": "ソフトウェアシステムの設計や構築にあたって、私が日々愛用しているハードウェア、ソフトウェア、開発ツールの一覧です。",
+  "uses.back": "ホームに戻る",
+
   "lagrange.equilibrium": "システム.平衡状態",
   "lagrange.active": "アクティブ",
   "lagrange.title": "システム軌道",

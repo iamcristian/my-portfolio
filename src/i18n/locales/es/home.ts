@@ -83,11 +83,20 @@ export const home = {
   "blog.back": "Volver al Blog",
   "blog.close": "Cerrar",
   "blog.toc": "Tabla de Contenidos",
-  "blog.prev": "Artículo Anterior",
-  "blog.next": "Siguiente Artículo",
   "blog.comments": "Comentarios",
   "blog.subtitlePage":
     "Reflexiones, notas de aprendizaje y exploraciones sobre software, inteligencia artificial, ciberseguridad, filosofía y aprendizaje de idiomas.",
+
+  "blog.share": "Compartir:",
+  "blog.shareCopied": "¡Copiado!",
+  "blog.relatedPosts": "Artículos Relacionados",
+
+  "nav.uses": "Usos",
+  "uses.title": "/uses",
+  "uses.subtitle": "// Herramientas y Workspace",
+  "uses.subtitlePage": "Una lista detallada del hardware, software y herramientas que utilizo a diario para construir sistemas de software.",
+  "uses.back": "Volver al Inicio",
+
   "lagrange.equilibrium": "SISTEMA.EQUILIBRIO",
   "lagrange.active": "ACTIVO",
   "lagrange.title": "ÓRBITA_SISTEMA",

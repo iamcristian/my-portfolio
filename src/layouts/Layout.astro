@@ -61,8 +61,118 @@ const lang = Astro.currentLocale || "en";
     <script>
       import { themeChange } from "theme-change";
 
+      function setupCopyCodeButtons() {
+        const preElements = document.querySelectorAll("pre");
+        
+        preElements.forEach((pre) => {
+          if (pre.querySelector(".copy-code-btn")) return;
+
+          pre.classList.add("relative", "group");
+          
+          const codeEl = pre.querySelector("code");
+          if (!codeEl) return;
+
+          const button = document.createElement("button");
+          button.className = "copy-code-btn absolute top-2 right-2 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity duration-200 btn btn-xs btn-neutral btn-square z-10 cursor-pointer border border-base-content/10 shadow-md";
+          button.setAttribute("aria-label", "Copy code");
+          button.setAttribute("title", "Copy code");
+          
+          const copyIcon = `
+            <svg class="w-3.5 h-3.5 stroke-current fill-none" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path>
+            </svg>
+          `;
+          
+          const checkIcon = `
+            <svg class="w-3.5 h-3.5 stroke-success fill-none" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+            </svg>
+          `;
+          
+          button.innerHTML = copyIcon;
+          
+          button.addEventListener("click", () => {
+            const codeText = codeEl.textContent || "";
+            navigator.clipboard.writeText(codeText).then(() => {
+              button.innerHTML = checkIcon;
+              button.classList.add("btn-success");
+              setTimeout(() => {
+                button.innerHTML = copyIcon;
+                button.classList.remove("btn-success");
+              }, 1500);
+            });
+          });
+          
+          pre.appendChild(button);
+        });
+      }
+
+      function setupScrollReveal() {
+        const revealElements = document.querySelectorAll(".scroll-reveal");
+        
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.remove("opacity-0", "translate-y-8");
+              entry.target.classList.add("opacity-100", "translate-y-0");
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1 });
+
+        revealElements.forEach((el) => observer.observe(el));
+
+        return () => observer.disconnect();
+      }
+
+      function setupCounters() {
+        const counters = document.querySelectorAll(".stat-counter");
+        
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const el = entry.target as HTMLElement;
+              const target = parseInt(el.getAttribute("data-target") || "0", 10);
+              const suffix = el.getAttribute("data-suffix") || "";
+              let current = 0;
+              const duration = 1000;
+              const steps = 35;
+              const stepTime = duration / steps;
+              const increment = target / steps;
+              
+              const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                  el.textContent = `${target}${suffix}`;
+                  clearInterval(timer);
+                } else {
+                  el.textContent = `${Math.floor(current)}${suffix}`;
+                }
+              }, stepTime);
+              
+              observer.unobserve(el);
+            }
+          });
+        }, { threshold: 0.1 });
+
+        counters.forEach((el) => observer.observe(el));
+
+        return () => observer.disconnect();
+      }
+
+      let scrollRevealCleanup: (() => void) | null = null;
+      let countersCleanup: (() => void) | null = null;
+
       document.addEventListener("astro:page-load", () => {
         themeChange(false);
+        setupCopyCodeButtons();
+        
+        scrollRevealCleanup?.();
+        scrollRevealCleanup = setupScrollReveal();
+
+        countersCleanup?.();
+        countersCleanup = setupCounters();
+        
         // Remove preload class after page load to re-enable transitions
         document.documentElement.classList.remove("preload");
       });

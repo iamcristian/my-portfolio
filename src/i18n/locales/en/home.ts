@@ -82,8 +82,6 @@ export const home = {
   "blog.back": "Back to Blog",
   "blog.close": "Close",
   "blog.toc": "Table of Contents",
-  "blog.prev": "Previous Article",
-  "blog.next": "Next Article",
   "blog.comments": "Comments",
   "blog.subtitlePage":
     "Thoughts, learning notes, and explorations across software, artificial intelligence, cybersecurity, philosophy, and language learning.",
@@ -97,6 +95,16 @@ export const home = {
   "blog.sortRelevance": "Relevance",
   "blog.startDate": "Start Date",
   "blog.endDate": "End Date",
+
+  "blog.share": "Share:",
+  "blog.shareCopied": "Copied!",
+  "blog.relatedPosts": "Related Articles",
+
+  "nav.uses": "Uses",
+  "uses.title": "Uses",
+  "uses.subtitle": "// Uses",
+  "uses.subtitlePage": "A detailed list of the hardware, software, and tools I use on a daily basis to build software systems.",
+  "uses.back": "Back to Home",
 
   "lagrange.equilibrium": "SYSTEM.EQUILIBRIUM",
   "lagrange.active": "ACTIVE",

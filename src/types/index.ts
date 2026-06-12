@@ -79,3 +79,18 @@ export interface ExperienceItem {
   responsibilities: string[];
   tags: string[];
 }
+
+/** A single gear or tool item for the /uses page. */
+export interface UsesItem {
+  name: string;
+  description: string;
+  link?: string;
+}
+
+/** A category grouping items on the /uses page. */
+export interface UsesCategory {
+  id: string;
+  name: string;
+  items: UsesItem[];
+}
+

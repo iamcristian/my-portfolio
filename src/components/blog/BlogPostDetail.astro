@@ -2,15 +2,17 @@
 import type { CollectionEntry } from "astro:content";
 import { render, getCollection } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
-import { useTranslations } from "../../i18n/utils";
-import { getReadTime } from "../../utils/blog";
+import { useTranslations } from "@i18n/utils";
+import { getReadTime } from "@utils/blog";
 import { Image } from "astro:assets";
 import Giscus from "./Giscus.astro";
+import ShareButtons from "./ShareButtons.astro";
+import BlogCard from "@components/ui/cards/BlogCard.astro";
 
 // SVGs
-import CalendarIcon from "../../assets/icons/calendar.svg";
-import ClockIcon from "../../assets/icons/clock.svg";
-import ListIcon from "../../assets/icons/list.svg";
+import CalendarIcon from "@assets/icons/calendar.svg";
+import ClockIcon from "@assets/icons/clock.svg";
+import ListIcon from "@assets/icons/list.svg";
 
 interface Props {
   post: CollectionEntry<"blog">;
@@ -32,9 +34,18 @@ const langPosts = (
   await getCollection("blog", ({ data }) => data.lang === lang && !data.draft)
 ).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
-const currentIndex = langPosts.findIndex((p) => p.id === post.id);
-const prevPost = currentIndex < langPosts.length - 1 ? langPosts[currentIndex + 1] : null;
-const nextPost = currentIndex > 0 ? langPosts[currentIndex - 1] : null;
+
+
+// Calculate related posts based on matching tags
+const relatedPosts = langPosts
+  .filter((p) => p.id !== post.id)
+  .filter((p) => p.data.tags.some((tag) => post.data.tags.includes(tag)))
+  .slice(0, 3);
+
+// Fallback to latest posts if no matching tags found
+const finalRelatedPosts = relatedPosts.length > 0 
+  ? relatedPosts 
+  : langPosts.filter((p) => p.id !== post.id).slice(0, 3);
 
 const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).format(post.data.date);
 ---
@@ -57,19 +68,20 @@ const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).forma
     <h1 class="text-xl md:text-3xl font-extrabold tracking-tight leading-tight">
       {post.data.title}
     </h1>
-    <div class="flex items-center gap-4 text-xs opacity-60">
-      <span class="flex items-center gap-1">
-        <CalendarIcon class="w-4 h-4" />
-        <span>{t("blog.published")} {formattedDate}</span>
-      </span>
-      <span class="flex items-center gap-1">
-        <ClockIcon class="w-4 h-4" />
-        <span>{getReadTime(post.body)} {t("blog.readTime")}</span>
-      </span>
+    <div class="flex items-center justify-between flex-wrap gap-4 pt-2 border-b border-base-300 pb-4">
+      <div class="flex items-center gap-4 text-xs opacity-60">
+        <span class="flex items-center gap-1">
+          <CalendarIcon class="w-4 h-4" />
+          <span>{t("blog.published")} {formattedDate}</span>
+        </span>
+        <span class="flex items-center gap-1">
+          <ClockIcon class="w-4 h-4" />
+          <span>{getReadTime(post.body)} {t("blog.readTime")}</span>
+        </span>
+      </div>
+      <ShareButtons title={post.data.title} />
     </div>
   </header>
-
-  <hr class="border-base-300 my-4 md:my-8" />
 
   <!-- Content Layout Grid -->
   <div class="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-12 items-start">
@@ -162,30 +174,21 @@ const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).forma
     </>
   )}
 
-  <!-- Previous / Next Post Sibling Navigation -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-16 pt-8 border-t border-base-300">
-    {prevPost ? (
-      <a 
-        href={getRelativeLocaleUrl(lang, `blog/${prevPost.data.slug}`)} 
-        class="card bg-base-200 border border-base-300 p-5 shadow-md hover:border-primary/50 transition-all group flex flex-col items-start text-left"
-      >
-        <span class="text-xs opacity-60 group-hover:text-primary transition-colors">&larr; {t("blog.prev")}</span>
-        <span class="font-bold text-sm mt-1 line-clamp-1">{prevPost.data.title}</span>
-      </a>
-    ) : (
-      <div class="hidden sm:block"></div>
-    )}
-    
-    {nextPost && (
-      <a 
-        href={getRelativeLocaleUrl(lang, `blog/${nextPost.data.slug}`)} 
-        class="card bg-base-200 border border-base-300 p-5 shadow-md hover:border-primary/50 transition-all group flex flex-col items-end text-right"
-      >
-        <span class="text-xs opacity-60 group-hover:text-primary transition-colors">{t("blog.next")} &rarr;</span>
-        <span class="font-bold text-sm mt-1 line-clamp-1">{nextPost.data.title}</span>
-      </a>
-    )}
-  </div>
+  <!-- Related Posts Section -->
+  {finalRelatedPosts.length > 0 && (
+    <div class="mt-16 pt-8 border-t border-base-300">
+      <h3 class="text-lg md:text-xl font-bold mb-6">
+        {t("blog.relatedPosts") || "Related Articles"}
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {finalRelatedPosts.map((rPost) => (
+          <BlogCard post={rPost} />
+        ))}
+      </div>
+    </div>
+  )}
+
+
 </main>
 
 <style>

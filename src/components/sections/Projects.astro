@@ -11,7 +11,7 @@ const PROJECTS = getProjectsForLang(lang);
 const featuredProjects = PROJECTS.filter((p) => p.featured).slice(0, 3);
 ---
 
-<section id="projects" class="py-16 md:py-24 max-w-6xl mx-auto px-4 md:px-8">
+<section id="projects" class="py-16 md:py-24 max-w-6xl mx-auto px-4 md:px-8 scroll-reveal transition-all duration-700 ease-out opacity-0 translate-y-8">
   <SectionHeading subtitle={t("projects.subtitle")} title={t("projects.title")} />
 
   <!-- Grid de Tarjetas -->

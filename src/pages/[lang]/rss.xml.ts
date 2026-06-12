@@ -5,6 +5,10 @@ import { useTranslations, type Lang } from "../../i18n/utils";
 import type { APIRoute } from "astro";
 import { getLocaleStaticPaths } from "../../config/paths";
 import { SITE } from "../../config/site";
+import MarkdownIt from "markdown-it";
+import sanitizeHtml from "sanitize-html";
+
+const parser = new MarkdownIt();
 
 export async function getStaticPaths() {
   return getLocaleStaticPaths();
@@ -37,6 +41,9 @@ export const GET: APIRoute = async (context) => {
       description: post.data.description,
       pubDate: post.data.date,
       link: `/${lang}/blog/${post.data.slug}/`,
+      content: sanitizeHtml(parser.render(post.body || ""), {
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+      }),
     })),
     customData: `<language>${lang}</language>`,
   });

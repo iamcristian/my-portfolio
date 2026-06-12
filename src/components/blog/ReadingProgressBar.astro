@@ -1,0 +1,51 @@
+---
+---
+<div
+  id="reading-progress"
+  class="fixed top-0 left-0 h-1 bg-primary z-50 transition-all duration-75"
+  style="width: 0%;"
+></div>
+
+<script>
+  function initReadingProgress() {
+    const progressBar = document.getElementById("reading-progress");
+    const article = document.querySelector("article");
+    
+    if (!progressBar || !article) return;
+
+    const updateProgressBar = () => {
+      const rect = article.getBoundingClientRect();
+      const totalHeight = rect.height;
+      const scrolled = -rect.top;
+      const viewportHeight = window.innerHeight;
+
+      // The article reading is completed when the bottom of the article is in view
+      const scrollableHeight = totalHeight - viewportHeight;
+
+      if (scrollableHeight <= 0) {
+        progressBar.style.width = "0%";
+        return;
+      }
+
+      let progress = (scrolled / scrollableHeight) * 100;
+      progress = Math.max(0, Math.min(100, progress));
+      progressBar.style.width = `${progress}%`;
+    };
+
+    window.addEventListener("scroll", updateProgressBar, { passive: true });
+    window.addEventListener("resize", updateProgressBar, { passive: true });
+    updateProgressBar();
+
+    return () => {
+      window.removeEventListener("scroll", updateProgressBar);
+      window.removeEventListener("resize", updateProgressBar);
+    };
+  }
+
+  let cleanup: (() => void) | null = null;
+
+  document.addEventListener("astro:page-load", () => {
+    cleanup?.();
+    cleanup = initReadingProgress() || null;
+  });
+</script>

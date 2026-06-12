@@ -77,10 +77,19 @@ export const home = {
   "blog.back": "Zurück zum Blog",
   "blog.close": "Schließen",
   "blog.toc": "Inhaltsverzeichnis",
-  "blog.prev": "Vorheriger Artikel",
-  "blog.next": "Nächster Artikel",
   "blog.comments": "Kommentare",
   "blog.subtitlePage": "Gedanken, Lernnotizen und Erkundungen in den Bereichen Software, künstliche Intelligenz, Cybersicherheit, Philosophie und Sprachenlernen.",
+
+  "blog.share": "Teilen:",
+  "blog.shareCopied": "Kopiert!",
+  "blog.relatedPosts": "Ähnliche Artikel",
+
+  "nav.uses": "Tech-Stack",
+  "uses.title": "/uses",
+  "uses.subtitle": "// Hardware & Software",
+  "uses.subtitlePage": "Eine detaillierte Liste der Hardware, Software und Tools, die ich täglich verwende, um Softwaresysteme zu entwickeln.",
+  "uses.back": "Zurück zum Start",
+
   "lagrange.equilibrium": "SYSTEM.GLEICHGEWICHT",
   "lagrange.active": "AKTIV",
   "lagrange.title": "SYSTEM_ORBIT",

@@ -2,7 +2,7 @@
 // Provides type-safe translation helpers and localized data accessors.
 
 import { ui, defaultLang } from "./ui";
-import type { Project, CertificationCategory, AcademicItem, LanguageItem, SkillCategory, ExperienceItem } from "@types";
+import type { Project, CertificationCategory, AcademicItem, LanguageItem, SkillCategory, ExperienceItem, UsesCategory } from "@types";
 
 // ── Types ──
 
@@ -61,3 +61,6 @@ export const getSkillsForLang = (lang: Lang): SkillCategory[] =>
 
 export const getExperienceForLang = (lang: Lang): ExperienceItem[] =>
   getLocaleData<ExperienceItem[]>(lang, "experience", "experience");
+
+export const getUsesForLang = (lang: Lang): UsesCategory[] =>
+  getLocaleData<UsesCategory[]>(lang, "uses", "uses");

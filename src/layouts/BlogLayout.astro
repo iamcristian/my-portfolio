@@ -2,6 +2,7 @@
 import Layout from "@layouts/Layout.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
+import ReadingProgressBar from "@components/blog/ReadingProgressBar.astro";
 import type { CollectionEntry } from "astro:content";
 
 interface Props {
@@ -23,6 +24,7 @@ const { post, wordCount } = Astro.props;
   tags={post.data.tags}
   wordCount={wordCount}
 >
+  <ReadingProgressBar />
   <Header />
   <slot />
   <Footer />

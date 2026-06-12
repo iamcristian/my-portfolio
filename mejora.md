@@ -347,7 +347,7 @@ Para blog posts con `updatedDate`, agregar:
 
 ## ✨ Nuevas Funcionalidades
 
-### 1. ✅ 🔥 Reading Progress Bar (Prioridad: Alta)
+### 1. ✔️ 🔥 Reading Progress Bar (Prioridad: Alta)
 
 Una barra de progreso de lectura en la parte superior de los blog posts. Sutil, premium, anclada al header con animación suave.
 
@@ -359,7 +359,7 @@ Una barra de progreso de lectura en la parte superior de los blog posts. Sutil, 
 
 ---
 
-### 2. ✅ 🔥 Blog Post Share Buttons (Prioridad: Alta)
+### 2. ✔️ 🔥 Blog Post Share Buttons (Prioridad: Alta)
 
 Botones para compartir artículos en Twitter/X, LinkedIn, WhatsApp, y copiar link. Con animación de "copiado!" cuando se copia el enlace.
 
@@ -371,7 +371,7 @@ Botones para compartir artículos en Twitter/X, LinkedIn, WhatsApp, y copiar lin
 
 ---
 
-### 4. ✅ 🔥 "Related Posts" al final de cada blog post (Prioridad: Alta)
+### 4. ✔️ 🔥 "Related Posts" al final de cada blog post (Prioridad: Alta)
 
 Mostrar 2-3 posts relacionados basados en tags comunes al final de cada artículo. Aumenta el tiempo en sitio y page views.
 
@@ -408,13 +408,13 @@ Agregar un indicador visual del tiempo de lectura estimado en las cards de blog.
 
 ---
 
-### 8. ✅ Página de `/uses` (Prioridad: Media)
+### 8. ✔️ Página de `/uses` (Prioridad: Media)
 
 Una página estilo `/uses` donde documentar setup, herramientas, hardware, software, y configuraciones. Muy popular en la comunidad dev y excelente para SEO de long-tail keywords.
 
 ---
 
-### 9. ✅ Animaciones de Scroll con `IntersectionObserver` (Prioridad: Media)
+### 9. ✔️ Animaciones de Scroll con `IntersectionObserver` (Prioridad: Media)
 
 Agregar animaciones de entrada (fade-in, slide-up) a las secciones del home page cuando entran en viewport:
 
@@ -432,7 +432,7 @@ Agregar animaciones de entrada (fade-in, slide-up) a las secciones del home page
 
 ---
 
-### 10. ✅ "Achievements / Stats" counter animado (Prioridad: Baja)
+### 10. ✔️ "Achievements / Stats" counter animado (Prioridad: Baja)
 
 Los stat values en `About.astro` (years, projects, etc.) podrían tener una animación de counter tipo "counting up" cuando entran en viewport.
 
@@ -458,7 +458,7 @@ Inspirado en [nownownow.com](https://nownownow.com/about) — una página `/now`
 
 ---
 
-### 14. ✅ Blog Post Copy Code Button (Prioridad: Media)
+### 14. ✔️ Blog Post Copy Code Button (Prioridad: Media)
 
 Agregar un botón "Copy" en cada bloque de código dentro de los blog posts MDX.
 
@@ -480,7 +480,7 @@ El flujo: en build time, para cada blog post, generar un PNG que combine el dise
 
 ---
 
-### 16. ✅ RSS Feed mejorado con contenido completo (Prioridad: Baja)
+### 16. ✔️ RSS Feed mejorado con contenido completo (Prioridad: Baja)
 
 Agregar `content:encoded` con el HTML completo del post para lectores RSS.
 
@@ -743,7 +743,7 @@ Actualmente se oculta con `hidden lg:flex`. Considerar mostrar una versión comp
 |---|------|-------|
 | 1 | Página `/now` | Interesante pero innecesario por ahora |
 
-### ✔️ Ya Resueltos (7 items)
+### ✔️ Ya Resueltos (15 items)
 | # | Item |
 |---|------|
 | 1 | README.md actualizado |
@@ -753,6 +753,14 @@ Actualmente se oculta con `hidden lg:flex`. Considerar mostrar una versión comp
 | 5 | Separación de lógica i18n con `import.meta.glob` |
 | 6 | Creación de `BlogLayout.astro` |
 | 7 | Integración de Astro ClientRouter (View Transitions) |
+| 8 | Reading Progress Bar en artículos de blog |
+| 9 | Botones para compartir en redes sociales y copiar enlace |
+| 10 | Artículos relacionados en base a etiquetas en BlogPostDetail |
+| 11 | Botón de copiar código automático en bloques de código |
+| 12 | Animaciones de Scroll con IntersectionObserver |
+| 13 | Animación de conteo ascendente en tarjetas de logros/estadísticas |
+| 14 | Creación de página dinámica de herramientas/configuración `/uses` |
+| 15 | Feed RSS mejorado con contenido HTML completo compilado y sanitizado |
 
 ---
 
