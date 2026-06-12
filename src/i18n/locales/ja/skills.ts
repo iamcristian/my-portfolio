@@ -5,8 +5,18 @@ export const skills: SkillCategory[] = [
     id: "languages",
     name: "開発言語",
     icon: "code",
-    description: "アプリケーションの基本ロジックを構築するためのプログラミング言語",
-    items: ["JavaScript", "TypeScript", "Python", "Java", "HTML", "CSS", "SQL", "Bash"],
+    description:
+      "アプリケーションの基本ロジックを構築するためのプログラミング言語",
+    items: [
+      "JavaScript",
+      "TypeScript",
+      "Python",
+      "Java",
+      "HTML",
+      "CSS",
+      "SQL",
+      "Bash",
+    ],
   },
   {
     id: "frontend",
@@ -48,13 +58,24 @@ export const skills: SkillCategory[] = [
     name: "AI・エージェントシステム",
     icon: "sparkles",
     description: "生成AIとインテリジェントなエージェント・アーキテクチャ",
-    items: ["Model Context Protocol (MCP)", "プロンプトエンジニアリング", "エージェント・ワークフロー", "Skills"],
+    items: [
+      "Model Context Protocol (MCP)",
+      "プロンプトエンジニアリング",
+      "エージェント・ワークフロー",
+      "Skills",
+    ],
   },
   {
     id: "soft-skills",
     name: "ソフトスキル",
     icon: "brain",
-    description: "効果的なコラボレーションのための対人スキルとプロフェッショナルなマインドセット",
-    items: ["リーダーシップ", "アサーティブ・コミュニケーション", "問題解決力", "適応力"],
+    description:
+      "効果的なコラボレーションのための対人スキルとプロフェッショナルなマインドセット",
+    items: [
+      "リーダーシップ",
+      "アサーティブ・コミュニケーション",
+      "問題解決力",
+      "適応力",
+    ],
   },
 ];

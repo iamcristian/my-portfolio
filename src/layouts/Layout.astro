@@ -4,6 +4,8 @@ import SEO from "@components/SEO.astro";
 import StructuredData from "@components/StructuredData.astro";
 import Analytics from "@vercel/analytics/astro";
 import { ClientRouter } from "astro:transitions";
+import meImage from "@assets/images/me.webp";
+import { useTranslations, type Lang } from "@i18n/utils";
 
 interface Props {
   title?: string;
@@ -16,9 +18,11 @@ interface Props {
   tags?: string[];
   structuredDataType?: "profile" | "collection";
   wordCount?: number;
+  faq?: Array<{ question: string; answer: string }>;
 }
 
-const lang = Astro.currentLocale || "en";
+const lang = (Astro.currentLocale || "en") as Lang;
+const t = useTranslations(lang);
 ---
 
 <!doctype html>
@@ -39,6 +43,12 @@ const lang = Astro.currentLocale || "en";
     <SEO {...Astro.props} />
     <StructuredData {...Astro.props} />
     <ClientRouter />
+
+    <!-- Google Fonts & Preload LCP Profile Image -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
+    <link rel="preload" href={meImage.src} as="image" />
 
     <script is:inline>
       (function () {
@@ -96,6 +106,9 @@ const lang = Astro.currentLocale || "en";
             navigator.clipboard.writeText(codeText).then(() => {
               button.innerHTML = checkIcon;
               button.classList.add("btn-success");
+              
+
+
               setTimeout(() => {
                 button.innerHTML = copyIcon;
                 button.classList.remove("btn-success");
@@ -160,12 +173,36 @@ const lang = Astro.currentLocale || "en";
         return () => observer.disconnect();
       }
 
+      function setupDropdownAccessibility() {
+        const dropdowns = document.querySelectorAll(".dropdown");
+        dropdowns.forEach((dropdown) => {
+          const content = dropdown.querySelector(".dropdown-content");
+          if (!content) return;
+
+          dropdown.addEventListener("keydown", ((e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+              (document.activeElement as HTMLElement)?.blur();
+            }
+          }) as EventListener);
+
+          const interactiveItems = content.querySelectorAll("a, button");
+          interactiveItems.forEach((item) => {
+            item.addEventListener("click", () => {
+              (document.activeElement as HTMLElement)?.blur();
+            });
+          });
+        });
+      }
+
+
+
       let scrollRevealCleanup: (() => void) | null = null;
       let countersCleanup: (() => void) | null = null;
 
       document.addEventListener("astro:page-load", () => {
         themeChange(false);
         setupCopyCodeButtons();
+        setupDropdownAccessibility();
         
         scrollRevealCleanup?.();
         scrollRevealCleanup = setupScrollReveal();
@@ -180,6 +217,12 @@ const lang = Astro.currentLocale || "en";
     <Analytics />
   </head>
   <body>
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] btn btn-primary border border-base-content/10 shadow-lg cursor-pointer"
+    >
+      {t("accessibility.skipToContent") || "Skip to main content"}
+    </a>
     <slot />
   </body>
 </html>

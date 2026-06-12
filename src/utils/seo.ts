@@ -14,17 +14,24 @@ interface SEOProps {
   tags?: string[];
 }
 
-export function resolveSEOData(props: SEOProps, url: URL, lang: Lang, slug?: string) {
+export function resolveSEOData(
+  props: SEOProps,
+  url: URL,
+  lang: Lang,
+  slug?: string,
+) {
   const t = useTranslations(lang);
   const pathname = url.pathname;
-  
+
   const siteUrl = SITE.url;
   const cleanSiteUrl = siteUrl.replace(/\/$/, "");
   const canonicalUrl = new URL(pathname, cleanSiteUrl).href;
 
-  const isHome = pathname === `/${lang}/` || pathname === `/${lang}` || pathname === "/";
+  const isHome =
+    pathname === `/${lang}/` || pathname === `/${lang}` || pathname === "/";
   const isProjects = pathname.includes("/projects");
-  const isBlogIndex = (pathname.endsWith("/blog") || pathname.endsWith("/blog/")) && !slug;
+  const isBlogIndex =
+    (pathname.endsWith("/blog") || pathname.endsWith("/blog/")) && !slug;
 
   // Determine localized title
   let title = props.title;
@@ -50,11 +57,14 @@ export function resolveSEOData(props: SEOProps, url: URL, lang: Lang, slug?: str
   let description = props.description;
   if (!description) {
     if (isHome) {
-      description = t("home.tagline") || t("site.description") || SITE.description;
+      description =
+        t("home.tagline") || t("site.description") || SITE.description;
     } else if (isProjects) {
-      description = t("projects.subtitlePage") || t("site.description") || SITE.description;
+      description =
+        t("projects.subtitlePage") || t("site.description") || SITE.description;
     } else if (isBlogIndex) {
-      description = t("blog.subtitlePage") || t("site.description") || SITE.description;
+      description =
+        t("blog.subtitlePage") || t("site.description") || SITE.description;
     } else {
       description = t("site.description") || SITE.description;
     }
@@ -64,20 +74,28 @@ export function resolveSEOData(props: SEOProps, url: URL, lang: Lang, slug?: str
 
   // Resolve default fallback language URL (x-default) pointing to English ('en')
   const defaultSegments = pathname.split("/");
-  if (defaultSegments.length > 1 && locales.includes(defaultSegments[1] as any)) {
+  if (
+    defaultSegments.length > 1 &&
+    locales.includes(defaultSegments[1] as any)
+  ) {
     defaultSegments[1] = "en";
   }
   const defaultUrl = new URL(defaultSegments.join("/"), cleanSiteUrl).href;
 
   // Resolve OpenGraph & Twitter Image
   const imageSource = props.image || meImage;
-  const imageUrl = typeof imageSource === "string" 
-    ? (imageSource.startsWith("http") ? imageSource : `${cleanSiteUrl}${imageSource}`)
-    : new URL(imageSource.src, cleanSiteUrl).href;
+  const imageUrl =
+    typeof imageSource === "string"
+      ? imageSource.startsWith("http")
+        ? imageSource
+        : `${cleanSiteUrl}${imageSource}`
+      : new URL(imageSource.src, cleanSiteUrl).href;
   const fullImageAlt = props.imageAlt || title || t("home.name") || SITE.name;
 
-  const imageWidth = typeof imageSource === "object" ? imageSource.width.toString() : "1200";
-  const imageHeight = typeof imageSource === "object" ? imageSource.height.toString() : "630";
+  const imageWidth =
+    typeof imageSource === "object" ? imageSource.width.toString() : "1200";
+  const imageHeight =
+    typeof imageSource === "object" ? imageSource.height.toString() : "630";
 
   return {
     lang,
@@ -99,7 +117,11 @@ export function resolveSEOData(props: SEOProps, url: URL, lang: Lang, slug?: str
   };
 }
 
-export function getAlternateUrls(pathname: string, activeLocales: string[], cleanSiteUrl: string) {
+export function getAlternateUrls(
+  pathname: string,
+  activeLocales: string[],
+  cleanSiteUrl: string,
+) {
   return activeLocales.map((locale) => {
     const segments = pathname.split("/");
     if (segments.length > 1 && locales.includes(segments[1] as any)) {

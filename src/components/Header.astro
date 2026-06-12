@@ -21,8 +21,8 @@ const NAV_LINKS = [
 ];
 ---
 
-<header class="sticky top-0 z-50 backdrop-blur-md bg-base-100/20 border-b border-base-content/5 w-full">
-  <nav class="navbar max-w-6xl mx-auto px-4 md:px-8" aria-label="Main navigation">
+<header id="main-header" class="sticky top-0 z-50 backdrop-blur-md bg-base-100/20 border-b border-base-content/5 w-full transition-all duration-300 py-2">
+  <nav class="navbar max-w-6xl mx-auto px-4 md:px-8 transition-all duration-300" aria-label="Main navigation">
   <!-- Navbar Start: Burger menu (mobile) + Name -->
   <div class="navbar-start">
     <div class="dropdown lg:hidden">
@@ -71,3 +71,38 @@ const NAV_LINKS = [
   </div>
   </nav>
 </header>
+
+<script>
+  let headerCleanup: (() => void) | null = null;
+
+  function initHeaderScroll() {
+    headerCleanup?.();
+    const header = document.getElementById("main-header");
+    if (!header) return;
+
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        header.classList.add("py-0.5", "shadow-sm");
+        header.classList.remove("py-2");
+      } else {
+        header.classList.remove("py-0.5", "shadow-sm");
+        header.classList.add("py-2");
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
+    headerCleanup = () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }
+
+  initHeaderScroll();
+
+  document.addEventListener("astro:page-load", initHeaderScroll);
+  document.addEventListener("astro:before-swap", () => {
+    headerCleanup?.();
+    headerCleanup = null;
+  });
+</script>

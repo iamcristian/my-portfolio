@@ -50,7 +50,7 @@ const finalRelatedPosts = relatedPosts.length > 0
 const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).format(post.data.date);
 ---
 
-<main class="max-w-6xl mx-auto px-4 md:px-8 pt-8 md:pt-12 pb-16 md:pb-24 min-h-screen">
+<main id="main-content" class="max-w-6xl mx-auto px-4 md:px-8 pt-8 md:pt-12 pb-16 md:pb-24 min-h-screen">
   <!-- Back to Blog Button -->
   <div class="mb-6 md:mb-8">
     <a href={getRelativeLocaleUrl(lang, "blog")} class="btn btn-ghost btn-sm gap-2">

@@ -26,9 +26,6 @@ const categoryId = "DIC_kwDOS3yNtc4C-918";
     {t("blog.comments")}
   </h2>
 
-  <!-- Carga del script del Web Component de Giscus -->
-  <script type="module" src="https://esm.sh/giscus" async></script>
-
   <!-- Elemento personalizado de Giscus -->
   <giscus-widget
     id="comments-widget"
@@ -61,8 +58,35 @@ const categoryId = "DIC_kwDOS3yNtc4C-918";
     widget.setAttribute("theme", giscusTheme);
   }
 
+  let giscusObserver: IntersectionObserver | null = null;
+
+  function initGiscusLazyLoad() {
+    giscusObserver?.disconnect();
+    const wrapper = document.querySelector(".giscus-wrapper");
+    if (!wrapper) return;
+
+    giscusObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          if (!document.querySelector('script[src="https://esm.sh/giscus"]')) {
+            const script = document.createElement("script");
+            script.type = "module";
+            script.src = "https://esm.sh/giscus";
+            script.async = true;
+            document.head.appendChild(script);
+          }
+          giscusObserver?.disconnect();
+          giscusObserver = null;
+        }
+      });
+    }, { rootMargin: "200px" });
+
+    giscusObserver.observe(wrapper);
+  }
+
   // Inicializar al cargar
   setupGiscusTheme();
+  initGiscusLazyLoad();
 
   // Observador para detectar cuando el usuario cambia el tema en tiempo real
   const observer = new MutationObserver((mutations) => {
@@ -81,5 +105,11 @@ const categoryId = "DIC_kwDOS3yNtc4C-918";
   // Compatibilidad con Astro Page Transitions
   document.addEventListener("astro:page-load", () => {
     setupGiscusTheme();
+    initGiscusLazyLoad();
+  });
+
+  document.addEventListener("astro:before-swap", () => {
+    giscusObserver?.disconnect();
+    giscusObserver = null;
   });
 </script>

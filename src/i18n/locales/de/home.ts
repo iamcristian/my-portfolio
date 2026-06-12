@@ -2,16 +2,21 @@ export const home = {
   "home.hello": "Hallo, ich bin",
   "home.name": "Cristian Arando",
   "home.subtitle": "Software- & System-Ingenieur",
-  "home.tagline": "Entwurf von Softwaresystemen durch Struktur, Modulbauweise und sorgfältige Dekomposition von Komplexität",
+  "home.tagline":
+    "Entwurf von Softwaresystemen durch Struktur, Modulbauweise und sorgfältige Dekomposition von Komplexität",
   "home.downloadCv": "Lebenslauf herunterladen",
   "home.contactMe": "Kontaktiere mich",
   "site.title": "Cristian Arando | Software- & System-Ingenieur",
-  "site.description": "Software- & System-Ingenieur mit Fokus auf den Entwurf und Aufbau skalierbarer Websysteme. Ich priorisiere Systemdesign, Architektur und Softwarequalität und nutze moderne Technologien als Implementierungswerkzeuge, anstatt Einschränkungen zu definieren.",
+  "site.description":
+    "Software- & System-Ingenieur mit Fokus auf den Entwurf und Aufbau skalierbarer Websysteme. Ich priorisiere Systemdesign, Architektur und Softwarequalität und nutze moderne Technologien als Implementierungswerkzeuge, anstatt Einschränkungen zu definieren.",
   "about.title": "Über Mich",
   "about.subtitle": "// Über Mich",
-  "about.p1": "Ich bin Software- & System-Ingenieur und konzentriere mich auf den Entwurf und Aufbau von Full-Stack-Websystemen. Meine Arbeit legt Wert auf Klarheit, Leistung und langfristige Wartbarkeit durch durchdachtes Systemdesign.",
-  "about.p2": "Mein Ansatz ist systemorientiert statt technologieorientiert. Ich denke in Dimensionen von Systemdesign, API-Grenzen, modularer Architektur und wartbarer Struktur. Technologien sind Implementierungsdetails; Designprinzipien definieren das System.",
-  "about.p3": "Ich beschäftige mich aktiv mit Softwarearchitektur und Systemdesign-Praktiken, einschließlich API-Design, Clean-Architecture-Prinzipien, agilen Methoden und mehr. Ergänzend dazu vertiefe ich mein Verständnis durch Fachliteratur zur Strukturierung und Weiterentwicklung skalierbarer Systeme.",
+  "about.p1":
+    "Ich bin Software- & System-Ingenieur und konzentriere mich auf den Entwurf und Aufbau von Full-Stack-Websystemen. Meine Arbeit legt Wert auf Klarheit, Leistung und langfristige Wartbarkeit durch durchdachtes Systemdesign.",
+  "about.p2":
+    "Mein Ansatz ist systemorientiert statt technologieorientiert. Ich denke in Dimensionen von Systemdesign, API-Grenzen, modularer Architektur und wartbarer Struktur. Technologien sind Implementierungsdetails; Designprinzipien definieren das System.",
+  "about.p3":
+    "Ich beschäftige mich aktiv mit Softwarearchitektur und Systemdesign-Praktiken, einschließlich API-Design, Clean-Architecture-Prinzipien, agilen Methoden und mehr. Ergänzend dazu vertiefe ich mein Verständnis durch Fachliteratur zur Strukturierung und Weiterentwicklung skalierbarer Systeme.",
   "about.location": "Cochabamba, Bolivien",
   "about.expValue": "1+",
   "about.expTitle": "Jahre Erfahrung",
@@ -45,7 +50,8 @@ export const home = {
   "projects.frontend": "Frontend",
   "projects.backend": "Backend",
   "projects.fullstack": "Fullstack",
-  "projects.subtitlePage": "Eine Auswahl an Softwaresystemen und Engineering-Projekten mit Fokus auf Architektur, Backend-Logik und praktischem Systemdesign.",
+  "projects.subtitlePage":
+    "Eine Auswahl an Softwaresystemen und Engineering-Projekten mit Fokus auf Architektur, Backend-Logik und praktischem Systemdesign.",
   "projects.viewGrid": "Rasteransicht",
   "projects.viewList": "Listenansicht",
   "projects.sortBy": "Sortieren nach",
@@ -78,7 +84,8 @@ export const home = {
   "blog.close": "Schließen",
   "blog.toc": "Inhaltsverzeichnis",
   "blog.comments": "Kommentare",
-  "blog.subtitlePage": "Gedanken, Lernnotizen und Erkundungen in den Bereichen Software, künstliche Intelligenz, Cybersicherheit, Philosophie und Sprachenlernen.",
+  "blog.subtitlePage":
+    "Gedanken, Lernnotizen und Erkundungen in den Bereichen Software, künstliche Intelligenz, Cybersicherheit, Philosophie und Sprachenlernen.",
 
   "blog.share": "Teilen:",
   "blog.shareCopied": "Kopiert!",
@@ -87,7 +94,8 @@ export const home = {
   "nav.uses": "Tech-Stack",
   "uses.title": "/uses",
   "uses.subtitle": "// Hardware & Software",
-  "uses.subtitlePage": "Eine detaillierte Liste der Hardware, Software und Tools, die ich täglich verwende, um Softwaresysteme zu entwickeln.",
+  "uses.subtitlePage":
+    "Eine detaillierte Liste der Hardware, Software und Tools, die ich täglich verwende, um Softwaresysteme zu entwickeln.",
   "uses.back": "Zurück zum Start",
 
   "lagrange.equilibrium": "SYSTEM.GLEICHGEWICHT",
@@ -108,4 +116,10 @@ export const home = {
   "lagrange.v4.desc": "Erkennt Zusammenhänge, keine Einzelteile",
   "lagrange.v5.title": "VEKTOR_05: AUTONOMIE",
   "lagrange.v5.desc": "Arbeitet ohne externe Abhängigkeiten",
+
+  "404.title": "Seite nicht gefunden",
+  "404.subtitle":
+    "Die von Ihnen gesuchte Seite existiert nicht oder wurde verschoben.",
+  "404.button": "Zurück zur Startseite",
+  "accessibility.skipToContent": "Zum Hauptinhalt springen",
 } as const;

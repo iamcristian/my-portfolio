@@ -10,13 +10,13 @@
 
 ## 📋 Leyenda de estados
 
-| Icono | Estado | Significado |
-|-------|--------|-------------|
-| ✅ | Aprobado | Aprobado para implementar |
-| ❌ | Descartado | Descartado por el usuario |
-| ⏸️ | Pospuesto | Interesante pero dejado para después |
-| 🔍 | Investigar | Requiere investigación o pruebas antes de decidir |
-| ✔️ | Ya existe | Ya está implementado o resuelto |
+| Icono | Estado     | Significado                                       |
+| ----- | ---------- | ------------------------------------------------- |
+| ✅    | Aprobado   | Aprobado para implementar                         |
+| ❌    | Descartado | Descartado por el usuario                         |
+| ⏸️    | Pospuesto  | Interesante pero dejado para después              |
+| 🔍    | Investigar | Requiere investigación o pruebas antes de decidir |
+| ✔️    | Ya existe  | Ya está implementado o resuelto                   |
 
 ---
 
@@ -59,6 +59,7 @@ Luego cada componente usaría `Astro.locals.lang` en vez de recalcularlo.
 ### 2. ✅ Lógica duplicada en `SEO.astro` y `StructuredData.astro` (Prioridad: Alta)
 
 Ambos componentes calculan **exactamente las mismas cosas** de forma independiente:
+
 - `siteUrl`, `cleanSiteUrl`, `canonicalUrl`
 - `isHome`, `isProjects`, `isBlogIndex` (detección de tipo de página)
 - Resolución de `title` y `description` con fallbacks
@@ -80,6 +81,7 @@ export function resolveSEOData(props, astroContext) {
 ### 3. ✅ "Cristian Arando" hardcodeado en múltiples archivos (Prioridad: Media)
 
 El nombre aparece hardcodeado en **17 instancias** fuera de `site.ts`:
+
 - `StructuredData.astro` (líneas 148, 176, 194, 203) — debería usar `SITE.name`
 - `news-sitemap.xml.ts` (línea 36) — debería usar `SITE.name`
 - `content.config.ts` (línea 19) — debería usar `SITE.name`
@@ -93,9 +95,11 @@ El nombre aparece hardcodeado en **17 instancias** fuera de `site.ts`:
 ### 4. ✅ URL `"https://cristianarando.dev"` como fallback redundante (Prioridad: Baja)
 
 Aparece como tercer fallback en `SEO.astro:30` y `StructuredData.astro:30`:
+
 ```ts
 const siteUrl = Astro.site?.origin || SITE.url || "https://cristianarando.dev";
 ```
+
 `SITE.url` ya contiene esa URL. El tercer fallback es innecesario. Eliminar.
 
 ---
@@ -103,6 +107,7 @@ const siteUrl = Astro.site?.origin || SITE.url || "https://cristianarando.dev";
 ### 5. ✅ Mapa de locales duplicado (Prioridad: Media)
 
 La lista de locales `["en", "es", "de", "ru", "ja"]` está hardcodeada en:
+
 - `SEO.astro` (línea 85)
 - `StructuredData.astro` (línea 79)
 - `astro.config.mjs` (línea 62)
@@ -121,6 +126,7 @@ El mapping `en → en_US`, `es → es_ES`, etc. en `SEO.astro` es el mismo que s
 ### 7. ✅ Sorting logic duplicada en Blog y Projects (Prioridad: Media)
 
 La lógica de sort featured-first + date-desc aparece en:
+
 - `BlogManager.astro` (líneas 25-30)
 - `ProjectsManager.astro` (líneas 18-23)
 - `list-manager.ts` (líneas 200-226)
@@ -151,12 +157,13 @@ Los scripts en `Hero.astro`, `Blog.astro`, `BlogPostDetail.astro`, y `LagrangeSi
 > **Instrucción del usuario:** Implementar la solución más viable y profesional.
 
 **Solución aprobada:** Usar `AbortController` para cleanup:
+
 ```ts
 let cleanup: (() => void) | null = null;
 function init() {
   cleanup?.();
   const controller = new AbortController();
-  hero.addEventListener('mousemove', handler, { signal: controller.signal });
+  hero.addEventListener("mousemove", handler, { signal: controller.signal });
   cleanup = () => controller.abort();
 }
 ```
@@ -168,6 +175,7 @@ function init() {
 Cuando `imageImport` es `undefined` (imagen no encontrada en glob), el fallback pasa `project.image` (string) directamente a `<Image>`, lo cual fallaría en build porque Astro's Image component requiere `ImageMetadata` para imágenes locales. Solo funciona si la string es una URL absoluta externa.
 
 **Solución:** Agregar validación explícita o usar un placeholder image como fallback:
+
 ```ts
 const resolvedImage = imageImport
   ? await imageImport()
@@ -274,6 +282,7 @@ El proyecto registra eventos `astro:after-swap` pero **no usa `<ViewTransitions 
 Agregar `pnpm astro check` al pipeline de build para detectar errores de tipos y HTML inválido antes del deploy.
 
 Agregar al `package.json`:
+
 ```json
 "scripts": {
   "check": "astro check",
@@ -295,6 +304,7 @@ No existe una página 404 personalizada. Crear `src/pages/404.astro` con diseño
 ### 3. ✅ Optimizar LCP con `<link rel="preload">` (Prioridad: Media)
 
 La imagen hero (`me.webp`) y la fuente principal deberían tener preload hints:
+
 ```html
 <link rel="preload" as="image" href="/me.webp" />
 <link rel="preload" as="font" href="/fonts/..." crossorigin />
@@ -319,6 +329,7 @@ Los blog posts con múltiples H2 se podrían enriquecer con `FAQPage` structured
 ### 6. ✅ Agregar `Content-Security-Policy` header (Prioridad: Media)
 
 `vercel.json` tiene buenos headers de seguridad pero falta CSP. Agregar uno restrictivo:
+
 ```json
 {
   "key": "Content-Security-Policy",
@@ -339,8 +350,9 @@ El script de Giscus se carga con `async` pero no con un IntersectionObserver. Ca
 ### 8. ✅ Agregar meta tag de `last-modified` en blog posts (Prioridad: Baja)
 
 Para blog posts con `updatedDate`, agregar:
+
 ```html
-<meta http-equiv="last-modified" content={updatedDate.toISOString()} />
+<meta http-equiv="last-modified" content="{updatedDate.toISOString()}" />
 ```
 
 ---
@@ -377,8 +389,8 @@ Mostrar 2-3 posts relacionados basados en tags comunes al final de cada artícul
 
 ```ts
 const relatedPosts = langPosts
-  .filter(p => p.id !== post.id)
-  .filter(p => p.data.tags.some(tag => post.data.tags.includes(tag)))
+  .filter((p) => p.id !== post.id)
+  .filter((p) => p.data.tags.some((tag) => post.data.tags.includes(tag)))
   .slice(0, 3);
 ```
 
@@ -422,7 +434,9 @@ Agregar animaciones de entrada (fade-in, slide-up) a las secciones del home page
 .scroll-reveal {
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
 }
 .scroll-reveal.visible {
   opacity: 1;
@@ -469,6 +483,7 @@ Agregar un botón "Copy" en cada bloque de código dentro de los blog posts MDX.
 Generar automáticamente OG images dinámicas para cada blog post usando `satori` + `@resvg/resvg-js`.
 
 Cada imagen OG incluirá:
+
 - El título del post
 - Los tags
 - La imagen hero del post (si existe) como fondo o thumbnail
@@ -507,7 +522,10 @@ Agregar `content:encoded` con el HTML completo del post para lectores RSS.
 Agregar un "Skip to main content" link para screen readers y navegación por teclado. **Con i18n** — el texto debe cambiar según el idioma.
 
 ```html
-<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-999 btn btn-primary">
+<a
+  href="#main"
+  class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-999 btn btn-primary"
+>
   {t("accessibility.skipToContent")}
 </a>
 ```
@@ -559,10 +577,11 @@ Agregar stagger animations para los elementos del hero (título, subtítulo, CTA
 No hay un sistema de validación que detecte si falta una key de traducción en algún idioma.
 
 **Solución:** Crear un script de CI que compare las keys de cada locale contra `en` y reporte las faltantes:
+
 ```ts
 // scripts/check-i18n.ts
 const enKeys = Object.keys(enTranslations);
-const missingKeys = enKeys.filter(k => !deTranslations[k]);
+const missingKeys = enKeys.filter((k) => !deTranslations[k]);
 ```
 
 ---
@@ -598,6 +617,7 @@ Cuando un post no existe en el idioma del usuario, mostrar un banner que sugiera
 Agregar un pipeline de CI mínimo.
 
 **Solución aprobada:**
+
 ```json
 // package.json
 "scripts": {
@@ -606,6 +626,7 @@ Agregar un pipeline de CI mínimo.
   "lint:fix": "prettier --write ."
 }
 ```
+
 En CI usar `pnpm lint` (que internamente ejecuta prettier a través de pnpm).
 
 ---
@@ -627,6 +648,7 @@ En CI usar `pnpm lint` (que internamente ejecuta prettier a través de pnpm).
 ### 1. ✅ Completar el Web App Manifest (Prioridad: Media)
 
 `site.webmanifest` le faltan:
+
 - Iconos en múltiples tamaños (192x192, 512x512)
 - `scope` property
 - `screenshots` para la instalación mejorada
@@ -661,106 +683,113 @@ Actualmente se oculta con `hidden lg:flex`. Considerar mostrar una versión comp
 ## 📊 Priorización Resumen Final
 
 ### ✅ Aprobados — Alta Prioridad (11 items)
-| # | Item | Esfuerzo |
-|---|------|----------|
-| 1 | Refactorizar `getLang()` con middleware | 🟢 Bajo |
-| 2 | Extraer lógica SEO duplicada a `utils/seo.ts` | 🟢 Bajo |
-| 3 | Reemplazar strings hardcodeados con `SITE.*` | 🟢 Bajo |
-| 4 | Path aliases en `tsconfig.json` | 🟢 Bajo |
-| 5 | Fix event listeners cleanup (AbortController) | 🟡 Medio |
-| 6 | Página 404 personalizada (genial y profesional) | 🟡 Medio |
-| 7 | Reading Progress Bar | 🟢 Bajo |
-| 8 | Blog Post Share Buttons | 🟡 Medio |
-| 9 | Related Posts | 🟡 Medio |
-| 10 | CI/CD pipeline (`pnpm lint`) | 🟡 Medio |
-| 11 | Script validación i18n keys | 🟢 Bajo |
+
+| #   | Item                                            | Esfuerzo |
+| --- | ----------------------------------------------- | -------- |
+| 1   | Refactorizar `getLang()` con middleware         | 🟢 Bajo  |
+| 2   | Extraer lógica SEO duplicada a `utils/seo.ts`   | 🟢 Bajo  |
+| 3   | Reemplazar strings hardcodeados con `SITE.*`    | 🟢 Bajo  |
+| 4   | Path aliases en `tsconfig.json`                 | 🟢 Bajo  |
+| 5   | Fix event listeners cleanup (AbortController)   | 🟡 Medio |
+| 6   | Página 404 personalizada (genial y profesional) | 🟡 Medio |
+| 7   | Reading Progress Bar                            | 🟢 Bajo  |
+| 8   | Blog Post Share Buttons                         | 🟡 Medio |
+| 9   | Related Posts                                   | 🟡 Medio |
+| 10  | CI/CD pipeline (`pnpm lint`)                    | 🟡 Medio |
+| 11  | Script validación i18n keys                     | 🟢 Bajo  |
 
 ### ✅ Aprobados — Media Prioridad (16 items)
-| # | Item | Esfuerzo |
-|---|------|----------|
-| 12 | Locales map unificado | 🟢 Bajo |
-| 13 | Sorting logic deduplication | 🟢 Bajo |
-| 14 | `BlogLayout.astro` (⚠️ con cuidado) | 🟡 Medio |
-| 15 | View Transitions | 🟡 Medio |
-| 16 | Google Font Inter | 🟢 Bajo |
-| 17 | Preload hints LCP | 🟢 Bajo |
-| 18 | CSP header | 🟢 Bajo |
-| 19 | Página `/uses` | 🟡 Medio |
-| 20 | Scroll animations | 🟡 Medio |
-| 21 | Blog Post Series/Categories | 🔴 Alto |
-| 22 | Copy Code Button | 🟡 Medio |
-| 23 | Skip Navigation i18n | 🟢 Bajo |
-| 24 | Dropdown accessibility | 🟡 Medio |
-| 25 | Contenido no disponible banner | 🟡 Medio |
-| 26 | `import.meta.glob` para i18n (si no trae problemas) | 🟡 Medio |
-| 27 | OG Image Generation (con `satori`) | 🟡 Medio |
+
+| #   | Item                                                | Esfuerzo |
+| --- | --------------------------------------------------- | -------- |
+| 12  | Locales map unificado                               | 🟢 Bajo  |
+| 13  | Sorting logic deduplication                         | 🟢 Bajo  |
+| 14  | `BlogLayout.astro` (⚠️ con cuidado)                 | 🟡 Medio |
+| 15  | View Transitions                                    | 🟡 Medio |
+| 16  | Google Font Inter                                   | 🟢 Bajo  |
+| 17  | Preload hints LCP                                   | 🟢 Bajo  |
+| 18  | CSP header                                          | 🟢 Bajo  |
+| 19  | Página `/uses`                                      | 🟡 Medio |
+| 20  | Scroll animations                                   | 🟡 Medio |
+| 21  | Blog Post Series/Categories                         | 🔴 Alto  |
+| 22  | Copy Code Button                                    | 🟡 Medio |
+| 23  | Skip Navigation i18n                                | 🟢 Bajo  |
+| 24  | Dropdown accessibility                              | 🟡 Medio |
+| 25  | Contenido no disponible banner                      | 🟡 Medio |
+| 26  | `import.meta.glob` para i18n (si no trae problemas) | 🟡 Medio |
+| 27  | OG Image Generation (con `satori`)                  | 🟡 Medio |
 
 ### ✅ Aprobados — Baja Prioridad (16 items)
-| # | Item | Esfuerzo |
-|---|------|----------|
-| 28 | Eliminar fallback URL redundante | 🟢 Bajo |
-| 29 | `OG_LOCALES` centralizado | 🟢 Bajo |
-| 30 | `getStaticPaths` consistente | 🟢 Bajo |
-| 31 | Giscus i18n title | 🟢 Bajo |
-| 32 | Theme color fix | 🟢 Bajo |
-| 33 | FAQPage schema | 🟡 Medio |
-| 34 | Last-modified meta | 🟢 Bajo |
-| 35 | RSS con contenido completo | 🟡 Medio |
-| 36 | Counter animations | 🟡 Medio |
-| 37 | Smooth scroll | 🟢 Bajo |
-| 38 | Toast/Snackbar | 🟡 Medio |
-| 39 | Header shrink | 🟡 Medio |
-| 40 | Hero stagger animations (⚠️ si no afecta rendimiento) | 🟡 Medio |
-| 41 | Lagrange tablet responsive | 🟢 Bajo |
-| 42 | ProjectCard fallback fix | 🟢 Bajo |
-| 43 | list-manager DOM fix | 🟡 Medio |
-| 44 | Web App Manifest completo | 🟢 Bajo |
+
+| #   | Item                                                  | Esfuerzo |
+| --- | ----------------------------------------------------- | -------- |
+| 28  | Eliminar fallback URL redundante                      | 🟢 Bajo  |
+| 29  | `OG_LOCALES` centralizado                             | 🟢 Bajo  |
+| 30  | `getStaticPaths` consistente                          | 🟢 Bajo  |
+| 31  | Giscus i18n title                                     | 🟢 Bajo  |
+| 32  | Theme color fix                                       | 🟢 Bajo  |
+| 33  | FAQPage schema                                        | 🟡 Medio |
+| 34  | Last-modified meta                                    | 🟢 Bajo  |
+| 35  | RSS con contenido completo                            | 🟡 Medio |
+| 36  | Counter animations                                    | 🟡 Medio |
+| 37  | Smooth scroll                                         | 🟢 Bajo  |
+| 38  | Toast/Snackbar                                        | 🟡 Medio |
+| 39  | Header shrink                                         | 🟡 Medio |
+| 40  | Hero stagger animations (⚠️ si no afecta rendimiento) | 🟡 Medio |
+| 41  | Lagrange tablet responsive                            | 🟢 Bajo  |
+| 42  | ProjectCard fallback fix                              | 🟢 Bajo  |
+| 43  | list-manager DOM fix                                  | 🟡 Medio |
+| 44  | Web App Manifest completo                             | 🟢 Bajo  |
 
 ### 🔍 Requieren Investigación (3 items)
-| # | Item | Pendiente |
-|---|------|-----------|
-| 1 | Pagefind con filtros avanzados | Implementar solo si soporta filtros profesionales |
-| 2 | Theme Auto mode | Verificar si la implementación existente funciona |
-| 3 | Reading Time visual | Verificar si ya está implementado |
+
+| #   | Item                           | Pendiente                                         |
+| --- | ------------------------------ | ------------------------------------------------- |
+| 1   | Pagefind con filtros avanzados | Implementar solo si soporta filtros profesionales |
+| 2   | Theme Auto mode                | Verificar si la implementación existente funciona |
+| 3   | Reading Time visual            | Verificar si ya está implementado                 |
 
 ### ❌ Descartados (11 items)
-| # | Item | Razón |
-|---|------|-------|
-| 1 | Newsletter/Subscribe CTA | Apps de pago, no escalable |
-| 2 | Testimonials Section | Sin relevancia como junior |
-| 3 | Keyboard Shortcuts | Sin necesidad percibida |
-| 4 | JSON Resume | Ya tiene PDFs por idioma |
-| 5 | Active Nav Highlighting | No necesario |
-| 6 | Soporte RTL | Nunca se necesitará |
-| 7 | Renovate/Dependabot | No necesario |
-| 8 | Proyectos a Content Collections MDX | Overkill para cards simples con link a GitHub |
-| 9 | Giscus `.env` handling | Valores ya públicos, sin valor añadido |
-| 10 | Service Worker offline | Beneficio marginal con Vercel CDN |
-| 11 | pnpm-workspace.yaml | No tocar — útil y creado por el sistema |
+
+| #   | Item                                | Razón                                         |
+| --- | ----------------------------------- | --------------------------------------------- |
+| 1   | Newsletter/Subscribe CTA            | Apps de pago, no escalable                    |
+| 2   | Testimonials Section                | Sin relevancia como junior                    |
+| 3   | Keyboard Shortcuts                  | Sin necesidad percibida                       |
+| 4   | JSON Resume                         | Ya tiene PDFs por idioma                      |
+| 5   | Active Nav Highlighting             | No necesario                                  |
+| 6   | Soporte RTL                         | Nunca se necesitará                           |
+| 7   | Renovate/Dependabot                 | No necesario                                  |
+| 8   | Proyectos a Content Collections MDX | Overkill para cards simples con link a GitHub |
+| 9   | Giscus `.env` handling              | Valores ya públicos, sin valor añadido        |
+| 10  | Service Worker offline              | Beneficio marginal con Vercel CDN             |
+| 11  | pnpm-workspace.yaml                 | No tocar — útil y creado por el sistema       |
 
 ### ⏸️ Pospuestos (1 item)
-| # | Item | Razón |
-|---|------|-------|
-| 1 | Página `/now` | Interesante pero innecesario por ahora |
+
+| #   | Item          | Razón                                  |
+| --- | ------------- | -------------------------------------- |
+| 1   | Página `/now` | Interesante pero innecesario por ahora |
 
 ### ✔️ Ya Resueltos (15 items)
-| # | Item |
-|---|------|
-| 1 | README.md actualizado |
-| 2 | Blog content en todos los idiomas |
-| 3 | CONTRIBUTING.md |
-| 4 | Path aliases en `tsconfig.json` |
-| 5 | Separación de lógica i18n con `import.meta.glob` |
-| 6 | Creación de `BlogLayout.astro` |
-| 7 | Integración de Astro ClientRouter (View Transitions) |
-| 8 | Reading Progress Bar en artículos de blog |
-| 9 | Botones para compartir en redes sociales y copiar enlace |
-| 10 | Artículos relacionados en base a etiquetas en BlogPostDetail |
-| 11 | Botón de copiar código automático en bloques de código |
-| 12 | Animaciones de Scroll con IntersectionObserver |
-| 13 | Animación de conteo ascendente en tarjetas de logros/estadísticas |
-| 14 | Creación de página dinámica de herramientas/configuración `/uses` |
-| 15 | Feed RSS mejorado con contenido HTML completo compilado y sanitizado |
+
+| #   | Item                                                                 |
+| --- | -------------------------------------------------------------------- |
+| 1   | README.md actualizado                                                |
+| 2   | Blog content en todos los idiomas                                    |
+| 3   | CONTRIBUTING.md                                                      |
+| 4   | Path aliases en `tsconfig.json`                                      |
+| 5   | Separación de lógica i18n con `import.meta.glob`                     |
+| 6   | Creación de `BlogLayout.astro`                                       |
+| 7   | Integración de Astro ClientRouter (View Transitions)                 |
+| 8   | Reading Progress Bar en artículos de blog                            |
+| 9   | Botones para compartir en redes sociales y copiar enlace             |
+| 10  | Artículos relacionados en base a etiquetas en BlogPostDetail         |
+| 11  | Botón de copiar código automático en bloques de código               |
+| 12  | Animaciones de Scroll con IntersectionObserver                       |
+| 13  | Animación de conteo ascendente en tarjetas de logros/estadísticas    |
+| 14  | Creación de página dinámica de herramientas/configuración `/uses`    |
+| 15  | Feed RSS mejorado con contenido HTML completo compilado y sanitizado |
 
 ---
 

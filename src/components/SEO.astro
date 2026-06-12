@@ -103,10 +103,13 @@ const alternateUrls = getAlternateUrls(
         />
       )}
       {updatedDate && (
-        <meta
-          property="article:modified_time"
-          content={updatedDate.toISOString()}
-        />
+        <>
+          <meta
+            property="article:modified_time"
+            content={updatedDate.toISOString()}
+          />
+          <meta http-equiv="last-modified" content={updatedDate.toISOString()} />
+        </>
       )}
       <meta property="article:author" content={t("home.name") || SITE.name} />
       <meta property="article:section" content="Technology" />

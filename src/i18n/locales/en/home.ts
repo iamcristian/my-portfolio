@@ -103,7 +103,8 @@ export const home = {
   "nav.uses": "Uses",
   "uses.title": "Uses",
   "uses.subtitle": "// Uses",
-  "uses.subtitlePage": "A detailed list of the hardware, software, and tools I use on a daily basis to build software systems.",
+  "uses.subtitlePage":
+    "A detailed list of the hardware, software, and tools I use on a daily basis to build software systems.",
   "uses.back": "Back to Home",
 
   "lagrange.equilibrium": "SYSTEM.EQUILIBRIUM",
@@ -130,4 +131,10 @@ export const home = {
 
   "lagrange.v5.title": "VECTOR_05: AUTONOMY",
   "lagrange.v5.desc": "Operates without external dependency",
+
+  "404.title": "Page Not Found",
+  "404.subtitle":
+    "The page you are looking for does not exist or has been moved.",
+  "404.button": "Back to Home",
+  "accessibility.skipToContent": "Skip to main content",
 } as const;

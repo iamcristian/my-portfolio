@@ -14,6 +14,7 @@ export interface Props {
   tags?: string[];
   structuredDataType?: "profile" | "collection";
   wordCount?: number;
+  faq?: Array<{ question: string; answer: string }>;
 }
 
 const {
@@ -23,6 +24,7 @@ const {
   tags,
   structuredDataType,
   wordCount,
+  faq,
 } = Astro.props;
 
 const { lang } = Astro.locals;
@@ -173,6 +175,22 @@ if (type === "article") {
     "articleSection": "Technology",
     "keywords": tags || [],
     "inLanguage": seo.lang
+  });
+}
+
+// 6. FAQPage schema (If post has FAQ data)
+if (faq && faq.length > 0) {
+  schemas.push({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faq.map((item) => ({
+      "@type": "Question",
+      "name": item.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": item.answer
+      }
+    }))
   });
 }
 ---

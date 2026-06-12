@@ -18,7 +18,7 @@ const usesCategories = getUsesForLang(lang);
 <Layout title={`${t("uses.title")} | ${t("home.name")}`} description={t("uses.subtitlePage")} structuredDataType="collection">
   <Header />
   
-  <main class="max-w-4xl mx-auto px-4 md:px-8 pt-8 md:pt-12 pb-16 md:pb-24 min-h-screen">
+  <main id="main-content" class="max-w-4xl mx-auto px-4 md:px-8 pt-8 md:pt-12 pb-16 md:pb-24 min-h-screen">
     <!-- Back Button -->
     <div class="mb-6 md:mb-8">
       <a href={getRelativeLocaleUrl(lang, "")} class="btn btn-ghost btn-sm gap-2">

@@ -26,7 +26,8 @@ export const experience: ExperienceItem[] = [
   {
     id: "dtic-fullstack-intern",
     title: "Pasante de Ingeniería Full Stack",
-    company: "DTIC - Departamento de Tecnologías de la Información y Comunicación",
+    company:
+      "DTIC - Departamento de Tecnologías de la Información y Comunicación",
     companyUrl: "https://dtic.umss.edu.bo/",
     date: "Agosto 2024 – Diciembre 2024",
     description:

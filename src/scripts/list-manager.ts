@@ -94,10 +94,18 @@ export function initListManager(config: ListManagerConfig) {
   const gridBtn = document.getElementById(gridBtnId);
   const listBtn = document.getElementById(listBtnId);
 
-  const dateRangeSelect = dateRangeSelectId ? (document.getElementById(dateRangeSelectId) as HTMLSelectElement | null) : null;
-  const customDateContainer = customDateContainerId ? document.getElementById(customDateContainerId) : null;
-  const startDateInput = startDateInputId ? (document.getElementById(startDateInputId) as HTMLInputElement | null) : null;
-  const endDateInput = endDateInputId ? (document.getElementById(endDateInputId) as HTMLInputElement | null) : null;
+  const dateRangeSelect = dateRangeSelectId
+    ? (document.getElementById(dateRangeSelectId) as HTMLSelectElement | null)
+    : null;
+  const customDateContainer = customDateContainerId
+    ? document.getElementById(customDateContainerId)
+    : null;
+  const startDateInput = startDateInputId
+    ? (document.getElementById(startDateInputId) as HTMLInputElement | null)
+    : null;
+  const endDateInput = endDateInputId
+    ? (document.getElementById(endDateInputId) as HTMLInputElement | null)
+    : null;
 
   let currentView = "grid";
   let currentFilter = "all";
@@ -172,7 +180,7 @@ export function initListManager(config: ListManagerConfig) {
         if (itemDateStr) {
           const itemTime = new Date(itemDateStr).getTime();
           const now = new Date().getTime();
-          
+
           if (currentDateRange === "yesterday") {
             dateMatch = itemTime >= now - 24 * 60 * 60 * 1000;
           } else if (currentDateRange === "week") {
@@ -183,7 +191,9 @@ export function initListManager(config: ListManagerConfig) {
             dateMatch = itemTime >= now - 365 * 24 * 60 * 60 * 1000;
           } else if (currentDateRange === "custom") {
             if (customStartDate) {
-              const startTime = new Date(customStartDate + "T00:00:00").getTime();
+              const startTime = new Date(
+                customStartDate + "T00:00:00",
+              ).getTime();
               if (!isNaN(startTime) && itemTime < startTime) dateMatch = false;
             }
             if (customEndDate) {
@@ -204,7 +214,7 @@ export function initListManager(config: ListManagerConfig) {
         const featA = a.getAttribute("data-featured") === "true" ? 1 : 0;
         const featB = b.getAttribute("data-featured") === "true" ? 1 : 0;
         if (featA !== featB) return featB - featA;
-        
+
         // Within the same featured status, sort by date-desc
         const dateA = new Date(a.getAttribute("data-date") || "").getTime();
         const dateB = new Date(b.getAttribute("data-date") || "").getTime();

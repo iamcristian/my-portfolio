@@ -48,9 +48,13 @@ export const skills: SkillCategory[] = [
     id: "ai",
     name: "AI & Agentic Systems",
     icon: "sparkles",
-    description:
-      "Generative AI and intelligent agent architectures",
-    items: ["Model Context Protocol (MCP)", "Prompt Engineering", "Agentic Workflows", "Skills"],
+    description: "Generative AI and intelligent agent architectures",
+    items: [
+      "Model Context Protocol (MCP)",
+      "Prompt Engineering",
+      "Agentic Workflows",
+      "Skills",
+    ],
   },
   {
     id: "soft-skills",
@@ -58,6 +62,11 @@ export const skills: SkillCategory[] = [
     icon: "brain",
     description:
       "Interpersonal attributes and professional mindset for effective collaboration",
-    items: ["Leadership", "Assertive Communication", "Problem Solving", "Adaptability"],
+    items: [
+      "Leadership",
+      "Assertive Communication",
+      "Problem Solving",
+      "Adaptability",
+    ],
   },
 ];

@@ -20,6 +20,7 @@
 ## ✨ Features
 
 ### 🏠 Portfolio & Personal Brand
+
 - **Hero Section** — Cosmic-themed landing with interactive Lagrange Point simulation, particle star field, shooting stars, and mouse-tracking nebula spotlight
 - **About Section** — Professional bio with metrics dashboard (years of experience, areas of passion, strategic thinking)
 - **Experience Timeline** — Interactive DaisyUI timeline with responsibilities, tech stacks, and company links
@@ -28,6 +29,7 @@
 - **Education Hub** — Tabbed interface with Academic Background, Certifications (nested sub-tabs), and Language Proficiency sections
 
 ### 📝 Blog Engine
+
 - **MDX Content** — Full MDX support with syntax highlighting, rich media, and custom components
 - **Table of Contents** — Desktop sidebar with scroll-aware active heading tracking + mobile FAB with modal dialog
 - **Featured Posts** — Carousel with autoplay, manual arrows, and swipe support on the homepage
@@ -38,6 +40,7 @@
 - **RSS Feed** — Per-language RSS feeds with autodiscovery meta tags
 
 ### 🌐 Internationalization (i18n)
+
 - **5 Languages** — English 🇺🇸 · Español 🇪🇸 · Deutsch 🇩🇪 · Русский 🇷🇺 · 日本語 🇯🇵
 - **Localized routing** with prefix-based URLs (`/en/`, `/es/`, `/de/`, etc.)
 - **Per-language content** — Blog posts exist independently per locale with smart hreflang alternate tags
@@ -45,12 +48,14 @@
 - **Language switcher** — Dropdown selector preserving the current page path across locales
 
 ### 🎨 Design System
+
 - **4 Themes** — Light, Business (dark), Dracula, Forest — with system preference detection and localStorage persistence
 - **Custom daisyUI Themes** — Handcrafted monochromatic color palettes using oklch color space for both light and dark modes
 - **Flash-free theme loading** — Inline script prevents FOUC by applying the theme before first paint
 - **Preload animation suppression** — CSS `.preload` class disables transitions during page load to eliminate non-composited animation warnings
 
 ### 🔍 SEO & Performance
+
 - **Comprehensive SEO Component** — Dynamic `<title>`, `<meta>`, OpenGraph, Twitter Cards, canonical URLs, and hreflang alternate tags
 - **Structured Data (JSON-LD)** — BreadcrumbList, WebSite, ProfilePage + Person, CollectionPage, and BlogPosting schemas
 - **News Sitemap** — Per-language Google News sitemaps for recent articles
@@ -65,19 +70,19 @@
 
 ## 🛠 Tech Stack
 
-| Layer | Technology |
-|---|---|
-| **Framework** | [Astro 6](https://astro.build) — Static Site Generator with Islands Architecture |
-| **Language** | [TypeScript](https://www.typescriptlang.org) — Strict mode |
-| **Styling** | [Tailwind CSS 4](https://tailwindcss.com) + [daisyUI 5](https://daisyui.com) |
-| **Typography** | [@tailwindcss/typography](https://github.com/tailwindlabs/tailwindcss-typography) — Prose styling for MDX content |
-| **Content** | [Astro Content Collections](https://docs.astro.build/en/guides/content-collections/) + [MDX](https://mdxjs.com/) |
-| **Comments** | [Giscus](https://giscus.app/) — GitHub Discussions-based comments |
-| **Analytics** | [Vercel Analytics](https://vercel.com/analytics) |
-| **Images** | [sharp](https://sharp.pixelplumbing.com/) — High-performance image processing |
-| **Hosting** | [Vercel](https://vercel.com) — Edge network, automatic HTTPS |
-| **Package Manager** | [pnpm](https://pnpm.io) |
-| **Formatting** | [Prettier](https://prettier.io) + [prettier-plugin-astro](https://github.com/withastro/prettier-plugin-astro) |
+| Layer               | Technology                                                                                                        |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| **Framework**       | [Astro 6](https://astro.build) — Static Site Generator with Islands Architecture                                  |
+| **Language**        | [TypeScript](https://www.typescriptlang.org) — Strict mode                                                        |
+| **Styling**         | [Tailwind CSS 4](https://tailwindcss.com) + [daisyUI 5](https://daisyui.com)                                      |
+| **Typography**      | [@tailwindcss/typography](https://github.com/tailwindlabs/tailwindcss-typography) — Prose styling for MDX content |
+| **Content**         | [Astro Content Collections](https://docs.astro.build/en/guides/content-collections/) + [MDX](https://mdxjs.com/)  |
+| **Comments**        | [Giscus](https://giscus.app/) — GitHub Discussions-based comments                                                 |
+| **Analytics**       | [Vercel Analytics](https://vercel.com/analytics)                                                                  |
+| **Images**          | [sharp](https://sharp.pixelplumbing.com/) — High-performance image processing                                     |
+| **Hosting**         | [Vercel](https://vercel.com) — Edge network, automatic HTTPS                                                      |
+| **Package Manager** | [pnpm](https://pnpm.io)                                                                                           |
+| **Formatting**      | [Prettier](https://prettier.io) + [prettier-plugin-astro](https://github.com/withastro/prettier-plugin-astro)     |
 
 ---
 
@@ -106,11 +111,11 @@ The site will be available at `http://localhost:4321`.
 
 ### Available Commands
 
-| Command | Action |
-|---|---|
-| `pnpm dev` | Start local dev server at `localhost:4321` |
-| `pnpm build` | Build production site to `./dist/` |
-| `pnpm preview` | Preview the production build locally |
+| Command          | Action                                        |
+| ---------------- | --------------------------------------------- |
+| `pnpm dev`       | Start local dev server at `localhost:4321`    |
+| `pnpm build`     | Build production site to `./dist/`            |
+| `pnpm preview`   | Preview the production build locally          |
 | `pnpm astro ...` | Run Astro CLI commands (`add`, `check`, etc.) |
 
 ---
@@ -195,6 +200,7 @@ The site is deployed on **Vercel** with automatic deployments on push to `main`.
 ### Security Headers (via `vercel.json`)
 
 All responses include:
+
 - `X-Content-Type-Options: nosniff`
 - `X-Frame-Options: DENY`
 - `X-XSS-Protection: 1; mode=block`

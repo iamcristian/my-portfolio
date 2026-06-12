@@ -79,12 +79,12 @@ The site runs at `http://localhost:4321`.
 
 ### Useful Commands
 
-| Command | Description |
-|---|---|
-| `pnpm dev` | Start development server with hot reload |
-| `pnpm build` | Build production bundle to `./dist/` |
-| `pnpm preview` | Preview the production build locally |
-| `pnpm astro check` | Run TypeScript and Astro diagnostics |
+| Command            | Description                              |
+| ------------------ | ---------------------------------------- |
+| `pnpm dev`         | Start development server with hot reload |
+| `pnpm build`       | Build production bundle to `./dist/`     |
+| `pnpm preview`     | Preview the production build locally     |
+| `pnpm astro check` | Run TypeScript and Astro diagnostics     |
 
 ---
 
@@ -162,18 +162,18 @@ This project follows [Conventional Commits](https://www.conventionalcommits.org/
 
 ### Types
 
-| Type | Description |
-|---|---|
-| `feat` | A new feature |
-| `fix` | A bug fix |
-| `docs` | Documentation changes |
-| `style` | Formatting, missing semicolons, etc. (no code change) |
+| Type       | Description                                             |
+| ---------- | ------------------------------------------------------- |
+| `feat`     | A new feature                                           |
+| `fix`      | A bug fix                                               |
+| `docs`     | Documentation changes                                   |
+| `style`    | Formatting, missing semicolons, etc. (no code change)   |
 | `refactor` | Code change that neither fixes a bug nor adds a feature |
-| `perf` | Performance improvement |
-| `test` | Adding or updating tests |
-| `chore` | Build process, dependencies, or tooling changes |
-| `i18n` | Translation additions or updates |
-| `content` | Blog post or content changes |
+| `perf`     | Performance improvement                                 |
+| `test`     | Adding or updating tests                                |
+| `chore`    | Build process, dependencies, or tooling changes         |
+| `i18n`     | Translation additions or updates                        |
+| `content`  | Blog post or content changes                            |
 
 ### Examples
 

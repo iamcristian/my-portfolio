@@ -53,11 +53,11 @@ const cvPath = SITE.cv[lang] || SITE.cv.en;
     <div class="flex flex-col gap-6 text-center lg:text-left max-w-xl">
       <div>
         <span
-          class="font-mono text-sm tracking-widest uppercase text-primary font-semibold block mb-2"
+          class="font-mono text-sm tracking-widest uppercase text-primary font-semibold block mb-2 hero-fade-in hero-delay-1"
         >
           {t("home.hello")}
         </span>
-        <h1 class="text-5xl lg:text-7xl font-extrabold tracking-tight">
+        <h1 class="text-5xl lg:text-7xl font-extrabold tracking-tight hero-fade-in hero-delay-2">
           <span
             class="bg-linear-to-r from-primary via-neutral-content to-secondary bg-clip-text text-transparent"
           >
@@ -65,15 +65,15 @@ const cvPath = SITE.cv[lang] || SITE.cv.en;
           </span>
         </h1>
       </div>
-      <h2 class="text-xl lg:text-2xl font-semibold opacity-90">
+      <h2 class="text-xl lg:text-2xl font-semibold opacity-90 hero-fade-in hero-delay-3">
         {t("home.subtitle")}
       </h2>
-      <p class="text-xs md:text-sm lg:text-base opacity-75 leading-relaxed">
+      <p class="text-xs md:text-sm lg:text-base opacity-75 leading-relaxed hero-fade-in hero-delay-4">
         {t("home.tagline")}
       </p>
 
       <!-- CTA Buttons -->
-      <div class="flex flex-wrap gap-4 justify-center lg:justify-start mt-4">
+      <div class="flex flex-wrap gap-4 justify-center lg:justify-start mt-4 hero-fade-in hero-delay-5">
         <a href={cvPath} class="btn btn-primary gap-2" target="_blank">
           <DownloadIcon class="w-5 h-5" />
           <span>{t("home.downloadCv")}</span>
@@ -85,11 +85,11 @@ const cvPath = SITE.cv[lang] || SITE.cv.en;
       </div>
 
       <!-- Social Links -->
-      <SocialLinks class="justify-center lg:justify-start mt-2" />
+      <SocialLinks class="justify-center lg:justify-start mt-2 hero-fade-in hero-delay-6" />
     </div>
 
     <!-- Right Column: Lagrange Star Chart Card (Hidden on mobile) -->
-    <LagrangeSimulation class="hidden lg:flex justify-center items-center relative w-[460px] h-[510px]" />
+    <LagrangeSimulation class="hidden lg:flex justify-center items-center relative w-[460px] h-[510px] hero-scale-in" />
   </div>
 </section>
 
@@ -216,7 +216,38 @@ const cvPath = SITE.cv[lang] || SITE.cv.en;
     50% { opacity: 0.85; }
   }
 
-  /* Lagrange simulation styles removed (moved to LagrangeSimulation.astro) */
+  /* Hero stagger entrance animations */
+  .hero-fade-in {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+  
+  .hero-active .hero-fade-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .hero-active .hero-delay-1 { transition-delay: 100ms; }
+  .hero-active .hero-delay-2 { transition-delay: 200ms; }
+  .hero-active .hero-delay-3 { transition-delay: 350ms; }
+  .hero-active .hero-delay-4 { transition-delay: 450ms; }
+  .hero-active .hero-delay-5 { transition-delay: 550ms; }
+  .hero-active .hero-delay-6 { transition-delay: 650ms; }
+  
+  .hero-scale-in {
+    opacity: 0;
+    transform: scale(0.96);
+    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: 300ms;
+    will-change: opacity, transform;
+  }
+  
+  .hero-active .hero-scale-in {
+    opacity: 1;
+    transform: scale(1);
+  }
 </style>
 
 <script>
@@ -278,7 +309,17 @@ const cvPath = SITE.cv[lang] || SITE.cv.en;
       hero.style.setProperty('--mouse-y', '50%');
     }, { signal });
 
-    heroCleanup = () => controller.abort();
+    // Trigger stagger animations on active mount
+    requestAnimationFrame(() => {
+      hero.classList.add('hero-active');
+    });
+
+
+
+    heroCleanup = () => {
+      controller.abort();
+      hero.classList.remove('hero-active');
+    };
   }
   // Initialize on load
   initCosmicHero();

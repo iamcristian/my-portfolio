@@ -6,13 +6,23 @@ export const skills: SkillCategory[] = [
     name: "Sprachen",
     icon: "code",
     description: "Programmier- und Markupsprachen für die Anwendungslogik",
-    items: ["JavaScript", "TypeScript", "Python", "Java", "HTML", "CSS", "SQL", "Bash"],
+    items: [
+      "JavaScript",
+      "TypeScript",
+      "Python",
+      "Java",
+      "HTML",
+      "CSS",
+      "SQL",
+      "Bash",
+    ],
   },
   {
     id: "frontend",
     name: "Frontend",
     icon: "monitor",
-    description: "Frameworks und Bibliotheken zur Gestaltung interaktiver Oberflächen",
+    description:
+      "Frameworks und Bibliotheken zur Gestaltung interaktiver Oberflächen",
     items: ["React", "Next.js", "Astro", "Tailwind CSS", "Redux"],
   },
   {
@@ -26,14 +36,16 @@ export const skills: SkillCategory[] = [
     id: "databases",
     name: "Datenbanken",
     icon: "database",
-    description: "Relationale und nicht-relationale Systeme zur Datenverwaltung",
+    description:
+      "Relationale und nicht-relationale Systeme zur Datenverwaltung",
     items: ["PostgreSQL", "MongoDB", "MySQL", "Redis"],
   },
   {
     id: "devops",
     name: "DevOps & Tools",
     icon: "terminal",
-    description: "Deployment-Automatisierung, Versionskontrolle und Infrastruktur",
+    description:
+      "Deployment-Automatisierung, Versionskontrolle und Infrastruktur",
     items: ["Docker", "Git", "Linux", "CI/CD", "GitHub Actions"],
   },
   {
@@ -48,13 +60,24 @@ export const skills: SkillCategory[] = [
     name: "KI & Agentensysteme",
     icon: "sparkles",
     description: "Generative KI und intelligente Agentenarchitekturen",
-    items: ["Model Context Protocol (MCP)", "Prompt Engineering", "Agenten-Workflows", "Skills"],
+    items: [
+      "Model Context Protocol (MCP)",
+      "Prompt Engineering",
+      "Agenten-Workflows",
+      "Skills",
+    ],
   },
   {
     id: "soft-skills",
     name: "Soft Skills",
     icon: "brain",
-    description: "Interpersonelle Eigenschaften und professionelle Denkweise für effektive Zusammenarbeit",
-    items: ["Führungskompetenz", "Assertive Kommunikation", "Problemlösung", "Anpassungsfähigkeit"],
+    description:
+      "Interpersonelle Eigenschaften und professionelle Denkweise für effektive Zusammenarbeit",
+    items: [
+      "Führungskompetenz",
+      "Assertive Kommunikation",
+      "Problemlösung",
+      "Anpassungsfähigkeit",
+    ],
   },
 ];

@@ -5,7 +5,7 @@
 export function sortFeaturedFirst<T>(
   items: T[],
   getFeatured: (item: T) => boolean | undefined,
-  getDate: (item: T) => Date | string
+  getDate: (item: T) => Date | string,
 ): T[] {
   return [...items].sort((a, b) => {
     const featA = getFeatured(a) ? 1 : 0;

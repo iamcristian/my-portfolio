@@ -2,7 +2,15 @@
 // Provides type-safe translation helpers and localized data accessors.
 
 import { ui, defaultLang } from "./ui";
-import type { Project, CertificationCategory, AcademicItem, LanguageItem, SkillCategory, ExperienceItem, UsesCategory } from "@types";
+import type {
+  Project,
+  CertificationCategory,
+  AcademicItem,
+  LanguageItem,
+  SkillCategory,
+  ExperienceItem,
+  UsesCategory,
+} from "@types";
 
 // ── Types ──
 
@@ -33,7 +41,9 @@ export function getLang(currentLocale: string | undefined): Lang {
 
 // ── Dynamic localized data loaders using import.meta.glob ──
 
-const localeModules = import.meta.glob("./locales/**/*.ts", { eager: true }) as Record<string, any>;
+const localeModules = import.meta.glob("./locales/**/*.ts", {
+  eager: true,
+}) as Record<string, any>;
 
 function getLocaleData<T>(lang: Lang, filename: string, key: string): T {
   const path = `./locales/${lang}/${filename}.ts`;
@@ -48,7 +58,11 @@ export const getProjectsForLang = (lang: Lang): Project[] =>
   getLocaleData<Project[]>(lang, "projects", "projects");
 
 export const getCertificationsForLang = (lang: Lang): CertificationCategory[] =>
-  getLocaleData<CertificationCategory[]>(lang, "certifications", "certifications");
+  getLocaleData<CertificationCategory[]>(
+    lang,
+    "certifications",
+    "certifications",
+  );
 
 export const getEducationForLang = (lang: Lang): AcademicItem[] =>
   getLocaleData<AcademicItem[]>(lang, "education", "education");

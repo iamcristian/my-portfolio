@@ -94,7 +94,8 @@ export const home = {
   "nav.uses": "Usos",
   "uses.title": "/uses",
   "uses.subtitle": "// Herramientas y Workspace",
-  "uses.subtitlePage": "Una lista detallada del hardware, software y herramientas que utilizo a diario para construir sistemas de software.",
+  "uses.subtitlePage":
+    "Una lista detallada del hardware, software y herramientas que utilizo a diario para construir sistemas de software.",
   "uses.back": "Volver al Inicio",
 
   "lagrange.equilibrium": "SISTEMA.EQUILIBRIO",
@@ -115,4 +116,9 @@ export const home = {
   "lagrange.v4.desc": "Ve relaciones, no partes aisladas",
   "lagrange.v5.title": "VECTOR_05: AUTONOMÍA",
   "lagrange.v5.desc": "Opera sin dependencia externa",
+
+  "404.title": "Página no encontrada",
+  "404.subtitle": "La página que buscas no existe o ha sido movida.",
+  "404.button": "Volver al inicio",
+  "accessibility.skipToContent": "Saltar al contenido principal",
 } as const;
