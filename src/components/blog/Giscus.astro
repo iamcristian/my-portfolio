@@ -53,8 +53,12 @@ const categoryId = "DIC_kwDOS3yNtc4C-918";
     const container = document.getElementById("giscus-container");
     if (!container) return;
 
-    // Avoid duplicates if the widget already exists in the DOM
-    if (document.getElementById("comments-widget")) return;
+    // Clean up any existing widget to force a fresh load
+    const existingWidget = document.getElementById("comments-widget");
+    if (existingWidget) {
+      existingWidget.remove();
+    }
+    container.innerHTML = "";
 
     const widget = document.createElement("giscus-widget");
     widget.setAttribute("id", "comments-widget");
@@ -134,5 +138,9 @@ const categoryId = "DIC_kwDOS3yNtc4C-918";
   document.addEventListener("astro:before-swap", () => {
     giscusObserver?.disconnect();
     giscusObserver = null;
+    const widget = document.getElementById("comments-widget");
+    if (widget) {
+      widget.remove();
+    }
   });
 </script>
