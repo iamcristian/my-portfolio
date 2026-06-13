@@ -20,6 +20,10 @@
 
 <br>
 
+<img width="50%" alt="{616BAD99-7C2A-48C9-B496-6E6868D035DA}" src="https://github.com/user-attachments/assets/86cc83fe-570c-4992-a0b4-6d657fd84c32" />
+
+<br>
+
 [Features](#-features) · [Tech Stack](#-tech-stack) · [Getting Started](#-getting-started) · [Project Structure](#-project-structure) · [CI/CD](#-cicd) · [Deployment](#-deployment) · [Contributing](#-contributing)
 
 </div>
