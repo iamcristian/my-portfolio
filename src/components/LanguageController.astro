@@ -14,7 +14,8 @@ const segments = pathname.split("/").filter(Boolean);
 function getPathForLocale(targetLang: string) {
   const hasLocalePrefix = Object.keys(languages).includes(segments[0]);
   const restSegments = hasLocalePrefix ? segments.slice(1) : segments;
-  const path = `/${targetLang}/${restSegments.join("/")}`;
+  const joined = restSegments.join("/");
+  const path = `/${targetLang}/${joined}${joined ? "/" : ""}`;
   return path.replace(/\/+/g, "/");
 }
 ---

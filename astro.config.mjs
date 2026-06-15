@@ -8,6 +8,7 @@ import { locales, SITEMAP_LOCALES } from "./src/i18n/ui";
 // https://astro.build/config
 export default defineConfig({
   site: "https://cristianarando.dev",
+  trailingSlash: "always",
   integrations: [
     mdx(),
     sitemap({
