@@ -19,8 +19,7 @@
 </a>
 
 <br>
-
-<img width="50%" alt="{616BAD99-7C2A-48C9-B496-6E6868D035DA}" src="https://github.com/user-attachments/assets/86cc83fe-570c-4992-a0b4-6d657fd84c32" />
+<img width="50%" alt="{6A6BAB9A-7D51-478A-9CD8-A58F289AD545}" src="https://github.com/user-attachments/assets/58265fc0-c9ca-4b44-b667-17760a74505c" />
 
 <br>
 
