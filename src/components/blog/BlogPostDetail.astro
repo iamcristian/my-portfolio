@@ -42,9 +42,10 @@ const langPosts = (
 
 
 // Calculate related posts based on matching tags
+const currentTags = new Set(post.data.tags);
 const relatedPosts = langPosts
   .filter((p) => p.id !== post.id)
-  .filter((p) => p.data.tags.some((tag) => post.data.tags.includes(tag)))
+  .filter((p) => p.data.tags.some((tag) => currentTags.has(tag)))
   .slice(0, 3);
 
 // Fallback to latest posts if no matching tags found
