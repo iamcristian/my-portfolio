@@ -17,7 +17,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>("/src/assets/images/
 const imageImport = images[item.logo]!;
 ---
 
-<div class="group card bg-base-200 border border-base-300 shadow-sm p-4 flex flex-row gap-4 items-start hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(var(--color-primary),0.05)]">
+<div class="group card bg-base-200/50 backdrop-blur-sm border border-base-300 shadow-sm p-4 flex flex-row gap-4 items-start hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_0_15px_rgba(var(--color-primary),0.15)] transition-all duration-300">
   <div class="avatar placeholder shrink-0 group-hover:scale-110 transition-transform duration-300">
     <div class="bg-base-300 rounded-lg w-12 h-12 flex items-center justify-center overflow-hidden">
       <Image src={imageImport()} alt={item.institution} width={48} height={48} class="p-1 object-contain w-full h-full" />

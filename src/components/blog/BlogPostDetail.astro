@@ -83,7 +83,7 @@ const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).forma
 
     <div class="flex flex-wrap gap-1.5">
       {post.data.tags.map((tag) => (
-        <span class="badge badge-outline text-xs">{tag}</span>
+        <span class="badge badge-xs font-mono bg-base-300/50 border border-base-content/10 text-base-content/80 hover:text-primary transition-colors py-2 px-2">{tag}</span>
       ))}
     </div>
     <h1 class="text-xl md:text-3xl font-extrabold tracking-tight leading-tight">
@@ -117,7 +117,7 @@ const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).forma
           height={514}
           loading="eager"
           fetchpriority="high"
-          class="w-full object-cover aspect-21/9 max-h-[300px] rounded-xl border border-base-300 shadow-md"
+          class="w-full object-cover aspect-21/9 max-h-75 rounded-xl border border-base-300 shadow-md"
         />
       )}
       <article class="prose prose-sm max-w-none prose-headings:scroll-mt-24 prose-headings:font-bold prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl">

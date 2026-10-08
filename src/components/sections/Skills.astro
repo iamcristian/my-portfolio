@@ -34,9 +34,9 @@ const skillsCategories = getSkillsForLang(lang);
           </div>
 
           {/* Skill Items Badges */}
-          <div class="flex flex-wrap gap-2">
+          <div class="flex flex-wrap gap-2 mt-auto">
             {category.items.map((item) => (
-              <span class="badge badge-sm badge-neutral">{item}</span>
+              <span class="badge badge-xs font-mono bg-base-300/50 border border-base-content/10 text-base-content/80 hover:text-primary transition-colors py-2 px-2">{item}</span>
             ))}
           </div>
         </div>

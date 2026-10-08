@@ -15,7 +15,7 @@ const t = useTranslations(lang);
   <div class="absolute inset-10 rounded-full border border-primary/5 bg-primary/2 pointer-events-none blur-xs"></div>
   
   <!-- Star Chart Card (Lagrange Simulation) -->
-  <div class="relative w-[400px] h-[470px] rounded-2xl border border-base-content/10 bg-base-200/30 backdrop-blur-md p-7 shadow-2xl flex flex-col justify-between overflow-hidden lagrange-card"
+  <div class="relative w-100 h-117.5 rounded-2xl border border-base-content/10 bg-base-200/30 backdrop-blur-md p-7 shadow-2xl flex flex-col justify-between overflow-hidden lagrange-card"
        style="box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.05);"
        data-default-title={t("lagrange.title")}
        data-default-desc={t("lagrange.desc")}>
@@ -121,7 +121,7 @@ const t = useTranslations(lang);
 
         <!-- Lagrange Point Nodes (Crosshair Reticles with Gravitational Ripple Waves) -->
         <!-- L1: PRECISION (130, 100) -->
-        <g class="lagrange-node cursor-pointer group/node" data-id="L1" data-title={t("lagrange.v1.title")} data-desc={t("lagrange.v1.desc")}>
+        <g class="lagrange-node cursor-pointer group/node hover:text-[#3b82f6] transition-colors duration-300" data-id="L1" data-title={t("lagrange.v1.title")} data-desc={t("lagrange.v1.desc")}>
           <circle cx="130" cy="100" r="10" fill="transparent" />
           <!-- Concentric Force Waves (Glow/potential lines rippling on hover) -->
           <circle cx="130" cy="100" r="3" fill="none" stroke="currentColor" stroke-width="0.5" class="force-wave force-wave-1 opacity-0 pointer-events-none" />
@@ -136,7 +136,7 @@ const t = useTranslations(lang);
         </g>
         
         <!-- L2: ADAPTABILITY (175, 100) -->
-        <g class="lagrange-node cursor-pointer group/node" data-id="L2" data-title={t("lagrange.v2.title")} data-desc={t("lagrange.v2.desc")}>
+        <g class="lagrange-node cursor-pointer group/node hover:text-[#10b981] transition-colors duration-300" data-id="L2" data-title={t("lagrange.v2.title")} data-desc={t("lagrange.v2.desc")}>
           <circle cx="175" cy="100" r="10" fill="transparent" />
           <circle cx="175" cy="100" r="3" fill="none" stroke="currentColor" stroke-width="0.5" class="force-wave force-wave-1 opacity-0 pointer-events-none" />
           <circle cx="175" cy="100" r="3" fill="none" stroke="currentColor" stroke-width="0.5" class="force-wave force-wave-2 opacity-0 pointer-events-none" />
@@ -147,7 +147,7 @@ const t = useTranslations(lang);
         </g>
         
         <!-- L3: INSIGHT (30, 100) -->
-        <g class="lagrange-node cursor-pointer group/node" data-id="L3" data-title={t("lagrange.v3.title")} data-desc={t("lagrange.v3.desc")}>
+        <g class="lagrange-node cursor-pointer group/node hover:text-[#f59e0b] transition-colors duration-300" data-id="L3" data-title={t("lagrange.v3.title")} data-desc={t("lagrange.v3.desc")}>
           <circle cx="30" cy="100" r="10" fill="transparent" />
           <circle cx="30" cy="100" r="3" fill="none" stroke="currentColor" stroke-width="0.5" class="force-wave force-wave-1 opacity-0 pointer-events-none" />
           <circle cx="30" cy="100" r="3" fill="none" stroke="currentColor" stroke-width="0.5" class="force-wave force-wave-2 opacity-0 pointer-events-none" />
@@ -158,7 +158,7 @@ const t = useTranslations(lang);
         </g>
         
         <!-- L4: SYSTEM THINKING (125, 57) -->
-        <g class="lagrange-node cursor-pointer group/node" data-id="L4" data-title={t("lagrange.v4.title")} data-desc={t("lagrange.v4.desc")}>
+        <g class="lagrange-node cursor-pointer group/node hover:text-[#8b5cf6] transition-colors duration-300" data-id="L4" data-title={t("lagrange.v4.title")} data-desc={t("lagrange.v4.desc")}>
           <circle cx="125" cy="57" r="10" fill="transparent" />
           <circle cx="125" cy="57" r="3" fill="none" stroke="currentColor" stroke-width="0.5" class="force-wave force-wave-1 opacity-0 pointer-events-none" />
           <circle cx="125" cy="57" r="3" fill="none" stroke="currentColor" stroke-width="0.5" class="force-wave force-wave-2 opacity-0 pointer-events-none" />
@@ -169,7 +169,7 @@ const t = useTranslations(lang);
         </g>
         
         <!-- L5: AUTONOMY (125, 143) -->
-        <g class="lagrange-node cursor-pointer group/node" data-id="L5" data-title={t("lagrange.v5.title")} data-desc={t("lagrange.v5.desc")}>
+        <g class="lagrange-node cursor-pointer group/node hover:text-[#ec4899] transition-colors duration-300" data-id="L5" data-title={t("lagrange.v5.title")} data-desc={t("lagrange.v5.desc")}>
           <circle cx="125" cy="143" r="10" fill="transparent" />
           <circle cx="125" cy="143" r="3" fill="none" stroke="currentColor" stroke-width="0.5" class="force-wave force-wave-1 opacity-0 pointer-events-none" />
           <circle cx="125" cy="143" r="3" fill="none" stroke="currentColor" stroke-width="0.5" class="force-wave force-wave-2 opacity-0 pointer-events-none" />
@@ -240,7 +240,7 @@ const t = useTranslations(lang);
   :global(.line-active) {
     opacity: 0.75 !important;
     stroke-width: 1.25px !important;
-    color: var(--color-primary);
+    color: var(--active-color, var(--color-primary));
   }
   
   :global(.line-inactive) {
@@ -254,8 +254,8 @@ const t = useTranslations(lang);
   :global(.contour-active) {
     opacity: 0.45 !important;
     stroke-width: 0.65px !important;
-    stroke: var(--color-primary) !important;
-    filter: drop-shadow(0 0 1px var(--color-primary));
+    stroke: var(--active-color, var(--color-primary)) !important;
+    filter: drop-shadow(0 0 1px var(--active-color, var(--color-primary)));
   }
 
   :global(.contour-inactive) {
@@ -320,8 +320,8 @@ const t = useTranslations(lang);
     if (!card) return;
     
     const lagrangeNodes = card.querySelectorAll('.lagrange-node');
-    const statusTitle = card.querySelector('.system-status-title');
-    const statusDesc = card.querySelector('.system-status-desc');
+    const statusTitle = card.querySelector<HTMLElement>('.system-status-title');
+    const statusDesc = card.querySelector<HTMLElement>('.system-status-desc');
     
     const controller = new AbortController();
     const signal = controller.signal;
@@ -334,11 +334,21 @@ const t = useTranslations(lang);
         const desc = node.getAttribute('data-desc');
         if (!id) return;
         
+        // Set active color variable using distinct vivid hex colors since the theme is monochromatic
+        const colorMap: Record<string, string> = {
+          'L1': '#3b82f6', // blue
+          'L2': '#10b981', // emerald
+          'L3': '#f59e0b', // amber
+          'L4': '#8b5cf6', // violet
+          'L5': '#ec4899'  // pink
+        };
+        card.style.setProperty('--active-color', colorMap[id] || 'currentColor');
+
         // Show status text
         if (title && desc && statusTitle && statusDesc) {
           statusTitle.textContent = title;
           statusDesc.textContent = desc;
-          statusTitle.classList.add('text-primary');
+          statusTitle.style.color = 'var(--active-color)';
         }
         
         // Fade other nodes
@@ -380,6 +390,9 @@ const t = useTranslations(lang);
         const id = node.getAttribute('data-id');
         if (!id) return;
         
+        // Reset active color
+        card.style.removeProperty('--active-color');
+        
         // Reset status text to default localized translations from data attributes
         if (statusTitle && statusDesc) {
           const lagrangeCard = card.querySelector('.lagrange-card');
@@ -387,7 +400,7 @@ const t = useTranslations(lang);
           const defaultDesc = lagrangeCard?.getAttribute('data-default-desc') || "Hover vectors to inspect Lagrange engine metrics";
           statusTitle.textContent = defaultTitle;
           statusDesc.textContent = defaultDesc;
-          statusTitle.classList.remove('text-primary');
+          statusTitle.style.color = '';
         }
         
         // Reset all nodes

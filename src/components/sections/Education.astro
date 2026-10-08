@@ -24,8 +24,8 @@ const localizedLanguages = getLanguagesForLang(lang);
     title={t("education.title")}
   />
 
-  <!-- Main Radio-based CSS Tabs (Lifted) -->
-  <div class="tabs tabs-lifted justify-center w-full">
+  <!-- Main Radio-based CSS Tabs (Bordered for a cleaner, modern look) -->
+  <div class="tabs tabs-bordered justify-center w-full">
     <!-- TAB 1: Academic Background -->
     <input
       type="radio"
@@ -35,7 +35,7 @@ const localizedLanguages = getLanguagesForLang(lang);
       checked="checked"
     />
     <div
-      class="tab-content bg-base-100 border-base-300 rounded-box p-6 space-y-6"
+      class="tab-content bg-base-100/30 border-base-300 rounded-b-2xl p-6 space-y-6 mt-4"
     >
       {academicEducation.map((item) => <AcademicCard item={item} />)}
     </div>
@@ -48,7 +48,7 @@ const localizedLanguages = getLanguagesForLang(lang);
       aria-label={t("education.tabCerts")}
     />
     <div
-      class="tab-content bg-base-100 border-base-300 rounded-box p-6 space-y-6 max-h-[600px] overflow-y-auto"
+      class="tab-content bg-base-100/30 border-base-300 rounded-b-2xl p-6 space-y-6 max-h-[600px] overflow-y-auto mt-4"
     >
       <!-- Nested Sub-tabs for certification categories -->
       <div class="tabs tabs-bordered justify-center w-full">
@@ -121,7 +121,7 @@ const localizedLanguages = getLanguagesForLang(lang);
       aria-label={t("education.tabLanguages")}
     />
     <div
-      class="tab-content bg-base-100 border-base-300 rounded-box p-6"
+      class="tab-content bg-base-100/30 border-base-300 rounded-b-2xl p-6 mt-4"
     >
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
         {localizedLanguages.map((item) => <LanguageCard item={item} />)}

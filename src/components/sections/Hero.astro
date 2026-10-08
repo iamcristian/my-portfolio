@@ -10,6 +10,22 @@ const { lang } = Astro.locals;
 const t = useTranslations(lang);
 
 const cvPath = SITE.cv[lang] || SITE.cv.en;
+
+// Server-side generation of star shadows
+const generateShadows = (count: number) => {
+  const shadows = [];
+  for (let i = 0; i < count; i++) {
+    const x = Math.floor(Math.random() * 100);
+    const y = Math.floor(Math.random() * 100);
+    const opacity = 0.2 + Math.random() * 0.6;
+    shadows.push(`${x}vw ${y}vh rgba(255, 255, 255, ${opacity.toFixed(2)})`);
+  }
+  return shadows.join(', ');
+};
+
+const starsLayer1Shadow = generateShadows(25);
+const starsLayer2Shadow = generateShadows(25);
+const starsLayer3Shadow = generateShadows(20);
 ---
 
 <section
@@ -18,8 +34,8 @@ const cvPath = SITE.cv[lang] || SITE.cv.en;
   style="--mouse-x: 50%; --mouse-y: 50%;"
 >
   <!-- Ambient Cosmic Nebula Glows -->
-  <div class="absolute top-1/4 left-1/4 w-[400px] h-[400px] rounded-full bg-primary/8 blur-[100px] pointer-events-none nebula-glow-1"></div>
-  <div class="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] rounded-full bg-secondary/5 blur-[120px] pointer-events-none nebula-glow-2"></div>
+  <div class="absolute top-1/4 left-1/4 w-100 h-100 rounded-full bg-primary/8 blur-[100px] pointer-events-none nebula-glow-1"></div>
+  <div class="absolute bottom-1/4 right-1/4 w-125 h-125 rounded-full bg-secondary/5 blur-[120px] pointer-events-none nebula-glow-2"></div>
 
   <!-- Interactive Cosmic Nebula Spotlight -->
   <div 
@@ -29,22 +45,17 @@ const cvPath = SITE.cv[lang] || SITE.cv.en;
 
   <!-- Stars Backdrop Container -->
   <div class="absolute inset-0 pointer-events-none stars-container overflow-hidden">
-    <div class="stars-layer stars-layer-1"></div>
-    <div class="stars-layer stars-layer-2"></div>
-    <div class="stars-layer stars-layer-3"></div>
+    <div class="stars-layer stars-layer-1" style={`box-shadow: ${starsLayer1Shadow};`}></div>
+    <div class="stars-layer stars-layer-2" style={`box-shadow: ${starsLayer2Shadow};`}></div>
+    <div class="stars-layer stars-layer-3" style={`box-shadow: ${starsLayer3Shadow};`}></div>
   </div>
 
   <!-- Shooting Stars (Comets) -->
-  <div class="absolute top-[10%] right-[15%] w-[120px] h-px bg-linear-to-l from-primary to-transparent pointer-events-none opacity-0 shooting-star-animation-1"></div>
-  <div class="absolute top-[25%] right-[40%] w-[90px] h-px bg-linear-to-l from-secondary to-transparent pointer-events-none opacity-0 shooting-star-animation-2"></div>
-  <div class="absolute top-[40%] right-[60%] w-[100px] h-px bg-linear-to-l from-primary to-transparent pointer-events-none opacity-0 shooting-star-animation-3"></div>
+  <div class="absolute top-[10%] right-[15%] w-30 h-px bg-linear-to-l from-primary to-transparent pointer-events-none opacity-0 shooting-star-animation-1"></div>
+  <div class="absolute top-[25%] right-[40%] w-22.5 h-px bg-linear-to-l from-secondary to-transparent pointer-events-none opacity-0 shooting-star-animation-2"></div>
+  <div class="absolute top-[40%] right-[60%] w-25 h-px bg-linear-to-l from-primary to-transparent pointer-events-none opacity-0 shooting-star-animation-3"></div>
 
-  <!-- Subtle Grid Pattern Background (masked by spotlight glow for premium touch) -->
-  <div
-    class="absolute inset-0 opacity-[0.02] pointer-events-none transition-opacity duration-300"
-    style="background-image: linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px); background-size: 4rem 4rem; -webkit-mask-image: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), black 20%, transparent 80%); mask-image: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), black 20%, transparent 80%);"
-  >
-  </div>
+
 
   <div
     class="hero-content flex-col lg:flex-row gap-12 lg:gap-16 max-w-6xl w-full justify-between px-4 md:px-8 mx-auto z-10"
@@ -52,14 +63,15 @@ const cvPath = SITE.cv[lang] || SITE.cv.en;
     <!-- Left Column: Text & CTAs -->
     <div class="flex flex-col gap-6 text-center lg:text-left max-w-xl">
       <div>
-        <span
-          class="font-mono text-sm tracking-widest uppercase text-primary font-semibold block mb-2 hero-fade-in hero-delay-1"
-        >
-          {t("home.hello")}
-        </span>
-        <h1 class="text-5xl lg:text-7xl font-extrabold tracking-tight hero-fade-in hero-delay-2">
+        <div class="inline-flex items-center gap-2 mb-3 justify-center lg:justify-start hero-fade-in hero-delay-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-primary/80 animate-pulse"></span>
+          <span class="font-mono text-xs tracking-widest uppercase text-primary font-semibold block">
+            {t("home.hello")}
+          </span>
+        </div>
+        <h1 class="text-5xl lg:text-7xl font-extrabold tracking-tight hero-fade-in hero-delay-2 drop-shadow-sm">
           <span
-            class="bg-linear-to-r from-primary via-neutral-content to-secondary bg-clip-text text-transparent"
+            class="bg-linear-to-r from-primary via-neutral-content to-secondary bg-clip-text text-transparent filter drop-shadow-[0_0_10px_rgba(var(--color-primary),0.2)]"
           >
             {t("home.name")}
           </span>
@@ -68,17 +80,17 @@ const cvPath = SITE.cv[lang] || SITE.cv.en;
       <h2 class="text-xl lg:text-2xl font-semibold opacity-90 hero-fade-in hero-delay-3">
         {t("home.subtitle")}
       </h2>
-      <p class="text-xs md:text-sm lg:text-base opacity-75 leading-relaxed hero-fade-in hero-delay-4">
+      <p class="text-xs md:text-sm lg:text-base opacity-75 leading-relaxed hero-fade-in hero-delay-4 lg:border-l-2 lg:border-primary/20 lg:pl-4 lg:py-1">
         {t("home.tagline")}
       </p>
 
       <!-- CTA Buttons -->
       <div class="flex flex-wrap gap-4 justify-center lg:justify-start mt-4 hero-fade-in hero-delay-5">
-        <a href={cvPath} class="btn btn-primary gap-2" target="_blank">
+        <a href={cvPath} class="btn btn-primary gap-2 transition-transform duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(var(--color-primary),0.3)]" target="_blank">
           <DownloadIcon class="w-5 h-5" />
           <span>{t("home.downloadCv")}</span>
         </a>
-        <a href={`mailto:${SITE.email}`} class="btn btn-outline gap-2">
+        <a href={`mailto:${SITE.email}`} class="btn btn-outline gap-2 transition-all duration-300 hover:scale-105 hover:bg-base-content/10">
           <MailIcon class="w-5 h-5" />
           <span>{t("home.contactMe")}</span>
         </a>
@@ -89,7 +101,7 @@ const cvPath = SITE.cv[lang] || SITE.cv.en;
     </div>
 
     <!-- Right Column: Lagrange Star Chart Card (Hidden on mobile, shown on tablet & desktop) -->
-    <LagrangeSimulation class="hidden md:flex justify-center items-center relative w-[460px] h-[510px] hero-scale-in" />
+    <LagrangeSimulation class="hidden md:flex justify-center items-center relative w-115 h-127.5 hero-scale-in" />
 
   </div>
 </section>
@@ -259,27 +271,7 @@ const cvPath = SITE.cv[lang] || SITE.cv.en;
     const hero = document.getElementById('home');
     if (!hero) return;
     
-    // 1. Generate stars dynamically using box-shadow layers (0% CPU cost at runtime)
-    const layer1 = hero.querySelector('.stars-layer-1') as HTMLElement;
-    const layer2 = hero.querySelector('.stars-layer-2') as HTMLElement;
-    const layer3 = hero.querySelector('.stars-layer-3') as HTMLElement;
-
-    if (layer1 && layer2 && layer3 && !layer1.style.boxShadow) {
-      const generateShadows = (count: number) => {
-        const shadows = [];
-        for (let i = 0; i < count; i++) {
-          const x = Math.floor(Math.random() * 100);
-          const y = Math.floor(Math.random() * 100);
-          const opacity = 0.2 + Math.random() * 0.6;
-          shadows.push(`${x}vw ${y}vh rgba(255, 255, 255, ${opacity.toFixed(2)})`);
-        }
-        return shadows.join(', ');
-      };
-
-      layer1.style.boxShadow = generateShadows(25);
-      layer2.style.boxShadow = generateShadows(25);
-      layer3.style.boxShadow = generateShadows(20);
-    }
+    // 1. Stars are now generated on the server (0% CPU cost at runtime, no hydration flash)
     
     // Set initial mouse position values to center
     hero.style.setProperty('--mouse-x', '50%');

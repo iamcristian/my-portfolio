@@ -33,13 +33,13 @@ const imageImport = images[project.image];
 
 <article
   class:list={[
-    "project-card card card-compact bg-base-200 border border-base-300 shadow-xl overflow-hidden hover:-translate-y-1 transition-transform duration-300 flex flex-col h-full",
+    "project-card card card-compact bg-base-200/50 backdrop-blur-sm border border-base-300 shadow-md overflow-hidden hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_0_15px_rgba(var(--color-primary),0.15)] transition-all duration-300 flex flex-col h-full group/card",
     className,
   ]}
   {...rest}
 >
   <figure
-    class="project-figure relative h-48 bg-base-300 shrink-0 transition-all"
+    class="project-figure relative h-48 bg-base-300 shrink-0 transition-all overflow-hidden"
   >
     {
       imageImport ? (
@@ -50,7 +50,7 @@ const imageImport = images[project.image];
           height={225}
           loading={loading}
           fetchpriority={loading === "eager" ? "high" : undefined}
-          class="w-full h-full object-cover"
+          class="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-500"
         />
       ) : project.image.startsWith("http") ? (
         <Image
@@ -60,7 +60,7 @@ const imageImport = images[project.image];
           height={225}
           loading={loading}
           fetchpriority={loading === "eager" ? "high" : undefined}
-          class="w-full h-full object-cover"
+          class="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-500"
         />
       ) : (
         <Image
@@ -70,7 +70,7 @@ const imageImport = images[project.image];
           height={225}
           loading={loading}
           fetchpriority={loading === "eager" ? "high" : undefined}
-          class="w-full h-full object-cover"
+          class="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-500"
         />
       )
     }
@@ -108,7 +108,7 @@ const imageImport = images[project.image];
       <div class="flex flex-wrap gap-1 mt-2">
         {
           project.tech.map((techItem) => (
-            <span class="badge badge-xs badge-neutral">{techItem}</span>
+            <span class="badge badge-xs font-mono bg-base-300/50 border border-base-content/10 text-base-content/80 hover:text-primary transition-colors py-2 px-2">{techItem}</span>
           ))
         }
       </div>

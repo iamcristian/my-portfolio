@@ -45,7 +45,7 @@ const recentBlogPosts = sortedPosts.filter((p) => !featuredIds.has(p.id)).slice(
               id={`featured-slide-${index}`}
               class="carousel-item relative w-full"
             >
-              <div class="w-full">
+              <div class="w-full py-4 px-2">
                 <BlogCard post={post} isFeatured={true} />
               </div>
             </div>
@@ -80,8 +80,8 @@ const recentBlogPosts = sortedPosts.filter((p) => !featuredIds.has(p.id)).slice(
   </div>
 
   <div class="text-center mt-10">
-    <a href={getRelativeLocaleUrl(lang, "blog")} class="btn btn-outline">
-      {t("blog.viewAll")}
+    <a href={getRelativeLocaleUrl(lang, "blog")} class="btn btn-ghost border border-base-content/10 hover:border-primary/30 group">
+      {t("blog.viewAll")} <span class="group-hover:translate-x-1 transition-transform inline-block ml-1">&rarr;</span>
     </a>
   </div>
 </section>

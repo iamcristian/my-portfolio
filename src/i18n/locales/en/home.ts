@@ -107,30 +107,30 @@ export const home = {
     "A detailed list of the hardware, software, and tools I use on a daily basis to build software systems.",
   "uses.back": "Back to Home",
 
-  "lagrange.equilibrium": "SYSTEM.EQUILIBRIUM",
+  "lagrange.equilibrium": "ORBITAL.RESONANCE",
   "lagrange.active": "ACTIVE",
-  "lagrange.title": "SYSTEM_ORBIT",
-  "lagrange.desc": "A dynamic equilibrium of engineering vectors",
+  "lagrange.title": "LAGRANGE_EQUILIBRIUM",
+  "lagrange.desc": "The fundamental forces balancing my engineering",
 
-  "lagrange.status": "SYS.STATUS: BALANCED",
-  "lagrange.drift": "DRIFT: MINIMAL",
-  "lagrange.integrity": "SIGNAL.INTEGRITY: HIGH",
+  "lagrange.status": "SYSTEM: BALANCED",
+  "lagrange.drift": "FOCUS: ABSOLUTE",
+  "lagrange.integrity": "COHESION: OPTIMAL",
   "lagrange.version": "SYS.REV: 04",
 
-  "lagrange.v1.title": "VECTOR_01: PRECISION",
-  "lagrange.v1.desc": "High fidelity execution",
+  "lagrange.v1.title": "L1: PRECISION",
+  "lagrange.v1.desc": "Exact execution at the critical point",
 
-  "lagrange.v2.title": "VECTOR_02: ADAPTABILITY",
-  "lagrange.v2.desc": "Responsive under uncertainty",
+  "lagrange.v2.title": "L2: ADAPTABILITY",
+  "lagrange.v2.desc": "Expanding capabilities beyond the comfort zone",
 
-  "lagrange.v3.title": "VECTOR_03: INSIGHT",
-  "lagrange.v3.desc": "Beyond surface-level patterns",
+  "lagrange.v3.title": "L3: INSIGHT",
+  "lagrange.v3.desc": "Observing the architecture from hidden angles",
 
-  "lagrange.v4.title": "VECTOR_04: SYSTEM THINKING",
-  "lagrange.v4.desc": "Sees relationships, not parts",
+  "lagrange.v4.title": "L4: SYSTEM_THINKING",
+  "lagrange.v4.desc": "Holistic stability through interconnected design",
 
-  "lagrange.v5.title": "VECTOR_05: AUTONOMY",
-  "lagrange.v5.desc": "Operates without external dependency",
+  "lagrange.v5.title": "L5: AUTONOMY",
+  "lagrange.v5.desc": "Self-sustaining and independent operation",
 
   "404.title": "Page Not Found",
   "404.subtitle":
