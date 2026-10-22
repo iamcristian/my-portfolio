@@ -19,11 +19,12 @@ const rawProjects = getProjectsForLang(langCode);
 const PROJECTS = sortFeaturedFirst(
   rawProjects,
   (p) => p.featured,
-  (p) => p.date
+  (p) => p.date,
 );
 ---
 
 <main
+  id="main-content"
   class="max-w-6xl mx-auto px-4 md:px-8 pt-8 md:pt-12 pb-16 md:pb-24 flex flex-col gap-8 min-h-screen"
 >
   <!-- Header -->
@@ -34,21 +35,18 @@ const PROJECTS = sortFeaturedFirst(
   />
 
   <!-- Controls: Search, View Toggle, Category Filters, Sort -->
-  <div
-    class="flex flex-col gap-6 bg-base-200 p-6 rounded-2xl border border-base-300"
-  >
+  <div class="flex flex-col gap-6 bg-base-200 p-6 rounded-2xl border border-base-300">
     <!-- Top Row: Search + View Toggle -->
     <div class="flex flex-col sm:flex-row gap-4 justify-between items-center">
       <!-- Search input group -->
       <div class="relative w-full sm:max-w-md">
-        <span
-          class="absolute inset-y-0 left-3 flex items-center pointer-events-none opacity-60"
-        >
+        <span class="absolute inset-y-0 left-3 flex items-center pointer-events-none opacity-60">
           <SearchIcon class="w-5 h-5" />
         </span>
         <input
-          type="text"
+          type="search"
           id="projects-search"
+          aria-label={t("projects.searchPlaceholder")}
           class="input input-bordered w-full pl-10 bg-base-100"
           placeholder={t("projects.searchPlaceholder")}
         />
@@ -74,41 +72,54 @@ const PROJECTS = sortFeaturedFirst(
     </div>
 
     <!-- Bottom Row: Category Filters + Sort & Date Filters Selects -->
-    <div
-      class="flex flex-col md:flex-row gap-4 justify-between items-center border-t border-base-300 pt-4"
-    >
+    <div class="flex flex-col md:flex-row gap-4 justify-between items-center border-t border-base-300 pt-4">
       <!-- Category Buttons -->
       <div class="flex flex-wrap gap-2 justify-center" id="category-filters">
         <button
           class="btn btn-sm btn-neutral cat-btn active"
-          data-category="all">{t("projects.all")}</button
+          aria-pressed="true"
+          data-category="all"
         >
-        <button class="btn btn-sm btn-outline cat-btn" data-category="frontend"
-          >{t("projects.frontend")}</button
+          {t("projects.all")}
+        </button>
+        <button
+          class="btn btn-sm btn-outline cat-btn"
+          aria-pressed="false"
+          data-category="frontend"
         >
-        <button class="btn btn-sm btn-outline cat-btn" data-category="backend"
-          >{t("projects.backend")}</button
+          {t("projects.frontend")}
+        </button>
+        <button
+          class="btn btn-sm btn-outline cat-btn"
+          aria-pressed="false"
+          data-category="backend"
         >
-        <button class="btn btn-sm btn-outline cat-btn" data-category="fullstack"
-          >{t("projects.fullstack")}</button
+          {t("projects.backend")}
+        </button>
+        <button
+          class="btn btn-sm btn-outline cat-btn"
+          aria-pressed="false"
+          data-category="fullstack"
         >
+          {t("projects.fullstack")}
+        </button>
       </div>
 
       <!-- Controls Group -->
-      <div
-        class="flex flex-wrap items-center justify-center md:justify-end gap-3 w-full md:w-auto"
-      >
+      <div class="flex flex-wrap items-center justify-center md:justify-end gap-3 w-full md:w-auto">
         <!-- Date Range dropdown -->
         <div class="flex items-center gap-2">
-          <span
-            class="text-xs text-base-content/80 font-semibold whitespace-nowrap uppercase tracking-wider"
-            >{t("blog.filterDateRange")}</span
-          >
+          <span class="text-xs text-base-content/80 font-semibold whitespace-nowrap uppercase tracking-wider">
+            {t("blog.filterDateRange")}
+          </span>
           <select
             id="projects-date-range"
+            aria-label={t("blog.filterDateRange")}
             class="select select-bordered select-sm bg-base-100 font-medium text-xs focus:ring-2 focus:ring-primary focus:outline-none"
           >
-            <option value="all" selected>{t("blog.dateAll")}</option>
+            <option value="all" selected>
+              {t("blog.dateAll")}
+            </option>
             <option value="yesterday">{t("blog.dateYesterday")}</option>
             <option value="week">{t("blog.dateWeek")}</option>
             <option value="month">{t("blog.dateMonth")}</option>
@@ -142,10 +153,12 @@ const PROJECTS = sortFeaturedFirst(
           <SortIcon class="w-4 h-4 opacity-80 shrink-0" />
           <select
             id="projects-sort"
+            aria-label={t("accessibility.sort")}
             class="select select-bordered select-sm bg-base-100 font-medium text-xs focus:ring-2 focus:ring-primary focus:outline-none"
           >
-            <option value="relevance" selected>{t("blog.sortRelevance")}</option
-            >
+            <option value="relevance" selected>
+              {t("blog.sortRelevance")}
+            </option>
             <option value="date-desc">{t("projects.sortDateNewest")}</option>
             <option value="date-asc">{t("projects.sortDateOldest")}</option>
           </select>
@@ -159,27 +172,35 @@ const PROJECTS = sortFeaturedFirst(
     id="projects-container"
     class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-h-[300px]"
   >
-    {
-      PROJECTS.map((project, index) => {
-        const title = project.title;
-        const description = project.description;
-        return (
-          <ProjectCard
-            project={project}
-            loading={index < 6 ? "eager" : "lazy"}
-            showFeaturedBadge={project.featured}
-            data-id={project.id}
-            data-featured={project.featured ? "true" : "false"}
-            data-category={project.category}
-            data-date={project.date}
-            data-name={title.toLowerCase()}
-            data-tech={project.tech.join(" ").toLowerCase()}
-            data-description={description.toLowerCase()}
-          />
-        );
-      })
-    }
+    {PROJECTS.map((project, index) => {
+      const title = project.title;
+      const description = project.description;
+      return (
+        <ProjectCard
+          headingLevel="h2"
+          project={project}
+          loading={index < 3 ? "eager" : "lazy"}
+          showFeaturedBadge={project.featured}
+          data-id={project.id}
+          data-featured={project.featured ? "true" : "false"}
+          data-category={project.category}
+          data-date={project.date}
+          data-name={title.toLowerCase()}
+          data-tech={project.tech.join(" ").toLowerCase()}
+          data-description={description.toLowerCase()}
+        />
+      );
+    })}
   </div>
+
+  <p
+    id="list-status"
+    class="sr-only"
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
+    data-label={t("accessibility.results")}
+  ></p>
 
   <!-- Empty State -->
   <div id="no-results-state" class="hidden text-center py-12">
@@ -188,61 +209,68 @@ const PROJECTS = sortFeaturedFirst(
 
   <!-- Pagination -->
   <div class="flex justify-center mt-8" id="pagination-wrapper">
-    <div class="join" id="pagination-controls"></div>
+    <div
+      class="join"
+      id="pagination-controls"
+      role="navigation"
+      aria-label={t("accessibility.pagination")}
+      data-previous={t("accessibility.previousPage")}
+      data-next={t("accessibility.nextPage")}
+      data-page={t("accessibility.page")}
+    ></div>
   </div>
 </main>
 
 <script>
   import { initListManager } from "../../scripts/list-manager";
 
-  function setup() {
-    initListManager({
-      containerId: "projects-container",
-      cardSelector: ".project-card",
-      searchInputId: "projects-search",
-      sortSelectId: "projects-sort",
-      filterBtnSelector: "#category-filters .cat-btn",
-      filterAttr: "data-category",
-      gridBtnId: "view-grid-btn",
-      listBtnId: "view-list-btn",
-      noResultsId: "no-results-state",
-      paginationId: "pagination-controls",
-      itemsPerPage: 10,
-      hasFeatured: true,
-      dateRangeSelectId: "projects-date-range",
-      customDateContainerId: "projects-custom-date-container",
-      startDateInputId: "projects-start-date",
-      endDateInputId: "projects-end-date",
+  import { onPageLoad } from "../../scripts/page-lifecycle";
 
-      // CSS class sets
-      gridContainerClass:
-        "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-h-[300px]",
-      listContainerClass: "flex flex-col gap-3",
-      gridCardClass:
-        "project-card card card-compact bg-base-200 border border-base-300 shadow-xl overflow-hidden hover:-translate-y-1 transition-transform duration-300 flex flex-col h-full",
-      listCardClass:
-        "project-card card bg-base-200 border border-base-300 shadow-sm p-4 hover:border-primary/55 transition-all flex flex-col md:flex-row items-center justify-between gap-4 w-full",
-      gridFigureClass:
-        "project-figure relative h-48 bg-base-300 shrink-0 transition-all",
-      listFigureClass: "project-figure hidden",
-      gridBodyClass:
-        "project-body card-body flex-1 flex flex-col justify-between p-5 transition-all",
-      listBodyClass:
-        "project-body card-body flex-1 min-w-0 p-0 flex flex-col md:flex-row md:items-center md:justify-between gap-4 w-full",
-      gridFooterClass:
-        "project-footer card-actions justify-start gap-2 pt-4 mt-auto border-t border-base-300",
-      listFooterClass:
-        "project-footer flex gap-2 flex-shrink-0 border-t-0 pt-0 mt-0",
+  onPageLoad((signal) => {
+    initListManager(
+      {
+        containerId: "projects-container",
+        cardSelector: ".project-card",
+        searchInputId: "projects-search",
+        sortSelectId: "projects-sort",
+        filterBtnSelector: "#category-filters .cat-btn",
+        filterAttr: "data-category",
+        gridBtnId: "view-grid-btn",
+        listBtnId: "view-list-btn",
+        noResultsId: "no-results-state",
+        paginationId: "pagination-controls",
+        itemsPerPage: 10,
+        hasFeatured: true,
+        dateRangeSelectId: "projects-date-range",
+        customDateContainerId: "projects-custom-date-container",
+        startDateInputId: "projects-start-date",
+        endDateInputId: "projects-end-date",
 
-      figureSelector: ".project-figure",
-      bodySelector: ".project-body",
-      footerSelector: ".project-footer",
-    });
-  }
+        // CSS class sets
+        gridContainerClass:
+          "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-h-[300px]",
+        listContainerClass: "flex flex-col gap-3",
+        gridCardClass:
+          "project-card card card-compact bg-base-200 border border-base-300 shadow-xl overflow-hidden hover:-translate-y-1 transition-transform duration-300 flex flex-col h-full",
+        listCardClass:
+          "project-card card bg-base-200 border border-base-300 shadow-sm p-4 hover:border-primary/55 transition-all flex flex-col md:flex-row items-center justify-between gap-4 w-full",
+        gridFigureClass:
+          "project-figure relative h-48 bg-base-300 shrink-0 transition-all",
+        listFigureClass: "project-figure hidden",
+        gridBodyClass:
+          "project-body card-body flex-1 flex flex-col justify-between p-5 transition-all",
+        listBodyClass:
+          "project-body card-body flex-1 min-w-0 p-0 flex flex-col md:flex-row md:items-center md:justify-between gap-4 w-full",
+        gridFooterClass:
+          "project-footer card-actions justify-start gap-2 pt-4 mt-auto border-t border-base-300",
+        listFooterClass:
+          "project-footer flex gap-2 flex-shrink-0 border-t-0 pt-0 mt-0",
 
-  // Init
-  setup();
-
-  // Support Astro view transitions
-  document.addEventListener("astro:after-swap", setup);
+        figureSelector: ".project-figure",
+        bodySelector: ".project-body",
+        footerSelector: ".project-footer",
+      },
+      signal,
+    );
+  });
 </script>

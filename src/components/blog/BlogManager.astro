@@ -1,4 +1,5 @@
 ---
+import { isPublished } from "@utils/blog";
 import { useTranslations } from "../../i18n/utils";
 import { getCollection } from "astro:content";
 import BlogCard from "../ui/cards/BlogCard.astro";
@@ -19,13 +20,13 @@ const t = useTranslations(langCode);
 
 // Fetch Blog Posts from Content Collection
 const rawPosts = await getCollection("blog", ({ data }) => {
-  return data.lang === langCode && !data.draft;
+  return data.lang === langCode && isPublished(data);
 });
 
 const blogPosts = sortFeaturedFirst(
   rawPosts,
   (p) => p.data.featured,
-  (p) => p.data.date
+  (p) => p.data.date,
 );
 
 // Calculate unique tags from posts
@@ -46,21 +47,18 @@ const allTags = Array.from(
   />
 
   <!-- Controls: Search, View Toggle, Tag Filters, Sort -->
-  <div
-    class="flex flex-col gap-6 bg-base-200 p-6 rounded-2xl border border-base-300"
-  >
+  <div class="flex flex-col gap-6 bg-base-200 p-6 rounded-2xl border border-base-300">
     <!-- Top Row: Search + View Toggle -->
     <div class="flex flex-col sm:flex-row gap-4 justify-between items-center">
       <!-- Search input group -->
       <div class="relative w-full sm:max-w-md">
-        <span
-          class="absolute inset-y-0 left-3 flex items-center pointer-events-none opacity-60"
-        >
+        <span class="absolute inset-y-0 left-3 flex items-center pointer-events-none opacity-60">
           <SearchIcon class="w-5 h-5" />
         </span>
         <input
-          type="text"
+          type="search"
           id="blog-search"
+          aria-label={t("blog.searchPlaceholder")}
           class="input input-bordered w-full pl-10 bg-base-100"
           placeholder={t("blog.searchPlaceholder")}
         />
@@ -86,41 +84,45 @@ const allTags = Array.from(
     </div>
 
     <!-- Bottom Row: Tag Filters + Sort & Date Filters Selects -->
-    <div
-      class="flex flex-col md:flex-row gap-4 justify-between items-center border-t border-base-300 pt-4"
-    >
+    <div class="flex flex-col md:flex-row gap-4 justify-between items-center border-t border-base-300 pt-4">
       <!-- Tag Filter Badges -->
       <div
         class="flex flex-wrap gap-1.5 justify-center md:justify-start max-w-xl"
         id="tag-filters"
       >
-        <button class="btn btn-xs btn-neutral tag-btn active" data-tag="all"
-          >{t("projects.all")}</button
+        <button
+          class="btn btn-xs btn-neutral tag-btn active"
+          aria-pressed="true"
+          data-tag="all"
         >
-        {
-          allTags.map((tag) => (
-            <button class="btn btn-xs btn-outline tag-btn" data-tag={tag}>
-              {tag}
-            </button>
-          ))
-        }
+          {t("projects.all")}
+        </button>
+        {allTags.map((tag) => (
+          <button
+            class="btn btn-xs btn-outline tag-btn"
+            aria-pressed="false"
+            data-tag={tag}
+          >
+            {tag}
+          </button>
+        ))}
       </div>
 
       <!-- Controls Group -->
-      <div
-        class="flex flex-wrap items-center justify-center md:justify-end gap-3 w-full md:w-auto"
-      >
+      <div class="flex flex-wrap items-center justify-center md:justify-end gap-3 w-full md:w-auto">
         <!-- Date Range dropdown -->
         <div class="flex items-center gap-2">
-          <span
-            class="text-xs text-base-content/80 font-semibold whitespace-nowrap uppercase tracking-wider"
-            >{t("blog.filterDateRange")}</span
-          >
+          <span class="text-xs text-base-content/80 font-semibold whitespace-nowrap uppercase tracking-wider">
+            {t("blog.filterDateRange")}
+          </span>
           <select
             id="blog-date-range"
+            aria-label={t("blog.filterDateRange")}
             class="select select-bordered select-sm bg-base-100 font-medium text-xs focus:ring-2 focus:ring-primary focus:outline-none"
           >
-            <option value="all" selected>{t("blog.dateAll")}</option>
+            <option value="all" selected>
+              {t("blog.dateAll")}
+            </option>
             <option value="yesterday">{t("blog.dateYesterday")}</option>
             <option value="week">{t("blog.dateWeek")}</option>
             <option value="month">{t("blog.dateMonth")}</option>
@@ -154,10 +156,12 @@ const allTags = Array.from(
           <SortIcon class="w-4 h-4 opacity-80 shrink-0" />
           <select
             id="blog-sort"
+            aria-label={t("accessibility.sort")}
             class="select select-bordered select-sm bg-base-100 font-medium text-xs focus:ring-2 focus:ring-primary focus:outline-none"
           >
-            <option value="relevance" selected>{t("blog.sortRelevance")}</option
-            >
+            <option value="relevance" selected>
+              {t("blog.sortRelevance")}
+            </option>
             <option value="date-desc">{t("projects.sortDateNewest")}</option>
             <option value="date-asc">{t("projects.sortDateOldest")}</option>
           </select>
@@ -171,28 +175,38 @@ const allTags = Array.from(
     id="blog-container"
     class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-h-75"
   >
-    {
-      blogPosts.map((post, index) => {
-        const title = post.data.title;
-        const description = post.data.description;
-        const isFeatured = post.data.featured;
+    {blogPosts.map((post, index) => {
+      const title = post.data.title;
+      const description = post.data.description;
+      const isFeatured = post.data.featured;
 
-        return (
-          <BlogCard
-            post={post}
-            showFeaturedBadge={isFeatured}
-            loading={index < 6 ? "eager" : "lazy"}
-            data-id={post.id}
-            data-featured={isFeatured ? "true" : "false"}
-            data-date={post.data.date.toISOString()}
-            data-name={title.toLowerCase()}
-            data-tags={post.data.tags.join(" ").toLowerCase()}
-            data-description={description.toLowerCase()}
-          />
-        );
-      })
-    }
+      return (
+        <BlogCard
+          headingLevel="h2"
+          post={post}
+          showFeaturedBadge={isFeatured}
+          loading={index < 3 ? "eager" : "lazy"}
+          data-id={post.id}
+          data-featured={isFeatured ? "true" : "false"}
+          data-date={post.data.date.toISOString()}
+          data-name={title.toLowerCase()}
+          data-tags={JSON.stringify(
+            post.data.tags.map((tag) => tag.toLowerCase()),
+          )}
+          data-description={description.toLowerCase()}
+        />
+      );
+    })}
   </div>
+
+  <p
+    id="list-status"
+    class="sr-only"
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
+    data-label={t("accessibility.results")}
+  ></p>
 
   <!-- Empty State -->
   <div id="no-results-state" class="hidden text-center py-12">
@@ -201,61 +215,68 @@ const allTags = Array.from(
 
   <!-- Pagination -->
   <div class="flex justify-center mt-8" id="pagination-wrapper">
-    <div class="join" id="pagination-controls"></div>
+    <div
+      class="join"
+      id="pagination-controls"
+      role="navigation"
+      aria-label={t("accessibility.pagination")}
+      data-previous={t("accessibility.previousPage")}
+      data-next={t("accessibility.nextPage")}
+      data-page={t("accessibility.page")}
+    ></div>
   </div>
 </main>
 
 <script>
   import { initListManager } from "../../scripts/list-manager";
 
-  function setup() {
-    initListManager({
-      containerId: "blog-container",
-      cardSelector: ".blog-card",
-      searchInputId: "blog-search",
-      sortSelectId: "blog-sort",
-      filterBtnSelector: "#tag-filters .tag-btn",
-      filterAttr: "data-tags",
-      gridBtnId: "view-grid-btn",
-      listBtnId: "view-list-btn",
-      noResultsId: "no-results-state",
-      paginationId: "pagination-controls",
-      itemsPerPage: 10,
-      hasFeatured: true,
-      dateRangeSelectId: "blog-date-range",
-      customDateContainerId: "blog-custom-date-container",
-      startDateInputId: "blog-start-date",
-      endDateInputId: "blog-end-date",
+  import { onPageLoad } from "../../scripts/page-lifecycle";
 
-      // CSS class sets
-      gridContainerClass:
-        "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-h-[300px]",
-      listContainerClass: "flex flex-col gap-3",
-      gridCardClass:
-        "blog-card card card-compact bg-base-200 border border-base-300 shadow-md hover:-translate-y-1 transition-transform duration-300 flex flex-col h-full",
-      listCardClass:
-        "blog-card card bg-base-200 border border-base-300 shadow-sm p-4 hover:border-primary/55 transition-all flex flex-col md:flex-row items-center justify-between gap-4 w-full",
-      gridFigureClass:
-        "blog-figure relative h-44 bg-base-300 shrink-0 transition-all",
-      listFigureClass: "blog-figure hidden",
-      gridBodyClass:
-        "blog-body card-body flex-1 flex flex-col justify-between p-5 transition-all",
-      listBodyClass:
-        "blog-body card-body flex-1 min-w-0 p-0 flex flex-col md:flex-row md:items-center md:justify-between gap-4 w-full",
-      gridFooterClass:
-        "blog-footer pt-4 border-t border-base-300 mt-4 transition-all",
-      listFooterClass:
-        "blog-footer flex gap-2 flex-shrink-0 border-t-0 pt-0 mt-0",
+  onPageLoad((signal) => {
+    initListManager(
+      {
+        containerId: "blog-container",
+        cardSelector: ".blog-card",
+        searchInputId: "blog-search",
+        sortSelectId: "blog-sort",
+        filterBtnSelector: "#tag-filters .tag-btn",
+        filterAttr: "data-tags",
+        gridBtnId: "view-grid-btn",
+        listBtnId: "view-list-btn",
+        noResultsId: "no-results-state",
+        paginationId: "pagination-controls",
+        itemsPerPage: 10,
+        hasFeatured: true,
+        dateRangeSelectId: "blog-date-range",
+        customDateContainerId: "blog-custom-date-container",
+        startDateInputId: "blog-start-date",
+        endDateInputId: "blog-end-date",
 
-      figureSelector: ".blog-figure",
-      bodySelector: ".blog-body",
-      footerSelector: ".blog-footer",
-    });
-  }
+        // CSS class sets
+        gridContainerClass:
+          "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-h-[300px]",
+        listContainerClass: "flex flex-col gap-3",
+        gridCardClass:
+          "blog-card card card-compact bg-base-200 border border-base-300 shadow-md hover:-translate-y-1 transition-transform duration-300 flex flex-col h-full",
+        listCardClass:
+          "blog-card card bg-base-200 border border-base-300 shadow-sm p-4 hover:border-primary/55 transition-all flex flex-col md:flex-row items-center justify-between gap-4 w-full",
+        gridFigureClass:
+          "blog-figure relative h-44 bg-base-300 shrink-0 transition-all",
+        listFigureClass: "blog-figure hidden",
+        gridBodyClass:
+          "blog-body card-body flex-1 flex flex-col justify-between p-5 transition-all",
+        listBodyClass:
+          "blog-body card-body flex-1 min-w-0 p-0 flex flex-col md:flex-row md:items-center md:justify-between gap-4 w-full",
+        gridFooterClass:
+          "blog-footer pt-4 border-t border-base-300 mt-4 transition-all",
+        listFooterClass:
+          "blog-footer flex gap-2 flex-shrink-0 border-t-0 pt-0 mt-0",
 
-  // Init
-  setup();
-
-  // Support Astro view transitions
-  document.addEventListener("astro:after-swap", setup);
+        figureSelector: ".blog-figure",
+        bodySelector: ".blog-body",
+        footerSelector: ".blog-footer",
+      },
+      signal,
+    );
+  });
 </script>

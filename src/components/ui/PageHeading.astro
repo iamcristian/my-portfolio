@@ -9,7 +9,9 @@ const { subtitle, title, description } = Astro.props;
 ---
 
 <div class="text-center space-y-4 max-w-2xl mx-auto">
-  <span class="font-mono text-xs tracking-widest uppercase text-primary font-semibold block">// {subtitle}</span>
+  <span class="font-mono text-xs tracking-widest uppercase text-primary font-semibold block">
+    <span aria-hidden="true">//</span> {subtitle.replace(/^\/\/\s*/, "")}
+  </span>
   <h1 class="text-4xl font-extrabold tracking-tight bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent pb-2">
     {title}
   </h1>

@@ -19,7 +19,7 @@ Thank you for considering contributing to this project! Whether it's a bug repor
 
 ## Code of Conduct
 
-This project adheres to the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to **crisarandosyse@gmail.com**.
+Keep discussions respectful, constructive, and focused on the work. Please report unacceptable behavior to **crisarandosyse@gmail.com**.
 
 ---
 
@@ -58,8 +58,8 @@ Translation improvements are always welcome! See the [Translation Contributions]
 
 ### Prerequisites
 
-- **Node.js** ≥ 22.12.0
-- **pnpm** (recommended)
+- **Node.js** ≥ 22.23.4 (Node 24 recommended; see `.nvmrc`)
+- **pnpm 10.34.7**
 
 ### Quick Start
 

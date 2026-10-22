@@ -21,54 +21,55 @@ const NAV_LINKS = [
 ];
 ---
 
-<header id="main-header" class="sticky top-0 z-50 backdrop-blur-md bg-base-100/20 border-b border-base-content/5 w-full transition-all duration-300 py-2">
-  <nav class="navbar max-w-6xl mx-auto px-4 md:px-8 transition-all duration-300" aria-label="Main navigation">
-  <!-- Navbar Start: Burger menu (mobile) + Name -->
-  <div class="navbar-start">
-    <div class="dropdown lg:hidden">
-      <button
-        class="btn btn-ghost btn-circle"
-        aria-label={t("nav.toggleMenu")}
-      >
-        <MenuIcon />
-      </button>
-      <ul
-        tabindex="0"
-        class="dropdown-content menu menu-sm bg-base-200 text-base-content rounded-box w-32 p-2 shadow-2xl border border-base-content/10 z-50"
-      >
-        <li class="menu-title text-xs">{t("nav.title")}</li>
-        {
-          NAV_LINKS.map(({ href, label }) => (
+<header
+  id="main-header"
+  class="sticky top-0 z-50 backdrop-blur-md bg-base-100/20 border-b border-base-content/5 w-full transition-all duration-300 py-2"
+>
+  <nav
+    class="navbar max-w-6xl mx-auto px-4 md:px-8 transition-all duration-300"
+    aria-label="Main navigation"
+  >
+    <!-- Navbar Start: Burger menu (mobile) + Name -->
+    <div class="navbar-start">
+      <details class="dropdown lg:hidden">
+        <summary
+          class="btn btn-ghost btn-circle"
+          aria-label={t("nav.toggleMenu")}
+        >
+          <MenuIcon />
+        </summary>
+        <ul class="dropdown-content menu menu-sm bg-base-200 text-base-content rounded-box w-32 p-2 shadow-2xl border border-base-content/10 z-50">
+          <li class="menu-title text-xs">{t("nav.title")}</li>
+          {NAV_LINKS.map(({ href, label }) => (
             <li>
               <a href={href}>{label}</a>
             </li>
-          ))
-        }
-      </ul>
+          ))}
+        </ul>
+      </details>
+      <a href={homeUrl} class="lg:text-xl font-bold ml-2 lg:ml-0">
+        {t("home.name")}
+      </a>
     </div>
-    <a href={homeUrl} class="lg:text-xl font-bold ml-2 lg:ml-0">{t("home.name")}</a>
-  </div>
 
-  <!-- Navbar Center: Navigation links (desktop) -->
-  <div class="navbar-center hidden lg:flex">
-    <ul class="menu menu-horizontal px-1 gap-1">
-      {
-        NAV_LINKS.map(({ href, label }) => (
+    <!-- Navbar Center: Navigation links (desktop) -->
+    <div class="navbar-center hidden lg:flex">
+      <ul class="menu menu-horizontal px-1 gap-1">
+        {NAV_LINKS.map(({ href, label }) => (
           <li>
             <a href={href} class="font-medium">
               {label}
             </a>
           </li>
-        ))
-      }
-    </ul>
-  </div>
+        ))}
+      </ul>
+    </div>
 
-  <!-- Navbar End: Theme and Language selectors -->
-  <div class="navbar-end gap-2">
-    <LanguageController />
-    <ThemeController />
-  </div>
+    <!-- Navbar End: Theme and Language selectors -->
+    <div class="navbar-end gap-2">
+      <LanguageController />
+      <ThemeController />
+    </div>
   </nav>
 </header>
 

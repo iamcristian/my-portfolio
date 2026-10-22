@@ -37,7 +37,9 @@ export function resolveSEOData(
   let title = props.title;
   if (title) {
     if (props.type === "article") {
-      title = `${title} | Blog | ${t("home.name") || SITE.name}`;
+      title = title.includes(t("home.name") || SITE.name)
+        ? `${title} | Blog`
+        : `${title} | Blog | ${t("home.name") || SITE.name}`;
     } else {
       title = `${title} | ${t("home.name") || SITE.name}`;
     }
@@ -72,16 +74,6 @@ export function resolveSEOData(
 
   const ogLocale = OG_LOCALES[lang] || "en_US";
 
-  // Resolve default fallback language URL (x-default) pointing to English ('en')
-  const defaultSegments = pathname.split("/");
-  if (
-    defaultSegments.length > 1 &&
-    locales.includes(defaultSegments[1] as any)
-  ) {
-    defaultSegments[1] = "en";
-  }
-  const defaultUrl = new URL(defaultSegments.join("/"), cleanSiteUrl).href;
-
   // Resolve OpenGraph & Twitter Image
   const imageSource = props.image || meImage;
   const imageUrl =
@@ -108,7 +100,6 @@ export function resolveSEOData(
     isProjects,
     isBlogIndex,
     ogLocale,
-    defaultUrl,
     imageUrl,
     fullImageAlt,
     imageWidth,
@@ -124,7 +115,7 @@ export function getAlternateUrls(
 ) {
   return activeLocales.map((locale) => {
     const segments = pathname.split("/");
-    if (segments.length > 1 && locales.includes(segments[1] as any)) {
+    if (segments.length > 1 && locales.includes(segments[1] as Lang)) {
       segments[1] = locale;
     }
     const newPathname = segments.join("/");

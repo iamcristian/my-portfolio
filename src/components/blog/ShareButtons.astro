@@ -17,8 +17,10 @@ const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(`${
 ---
 
 <div class="flex items-center gap-3 py-2" aria-label="Share options">
-  <span class="text-xs font-semibold text-base-content/80 uppercase tracking-wider">{t("blog.share") || "Share:"}</span>
-  
+  <span class="text-xs font-semibold text-base-content/80 uppercase tracking-wider">
+    {t("blog.share") || "Share:"}
+  </span>
+
   <!-- Twitter/X -->
   <a
     href={twitterUrl}
@@ -62,17 +64,28 @@ const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(`${
   <button
     id="copy-share-btn"
     class="btn btn-xs sm:btn-sm btn-circle btn-ghost hover:text-primary transition-colors relative"
-    title="Copy article link"
+    title={t("accessibility.copyLink")}
+    aria-label={t("accessibility.copyLink")}
+    data-error-text={t("accessibility.copyFailed")}
     data-url={shareUrl}
     data-copied-text={t("blog.shareCopied") || "Copied!"}
   >
-    <svg class="w-4 h-4 fill-none stroke-current" stroke-width="2" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path>
+    <svg
+      class="w-4 h-4 fill-none stroke-current"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
+      ></path>
     </svg>
-    
+
     <!-- Tooltip alert (daisyUI) -->
     <span
       id="copy-toast"
+      aria-hidden="true"
       class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 scale-0 opacity-0 bg-neutral text-neutral-content text-[10px] px-2 py-1 rounded transition-all duration-200 pointer-events-none"
     >
       Copied!
@@ -81,38 +94,36 @@ const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(`${
 </div>
 
 <script>
-  function setupShareButton() {
-    const copyBtn = document.getElementById("copy-share-btn");
+  import { onPageLoad } from "../../scripts/page-lifecycle";
+  onPageLoad((signal) => {
+    const button = document.getElementById("copy-share-btn");
     const toast = document.getElementById("copy-toast");
-    if (!copyBtn || !toast) return;
-
-    const shareUrl = copyBtn.getAttribute("data-url") || window.location.href;
-    const copiedText = copyBtn.getAttribute("data-copied-text") || "Copied!";
-    toast.textContent = copiedText;
-
-    const copyHandler = () => {
-      navigator.clipboard.writeText(shareUrl).then(() => {
-        // Show tooltip/toast
-        toast.classList.remove("scale-0", "opacity-0");
-        toast.classList.add("scale-100", "opacity-100");
-        
-        setTimeout(() => {
-          toast.classList.remove("scale-100", "opacity-100");
-          toast.classList.add("scale-0", "opacity-0");
-        }, 1500);
-      });
-    };
-
-    copyBtn.addEventListener("click", copyHandler);
-
-    return () => {
-      copyBtn.removeEventListener("click", copyHandler);
-    };
-  }
-
-  let cleanup: (() => void) | null = null;
-  document.addEventListener("astro:page-load", () => {
-    cleanup?.();
-    cleanup = setupShareButton() || null;
+    const status = document.getElementById("site-status");
+    if (!button || !toast) return;
+    let timer: ReturnType<typeof setTimeout>;
+    button.addEventListener(
+      "click",
+      async () => {
+        try {
+          await navigator.clipboard.writeText(
+            button.dataset.url || location.href,
+          );
+          if (signal.aborted) return;
+          toast.textContent = button.dataset.copiedText || "Copied!";
+          if (status) status.textContent = toast.textContent;
+          toast.classList.remove("scale-0", "opacity-0");
+          clearTimeout(timer);
+          timer = setTimeout(
+            () => toast.classList.add("scale-0", "opacity-0"),
+            1500,
+          );
+        } catch {
+          if (!signal.aborted && status)
+            status.textContent = button.dataset.errorText || "Copy failed";
+        }
+      },
+      { signal },
+    );
+    return () => clearTimeout(timer);
   });
 </script>

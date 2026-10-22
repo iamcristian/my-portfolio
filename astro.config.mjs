@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from "astro/config";
+import { SITE } from "./src/config/site";
 import tailwindcss from "@tailwindcss/vite";
 import mdx from "@astrojs/mdx";
 import sitemap, { ChangeFreqEnum } from "@astrojs/sitemap";
@@ -7,14 +8,17 @@ import { locales, SITEMAP_LOCALES } from "./src/i18n/ui";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://cristianarando.dev",
+  site: SITE.url,
   trailingSlash: "always",
   integrations: [
     mdx(),
     sitemap({
       // Filter out feeds and news sitemaps from the main sitemap
       filter: (page) =>
-        !page.includes("/rss.xml") && !page.includes("/news-sitemap"),
+        new URL(page).pathname !== "/" &&
+        !page.includes("/404") &&
+        !page.includes("/rss.xml") &&
+        !page.includes("/news-sitemap"),
 
       // Customize priority and frequency for each page entry
       serialize: (item) => {
@@ -51,6 +55,8 @@ export default defineConfig({
     }),
   ],
   vite: {
+    // External scripts allow a CSP without unsafe-inline while retaining ClientRouter.
+    build: { assetsInlineLimit: 0 },
     plugins: [tailwindcss()],
   },
   i18n: {

@@ -1,5 +1,4 @@
-import type { APIRoute } from "astro";
+import { createFeed } from "../utils/feed";
 
-export const GET: APIRoute = (context) => {
-  return context.redirect("/en/rss.xml", 308);
-};
+// Static hosts need actual XML here, not an HTML redirect page.
+export const GET = () => createFeed("en");

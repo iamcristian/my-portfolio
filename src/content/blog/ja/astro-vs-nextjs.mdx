@@ -32,12 +32,12 @@ Astroは、**パフォーマンス**と**コンテンツ配信**を最優先に�
 ```astro
 ---
 // これはビルド時に実行されます — 配信されるJSはゼロ！
-const posts = await getCollection('blog');
+const posts = await getCollection("blog");
 const latest = posts.sort((a, b) => b.data.date - a.data.date);
 ---
 
 <ul>
-  {latest.map(post => (
+  {latest.map((post) => (
     <li>
       <a href={`/blog/${post.slug}`}>{post.data.title}</a>
     </li>

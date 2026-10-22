@@ -1,3 +1,6 @@
+import { parseFilterValues, matchesDateRange } from "../utils/list.ts";
+import { scrollBehavior } from "./page-lifecycle.ts";
+
 // ── Shared list-manager module ──
 // Provides filter, sort, paginate, and view-toggle logic
 // used by both ProjectsManager and BlogManager.
@@ -42,7 +45,10 @@ export interface ListManagerConfig {
   endDateInputId?: string;
 }
 
-export function initListManager(config: ListManagerConfig) {
+export function initListManager(
+  config: ListManagerConfig,
+  signal: AbortSignal,
+) {
   const {
     containerId,
     cardSelector,
@@ -79,7 +85,7 @@ export function initListManager(config: ListManagerConfig) {
   const noResults = document.getElementById(noResultsId);
   const paginationControls = document.getElementById(paginationId);
   const allCards = Array.from(
-    document.querySelectorAll(cardSelector),
+    container?.querySelectorAll(cardSelector) || [],
   ) as HTMLElement[];
 
   const searchInput = document.getElementById(
@@ -110,7 +116,9 @@ export function initListManager(config: ListManagerConfig) {
   let currentView = "grid";
   let currentFilter = "all";
   let currentSort = sortSelect ? sortSelect.value : "date-desc";
-  let searchQuery = "";
+  let searchQuery =
+    new URL(location.href).searchParams.get("q")?.toLowerCase().trim() || "";
+  if (searchInput) searchInput.value = searchQuery;
   let currentPage = 1;
 
   let currentDateRange = dateRangeSelect ? dateRangeSelect.value : "all";
@@ -122,6 +130,8 @@ export function initListManager(config: ListManagerConfig) {
   // ── View Toggle ──
   function updateViewLayout() {
     if (!container || !gridBtn || !listBtn) return;
+    gridBtn.setAttribute("aria-pressed", String(currentView === "grid"));
+    listBtn.setAttribute("aria-pressed", String(currentView === "list"));
 
     if (currentView === "grid") {
       gridBtn.classList.add("btn-active");
@@ -152,258 +162,227 @@ export function initListManager(config: ListManagerConfig) {
     }
   }
 
-  // ── Filter + Sort + Paginate ──
   function processItems() {
     if (!container || !noResults || !paginationControls) return;
-
-    // 1. Filter
-    let filtered = allCards.filter((card) => {
-      const filterValue = card.getAttribute(filterAttr) || "";
-      const filterMatch =
-        currentFilter === "all" ||
-        filterValue.split(" ").includes(currentFilter.toLowerCase());
-
-      const title = card.getAttribute("data-name") || "";
-      const desc = card.getAttribute("data-description") || "";
-      const extra =
-        card.getAttribute("data-tech") || card.getAttribute("data-tags") || "";
-      const searchMatch =
-        !searchQuery ||
-        title.includes(searchQuery) ||
-        desc.includes(searchQuery) ||
-        extra.includes(searchQuery);
-
-      // Date range filter
-      let dateMatch = true;
-      if (dateRangeSelect) {
-        const itemDateStr = card.getAttribute("data-date");
-        if (itemDateStr) {
-          const itemTime = new Date(itemDateStr).getTime();
-          const now = new Date().getTime();
-
-          if (currentDateRange === "yesterday") {
-            dateMatch = itemTime >= now - 24 * 60 * 60 * 1000;
-          } else if (currentDateRange === "week") {
-            dateMatch = itemTime >= now - 7 * 24 * 60 * 60 * 1000;
-          } else if (currentDateRange === "month") {
-            dateMatch = itemTime >= now - 30 * 24 * 60 * 60 * 1000;
-          } else if (currentDateRange === "year") {
-            dateMatch = itemTime >= now - 365 * 24 * 60 * 60 * 1000;
-          } else if (currentDateRange === "custom") {
-            if (customStartDate) {
-              const startTime = new Date(
-                customStartDate + "T00:00:00",
-              ).getTime();
-              if (!isNaN(startTime) && itemTime < startTime) dateMatch = false;
-            }
-            if (customEndDate) {
-              const endTime = new Date(customEndDate + "T23:59:59").getTime();
-              if (!isNaN(endTime) && itemTime > endTime) dateMatch = false;
-            }
-          }
+    const filtered = allCards
+      .filter((card) => {
+        const filterMatch =
+          currentFilter === "all" ||
+          parseFilterValues(card.getAttribute(filterAttr) || "").includes(
+            currentFilter.toLowerCase(),
+          );
+        const text = [
+          card.dataset.name,
+          card.dataset.description,
+          card.dataset.tech,
+          card.dataset.tags,
+        ]
+          .join(" ")
+          .toLowerCase();
+        return (
+          filterMatch &&
+          (!searchQuery || text.includes(searchQuery)) &&
+          matchesDateRange(
+            card.dataset.date || "",
+            currentDateRange,
+            customStartDate,
+            customEndDate,
+          )
+        );
+      })
+      .sort((a, b) => {
+        if (currentSort === "relevance" && hasFeatured) {
+          const featured =
+            Number(b.dataset.featured === "true") -
+            Number(a.dataset.featured === "true");
+          if (featured) return featured;
         }
-      }
-
-      return filterMatch && searchMatch && dateMatch;
+        if (currentSort.startsWith("name")) {
+          const order = (a.dataset.name || "").localeCompare(
+            b.dataset.name || "",
+            document.documentElement.lang,
+          );
+          return currentSort === "name-asc" ? order : -order;
+        }
+        const order =
+          (Date.parse(a.dataset.date || "") || 0) -
+          (Date.parse(b.dataset.date || "") || 0);
+        return currentSort === "date-asc" ? order : -order;
+      });
+    allCards.forEach((card) => {
+      card.hidden = true;
     });
-
-    // 2. Sort
-    filtered.sort((a, b) => {
-      // Relevance sort (featured first, then date descending)
-      if (currentSort === "relevance" && hasFeatured) {
-        const featA = a.getAttribute("data-featured") === "true" ? 1 : 0;
-        const featB = b.getAttribute("data-featured") === "true" ? 1 : 0;
-        if (featA !== featB) return featB - featA;
-
-        // Within the same featured status, sort by date-desc
-        const dateA = new Date(a.getAttribute("data-date") || "").getTime();
-        const dateB = new Date(b.getAttribute("data-date") || "").getTime();
-        return dateB - dateA;
-      }
-
-      // Pure date sorting or name sorting
-      if (currentSort.startsWith("date")) {
-        const dateA = new Date(a.getAttribute("data-date") || "").getTime();
-        const dateB = new Date(b.getAttribute("data-date") || "").getTime();
-        return currentSort === "date-desc" ? dateB - dateA : dateA - dateB;
-      } else {
-        const nameA = a.getAttribute("data-name") || "";
-        const nameB = b.getAttribute("data-name") || "";
-        return currentSort === "name-asc"
-          ? nameA.localeCompare(nameB)
-          : nameB.localeCompare(nameA);
-      }
-    });
-
-    // 3. Hide all and reset order
-    allCards.forEach((c) => {
-      c.classList.add("hidden");
-      c.style.order = "";
-    });
-
-    // 4. Empty state
-    if (filtered.length === 0) {
-      noResults.classList.remove("hidden");
-      paginationControls.innerHTML = "";
-      return;
-    }
-    noResults.classList.add("hidden");
-
-    // 5. Paginate
+    // Reorder the DOM, so keyboard/screen-reader order matches the visual order.
+    filtered.forEach((card) => container.append(card));
+    noResults.classList.toggle("hidden", filtered.length !== 0);
     const totalPages = Math.ceil(filtered.length / itemsPerPage);
-    if (currentPage > totalPages) currentPage = totalPages || 1;
-
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const paginated = filtered.slice(startIndex, startIndex + itemsPerPage);
-
-    paginated.forEach((c, index) => {
-      c.classList.remove("hidden");
-      c.style.order = index.toString();
-    });
-
+    currentPage = Math.max(1, Math.min(currentPage, totalPages));
+    filtered
+      .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+      .forEach((card) => {
+        card.hidden = false;
+      });
     renderPagination(totalPages);
+    const status = document.getElementById("list-status");
+    if (status)
+      status.textContent = filtered.length
+        ? `${filtered.length} ${status.dataset.label || "results"}`
+        : noResults.textContent;
   }
 
   function renderPagination(totalPages: number) {
     if (!paginationControls || !container) return;
-    paginationControls.innerHTML = "";
+    const hadFocus = paginationControls.contains(document.activeElement);
+    paginationControls.replaceChildren();
     if (totalPages <= 1) return;
-
-    const createBtn = (
+    const addButton = (
+      text: string,
+      page: number,
       label: string,
-      disabled: boolean,
-      onClick: () => void,
+      disabled = false,
     ) => {
-      const btn = document.createElement("button");
-      btn.className =
-        "join-item btn btn-sm" + (disabled ? " btn-disabled" : "");
-      btn.innerHTML = label;
-      btn.addEventListener("click", onClick);
-      return btn;
-    };
-
-    const scrollToTop = () =>
-      window.scrollTo({ top: container!.offsetTop - 100, behavior: "smooth" });
-
-    paginationControls.appendChild(
-      createBtn("«", currentPage === 1, () => {
-        if (currentPage > 1) {
-          currentPage--;
-          processItems();
-          scrollToTop();
-        }
-      }),
-    );
-
-    for (let i = 1; i <= totalPages; i++) {
-      const btn = document.createElement("button");
-      btn.className = `join-item btn btn-sm ${i === currentPage ? "btn-active btn-primary" : ""}`;
-      btn.innerText = i.toString();
-      btn.addEventListener("click", () => {
-        currentPage = i;
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "join-item btn btn-sm";
+      button.textContent = text;
+      button.disabled = disabled;
+      button.setAttribute("aria-label", label);
+      if (text === String(currentPage)) {
+        button.setAttribute("aria-current", "page");
+        button.classList.add("btn-active", "btn-primary");
+      }
+      // The discarded pagination buttons are garbage collectible after replaceChildren.
+      button.addEventListener("click", () => {
+        currentPage = page;
         processItems();
-        scrollToTop();
+        container.scrollIntoView({
+          behavior: scrollBehavior(),
+          block: "start",
+        });
       });
-      paginationControls.appendChild(btn);
-    }
-
-    paginationControls.appendChild(
-      createBtn("»", currentPage === totalPages, () => {
-        if (currentPage < totalPages) {
-          currentPage++;
-          processItems();
-          scrollToTop();
-        }
-      }),
+      paginationControls.append(button);
+    };
+    addButton(
+      "«",
+      currentPage - 1,
+      paginationControls.dataset.previous || "Previous page",
+      currentPage === 1,
     );
+    for (let page = 1; page <= totalPages; page++)
+      addButton(
+        String(page),
+        page,
+        `${paginationControls.dataset.page || "Page"} ${page}`,
+      );
+    addButton(
+      "»",
+      currentPage + 1,
+      paginationControls.dataset.next || "Next page",
+      currentPage === totalPages,
+    );
+    if (hadFocus)
+      paginationControls
+        .querySelector<HTMLButtonElement>('[aria-current="page"]')
+        ?.focus({ preventScroll: true });
   }
 
-  // ── Event Listeners ──
-
-  // Debounced search
+  const reset = () => {
+    currentPage = 1;
+    processItems();
+  };
   let timer: number;
-  searchInput?.addEventListener("input", (e) => {
-    clearTimeout(timer);
-    timer = window.setTimeout(() => {
-      searchQuery = (e.target as HTMLInputElement).value.toLowerCase().trim();
-      currentPage = 1;
-      processItems();
-    }, 300);
+  signal.addEventListener("abort", () => window.clearTimeout(timer), {
+    once: true,
   });
-
-  // Sort
-  sortSelect?.addEventListener("change", (e) => {
-    currentSort = (e.target as HTMLSelectElement).value;
-    processItems();
-  });
-
-  // Date Range
-  dateRangeSelect?.addEventListener("change", (e) => {
-    currentDateRange = (e.target as HTMLSelectElement).value;
-    if (currentDateRange === "custom") {
-      customDateContainer?.classList.remove("hidden");
-    } else {
-      customDateContainer?.classList.add("hidden");
-    }
-    currentPage = 1;
-    processItems();
-  });
-
-  startDateInput?.addEventListener("input", (e) => {
-    customStartDate = (e.target as HTMLInputElement).value;
-    currentPage = 1;
-    processItems();
-  });
-
-  endDateInput?.addEventListener("input", (e) => {
-    customEndDate = (e.target as HTMLInputElement).value;
-    currentPage = 1;
-    processItems();
-  });
-
-  // Filter buttons
-  filterButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      filterButtons.forEach((b) => {
-        b.classList.remove("btn-neutral", "active");
-        b.classList.add("btn-outline");
-      });
-      btn.classList.add("btn-neutral", "active");
-      btn.classList.remove("btn-outline");
-
-      currentFilter =
-        btn.getAttribute("data-tag") ||
-        btn.getAttribute("data-category") ||
-        "all";
-      currentPage = 1;
-      processItems();
-    });
-  });
-
-  // View toggle
-  gridBtn?.addEventListener("click", () => {
-    if (currentView !== "grid") {
+  searchInput?.addEventListener(
+    "input",
+    () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        if (signal.aborted) return;
+        searchQuery = searchInput.value.toLowerCase().trim();
+        const url = new URL(location.href);
+        if (searchQuery) url.searchParams.set("q", searchQuery);
+        else url.searchParams.delete("q");
+        history.replaceState(history.state, "", url);
+        reset();
+      }, 200);
+    },
+    { signal },
+  );
+  sortSelect?.addEventListener(
+    "change",
+    () => {
+      currentSort = sortSelect.value;
+      reset();
+    },
+    { signal },
+  );
+  dateRangeSelect?.addEventListener(
+    "change",
+    () => {
+      currentDateRange = dateRangeSelect.value;
+      customDateContainer?.classList.toggle(
+        "hidden",
+        currentDateRange !== "custom",
+      );
+      reset();
+    },
+    { signal },
+  );
+  startDateInput?.addEventListener(
+    "input",
+    () => {
+      customStartDate = startDateInput.value;
+      reset();
+    },
+    { signal },
+  );
+  endDateInput?.addEventListener(
+    "input",
+    () => {
+      customEndDate = endDateInput.value;
+      reset();
+    },
+    { signal },
+  );
+  filterButtons.forEach((button) =>
+    button.addEventListener(
+      "click",
+      () => {
+        currentFilter = button.dataset.tag || button.dataset.category || "all";
+        filterButtons.forEach((other) => {
+          const active = other === button;
+          other.classList.toggle("btn-neutral", active);
+          other.classList.toggle("active", active);
+          other.classList.toggle("btn-outline", !active);
+          other.setAttribute("aria-pressed", String(active));
+        });
+        reset();
+      },
+      { signal },
+    ),
+  );
+  gridBtn?.addEventListener(
+    "click",
+    () => {
       currentView = "grid";
       updateViewLayout();
-    }
-  });
-  listBtn?.addEventListener("click", () => {
-    if (currentView !== "list") {
+    },
+    { signal },
+  );
+  listBtn?.addEventListener(
+    "click",
+    () => {
       currentView = "list";
       updateViewLayout();
-    }
-  });
-
-  // Init custom date container visibility
-  if (dateRangeSelect) {
-    if (dateRangeSelect.value === "custom") {
-      customDateContainer?.classList.remove("hidden");
-    } else {
-      customDateContainer?.classList.add("hidden");
-    }
-  }
-
-  // Init
+    },
+    { signal },
+  );
+  customDateContainer?.classList.toggle(
+    "hidden",
+    currentDateRange !== "custom",
+  );
   updateViewLayout();
   processItems();
 }

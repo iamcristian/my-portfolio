@@ -32,12 +32,12 @@ Astro великолепен, когда вашими приоритетами �
 ```astro
 ---
 // Это выполняется во время сборки — ноль поставляемого JS!
-const posts = await getCollection('blog');
+const posts = await getCollection("blog");
 const latest = posts.sort((a, b) => b.data.date - a.data.date);
 ---
 
 <ul>
-  {latest.map(post => (
+  {latest.map((post) => (
     <li>
       <a href={`/blog/${post.slug}`}>{post.data.title}</a>
     </li>

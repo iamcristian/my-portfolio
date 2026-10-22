@@ -14,7 +14,12 @@ interface Props {
   variant?: "button" | "link";
 }
 
-const { size = "md", showLabels = false, class: className, variant = "button" } = Astro.props;
+const {
+  size = "md",
+  showLabels = false,
+  class: className,
+  variant = "button",
+} = Astro.props;
 
 const iconSize = size === "sm" ? "w-4 h-4" : "w-5 h-5";
 

@@ -8,25 +8,29 @@ const t = useTranslations(lang);
 const experienceItems = getExperienceForLang(lang);
 ---
 
-<section id="experience" class="py-16 md:py-24 max-w-5xl mx-auto px-4 md:px-8 scroll-reveal transition-all duration-700 ease-out opacity-0 translate-y-8">
-  <SectionHeading subtitle={t("experience.subtitle")} title={t("experience.title")} />
+<section
+  id="experience"
+  class="py-16 md:py-24 max-w-5xl mx-auto px-4 md:px-8 scroll-reveal"
+>
+  <SectionHeading
+    subtitle={t("experience.subtitle")}
+    title={t("experience.title")}
+  />
 
   <!-- Timeline DaisyUI -->
   <ul class="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
-    {
-      experienceItems.map((item, index) => (
-        <TimelineItem
-          index={index}
-          totalItems={experienceItems.length}
-          title={item.title}
-          company={item.company}
-          companyUrl={item.companyUrl}
-          date={item.date}
-          description={item.description}
-          responsibilities={item.responsibilities}
-          tags={item.tags}
-        />
-      ))
-    }
+    {experienceItems.map((item, index) => (
+      <TimelineItem
+        index={index}
+        totalItems={experienceItems.length}
+        title={item.title}
+        company={item.company}
+        companyUrl={item.companyUrl}
+        date={item.date}
+        description={item.description}
+        responsibilities={item.responsibilities}
+        tags={item.tags}
+      />
+    ))}
   </ul>
 </section>

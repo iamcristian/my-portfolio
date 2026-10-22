@@ -32,12 +32,12 @@ Astro shines when your priority is **performance** and **content delivery**:
 ```astro
 ---
 // This runs at build time — zero JS shipped!
-const posts = await getCollection('blog');
+const posts = await getCollection("blog");
 const latest = posts.sort((a, b) => b.data.date - a.data.date);
 ---
 
 <ul>
-  {latest.map(post => (
+  {latest.map((post) => (
     <li>
       <a href={`/blog/${post.slug}`}>{post.data.title}</a>
     </li>

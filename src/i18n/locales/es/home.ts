@@ -1,4 +1,17 @@
 export const home = {
+  "accessibility.sort": "Ordenar",
+  "accessibility.pagination": "Paginación",
+  "accessibility.previousPage": "Página anterior",
+  "accessibility.nextPage": "Página siguiente",
+  "accessibility.page": "Página",
+  "accessibility.results": "resultados",
+  "accessibility.copyCode": "Copiar código",
+  "accessibility.copyFailed":
+    "No se pudo copiar. Selecciona y copia el texto manualmente.",
+  "accessibility.copyLink": "Copiar enlace del artículo",
+  "accessibility.pause": "Pausar presentación",
+  "accessibility.play": "Reproducir presentación",
+
   "home.hello": "Hola, soy",
   "home.name": "Cristian Arando",
   "home.subtitle": "Ingeniero de Software y Sistemas",

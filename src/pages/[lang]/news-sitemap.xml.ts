@@ -22,7 +22,8 @@ export const GET: APIRoute = async (context) => {
     return (
       entry.data.lang === lang &&
       !entry.data.draft &&
-      entry.data.date >= twoDaysAgo
+      entry.data.date >= twoDaysAgo &&
+      entry.data.date <= new Date()
     );
   });
 
@@ -32,15 +33,14 @@ export const GET: APIRoute = async (context) => {
     .map(
       (post) => `
     <url>
-      <loc>${cleanSiteUrl}/${lang}/blog/${post.data.slug}/</loc>
+      <loc>${escapeXml(`${cleanSiteUrl}/${lang}/blog/${post.data.slug}/`)}</loc>
       <news:news>
         <news:publication>
-          <news:name>${SITE.name}</news:name>
+          <news:name>${escapeXml(SITE.name)}</news:name>
           <news:language>${lang}</news:language>
         </news:publication>
         <news:publication_date>${post.data.date.toISOString()}</news:publication_date>
         <news:title>${escapeXml(post.data.title)}</news:title>
-        <news:keywords>${post.data.tags.join(", ")}</news:keywords>
       </news:news>
     </url>
   `,

@@ -1,3 +1,4 @@
+import { projectCatalog, type ProjectCopy } from "../data/projects";
 // ── i18n utility functions ──
 // Provides type-safe translation helpers and localized data accessors.
 
@@ -36,26 +37,34 @@ export function useTranslations(lang: Lang) {
  */
 export function getLang(currentLocale: string | undefined): Lang {
   const lang = currentLocale || defaultLang;
-  return lang as Lang;
+  return Object.hasOwn(ui, lang) ? (lang as Lang) : defaultLang;
 }
 
 // ── Dynamic localized data loaders using import.meta.glob ──
 
 const localeModules = import.meta.glob("./locales/**/*.ts", {
   eager: true,
-}) as Record<string, any>;
+}) as Record<string, Record<string, unknown>>;
 
 function getLocaleData<T>(lang: Lang, filename: string, key: string): T {
   const path = `./locales/${lang}/${filename}.ts`;
   const defaultPath = `./locales/${defaultLang}/${filename}.ts`;
   const mod = localeModules[path] || localeModules[defaultPath];
+  if (!mod || !(key in mod))
+    throw new Error(`Missing locale data: ${lang}/${filename}.${key}`);
   return mod[key] as T;
 }
 
 // ── Public data accessors ──
 
-export const getProjectsForLang = (lang: Lang): Project[] =>
-  getLocaleData<Project[]>(lang, "projects", "projects");
+export const getProjectsForLang = (lang: Lang): Project[] => {
+  const copy = getLocaleData<ProjectCopy>(lang, "projects", "projectCopy");
+  return projectCatalog.map((project) => ({
+    ...project,
+    tech: [...project.tech],
+    ...copy[project.id],
+  }));
+};
 
 export const getCertificationsForLang = (lang: Lang): CertificationCategory[] =>
   getLocaleData<CertificationCategory[]>(

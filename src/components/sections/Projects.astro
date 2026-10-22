@@ -11,21 +11,31 @@ const PROJECTS = getProjectsForLang(lang);
 const featuredProjects = PROJECTS.filter((p) => p.featured).slice(0, 3);
 ---
 
-<section id="projects" class="py-16 md:py-24 max-w-6xl mx-auto px-4 md:px-8 scroll-reveal transition-all duration-700 ease-out opacity-0 translate-y-8">
-  <SectionHeading subtitle={t("projects.subtitle")} title={t("projects.title")} />
+<section
+  id="projects"
+  class="py-16 md:py-24 max-w-6xl mx-auto px-4 md:px-8 scroll-reveal"
+>
+  <SectionHeading
+    subtitle={t("projects.subtitle")}
+    title={t("projects.title")}
+  />
 
   <!-- Grid de Tarjetas -->
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    {
-      featuredProjects.map((project) => (
-        <ProjectCard project={project} />
-      ))
-    }
+    {featuredProjects.map((project) => (
+      <ProjectCard project={project} />
+    ))}
   </div>
 
   <div class="text-center mt-10">
-    <a href={getRelativeLocaleUrl(lang, "projects")} class="btn btn-ghost border border-base-content/10 hover:border-primary/30 group">
-      {t("projects.viewAll")} <span class="group-hover:translate-x-1 transition-transform inline-block ml-1">&rarr;</span>
+    <a
+      href={getRelativeLocaleUrl(lang, "projects")}
+      class="btn btn-ghost border border-base-content/10 hover:border-primary/30 group"
+    >
+      {t("projects.viewAll")}{" "}
+      <span class="group-hover:translate-x-1 transition-transform inline-block ml-1">
+        &rarr;
+      </span>
     </a>
   </div>
 </section>

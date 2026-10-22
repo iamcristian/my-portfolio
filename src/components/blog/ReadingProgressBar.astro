@@ -1,5 +1,6 @@
 ---
 ---
+
 <div
   id="reading-progress"
   class="fixed top-0 left-0 h-1 bg-primary z-50 transition-all duration-75"
@@ -7,10 +8,11 @@
 ></div>
 
 <script>
-  function initReadingProgress() {
+  import { onPageLoad } from "../../scripts/page-lifecycle";
+  onPageLoad((signal) => {
     const progressBar = document.getElementById("reading-progress");
-    const article = document.querySelector("article");
-    
+    const article = document.querySelector("article.prose");
+
     if (!progressBar || !article) return;
 
     const updateProgressBar = () => {
@@ -23,7 +25,7 @@
       const scrollableHeight = totalHeight - viewportHeight;
 
       if (scrollableHeight <= 0) {
-        progressBar.style.width = "0%";
+        progressBar.style.width = rect.bottom <= viewportHeight ? "100%" : "0%";
         return;
       }
 
@@ -32,20 +34,14 @@
       progressBar.style.width = `${progress}%`;
     };
 
-    window.addEventListener("scroll", updateProgressBar, { passive: true });
-    window.addEventListener("resize", updateProgressBar, { passive: true });
+    window.addEventListener("scroll", updateProgressBar, {
+      passive: true,
+      signal,
+    });
+    window.addEventListener("resize", updateProgressBar, {
+      passive: true,
+      signal,
+    });
     updateProgressBar();
-
-    return () => {
-      window.removeEventListener("scroll", updateProgressBar);
-      window.removeEventListener("resize", updateProgressBar);
-    };
-  }
-
-  let cleanup: (() => void) | null = null;
-
-  document.addEventListener("astro:page-load", () => {
-    cleanup?.();
-    cleanup = initReadingProgress() || null;
   });
 </script>

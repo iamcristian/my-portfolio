@@ -1,4 +1,17 @@
 export const home = {
+  "accessibility.sort": "Сортировка",
+  "accessibility.pagination": "Навигация по страницам",
+  "accessibility.previousPage": "Предыдущая страница",
+  "accessibility.nextPage": "Следующая страница",
+  "accessibility.page": "Страница",
+  "accessibility.results": "результатов",
+  "accessibility.copyCode": "Копировать код",
+  "accessibility.copyFailed":
+    "Не удалось скопировать. Выделите и скопируйте текст вручную.",
+  "accessibility.copyLink": "Копировать ссылку на статью",
+  "accessibility.pause": "Приостановить слайд-шоу",
+  "accessibility.play": "Запустить слайд-шоу",
+
   "home.hello": "Привет, я",
   "home.name": "Кристиан Арандо",
   "home.subtitle": "Инженер программного обеспечения и систем",
@@ -101,7 +114,8 @@ export const home = {
   "lagrange.equilibrium": "ОРБИТАЛЬНЫЙ.РЕЗОНАНС",
   "lagrange.active": "АКТИВЕН",
   "lagrange.title": "ТОПОЛОГИЯ_ЛАГРАНЖА",
-  "lagrange.desc": "Балансировка сложных систем через архитектурную стабильность",
+  "lagrange.desc":
+    "Балансировка сложных систем через архитектурную стабильность",
   "lagrange.status": "ОРБИТА: СТАБИЛЬНА",
   "lagrange.drift": "ВОЗМУЩЕНИЕ: < 0.1%",
   "lagrange.integrity": "ГРАВИТАЦИОННЫЙ_КОЛОДЕЦ: НОМИНАЛ",
@@ -113,7 +127,8 @@ export const home = {
   "lagrange.v3.title": "L3: ПРОНИЦАТЕЛЬНОСТЬ",
   "lagrange.v3.desc": "Наблюдение за архитектурой со скрытых ракурсов",
   "lagrange.v4.title": "L4: СИСТЕМНОЕ_МЫШЛЕНИЕ",
-  "lagrange.v4.desc": "Целостная стабильность благодаря взаимосвязанному дизайну",
+  "lagrange.v4.desc":
+    "Целостная стабильность благодаря взаимосвязанному дизайну",
   "lagrange.v5.title": "L5: АВТОНОМНОСТЬ",
   "lagrange.v5.desc": "Самоподдерживающаяся и независимая работа",
 

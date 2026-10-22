@@ -1,4 +1,5 @@
 ---
+import { isPublished } from "@utils/blog";
 import { getCollection } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { useTranslations } from "../../i18n/utils";
@@ -12,12 +13,12 @@ const t = useTranslations(lang);
 
 // Fetch Blog Posts from Content Collection
 const blogPosts = await getCollection("blog", ({ data }) => {
-  return data.lang === lang && !data.draft;
+  return data.lang === lang && isPublished(data);
 });
 
 // Sort by date descending
 const sortedPosts = blogPosts.sort(
-  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
 );
 
 // All featured posts (from frontmatter "featured: true")
@@ -29,19 +30,30 @@ if (featuredBlogPosts.length === 0 && sortedPosts.length > 0) {
 
 // Recent posts excluding the featured ones, up to 3 cards
 const featuredIds = new Set(featuredBlogPosts.map((p) => p.id));
-const recentBlogPosts = sortedPosts.filter((p) => !featuredIds.has(p.id)).slice(0, 3);
+const recentBlogPosts = sortedPosts
+  .filter((p) => !featuredIds.has(p.id))
+  .slice(0, 3);
 ---
 
-<section id="blog" class="py-16 md:py-24 max-w-6xl mx-auto px-4 md:px-8 scroll-reveal transition-all duration-700 ease-out opacity-0 translate-y-8">
+<section
+  id="blog"
+  class="py-16 md:py-24 max-w-6xl mx-auto px-4 md:px-8 scroll-reveal"
+>
   <SectionHeading subtitle={t("blog.subtitle")} title={t("blog.title")} />
 
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-    <!-- Row 1: Featured Carousel spanning all 3 columns in desktop -->
     {featuredBlogPosts.length > 0 && (
       <div class="md:col-span-3 relative group">
-        <div class="carousel w-full rounded-2xl scroll-smooth" id="featured-carousel">
+        <div
+          class="carousel w-full rounded-2xl scroll-smooth"
+          id="featured-carousel"
+          tabindex="0"
+          role="region"
+          aria-roledescription="carousel"
+          aria-label={t("blog.featured")}
+        >
           {featuredBlogPosts.map((post, index) => (
-            <div 
+            <div
               id={`featured-slide-${index}`}
               class="carousel-item relative w-full"
             >
@@ -52,147 +64,177 @@ const recentBlogPosts = sortedPosts.filter((p) => !featuredIds.has(p.id)).slice(
           ))}
         </div>
 
-        <!-- Navigation Arrows (only if more than 1 featured post) -->
+        {featuredBlogPosts.length > 1 && (
+          <button
+            class="carousel-pause btn btn-sm btn-ghost mt-2"
+            aria-pressed="true"
+            data-pause={t("accessibility.pause")}
+            data-play={t("accessibility.play")}
+          >
+            {t("accessibility.play")}
+          </button>
+        )}
         {featuredBlogPosts.length > 1 && (
           <>
-            <button 
+            <button
               class="carousel-prev btn btn-circle btn-sm md:btn-md bg-base-100 hover:bg-base-200 text-base-content border border-base-300 shadow-md absolute -left-4 md:-left-5 top-1/2 -translate-y-1/2 z-10 transition-transform hover:scale-105 duration-200"
-              aria-label="Previous slide"
+              aria-label={t("accessibility.previousPage")}
             >
               <ChevronLeftIcon class="w-4 h-4 md:w-5 md:h-5" />
             </button>
-            <button 
+            <button
               class="carousel-next btn btn-circle btn-sm md:btn-md bg-base-100 hover:bg-base-200 text-base-content border border-base-300 shadow-md absolute -right-4 md:-right-5 top-1/2 -translate-y-1/2 z-10 transition-transform hover:scale-105 duration-200"
-              aria-label="Next slide"
+              aria-label={t("accessibility.nextPage")}
             >
               <ChevronRightIcon class="w-4 h-4 md:w-5 md:h-5" />
             </button>
           </>
         )}
-
       </div>
     )}
 
-    <!-- Row 2: 3 Recent cards, each taking 1 column -->
     {recentBlogPosts.map((post) => (
       <BlogCard post={post} />
     ))}
   </div>
 
   <div class="text-center mt-10">
-    <a href={getRelativeLocaleUrl(lang, "blog")} class="btn btn-ghost border border-base-content/10 hover:border-primary/30 group">
-      {t("blog.viewAll")} <span class="group-hover:translate-x-1 transition-transform inline-block ml-1">&rarr;</span>
+    <a
+      href={getRelativeLocaleUrl(lang, "blog")}
+      class="btn btn-ghost border border-base-content/10 hover:border-primary/30 group"
+    >
+      {t("blog.viewAll")}{" "}
+      <span class="group-hover:translate-x-1 transition-transform inline-block ml-1">
+        &rarr;
+      </span>
     </a>
   </div>
 </section>
 
 <script>
-  let carouselCleanup: (() => void) | null = null;
-
-  function setupCarousel() {
-    carouselCleanup?.();
-    const carousel = document.getElementById('featured-carousel');
+  import { onPageLoad, scrollBehavior } from "../../scripts/page-lifecycle";
+  onPageLoad((signal) => {
+    const carousel = document.getElementById("featured-carousel");
     if (!carousel) return;
-
-    const slides = carousel.querySelectorAll('.carousel-item');
-    const prevBtn = carousel.parentElement?.querySelector('.carousel-prev');
-    const nextBtn = carousel.parentElement?.querySelector('.carousel-next');
-
-    if (slides.length <= 1) return;
-
-    let currentIndex = 0;
-    let autoplayInterval: any = null;
-    const autoplayDelay = 5000; // 5 seconds
-
-    const scrollToSlide = (index: number) => {
-      const slide = slides[index] as HTMLElement;
-      if (slide) {
-        carousel.scrollTo({
-          left: slide.offsetLeft,
-          behavior: 'smooth'
-        });
-        currentIndex = index;
-      }
+    const slides = Array.from(
+      carousel.querySelectorAll<HTMLElement>(".carousel-item"),
+    );
+    const parent = carousel.parentElement!;
+    const pause = parent.querySelector<HTMLButtonElement>(".carousel-pause");
+    if (slides.length <= 1 || !pause) return;
+    const motion = matchMedia("(prefers-reduced-motion: reduce)");
+    let paused = motion.matches;
+    let hovered = false;
+    let focused = false;
+    let interval: ReturnType<typeof setInterval> | undefined;
+    const move = (delta: number) => {
+      const index = Math.round(carousel.scrollLeft / carousel.clientWidth);
+      const next = (index + delta + slides.length) % slides.length;
+      carousel.scrollTo({
+        left: next * carousel.clientWidth,
+        behavior: scrollBehavior(),
+      });
     };
-
-    const nextSlide = () => {
-      currentIndex = (currentIndex + 1) % slides.length;
-      scrollToSlide(currentIndex);
+    const sync = () => {
+      clearInterval(interval);
+      pause.textContent = paused ? pause.dataset.play! : pause.dataset.pause!;
+      pause.setAttribute("aria-pressed", String(paused));
+      if (!paused && !hovered && !focused && !document.hidden)
+        interval = setInterval(() => move(1), 5000);
     };
-
-    const prevSlide = () => {
-      currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-      scrollToSlide(currentIndex);
-    };
-
-    const startAutoplay = () => {
-      if (!autoplayInterval) {
-        autoplayInterval = window.setInterval(nextSlide, autoplayDelay);
-      }
-    };
-
-    const stopAutoplay = () => {
-      if (autoplayInterval) {
-        window.clearInterval(autoplayInterval);
-        autoplayInterval = null;
-      }
-    };
-
-    const controller = new AbortController();
-    const signal = controller.signal;
-
-    prevBtn?.addEventListener('click', () => {
-      prevSlide();
-      stopAutoplay();
-      startAutoplay();
-    }, { signal });
-
-    nextBtn?.addEventListener('click', () => {
-      nextSlide();
-      stopAutoplay();
-      startAutoplay();
-    }, { signal });
-
-    // Pause autoplay on mouse enter, resume on leave
-    const parentContainer = carousel.parentElement;
-    if (parentContainer) {
-      parentContainer.addEventListener('mouseenter', stopAutoplay, { signal });
-      parentContainer.addEventListener('mouseleave', startAutoplay, { signal });
-    }
-
-    // Sync active index on manual scroll/swipe
-    let scrollTimeout: number;
-    carousel.addEventListener('scroll', () => {
-      clearTimeout(scrollTimeout);
-      scrollTimeout = window.setTimeout(() => {
-        const scrollPosition = carousel.scrollLeft;
-        const slideWidth = (slides[0] as HTMLElement).offsetWidth;
-        if (slideWidth > 0) {
-          const newIndex = Math.round(scrollPosition / slideWidth);
-          if (newIndex !== currentIndex && newIndex >= 0 && newIndex < slides.length) {
-            currentIndex = newIndex;
-          }
+    parent.querySelector(".carousel-prev")?.addEventListener(
+      "click",
+      () => {
+        paused = true;
+        move(-1);
+        sync();
+      },
+      { signal },
+    );
+    parent.querySelector(".carousel-next")?.addEventListener(
+      "click",
+      () => {
+        paused = true;
+        move(1);
+        sync();
+      },
+      { signal },
+    );
+    pause.addEventListener(
+      "click",
+      () => {
+        paused = !paused;
+        sync();
+      },
+      { signal },
+    );
+    parent.addEventListener(
+      "mouseenter",
+      () => {
+        hovered = true;
+        sync();
+      },
+      { signal },
+    );
+    parent.addEventListener(
+      "mouseleave",
+      () => {
+        hovered = false;
+        sync();
+      },
+      { signal },
+    );
+    parent.addEventListener(
+      "focusin",
+      () => {
+        focused = true;
+        sync();
+      },
+      { signal },
+    );
+    parent.addEventListener(
+      "focusout",
+      (event) => {
+        focused = parent.contains(event.relatedTarget as Node);
+        sync();
+      },
+      { signal },
+    );
+    carousel.addEventListener(
+      "keydown",
+      (event) => {
+        if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+          event.preventDefault();
+          paused = true;
+          move(event.key === "ArrowLeft" ? -1 : 1);
+          sync();
         }
-      }, 100);
-    }, { signal });
-
-    startAutoplay();
-
-    carouselCleanup = () => {
-      stopAutoplay();
-      controller.abort();
-      clearTimeout(scrollTimeout);
-    };
-  }
-
-  // Initialize on load
-  setupCarousel();
-
-  // Support Astro view transitions
-  document.addEventListener('astro:page-load', setupCarousel);
-  document.addEventListener('astro:before-swap', () => {
-    carouselCleanup?.();
-    carouselCleanup = null;
+      },
+      { signal },
+    );
+    carousel.addEventListener(
+      "focusin",
+      (event) => {
+        (event.target as HTMLElement)
+          .closest<HTMLElement>(".carousel-item")
+          ?.scrollIntoView({
+            block: "nearest",
+            inline: "start",
+            behavior: scrollBehavior(),
+          });
+      },
+      { signal },
+    );
+    motion.addEventListener(
+      "change",
+      () => {
+        if (motion.matches) paused = true;
+        sync();
+      },
+      { signal },
+    );
+    document.addEventListener("visibilitychange", sync, { signal });
+    sync();
+    return () => clearInterval(interval);
   });
 </script>
-

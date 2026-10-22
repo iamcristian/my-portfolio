@@ -1,4 +1,17 @@
 export const home = {
+  "accessibility.sort": "Sortieren",
+  "accessibility.pagination": "Seitennavigation",
+  "accessibility.previousPage": "Vorherige Seite",
+  "accessibility.nextPage": "Nächste Seite",
+  "accessibility.page": "Seite",
+  "accessibility.results": "Ergebnisse",
+  "accessibility.copyCode": "Code kopieren",
+  "accessibility.copyFailed":
+    "Kopieren fehlgeschlagen. Bitte den Text manuell kopieren.",
+  "accessibility.copyLink": "Artikellink kopieren",
+  "accessibility.pause": "Diashow pausieren",
+  "accessibility.play": "Diashow abspielen",
+
   "home.hello": "Hallo, ich bin",
   "home.name": "Cristian Arando",
   "home.subtitle": "Software- & System-Ingenieur",
@@ -101,7 +114,8 @@ export const home = {
   "lagrange.equilibrium": "ORBITAL.RESONANZ",
   "lagrange.active": "AKTIV",
   "lagrange.title": "LAGRANGE-TOPOLOGIE",
-  "lagrange.desc": "Ausgleich komplexer Systeme durch architektonische Stabilität",
+  "lagrange.desc":
+    "Ausgleich komplexer Systeme durch architektonische Stabilität",
   "lagrange.status": "ORBIT: STABIL",
   "lagrange.drift": "STÖRUNG: < 0.1%",
   "lagrange.integrity": "SCHWERKRAFT_TRICHTER: NOMINAL",
@@ -111,7 +125,8 @@ export const home = {
   "lagrange.v2.title": "L2: ANPASSUNGSFÄHIGKEIT",
   "lagrange.v2.desc": "Erweiterung der Fähigkeiten über Grenzen hinaus",
   "lagrange.v3.title": "L3: EINBLICK",
-  "lagrange.v3.desc": "Betrachtung der Architektur aus verborgenen Blickwinkeln",
+  "lagrange.v3.desc":
+    "Betrachtung der Architektur aus verborgenen Blickwinkeln",
   "lagrange.v4.title": "L4: SYSTEMISCHES_DENKEN",
   "lagrange.v4.desc": "Ganzheitliche Stabilität durch vernetztes Design",
   "lagrange.v5.title": "L5: AUTONOMIE",

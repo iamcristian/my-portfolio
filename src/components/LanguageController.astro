@@ -1,5 +1,6 @@
 ---
-
+import { getCollection } from "astro:content";
+import { isPublished } from "@utils/blog";
 import Globe from "../assets/icons/globe.svg";
 import Check from "../assets/icons/check.svg";
 import { languages } from "../i18n/ui";
@@ -11,7 +12,22 @@ const t = useTranslations(currentLang);
 const pathname = Astro.url.pathname;
 const segments = pathname.split("/").filter(Boolean);
 
+const translatedLocales = Astro.params.slug
+  ? (
+      await getCollection(
+        "blog",
+        (post) =>
+          post.data.slug === Astro.params.slug && isPublished(post.data),
+      )
+    ).map((post) => post.data.lang)
+  : null;
+
 function getPathForLocale(targetLang: string) {
+  if (
+    translatedLocales &&
+    !translatedLocales.some((lang) => lang === targetLang)
+  )
+    return `/${targetLang}/blog/`;
   const hasLocalePrefix = Object.keys(languages).includes(segments[0]);
   const restSegments = hasLocalePrefix ? segments.slice(1) : segments;
   const joined = restSegments.join("/");
@@ -20,41 +36,36 @@ function getPathForLocale(targetLang: string) {
 }
 ---
 
-<div title={t("language.title")} class="dropdown dropdown-end">
-  <button
+<details title={t("language.title")} class="dropdown dropdown-end">
+  <summary
     class="flex items-center gap-1.5 px-1.5 opacity-70 hover:opacity-100 transition-opacity duration-200 cursor-pointer group"
-    aria-label="Language"
+    aria-label={t("language.title")}
   >
     <Globe class="text-base-content/70 size-4" />
     <span class="text-xs">{currentLang.toUpperCase()}</span>
-    <!-- <ChevronDown class="mt-px hidden size-2 fill-current opacity-60 sm:inline-block" /> -->
-  </button>
-  <div
-    tabindex="0"
-    class="dropdown-content bg-base-200 text-base-content rounded-box mt-3 max-h-[calc(100vh-10rem)] overflow-y-auto border border-base-content/10 shadow-2xl z-50 w-36"
-  >
+  </summary>
+  <div class="dropdown-content bg-base-200 text-base-content rounded-box mt-3 max-h-[calc(100vh-10rem)] overflow-y-auto border border-base-content/10 shadow-2xl z-50 w-36">
     <ul class="menu menu-sm">
       <li class="menu-title text-xs">{t("language.title")}</li>
-      {
-        Object.entries(languages).map(([code, { name }]) => {
-          const active = code === currentLang;
-          return (
-            <li>
-              <a
-                href={getPathForLocale(code)}
-                class:list={["flex items-center gap-3 px-2 w-full", { active }]}
-              >
-                <!-- Mini flag/code preview matching theme grid size -->
-                <div class="bg-base-100 flex items-center justify-center rounded-md border border-base-content/10 shadow-sm size-6 shrink-0 text-[10px] font-bold font-mono tracking-wider opacity-75">
-                  {code.toUpperCase()}
-                </div>
-                <span class="text-left font-normal"> {name}</span>
-                {active && <Check class="visible!" />}
-              </a>
-            </li>
-          );
-        })
-      }
+      {Object.entries(languages).map(([code, { name }]) => {
+        const active = code === currentLang;
+        return (
+          <li>
+            <a
+              href={getPathForLocale(code)}
+              lang={code}
+              hreflang={code}
+              class:list={["flex items-center gap-3 px-2 w-full", { active }]}
+            >
+              <div class="bg-base-100 flex items-center justify-center rounded-md border border-base-content/10 shadow-sm size-6 shrink-0 text-[10px] font-bold font-mono tracking-wider opacity-75">
+                {code.toUpperCase()}
+              </div>
+              <span class="text-left font-normal"> {name}</span>
+              {active && <Check class="visible!" />}
+            </a>
+          </li>
+        );
+      })}
     </ul>
   </div>
-</div>
+</details>

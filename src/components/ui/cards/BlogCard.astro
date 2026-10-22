@@ -14,10 +14,19 @@ interface Props {
   showFeaturedBadge?: boolean;
   loading?: "lazy" | "eager";
   class?: string;
-  [key: string]: any;
+  [key: `data-${string}`]: string | undefined;
+  headingLevel?: "h2" | "h3";
 }
 
-const { post, isFeatured = false, showFeaturedBadge = false, loading = "lazy", class: className, ...rest } = Astro.props;
+const {
+  headingLevel: Heading = "h3",
+  post,
+  isFeatured = false,
+  showFeaturedBadge = false,
+  loading = "lazy",
+  class: className,
+  ...rest
+} = Astro.props;
 
 const { lang } = Astro.locals;
 const t = useTranslations(lang);
@@ -25,14 +34,15 @@ const t = useTranslations(lang);
 
 {isFeatured ? (
   <article class="card md:card-side bg-base-200/50 backdrop-blur-sm border border-base-300 shadow-md hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_0_15px_rgba(var(--color-primary),0.15)] transition-all duration-300 overflow-hidden flex flex-col md:flex-row gap-6 p-6 group/card">
-    <div class="w-full md:w-5/12 overflow-hidden rounded-lg bg-base-300 relative min-h-[200px] shrink-0">
+    <div class="w-full md:w-5/12 overflow-hidden rounded-lg bg-base-300 relative min-h-50 shrink-0">
       <Image
         src={post.data.image}
-        alt={post.data.title}
+        alt={post.data.imageAlt || post.data.title}
+        widths={[400, 600, 900]}
+        sizes="(min-width: 768px) 450px, calc(100vw - 64px)"
         width={600}
         height={350}
         loading={loading}
-        fetchpriority={loading === "eager" ? "high" : undefined}
         class="absolute inset-0 w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-500"
       />
       <span class="badge bg-neutral-900/60 text-white border-none gap-1.5 py-3 px-3.5 absolute top-3 left-3 backdrop-blur-md text-xs font-semibold rounded-full shadow-sm">
@@ -45,33 +55,49 @@ const t = useTranslations(lang);
         <div class="flex gap-4 text-xs text-base-content/80">
           <span class="flex items-center gap-1">
             <CalendarIcon class="w-4 h-4" />
-            <span>{new Intl.DateTimeFormat(lang, { dateStyle: 'long' }).format(post.data.date)}</span>
+            <span>
+              {new Intl.DateTimeFormat(lang, {
+                dateStyle: "long",
+                timeZone: "UTC",
+              }).format(post.data.date)}
+            </span>
           </span>
           <span class="flex items-center gap-1">
             <ClockIcon class="w-4 h-4" />
-            <span>{getReadTime(post.body)} {t("blog.readTime")}</span>
+            <span>
+              {getReadTime(post.body, post.data.lang)} {t("blog.readTime")}
+            </span>
           </span>
         </div>
-        <h3 class="card-title text-base md:text-lg font-bold">
-          <a href={getRelativeLocaleUrl(lang, `blog/${post.data.slug}`)} class="hover:text-primary transition-colors">
+        <Heading class="card-title text-base md:text-lg font-bold">
+          <a
+            href={getRelativeLocaleUrl(lang, `blog/${post.data.slug}`)}
+            class="hover:text-primary transition-colors"
+          >
             {post.data.title}
           </a>
-        </h3>
-        <p class="text-xs opacity-80 line-clamp-3 leading-relaxed">{post.data.description}</p>
+        </Heading>
+        <p class="text-xs opacity-80 line-clamp-3 leading-relaxed">
+          {post.data.description}
+        </p>
         <div class="flex flex-wrap gap-1.5 mt-2">
           {post.data.tags.map((tag) => (
-            <span class="badge badge-xs font-mono bg-base-300/50 border border-base-content/10 text-base-content/80 hover:text-primary transition-colors py-2 px-2">{tag}</span>
+            <span class="badge badge-xs font-mono bg-base-300/50 border border-base-content/10 text-base-content/80 hover:text-primary transition-colors py-2 px-2">
+              {tag}
+            </span>
           ))}
         </div>
       </div>
-      
-      <!-- Bottom Section with Divider -->
+
       <div class="border-t border-base-300 pt-4 flex items-center justify-between relative">
-        <a 
-          href={getRelativeLocaleUrl(lang, `blog/${post.data.slug}`)} 
+        <a
+          href={getRelativeLocaleUrl(lang, `blog/${post.data.slug}`)}
           class="btn btn-ghost btn-sm w-fit border border-base-content/10 hover:border-primary/30 group/btn"
         >
-          {t("blog.readMore")} <span class="group-hover/btn:translate-x-1 transition-transform inline-block ml-1">&rarr;</span>
+          {t("blog.readMore")}{" "}
+          <span class="group-hover/btn:translate-x-1 transition-transform inline-block ml-1">
+            &rarr;
+          </span>
           <span class="sr-only">: {post.data.title}</span>
         </a>
         <div class="absolute left-1/2 -translate-x-1/2 flex items-center justify-center">
@@ -81,15 +107,22 @@ const t = useTranslations(lang);
     </div>
   </article>
 ) : (
-  <article class:list={["blog-card card card-compact bg-base-200/50 backdrop-blur-sm border border-base-300 shadow-md hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_0_15px_rgba(var(--color-primary),0.15)] transition-all duration-300 flex flex-col h-full group/card", className]} {...rest}>
+  <article
+    class:list={[
+      "blog-card card card-compact bg-base-200/50 backdrop-blur-sm border border-base-300 shadow-md hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_0_15px_rgba(var(--color-primary),0.15)] transition-all duration-300 flex flex-col h-full group/card",
+      className,
+    ]}
+    {...rest}
+  >
     <figure class="blog-figure relative h-44 bg-base-300 shrink-0 transition-all overflow-hidden">
       <Image
         src={post.data.image}
-        alt={post.data.title}
+        alt={post.data.imageAlt || post.data.title}
+        widths={[400, 800]}
+        sizes="(min-width: 1024px) 360px, (min-width: 768px) 50vw, calc(100vw - 32px)"
         width={400}
         height={225}
         loading={loading}
-        fetchpriority={loading === "eager" ? "high" : undefined}
         class="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-500"
       />
       {showFeaturedBadge && (
@@ -110,31 +143,48 @@ const t = useTranslations(lang);
           )}
           <span class="flex items-center gap-1">
             <CalendarIcon class="w-3.5 h-3.5" />
-            <span>{new Intl.DateTimeFormat(lang, { dateStyle: 'medium' }).format(post.data.date)}</span>
+            <span>
+              {new Intl.DateTimeFormat(lang, {
+                dateStyle: "medium",
+                timeZone: "UTC",
+              }).format(post.data.date)}
+            </span>
           </span>
           <span class="flex items-center gap-1">
             <ClockIcon class="w-3.5 h-3.5" />
-            <span>{getReadTime(post.body)} {t("blog.readTime")}</span>
+            <span>
+              {getReadTime(post.body, post.data.lang)} {t("blog.readTime")}
+            </span>
           </span>
         </div>
-        <h3 class="card-title text-sm font-bold leading-snug">
-          <a href={getRelativeLocaleUrl(lang, `blog/${post.data.slug}`)} class="hover:text-primary transition-colors blog-title">
+        <Heading class="card-title text-sm font-bold leading-snug">
+          <a
+            href={getRelativeLocaleUrl(lang, `blog/${post.data.slug}`)}
+            class="hover:text-primary transition-colors blog-title"
+          >
             {post.data.title}
           </a>
-        </h3>
-        <p class="text-xs opacity-80 line-clamp-2 leading-relaxed blog-desc">{post.data.description}</p>
+        </Heading>
+        <p class="text-xs opacity-80 line-clamp-2 leading-relaxed blog-desc">
+          {post.data.description}
+        </p>
         <div class="flex flex-wrap gap-1">
           {post.data.tags.map((tag) => (
-            <span class="badge badge-xs font-mono bg-base-300/50 border border-base-content/10 text-base-content/80 hover:text-primary transition-colors py-2 px-2">{tag}</span>
+            <span class="badge badge-xs font-mono bg-base-300/50 border border-base-content/10 text-base-content/80 hover:text-primary transition-colors py-2 px-2">
+              {tag}
+            </span>
           ))}
         </div>
       </div>
       <div class="blog-footer pt-4 border-t border-base-300 mt-4 transition-all">
-        <a 
-          href={getRelativeLocaleUrl(lang, `blog/${post.data.slug}`)} 
+        <a
+          href={getRelativeLocaleUrl(lang, `blog/${post.data.slug}`)}
           class="btn btn-ghost btn-sm w-fit border border-base-content/10 hover:border-primary/30 group/btn"
         >
-          {t("blog.readMore")} <span class="group-hover/btn:translate-x-1 transition-transform inline-block ml-1">&rarr;</span>
+          {t("blog.readMore")}{" "}
+          <span class="group-hover/btn:translate-x-1 transition-transform inline-block ml-1">
+            &rarr;
+          </span>
           <span class="sr-only">: {post.data.title}</span>
         </a>
       </div>

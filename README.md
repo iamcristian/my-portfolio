@@ -5,9 +5,9 @@
 **Personal portfolio, blog & digital identity — built with Astro, Tailwind CSS & daisyUI.**
 
 [![Live Site](https://img.shields.io/badge/🌍_Live-cristianarando.dev-000?style=for-the-badge)](https://cristianarando.dev)
-[![Astro](https://img.shields.io/badge/Astro-6.4-BC52EE?style=for-the-badge&logo=astro&logoColor=white)](https://astro.build)
+[![Astro](https://img.shields.io/badge/Astro-7.4-BC52EE?style=for-the-badge&logo=astro&logoColor=white)](https://astro.build)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.3-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
-[![daisyUI](https://img.shields.io/badge/daisyUI-5.5-5A0EF8?style=for-the-badge&logo=daisyui&logoColor=white)](https://daisyui.com)
+[![daisyUI](https://img.shields.io/badge/daisyUI-5.7-5A0EF8?style=for-the-badge&logo=daisyui&logoColor=white)](https://daisyui.com)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![CI](https://img.shields.io/github/actions/workflow/status/iamcristian/my-portfolio/ci.yml?branch=main&style=for-the-badge&label=CI&logo=githubactions&logoColor=white)](https://github.com/iamcristian/my-portfolio/actions)
 [![License](https://img.shields.io/badge/License-MIT-22c55e?style=for-the-badge)](/LICENSE)
@@ -38,7 +38,7 @@
 - **Experience Timeline** — Interactive DaisyUI timeline with responsibilities, tech stacks, and company links
 - **Projects Gallery** — Filterable project cards with category filtering (Frontend/Backend/Fullstack), search, sorting, pagination, and grid/list toggle
 - **Skills Matrix** — Categorized tech skills displayed in an icon-driven card grid with descriptions
-- **Education Hub** — Tabbed interface with Academic Background, Certifications (nested sub-tabs), and Language Proficiency sections
+- **Education Hub** — Tabbed interface with Academic Background, Certifications (category selector), and Language Proficiency sections
 - **Uses Page** — Dedicated `/uses` page documenting hardware, software tools, and office setup across all 5 languages
 
 ### 📝 Blog Engine
@@ -65,7 +65,7 @@
 
 - **4 Themes** — Light, Business (dark), Dracula, Forest — with system preference detection and localStorage persistence
 - **Custom daisyUI Themes** — Handcrafted monochromatic color palettes using oklch color space for both light and dark modes
-- **Flash-free theme loading** — Inline script prevents FOUC by applying the theme before first paint
+- **Flash-free theme loading** — Blocking, same-origin script prevents FOUC by applying the theme before first paint
 - **Preload animation suppression** — CSS `.preload` class disables transitions during page load to eliminate non-composited animation warnings
 
 ### 🔍 SEO & Performance
@@ -74,10 +74,10 @@
 - **Structured Data (JSON-LD)** — BreadcrumbList, WebSite, ProfilePage + Person, CollectionPage, and BlogPosting schemas
 - **News Sitemap** — Per-language Google News sitemaps for recent articles
 - **XML Sitemap** — Auto-generated with localized alternates and custom priority/changefreq per page type
-- **Security Headers** — X-Content-Type-Options, X-Frame-Options, X-XSS-Protection, Referrer-Policy, Permissions-Policy
+- **Security Headers** — X-Content-Type-Options, X-Frame-Options, Content-Security-Policy, Referrer-Policy, Permissions-Policy
 - **Immutable Asset Caching** — `/_astro/` assets cached for 1 year with `immutable` directive
 - **Image Optimization** — Astro's `<Image>` component with `sharp` for automatic WebP/AVIF conversion, responsive sizing, and lazy loading
-- **robots.txt** — With all sitemap references
+- **robots.txt** — With the canonical sitemap reference
 - **Web App Manifest** — PWA-ready configuration with generated 192×192 and 512×512 icons
 
 ### 🛡️ Developer Experience
@@ -93,7 +93,7 @@
 
 | Layer               | Technology                                                                                                        |
 | ------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| **Framework**       | [Astro 6](https://astro.build) — Static Site Generator with Islands Architecture                                  |
+| **Framework**       | [Astro 7](https://astro.build) — Static Site Generator with Islands Architecture                                  |
 | **Language**        | [TypeScript](https://www.typescriptlang.org) — Strict mode                                                        |
 | **Styling**         | [Tailwind CSS 4](https://tailwindcss.com) + [daisyUI 5](https://daisyui.com)                                      |
 | **Typography**      | [@tailwindcss/typography](https://github.com/tailwindlabs/tailwindcss-typography) — Prose styling for MDX content |
@@ -113,7 +113,7 @@
 ```mermaid
 graph TD
     A["🌐 cristianarando.dev"] --> B["☁️ Vercel Edge CDN"]
-    B --> C["⚡ Astro 6 SSG"]
+    B --> C["⚡ Astro 7 SSG"]
     C --> D["🔀 Middleware"]
     D --> E["🌍 i18n Router"]
 
@@ -141,8 +141,8 @@ graph TD
 
 ### Prerequisites
 
-- **Node.js** ≥ 22.12.0
-- **pnpm** (recommended) or npm
+- **Node.js** ≥ 22.23.4 (Node 24 recommended; see `.nvmrc`)
+- **pnpm 10.34.7** (pinned in `package.json`)
 
 ### Installation
 
@@ -160,12 +160,17 @@ pnpm dev
 
 The site will be available at `http://localhost:4321`.
 
+See [the modernization and maintenance guide](docs/modernization.md) for content workflows, security decisions, verification coverage, and follow-up work.
+
 ### Available Commands
 
 | Command                | Action                                                                       |
 | ---------------------- | ---------------------------------------------------------------------------- |
 | `pnpm dev`             | Start local dev server at `localhost:4321`                                   |
 | `pnpm build`           | Build production site to `./dist/`                                           |
+| `pnpm test`            | Run content and list interaction regression tests                            |
+| `pnpm check:build`     | Validate generated HTML/XML after a build                                    |
+| `pnpm preview:secure`  | Preview at localhost:4354 with production security headers                   |
 | `pnpm preview`         | Preview the production build locally                                         |
 | `pnpm check`           | Run Astro type-check and diagnostics                                         |
 | `pnpm check:i18n`      | Validate all locale files are in sync with the English source of truth       |
@@ -238,7 +243,7 @@ my-portfolio/
 │   │   │   └── news-sitemap.xml.ts
 │   │   ├── 404.astro          # Custom localized 404 page
 │   │   ├── index.astro        # Root redirect → /en/
-│   │   └── rss.xml.ts         # Root RSS redirect → /en/rss.xml
+│   │   └── rss.xml.ts         # Root RSS XML feed (English)
 │   ├── scripts/
 │   │   └── list-manager.ts    # Shared client-side filter/sort/paginate/view-toggle engine
 │   ├── types/
@@ -266,7 +271,7 @@ graph LR
     B --> C["🌍 i18n Check"]
     C --> D["✅ Type Check"]
     D --> E["🏗️ Build"]
-    E --> F["🚀 Deploy"]
+    E --> F["Regression tests, generated output, security audit"]
 
     style A fill:#1a1a2e,stroke:#e94560,color:#fff
     style B fill:#16213e,stroke:#0f3460,color:#fff
@@ -283,7 +288,7 @@ graph LR
 | **Type & Astro Check**  | `pnpm check`      | TypeScript and Astro diagnostics                       |
 | **Production Build**    | `pnpm build`      | Full build to catch any runtime/build errors           |
 
-The pipeline runs on **Node.js 22** with **pnpm 9** and uses `--frozen-lockfile` to guarantee reproducible installs.
+The pipeline runs on **Node.js 24** with **pnpm 10.34.7** and uses `--frozen-lockfile` to guarantee reproducible installs.
 
 > [!TIP]
 > **Antes de hacer push o crear un PR**, es buena práctica ejecutar estas validaciones de forma local para asegurarse de que el build de GitHub Actions pasará con éxito:
@@ -311,7 +316,7 @@ All responses include:
 
 - `X-Content-Type-Options: nosniff`
 - `X-Frame-Options: DENY`
-- `X-XSS-Protection: 1; mode=block`
+- `Content-Security-Policy`: same-origin scripts and fonts, scoped analytics and comment providers
 - `Referrer-Policy: strict-origin-when-cross-origin`
 - `Permissions-Policy: camera=(), microphone=(), geolocation=()`
 

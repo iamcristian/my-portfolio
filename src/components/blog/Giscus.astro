@@ -35,6 +35,12 @@ const categoryId = "DIC_kwDOS3yNtc4C-918";
     data-categoryid={categoryId}
     data-lang={giscusLang}
   ></div>
+  <a
+    class="link text-sm"
+    href="https://github.com/iamcristian/my-portfolio/discussions"
+  >
+    GitHub Discussions
+  </a>
 </div>
 
 <script>
@@ -64,16 +70,22 @@ const categoryId = "DIC_kwDOS3yNtc4C-918";
     widget.setAttribute("id", "comments-widget");
     widget.setAttribute("repo", container.getAttribute("data-repo") || "");
     widget.setAttribute("repoid", container.getAttribute("data-repoid") || "");
-    widget.setAttribute("category", container.getAttribute("data-category") || "");
-    widget.setAttribute("categoryid", container.getAttribute("data-categoryid") || "");
+    widget.setAttribute(
+      "category",
+      container.getAttribute("data-category") || "",
+    );
+    widget.setAttribute(
+      "categoryid",
+      container.getAttribute("data-categoryid") || "",
+    );
     widget.setAttribute("mapping", "specific");
-    
+
     // Remove the language prefix in the current pathname
     // so that all languages map to a clean, language-agnostic term (e.g. '/blog/my-post')
     const currentPath = window.location.pathname;
-    const term = currentPath.replace(/^\/[^\/]+/, '');
+    const term = currentPath.replace(/^\/[^\/]+/, "");
     widget.setAttribute("term", term);
-    
+
     widget.setAttribute("strict", "0");
     widget.setAttribute("reactionsenabled", "1");
     widget.setAttribute("emitmetadata", "0");
@@ -95,30 +107,32 @@ const categoryId = "DIC_kwDOS3yNtc4C-918";
     giscusObserver?.disconnect();
     const wrapper = document.querySelector(".giscus-wrapper");
     if (!wrapper) return;
+    const container = wrapper.querySelector("#giscus-container");
 
-    giscusObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const scriptAlreadyLoaded = !!document.querySelector('script[src="https://esm.sh/giscus"]');
+    giscusObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Bundled, lockfile-pinned component loaded only near the comments.
+            void import("giscus")
+              .then(() => {
+                if (
+                  container?.isConnected &&
+                  document.getElementById("giscus-container") === container
+                )
+                  createGiscusWidget();
+              })
+              .catch(() => {
+                // Preserve an accessible link to discussions when the widget fails.
+              });
 
-          if (!scriptAlreadyLoaded) {
-            // First visit: load the Giscus component script
-            const script = document.createElement("script");
-            script.type = "module";
-            script.src = "https://esm.sh/giscus";
-            script.async = true;
-            document.head.appendChild(script);
+            giscusObserver?.disconnect();
+            giscusObserver = null;
           }
-
-          // Create and append the widget. If the script is still loading,
-          // the browser will automatically upgrade the element when it finishes.
-          createGiscusWidget();
-
-          giscusObserver?.disconnect();
-          giscusObserver = null;
-        }
-      });
-    }, { rootMargin: "200px" });
+        });
+      },
+      { rootMargin: "200px" },
+    );
 
     giscusObserver.observe(wrapper);
   }

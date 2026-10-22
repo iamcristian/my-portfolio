@@ -3,12 +3,6 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://cristianarando.dev
 
 # Sitemaps
 Sitemap: https://cristianarando.dev/sitemap-index.xml
-Sitemap: https://cristianarando.dev/en/news-sitemap.xml
-Sitemap: https://cristianarando.dev/es/news-sitemap.xml
-Sitemap: https://cristianarando.dev/de/news-sitemap.xml
-Sitemap: https://cristianarando.dev/ru/news-sitemap.xml
-Sitemap: https://cristianarando.dev/ja/news-sitemap.xml

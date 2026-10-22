@@ -14,50 +14,43 @@ const THEMES = [
 ] as const;
 ---
 
-<div title={t("theme.title")} class="dropdown dropdown-end">
-  <button
+<details title={t("theme.title")} class="dropdown dropdown-end">
+  <summary
     class="flex items-center gap-1.5 px-1.5 opacity-70 hover:opacity-100 transition-opacity duration-200 cursor-pointer group"
     aria-label={t("theme.title")}
   >
-    <div
-      class="bg-base-100 group-hover:border-base-content/20 border-base-content/10 grid shrink-0 grid-cols-2 gap-0.5 rounded-md border p-1 transition-colors"
-    >
+    <div class="bg-base-100 group-hover:border-base-content/20 border-base-content/10 grid shrink-0 grid-cols-2 gap-0.5 rounded-md border p-1 transition-colors">
       <div class="bg-base-content size-1 rounded-full"></div>
       <div class="bg-primary size-1 rounded-full"></div>
       <div class="bg-secondary size-1 rounded-full"></div>
       <div class="bg-accent size-1 rounded-full"></div>
     </div>
     <ChevronDown />
-  </button>
-  <div
-    tabindex="0"
-    class="dropdown-content bg-base-200 text-base-content rounded-box mt-3 max-h-[calc(100vh-10rem)] overflow-y-auto border border-base-content/10 shadow-2xl z-50 w-36"
-  >
+  </summary>
+  <div class="dropdown-content bg-base-200 text-base-content rounded-box mt-3 max-h-[calc(100vh-10rem)] overflow-y-auto border border-base-content/10 shadow-2xl z-50 w-36">
     <ul class="menu menu-sm">
       <li class="menu-title text-xs">{t("theme.title")}</li>
-      {
-        THEMES.map(({ key, labelKey }) => (
-          <li>
-            <button
-              class="flex items-center gap-3 px-2 w-full"
-              data-set-theme={key}
-              data-act-class="[&_svg]:visible"
+      {THEMES.map(({ key, labelKey }) => (
+        <li>
+          <button
+            class="flex items-center gap-3 px-2 w-full"
+            data-set-theme={key}
+            aria-pressed="false"
+          >
+            <div
+              data-theme={key}
+              class="bg-base-100 grid shrink-0 grid-cols-2 gap-0.5 rounded-md p-1 shadow-sm"
             >
-              <div
-                data-theme={key}
-                class="bg-base-100 grid shrink-0 grid-cols-2 gap-0.5 rounded-md p-1 shadow-sm"
-              >
-                <div class="bg-base-content size-1 rounded-full" />
-                <div class="bg-primary size-1 rounded-full" />
-                <div class="bg-secondary size-1 rounded-full" />
-                <div class="bg-accent size-1 rounded-full" />
-              </div>
-              <span class="text-left font-normal"> {t(labelKey)} </span>
-              <Check />
-            </button>
-          </li>
-        ))
-      }
+              <div class="bg-base-content size-1 rounded-full" />
+              <div class="bg-primary size-1 rounded-full" />
+              <div class="bg-secondary size-1 rounded-full" />
+              <div class="bg-accent size-1 rounded-full" />
+            </div>
+            <span class="text-left font-normal"> {t(labelKey)} </span>
+            <Check />
+          </button>
+        </li>
+      ))}
     </ul>
   </div>
-</div>
+</details>

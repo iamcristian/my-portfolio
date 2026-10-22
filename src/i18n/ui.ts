@@ -33,11 +33,11 @@ export const defaultLang = "en";
 export const locales = Object.keys(languages) as (keyof typeof languages)[];
 
 export const SITEMAP_LOCALES = {
-  en: "en-US",
-  es: "es-ES",
-  de: "de-DE",
-  ru: "ru-RU",
-  ja: "ja-JP",
+  en: "en",
+  es: "es",
+  de: "de",
+  ru: "ru",
+  ja: "ja",
 } as const;
 
 export const OG_LOCALES = {

@@ -13,19 +13,31 @@ const { lang } = Astro.locals;
 const t = useTranslations(lang);
 
 // Dynamically resolve optimized certificate image from src/assets/images/certs/
-const images = import.meta.glob<{ default: ImageMetadata }>("/src/assets/images/certs/*.{jpeg,jpg,png,gif,webp}");
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/images/certs/*.{jpeg,jpg,png,gif,webp}",
+);
 const imageImport = images[item.logo]!;
 ---
 
 <div class="group card bg-base-200/50 backdrop-blur-sm border border-base-300 shadow-sm p-4 flex flex-row gap-4 items-start hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_0_15px_rgba(var(--color-primary),0.15)] transition-all duration-300">
   <div class="avatar placeholder shrink-0 group-hover:scale-110 transition-transform duration-300">
     <div class="bg-base-300 rounded-lg w-12 h-12 flex items-center justify-center overflow-hidden">
-      <Image src={imageImport()} alt={item.institution} width={48} height={48} class="p-1 object-contain w-full h-full" />
+      <Image
+        src={imageImport()}
+        alt={item.institution}
+        width={48}
+        height={48}
+        class="p-1 object-contain w-full h-full"
+      />
     </div>
   </div>
   <div class="flex-1 min-w-0">
-    <h5 class="font-bold text-xs md:text-sm leading-snug group-hover:text-primary transition-colors">{item.title}</h5>
-    <p class="text-[10px] sm:text-xs opacity-75 mt-0.5">{item.institution} · {item.date}</p>
+    <h4 class="font-bold text-xs md:text-sm leading-snug group-hover:text-primary transition-colors">
+      {item.title}
+    </h4>
+    <p class="text-[10px] sm:text-xs opacity-75 mt-0.5">
+      {item.institution} · {item.date}
+    </p>
     <p class="text-xs mt-2 opacity-80 leading-relaxed">{item.description}</p>
     {item.link && (
       <a

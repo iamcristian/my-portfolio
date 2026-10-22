@@ -14,28 +14,33 @@ const blog = defineCollection({
     },
   }),
   schema: ({ image }) =>
-    z.object({
-      title: z.string(),
-      description: z.string(),
-      date: z.coerce.date(),
-      updatedDate: z.coerce.date().optional(),
-      author: z.string().default(SITE.name),
-      tags: z.array(z.string()).default([]),
-      image: image(),
-      imageAlt: z.string().optional(),
-      draft: z.boolean().default(false),
-      featured: z.boolean().default(false),
-      faq: z
-        .array(
-          z.object({
-            question: z.string(),
-            answer: z.string(),
-          }),
-        )
-        .optional(),
-      lang: z.string(),
-      slug: z.string(),
-    }),
+    z
+      .object({
+        title: z.string().trim().min(1),
+        description: z.string().trim().min(1),
+        date: z.coerce.date(),
+        updatedDate: z.coerce.date().optional(),
+        author: z.string().default(SITE.name),
+        tags: z.array(z.string()).default([]),
+        image: image(),
+        imageAlt: z.string().optional(),
+        draft: z.boolean().default(false),
+        featured: z.boolean().default(false),
+        faq: z
+          .array(
+            z.object({
+              question: z.string(),
+              answer: z.string(),
+            }),
+          )
+          .optional(),
+        lang: z.enum(["en", "es", "de", "ja", "ru"]),
+        slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+      })
+      .refine((data) => !data.updatedDate || data.updatedDate >= data.date, {
+        message: "updatedDate must not precede date",
+        path: ["updatedDate"],
+      }),
 });
 
 export const collections = { blog };

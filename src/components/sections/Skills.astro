@@ -8,39 +8,42 @@ const t = useTranslations(lang);
 const skillsCategories = getSkillsForLang(lang);
 ---
 
-<section id="skills" class="py-16 md:py-24 max-w-6xl mx-auto px-4 md:px-8 scroll-reveal transition-all duration-700 ease-out opacity-0 translate-y-8">
+<section
+  id="skills"
+  class="py-16 md:py-24 max-w-6xl mx-auto px-4 md:px-8 scroll-reveal"
+>
   <SectionHeading subtitle={t("skills.subtitle")} title={t("skills.title")} />
 
   <!-- Grid de Categorías -->
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    {
-      skillsCategories.map((category) => (
-        <div class="group relative card bg-base-200/50 backdrop-blur-xs border border-base-300 p-6 rounded-2xl transition-all duration-300 hover:border-primary/25 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1">
-          {/* Card Header with Icon and Description */}
-          <div class="flex items-start gap-4 mb-5">
-            <div class="p-3 bg-base-300 text-primary border border-base-content/5 rounded-xl flex items-center justify-center shadow-inner shrink-0 group-hover:scale-105 group-hover:text-primary transition-all duration-300">
-              <SkillIcon name={category.icon} class="w-6 h-6" />
-            </div>
-            <div class="space-y-1">
-              <h3 class="font-bold text-sm md:text-base text-base-content leading-tight group-hover:text-primary transition-colors duration-300">
-                {category.name}
-              </h3>
-              {category.description && (
-                <p class="text-xs text-base-content/80 leading-normal font-medium">
-                  {category.description}
-                </p>
-              )}
-            </div>
+    {skillsCategories.map((category) => (
+      <div class="group relative card bg-base-200/50 backdrop-blur-xs border border-base-300 p-6 rounded-2xl transition-all duration-300 hover:border-primary/25 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1">
+        {/* Card Header with Icon and Description */}
+        <div class="flex items-start gap-4 mb-5">
+          <div class="p-3 bg-base-300 text-primary border border-base-content/5 rounded-xl flex items-center justify-center shadow-inner shrink-0 group-hover:scale-105 group-hover:text-primary transition-all duration-300">
+            <SkillIcon name={category.icon} class="w-6 h-6" />
           </div>
-
-          {/* Skill Items Badges */}
-          <div class="flex flex-wrap gap-2 mt-auto">
-            {category.items.map((item) => (
-              <span class="badge badge-xs font-mono bg-base-300/50 border border-base-content/10 text-base-content/80 hover:text-primary transition-colors py-2 px-2">{item}</span>
-            ))}
+          <div class="space-y-1">
+            <h3 class="font-bold text-sm md:text-base text-base-content leading-tight group-hover:text-primary transition-colors duration-300">
+              {category.name}
+            </h3>
+            {category.description && (
+              <p class="text-xs text-base-content/80 leading-normal font-medium">
+                {category.description}
+              </p>
+            )}
           </div>
         </div>
-      ))
-    }
+
+        {/* Skill Items Badges */}
+        <div class="flex flex-wrap gap-2 mt-auto">
+          {category.items.map((item) => (
+            <span class="badge badge-xs font-mono bg-base-300/50 border border-base-content/10 text-base-content/80 hover:text-primary transition-colors py-2 px-2">
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+    ))}
   </div>
 </section>

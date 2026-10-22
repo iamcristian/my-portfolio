@@ -1,4 +1,5 @@
 ---
+import { isPublished } from "@utils/blog";
 import type { CollectionEntry } from "astro:content";
 import { render, getCollection } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
@@ -14,19 +15,14 @@ import CalendarIcon from "@assets/icons/calendar.svg";
 import ClockIcon from "@assets/icons/clock.svg";
 import ListIcon from "@assets/icons/list.svg";
 
-import { languages } from "@i18n/ui";
-
 interface Props {
   post: CollectionEntry<"blog">;
-  isFallback?: boolean;
-  originalLang?: string;
 }
 
-const { post, isFallback = false, originalLang } = Astro.props;
+const { post } = Astro.props;
 const { lang } = Astro.locals;
 const langCode = lang;
 const t = useTranslations(langCode);
-
 
 // Render markdown content and retrieve headings
 const { Content, headings } = await render(post);
@@ -36,10 +32,11 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
 
 // Fetch sibling posts in the same language for bottom navigation
 const langPosts = (
-  await getCollection("blog", ({ data }) => data.lang === lang && !data.draft)
+  await getCollection(
+    "blog",
+    ({ data }) => data.lang === lang && isPublished(data),
+  )
 ).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
-
-
 
 // Calculate related posts based on matching tags
 const currentTags = new Set(post.data.tags);
@@ -49,41 +46,38 @@ const relatedPosts = langPosts
   .slice(0, 3);
 
 // Fallback to latest posts if no matching tags found
-const finalRelatedPosts = relatedPosts.length > 0 
-  ? relatedPosts 
-  : langPosts.filter((p) => p.id !== post.id).slice(0, 3);
+const finalRelatedPosts =
+  relatedPosts.length > 0
+    ? relatedPosts
+    : langPosts.filter((p) => p.id !== post.id).slice(0, 3);
 
-const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).format(post.data.date);
+const formattedDate = new Intl.DateTimeFormat(lang, {
+  dateStyle: "long",
+  timeZone: "UTC",
+}).format(post.data.date);
 ---
 
-<main id="main-content" class="max-w-6xl mx-auto px-4 md:px-8 pt-8 md:pt-12 pb-16 md:pb-24 min-h-screen">
+<main
+  id="main-content"
+  class="max-w-6xl mx-auto px-4 md:px-8 pt-8 md:pt-12 pb-16 md:pb-24 min-h-screen"
+>
   <!-- Back to Blog Button -->
   <div class="mb-6 md:mb-8">
-    <a href={getRelativeLocaleUrl(lang, "blog")} class="btn btn-ghost btn-sm gap-2">
+    <a
+      href={getRelativeLocaleUrl(lang, "blog")}
+      class="btn btn-ghost btn-sm gap-2"
+    >
       &larr; {t("blog.back")}
     </a>
   </div>
 
-  <!-- Fallback translation warning banner -->
-  {isFallback && originalLang && (
-    <div class="alert alert-warning border border-warning/20 bg-warning/5 backdrop-blur-md text-xs md:text-sm rounded-xl mb-6 flex items-start gap-3 p-4 shadow-sm">
-      <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-5 w-5 text-warning" fill="none" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-      </svg>
-      <div>
-        <p class="font-semibold text-warning-content/90">
-          {t("blog.fallbackWarning").replace("{lang}", languages[originalLang as keyof typeof languages]?.name || originalLang)}
-        </p>
-      </div>
-    </div>
-  )}
-
   <!-- Article Header -->
   <header class="max-w-3xl space-y-4">
-
     <div class="flex flex-wrap gap-1.5">
       {post.data.tags.map((tag) => (
-        <span class="badge badge-xs font-mono bg-base-300/50 border border-base-content/10 text-base-content/80 hover:text-primary transition-colors py-2 px-2">{tag}</span>
+        <span class="badge badge-xs font-mono bg-base-300/50 border border-base-content/10 text-base-content/80 hover:text-primary transition-colors py-2 px-2">
+          {tag}
+        </span>
       ))}
     </div>
     <h1 class="text-xl md:text-3xl font-extrabold tracking-tight leading-tight">
@@ -93,11 +87,15 @@ const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).forma
       <div class="flex items-center gap-4 text-xs text-base-content/80">
         <span class="flex items-center gap-1">
           <CalendarIcon class="w-4 h-4" />
-          <span>{t("blog.published")} {formattedDate}</span>
+          <span>
+            {t("blog.published")} {formattedDate}
+          </span>
         </span>
         <span class="flex items-center gap-1">
           <ClockIcon class="w-4 h-4" />
-          <span>{getReadTime(post.body)} {t("blog.readTime")}</span>
+          <span>
+            {getReadTime(post.body, post.data.lang)} {t("blog.readTime")}
+          </span>
         </span>
       </div>
       <ShareButtons title={post.data.title} />
@@ -106,13 +104,14 @@ const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).forma
 
   <!-- Content Layout Grid -->
   <div class="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-12 items-start">
-    
-        <!-- Left Column: Markdown Content -->
+    <!-- Left Column: Markdown Content -->
     <div class="flex flex-col gap-6">
       {post.data.image && (
         <Image
           src={post.data.image}
-          alt={post.data.title}
+          alt={post.data.imageAlt || post.data.title}
+          widths={[400, 800, 1200]}
+          sizes="(min-width: 1024px) 768px, calc(100vw - 32px)"
           width={1200}
           height={514}
           loading="eager"
@@ -123,17 +122,30 @@ const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).forma
       <article class="prose prose-sm max-w-none prose-headings:scroll-mt-24 prose-headings:font-bold prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl">
         <Content />
       </article>
+      {post.data.faq && post.data.faq.length > 0 && (
+        <section class="prose prose-sm max-w-none" aria-label="FAQ">
+          <h2>FAQ</h2>
+          {post.data.faq.map((item) => (
+            <div>
+              <h3>{item.question}</h3>
+              <p>{item.answer}</p>
+            </div>
+          ))}
+        </section>
+      )}
       <Giscus />
     </div>
-
 
     <!-- Right Column: Sidebar Table of Contents (Desktop only) -->
     {tocHeadings.length > 0 && (
       <aside class="hidden lg:block sticky top-24">
         <div class="card bg-base-200 border border-base-300 p-6 shadow-md">
-          <h3 class="font-bold text-xs uppercase tracking-wider text-primary mb-4" aria-label={t("blog.toc")}>
+          <h2
+            class="font-bold text-xs uppercase tracking-wider text-primary mb-4"
+            aria-label={t("blog.toc")}
+          >
             {t("blog.toc")}
-          </h3>
+          </h2>
           <nav id="desktop-toc" class="flex flex-col gap-2 text-xs">
             {tocHeadings.map((h) => (
               <a
@@ -141,7 +153,7 @@ const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).forma
                 aria-label={h.text}
                 class:list={[
                   "border-l-2 border-base-300 pl-3 py-1 opacity-70 hover:opacity-100 hover:border-primary transition-all block",
-                  { "ml-3 border-l-0 text-base-content/80": h.depth === 3 }
+                  { "ml-3 border-l-0 text-base-content/80": h.depth === 3 },
                 ]}
               >
                 {h.text}
@@ -156,18 +168,29 @@ const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).forma
   <!-- Mobile TOC Floating Action Button (FAB) and Dialog Modal -->
   {tocHeadings.length > 0 && (
     <>
-      <button 
-        id="toc-fab" 
+      <button
+        id="toc-fab"
         class="btn btn-circle btn-primary fixed bottom-6 right-6 lg:hidden shadow-lg z-40"
-        onclick="toc_modal.showModal()"
+        aria-controls="toc_modal"
+        aria-haspopup="dialog"
         aria-label={t("blog.toc")}
       >
         <ListIcon class="w-5 h-5" />
       </button>
 
-      <dialog id="toc_modal" class="modal modal-bottom sm:modal-middle">
+      <dialog
+        aria-labelledby="toc-title"
+        id="toc_modal"
+        class="modal modal-bottom sm:modal-middle"
+      >
         <div class="modal-box bg-base-200 border border-base-300 shadow-2xl">
-          <h3 class="font-bold text-lg text-primary mb-4" aria-label={t("blog.toc")}>{t("blog.toc")}</h3>
+          <h2
+            id="toc-title"
+            class="font-bold text-lg text-primary mb-4"
+            aria-label={t("blog.toc")}
+          >
+            {t("blog.toc")}
+          </h2>
           <nav class="flex flex-col gap-3 max-h-[60vh] overflow-y-auto py-2">
             {tocHeadings.map((h) => (
               <a
@@ -175,7 +198,7 @@ const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).forma
                 aria-label={h.text}
                 class:list={[
                   "block p-2 rounded-lg bg-base-100 hover:bg-base-300 text-sm font-medium transition-colors",
-                  { "pl-6 text-xs text-base-content/80": h.depth === 3 }
+                  { "pl-6 text-xs text-base-content/80": h.depth === 3 },
                 ]}
               >
                 {h.text}
@@ -198,9 +221,9 @@ const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).forma
   <!-- Related Posts Section -->
   {finalRelatedPosts.length > 0 && (
     <div class="mt-16 pt-8 border-t border-base-300">
-      <h3 class="text-lg md:text-xl font-bold mb-6">
+      <h2 class="text-lg md:text-xl font-bold mb-6">
         {t("blog.relatedPosts") || "Related Articles"}
-      </h3>
+      </h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         {finalRelatedPosts.map((rPost) => (
           <BlogCard post={rPost} />
@@ -208,8 +231,6 @@ const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).forma
       </div>
     </div>
   )}
-
-
 </main>
 
 <style>
@@ -225,11 +246,36 @@ const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).forma
 </style>
 
 <script>
-  function initTOC() {
+  import { onPageLoad, scrollBehavior } from "../../scripts/page-lifecycle";
+  onPageLoad((signal) => {
+    const dialog = document.querySelector<HTMLDialogElement>("#toc_modal");
+    document
+      .getElementById("toc-fab")
+      ?.addEventListener("click", () => dialog?.showModal(), { signal });
+    dialog?.querySelectorAll<HTMLAnchorElement>("nav a").forEach((link) => {
+      link.addEventListener(
+        "click",
+        (event) => {
+          const target = document.getElementById(
+            decodeURIComponent(link.hash.slice(1)),
+          );
+          if (!target) return;
+          event.preventDefault();
+          dialog.close();
+          history.replaceState(history.state, "", link.hash);
+          target.setAttribute("tabindex", "-1");
+          target.focus({ preventScroll: true });
+          target.scrollIntoView({ behavior: scrollBehavior() });
+        },
+        { signal },
+      );
+    });
     const article = document.querySelector("article.prose");
     if (!article) return;
     const headings = Array.from(article.querySelectorAll("h2, h3"));
-    const allTocLinks = document.querySelectorAll("#desktop-toc a, #toc_modal nav a");
+    const allTocLinks = document.querySelectorAll(
+      "#desktop-toc a, #toc_modal nav a",
+    );
 
     if (headings.length === 0 || allTocLinks.length === 0) return;
 
@@ -244,7 +290,9 @@ const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).forma
 
         // Determine which heading is active
         // 1. Get all currently intersecting headings
-        const intersectingHeadings = headings.filter((h) => headingStates.get(h.id));
+        const intersectingHeadings = headings.filter((h) =>
+          headingStates.get(h.id),
+        );
 
         let activeId = null;
 
@@ -269,20 +317,18 @@ const formattedDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).forma
             const href = link.getAttribute("href");
             if (href === `#${activeId}`) {
               link.classList.add("toc-active");
+              link.setAttribute("aria-current", "location");
             } else {
               link.classList.remove("toc-active");
+              link.removeAttribute("aria-current");
             }
           });
         }
       },
-      { rootMargin: "-95px 0px -70% 0px", threshold: 0 }
+      { rootMargin: "-95px 0px -70% 0px", threshold: 0 },
     );
 
     headings.forEach((heading) => observer.observe(heading));
-  }
-
-  // Runs on page load
-  initTOC();
-  // Runs on Astro Page Transitions load
-  document.addEventListener("astro:page-load", initTOC);
+    return () => observer.disconnect();
+  });
 </script>

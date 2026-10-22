@@ -12,65 +12,60 @@ const t = useTranslations(lang);
 const homeUrl = getRelativeLocaleUrl(lang, "");
 ---
 
-<footer
-  class="bg-base-200 text-base-content border-t border-base-content/10 mt-auto"
->
+<footer class="bg-base-200 text-base-content border-t border-base-content/10 mt-auto">
   <!-- Main Footer Content -->
-  <div
-    class="max-w-6xl mx-auto px-4 md:px-8 py-8 md:py-16 grid grid-cols-2 md:flex md:flex-row md:justify-between gap-y-8 gap-x-4 md:gap-10"
-  >
+  <div class="max-w-6xl mx-auto px-4 md:px-8 py-8 md:py-16 grid grid-cols-2 md:flex md:flex-row md:justify-between gap-y-8 gap-x-4 md:gap-10">
     <!-- Column 1: Info -->
     <div class="col-span-2 md:col-span-1 max-w-xs space-y-2 md:space-y-3">
-      <h3 class="font-bold text-lg text-base-content">{t("home.name")}</h3>
+      <p class="font-bold text-lg text-base-content">{t("home.name")}</p>
       <p class="text-sm opacity-80 font-medium leading-snug">
         {t("home.subtitle")}
       </p>
-      <p class="text-sm opacity-70 leading-relaxed">
-        {t("footer.tagline")}
-      </p>
+      <p class="text-sm opacity-70 leading-relaxed">{t("footer.tagline")}</p>
     </div>
 
     <!-- Column 2: Quick Links -->
     <div class="col-span-1">
-      <p
-        class="footer-title opacity-80 font-semibold tracking-wider text-xs uppercase mb-2 md:mb-3"
-      >
+      <p class="footer-title opacity-80 font-semibold tracking-wider text-xs uppercase mb-2 md:mb-3">
         {t("footer.quickLinks")}
       </p>
       <div class="flex flex-col gap-1.5 md:gap-2">
         <a
           href={homeUrl}
           class="link link-hover text-sm opacity-80 hover:text-primary transition-colors"
-          >{t("nav.home")}</a
         >
+          {t("nav.home")}
+        </a>
         <a
           href={`${homeUrl}#about`}
           class="link link-hover text-sm opacity-80 hover:text-primary transition-colors"
-          >{t("nav.about")}</a
         >
+          {t("nav.about")}
+        </a>
         <a
           href={getRelativeLocaleUrl(lang, "projects")}
           class="link link-hover text-sm opacity-80 hover:text-primary transition-colors"
-          >{t("nav.projects")}</a
         >
+          {t("nav.projects")}
+        </a>
         <a
           href={getRelativeLocaleUrl(lang, "blog")}
           class="link link-hover text-sm opacity-80 hover:text-primary transition-colors"
-          >{t("nav.blog")}</a
         >
+          {t("nav.blog")}
+        </a>
         <a
           href={getRelativeLocaleUrl(lang, "uses")}
           class="link link-hover text-sm opacity-80 hover:text-primary transition-colors"
-          >{t("nav.uses") || "Uses"}</a
         >
+          {t("nav.uses") || "Uses"}
+        </a>
       </div>
     </div>
 
     <!-- Column 3: Connect -->
     <div class="col-span-1">
-      <p
-        class="footer-title opacity-80 font-semibold tracking-wider text-xs uppercase mb-2 md:mb-3"
-      >
+      <p class="footer-title opacity-80 font-semibold tracking-wider text-xs uppercase mb-2 md:mb-3">
         {t("footer.connect")}
       </p>
       <SocialLinks size="sm" showLabels={true} variant="link" />
@@ -85,9 +80,7 @@ const homeUrl = getRelativeLocaleUrl(lang, "");
 
     <!-- Column 4: Let's Collaborate -->
     <div class="col-span-2 md:col-span-1 max-w-xs space-y-2 md:space-y-3">
-      <p
-        class="footer-title opacity-80 font-semibold tracking-wider text-xs uppercase mb-1"
-      >
+      <p class="footer-title opacity-80 font-semibold tracking-wider text-xs uppercase mb-1">
         {t("footer.collaborate")}
       </p>
       <p class="text-sm opacity-70 leading-relaxed">
@@ -107,9 +100,7 @@ const homeUrl = getRelativeLocaleUrl(lang, "");
 
   <!-- Bottom Bar -->
   <div class="border-t border-base-content/10 bg-base-200/50">
-    <div
-      class="max-w-6xl mx-auto px-4 md:px-8 py-4 md:py-6 flex flex-col md:flex-row justify-between items-center gap-2 md:gap-4 text-xs opacity-75"
-    >
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-4 md:py-6 flex flex-col md:flex-row justify-between items-center gap-2 md:gap-4 text-xs opacity-75">
       <div>
         <p>{t("footer.rights").replace("{name}", t("home.name"))}</p>
       </div>
@@ -127,8 +118,17 @@ const homeUrl = getRelativeLocaleUrl(lang, "");
 </footer>
 
 <script>
-  document.getElementById("back-to-top")?.addEventListener("click", (e) => {
-    e.preventDefault();
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  import { onPageLoad, scrollBehavior } from "../scripts/page-lifecycle";
+  onPageLoad((signal) => {
+    document.getElementById("back-to-top")?.addEventListener(
+      "click",
+      () => {
+        window.scrollTo({ top: 0, behavior: scrollBehavior() });
+        const main = document.getElementById("main-content");
+        main?.setAttribute("tabindex", "-1");
+        main?.focus({ preventScroll: true });
+      },
+      { signal },
+    );
   });
 </script>

@@ -1,10 +1,13 @@
 ---
+import { isPublished } from "@utils/blog";
 import { SITE } from "../config/site";
 import { getCollection } from "astro:content";
 import { resolveSEOData, getAlternateUrls } from "../utils/seo";
 import { OG_LOCALES, locales } from "../i18n/ui";
 
 export interface Props {
+  noindex?: boolean;
+  author?: string;
   title?: string;
   description?: string;
   image?: string | ImageMetadata;
@@ -30,40 +33,48 @@ let activeLocales = [...locales];
 if (slug && seo.pathname.includes("/blog/")) {
   const siblingPosts = await getCollection(
     "blog",
-    (post) => post.data.slug === slug && !post.data.draft,
+    (post) => post.data.slug === slug && isPublished(post.data),
   );
   activeLocales = siblingPosts.map(
-    (post) => post.data.lang as typeof locales[number],
+    (post) => post.data.lang as (typeof locales)[number],
   );
 }
 
-const alternateUrls = getAlternateUrls(
-  seo.pathname,
-  activeLocales,
-  seo.cleanSiteUrl,
-);
+const alternateUrls = Astro.props.noindex
+  ? []
+  : getAlternateUrls(seo.pathname, activeLocales, seo.cleanSiteUrl);
 ---
 
 <!-- Primary Meta Tags -->
 <title>{seo.title}</title>
 <meta name="title" content={seo.title} />
 <meta name="description" content={seo.description} />
-<link rel="canonical" href={seo.canonicalUrl} />
+{!Astro.props.noindex && <link rel="canonical" href={seo.canonicalUrl} />}
 <meta http-equiv="Content-Language" content={seo.lang} />
 
 <!-- Enable large image previews in Google Discover and other crawlers -->
 <meta
   name="robots"
-  content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+  content={
+    Astro.props.noindex
+      ? "noindex, follow"
+      : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+  }
 />
 
 <!-- Language alternates for SEO -->
-{
-  alternateUrls.map(({ lang: altLang, url }) => (
-    <link rel="alternate" hreflang={altLang} href={url} />
-  ))
-}
-<link rel="alternate" hreflang="x-default" href={seo.defaultUrl} />
+{alternateUrls.map(({ lang: altLang, url }) => (
+  <link rel="alternate" hreflang={altLang} href={url} />
+))}
+{alternateUrls.length > 0 && (
+  <link
+    rel="alternate"
+    hreflang="x-default"
+    href={
+      (alternateUrls.find((item) => item.lang === "en") || alternateUrls[0]).url
+    }
+  />
+)}
 
 <!-- RSS Feed Autodiscovery -->
 <link
@@ -83,42 +94,38 @@ const alternateUrls = getAlternateUrls(
 <meta property="og:image:width" content={seo.imageWidth} />
 <meta property="og:image:height" content={seo.imageHeight} />
 <meta property="og:locale" content={seo.ogLocale} />
-{
-  activeLocales
-    .filter((l) => l !== seo.lang)
-    .map((l) => (
-      <meta property="og:locale:alternate" content={OG_LOCALES[l] || "en_US"} />
-    ))
-}
+{activeLocales
+  .filter((l) => l !== seo.lang)
+  .map((l) => (
+    <meta property="og:locale:alternate" content={OG_LOCALES[l] || "en_US"} />
+  ))}
 <meta property="og:site_name" content={t("home.name") || SITE.name} />
 
 <!-- Article-specific meta tags for blog posts -->
-{
-  type === "article" && (
-    <>
-      {publishDate && (
+{type === "article" && (
+  <>
+    {publishDate && (
+      <meta
+        property="article:published_time"
+        content={publishDate.toISOString()}
+      />
+    )}
+    {updatedDate && (
+      <>
         <meta
-          property="article:published_time"
-          content={publishDate.toISOString()}
+          property="article:modified_time"
+          content={updatedDate.toISOString()}
         />
-      )}
-      {updatedDate && (
-        <>
-          <meta
-            property="article:modified_time"
-            content={updatedDate.toISOString()}
-          />
-          <meta http-equiv="last-modified" content={updatedDate.toISOString()} />
-        </>
-      )}
-      <meta property="article:author" content={t("home.name") || SITE.name} />
-      <meta property="article:section" content="Technology" />
-      {tags?.map((tag) => (
-        <meta property="article:tag" content={tag} />
-      ))}
-    </>
-  )
-}
+        <meta http-equiv="last-modified" content={updatedDate.toISOString()} />
+      </>
+    )}
+    <meta property="article:author" content={Astro.props.author || SITE.name} />
+    <meta property="article:section" content="Technology" />
+    {tags?.map((tag) => (
+      <meta property="article:tag" content={tag} />
+    ))}
+  </>
+)}
 
 <!-- Twitter / X -->
 <!-- Note: Social card platforms (X, Discord, Slack, etc.) still use standard twitter: tags -->
@@ -128,8 +135,6 @@ const alternateUrls = getAlternateUrls(
 <meta name="twitter:description" content={seo.description} />
 <meta name="twitter:image" content={seo.imageUrl} />
 <meta name="twitter:image:alt" content={seo.fullImageAlt} />
-{
-  SITE.social.twitter && (
-    <meta name="twitter:creator" content={SITE.social.twitter} />
-  )
-}
+{SITE.social.twitter && (
+  <meta name="twitter:creator" content={SITE.social.twitter} />
+)}

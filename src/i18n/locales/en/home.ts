@@ -1,4 +1,16 @@
 export const home = {
+  "accessibility.sort": "Sort",
+  "accessibility.pagination": "Pagination",
+  "accessibility.previousPage": "Previous page",
+  "accessibility.nextPage": "Next page",
+  "accessibility.page": "Page",
+  "accessibility.results": "results",
+  "accessibility.copyCode": "Copy code",
+  "accessibility.copyFailed": "Copy failed. Select and copy the text manually.",
+  "accessibility.copyLink": "Copy article link",
+  "accessibility.pause": "Pause slideshow",
+  "accessibility.play": "Play slideshow",
+
   "home.hello": "Hello, I'm",
   "home.name": "Cristian Arando",
   "home.subtitle": "Software & Systems Engineer",

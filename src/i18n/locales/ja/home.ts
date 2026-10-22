@@ -1,4 +1,17 @@
 export const home = {
+  "accessibility.sort": "並び替え",
+  "accessibility.pagination": "ページ切り替え",
+  "accessibility.previousPage": "前のページ",
+  "accessibility.nextPage": "次のページ",
+  "accessibility.page": "ページ",
+  "accessibility.results": "件",
+  "accessibility.copyCode": "コードをコピー",
+  "accessibility.copyFailed":
+    "コピーできませんでした。テキストを選択して手動でコピーしてください。",
+  "accessibility.copyLink": "記事のリンクをコピー",
+  "accessibility.pause": "スライドショーを一時停止",
+  "accessibility.play": "スライドショーを再生",
+
   "home.hello": "こんにちは、私は",
   "home.name": "クリスティアン・アランド",
   "home.subtitle": "ソフトウェア＆システムエンジニア",

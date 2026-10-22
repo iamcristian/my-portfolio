@@ -1,6 +1,7 @@
 @import "tailwindcss";
+@import "@fontsource-variable/inter";
 @theme {
-  --font-sans: "Inter", var(--font-sans);
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
 }
 
 html {
@@ -123,4 +124,23 @@ html {
 .preload *::after {
   transition: none !important;
   animation: none !important;
+}
+
+/* Visibility belongs to the HTML state, independent of grid/list presentation. */
+[hidden] {
+  display: none !important;
+}
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  html,
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
+  }
 }

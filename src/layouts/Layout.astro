@@ -1,11 +1,11 @@
 ---
 import "@assets/app.css";
+import themeUrl from "../scripts/theme.js?url";
 import SEO from "@components/SEO.astro";
 import StructuredData from "@components/StructuredData.astro";
 import Analytics from "@vercel/analytics/astro";
 import { ClientRouter } from "astro:transitions";
-import meImage from "@assets/images/me.webp";
-import { useTranslations, type Lang } from "@i18n/utils";
+import { useTranslations, getLang } from "@i18n/utils";
 
 interface Props {
   title?: string;
@@ -18,10 +18,12 @@ interface Props {
   tags?: string[];
   structuredDataType?: "profile" | "collection";
   wordCount?: number;
+  noindex?: boolean;
+  author?: string;
   faq?: Array<{ question: string; answer: string }>;
 }
 
-const lang = (Astro.currentLocale || "en") as Lang;
+const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
 ---
 
@@ -41,182 +43,21 @@ const t = useTranslations(lang);
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
     <SEO {...Astro.props} />
-    <StructuredData {...Astro.props} />
+    {!Astro.props.noindex && <StructuredData {...Astro.props} />}
     <ClientRouter />
 
-    <!-- Google Fonts & Preload LCP Profile Image -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
-    <link rel="preload" href={meImage.src} as="image" />
-
-    <script is:inline>
-      (function () {
-        function applyTheme() {
-          const stored = localStorage.getItem("theme");
-          const theme =
-            stored ||
-            (window.matchMedia("(prefers-color-scheme: dark)").matches
-              ? "business"
-              : "light");
-          document.documentElement.setAttribute("data-theme", theme);
-        }
-        applyTheme();
-        if (!window.__themeListenerAttached) {
-          document.addEventListener("astro:after-swap", applyTheme);
-          window.__themeListenerAttached = true;
-        }
-      })();
-    </script>
+    <script is:inline src={themeUrl}></script>
     <script>
-      import { themeChange } from "theme-change";
-
-      function setupCopyCodeButtons() {
-        const preElements = document.querySelectorAll("pre");
-        
-        preElements.forEach((pre) => {
-          if (pre.querySelector(".copy-code-btn")) return;
-
-          pre.classList.add("relative", "group");
-          
-          const codeEl = pre.querySelector("code");
-          if (!codeEl) return;
-
-          const button = document.createElement("button");
-          button.className = "copy-code-btn absolute top-2 right-2 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity duration-200 btn btn-xs btn-neutral btn-square z-10 cursor-pointer border border-base-content/10 shadow-md";
-          button.setAttribute("aria-label", "Copy code");
-          button.setAttribute("title", "Copy code");
-          
-          const copyIcon = `
-            <svg class="w-3.5 h-3.5 stroke-current fill-none" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path>
-            </svg>
-          `;
-          
-          const checkIcon = `
-            <svg class="w-3.5 h-3.5 stroke-success fill-none" stroke-width="2.5" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-            </svg>
-          `;
-          
-          button.innerHTML = copyIcon;
-          
-          button.addEventListener("click", () => {
-            const codeText = codeEl.textContent || "";
-            navigator.clipboard.writeText(codeText).then(() => {
-              button.innerHTML = checkIcon;
-              button.classList.add("btn-success");
-              
-
-
-              setTimeout(() => {
-                button.innerHTML = copyIcon;
-                button.classList.remove("btn-success");
-              }, 1500);
-            });
-          });
-          
-          pre.appendChild(button);
-        });
-      }
-
-      function setupScrollReveal() {
-        const revealElements = document.querySelectorAll(".scroll-reveal");
-        
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.remove("opacity-0", "translate-y-8");
-              entry.target.classList.add("opacity-100", "translate-y-0");
-              observer.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.1 });
-
-        revealElements.forEach((el) => observer.observe(el));
-
-        return () => observer.disconnect();
-      }
-
-      function setupCounters() {
-        const counters = document.querySelectorAll(".stat-counter");
-        
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              const el = entry.target as HTMLElement;
-              const target = parseInt(el.getAttribute("data-target") || "0", 10);
-              const suffix = el.getAttribute("data-suffix") || "";
-              let current = 0;
-              const duration = 1000;
-              const steps = 35;
-              const stepTime = duration / steps;
-              const increment = target / steps;
-              
-              const timer = setInterval(() => {
-                current += increment;
-                if (current >= target) {
-                  el.textContent = `${target}${suffix}`;
-                  clearInterval(timer);
-                } else {
-                  el.textContent = `${Math.floor(current)}${suffix}`;
-                }
-              }, stepTime);
-              
-              observer.unobserve(el);
-            }
-          });
-        }, { threshold: 0.1 });
-
-        counters.forEach((el) => observer.observe(el));
-
-        return () => observer.disconnect();
-      }
-
-      function setupDropdownAccessibility() {
-        const dropdowns = document.querySelectorAll(".dropdown");
-        dropdowns.forEach((dropdown) => {
-          const content = dropdown.querySelector(".dropdown-content");
-          if (!content) return;
-
-          dropdown.addEventListener("keydown", ((e: KeyboardEvent) => {
-            if (e.key === "Escape") {
-              (document.activeElement as HTMLElement)?.blur();
-            }
-          }) as EventListener);
-
-          const interactiveItems = content.querySelectorAll("a, button");
-          interactiveItems.forEach((item) => {
-            item.addEventListener("click", () => {
-              (document.activeElement as HTMLElement)?.blur();
-            });
-          });
-        });
-      }
-
-
-
-      let scrollRevealCleanup: (() => void) | null = null;
-      let countersCleanup: (() => void) | null = null;
-
-      document.addEventListener("astro:page-load", () => {
-        themeChange(false);
-        setupCopyCodeButtons();
-        setupDropdownAccessibility();
-        
-        scrollRevealCleanup?.();
-        scrollRevealCleanup = setupScrollReveal();
-
-        countersCleanup?.();
-        countersCleanup = setupCounters();
-        
-        // Remove preload class after page load to re-enable transitions
-        document.documentElement.classList.remove("preload");
-      });
+      import "../scripts/site";
     </script>
     <Analytics />
   </head>
-  <body>
+  <body
+    data-copy-code={t("accessibility.copyCode")}
+    data-copied={t("blog.shareCopied")}
+    data-copy-failed={t("accessibility.copyFailed")}
+  >
+    <p id="site-status" class="sr-only" role="status" aria-live="polite"></p>
     <a
       href="#main-content"
       class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-100 btn btn-primary border border-base-content/10 shadow-lg cursor-pointer"

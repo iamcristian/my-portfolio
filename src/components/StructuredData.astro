@@ -1,10 +1,12 @@
 ---
+import { serializeJsonLd } from "../utils/serialize";
 import { SITE } from "../config/site";
 import { resolveSEOData } from "../utils/seo";
 import { locales } from "../i18n/ui";
 import meImage from "../assets/images/me.webp";
 
 export interface Props {
+  author?: string;
   title?: string;
   description?: string;
   image?: string | ImageMetadata;
@@ -34,17 +36,17 @@ const seo = resolveSEOData(Astro.props, Astro.url, lang, slug);
 const t = seo.t;
 
 // Schemas list
-const schemas: any[] = [];
+const schemas: Record<string, unknown>[] = [];
 
 // 1. BreadcrumbList for all pages
 const segments = seo.pathname.split("/").filter(Boolean);
 let breadcrumbItems = [
   {
     "@type": "ListItem",
-    "position": 1,
-    "name": "Home",
-    "item": `${seo.cleanSiteUrl}/${seo.lang}/`
-  }
+    position: 1,
+    name: t("nav.home"),
+    item: `${seo.cleanSiteUrl}/${seo.lang}/`,
+  },
 ];
 
 if (segments.length > 1) {
@@ -53,26 +55,26 @@ if (segments.length > 1) {
   if (categorySegment === "blog") {
     breadcrumbItems.push({
       "@type": "ListItem",
-      "position": 2,
-      "name": "Blog",
-      "item": `${seo.cleanSiteUrl}/${seo.lang}/blog/`
+      position: 2,
+      name: t("nav.blog"),
+      item: `${seo.cleanSiteUrl}/${seo.lang}/blog/`,
     });
-    
+
     if (segments.length > 2) {
       // Individual blog post
       breadcrumbItems.push({
         "@type": "ListItem",
-        "position": 3,
-        "name": seo.title,
-        "item": seo.canonicalUrl
+        position: 3,
+        name: seo.title,
+        item: seo.canonicalUrl,
       });
     }
-  } else if (categorySegment === "projects") {
+  } else if (categorySegment === "projects" || categorySegment === "uses") {
     breadcrumbItems.push({
       "@type": "ListItem",
-      "position": 2,
-      "name": "Projects",
-      "item": `${seo.cleanSiteUrl}/${seo.lang}/projects/`
+      position: 2,
+      name: categorySegment === "uses" ? t("nav.uses") : t("nav.projects"),
+      item: `${seo.cleanSiteUrl}/${seo.lang}/${categorySegment}/`,
     });
   }
 }
@@ -80,7 +82,7 @@ if (segments.length > 1) {
 schemas.push({
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": breadcrumbItems
+  itemListElement: breadcrumbItems,
 });
 
 // 2. WebSite schema (Only on Home)
@@ -88,14 +90,10 @@ if (seo.isHome) {
   schemas.push({
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": t("home.name") || SITE.name,
-    "url": seo.cleanSiteUrl,
-    "inLanguage": locales,
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": `${seo.cleanSiteUrl}/${seo.lang}/blog/?q={search_term_string}`,
-      "query-input": "required name=search_term_string"
-    }
+    "@id": `${seo.cleanSiteUrl}/#website`,
+    name: t("home.name") || SITE.name,
+    url: seo.cleanSiteUrl,
+    inLanguage: locales,
   });
 }
 
@@ -104,23 +102,21 @@ if (seo.isHome || structuredDataType === "profile") {
   schemas.push({
     "@context": "https://schema.org",
     "@type": "ProfilePage",
-    "mainEntity": {
+    mainEntity: {
       "@type": "Person",
-      "name": SITE.name,
-      "jobTitle": "Full Stack Software Developer",
-      "url": `${seo.cleanSiteUrl}/${seo.lang}/`,
-      "email": SITE.email,
-      "image": new URL(meImage.src, seo.cleanSiteUrl).href,
-      "sameAs": [
-        SITE.social.github,
-        SITE.social.linkedin
-      ],
-      "knowsLanguage": locales,
-      "alumniOf": {
+      "@id": `${seo.cleanSiteUrl}/#person`,
+      name: SITE.name,
+      jobTitle: "Full Stack Software Developer",
+      url: `${seo.cleanSiteUrl}/${seo.lang}/`,
+      email: SITE.email,
+      image: new URL(meImage.src, seo.cleanSiteUrl).href,
+      sameAs: [SITE.social.github, SITE.social.linkedin],
+      knowsLanguage: ["es", "en"],
+      alumniOf: {
         "@type": "CollegeOrUniversity",
-        "name": "Universidad Mayor de San Simón"
-      }
-    }
+        name: "Universidad Mayor de San Simón",
+      },
+    },
   });
 }
 
@@ -129,14 +125,15 @@ if (seo.isBlogIndex || seo.isProjects || structuredDataType === "collection") {
   schemas.push({
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    "name": seo.title,
-    "description": seo.description,
-    "url": seo.canonicalUrl,
-    "isPartOf": {
+    name: seo.title,
+    description: seo.description,
+    url: seo.canonicalUrl,
+    isPartOf: {
       "@type": "WebSite",
-      "name": SITE.name,
-      "url": seo.cleanSiteUrl
-    }
+      "@id": `${seo.cleanSiteUrl}/#website`,
+      name: SITE.name,
+      url: seo.cleanSiteUrl,
+    },
   });
 }
 
@@ -145,36 +142,42 @@ if (type === "article") {
   schemas.push({
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": seo.title,
-    "description": seo.description,
-    "image": seo.imageUrl,
-    "datePublished": publishDate ? publishDate.toISOString() : undefined,
-    "dateModified": updatedDate ? updatedDate.toISOString() : (publishDate ? publishDate.toISOString() : undefined),
-    "author": {
+    headline: Astro.props.title || seo.title,
+    description: seo.description,
+    image: seo.imageUrl,
+    datePublished: publishDate ? publishDate.toISOString() : undefined,
+    dateModified: updatedDate
+      ? updatedDate.toISOString()
+      : publishDate
+        ? publishDate.toISOString()
+        : undefined,
+    author: {
       "@type": "Person",
-      "name": SITE.name,
-      "url": `${seo.cleanSiteUrl}/${seo.lang}/`,
-      "sameAs": [
-        SITE.social.github,
-        SITE.social.linkedin
-      ]
+      "@id":
+        !Astro.props.author || Astro.props.author === SITE.name
+          ? `${seo.cleanSiteUrl}/#person`
+          : undefined,
+      name: Astro.props.author || SITE.name,
+      url: `${seo.cleanSiteUrl}/${seo.lang}/`,
+      sameAs: [SITE.social.github, SITE.social.linkedin],
     },
-    "publisher": {
+    publisher: {
       "@type": "Person",
-      "name": SITE.name,
-      "logo": {
+      "@id": `${seo.cleanSiteUrl}/#person`,
+      name: SITE.name,
+      logo: {
         "@type": "ImageObject",
-        "url": `${seo.cleanSiteUrl}/favicon.svg`
-      }
+        url: `${seo.cleanSiteUrl}/favicon.svg`,
+      },
     },
-    "mainEntityOfPage": {
+    mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": seo.canonicalUrl
+      "@id": seo.canonicalUrl,
     },
-    "wordCount": wordCount,
-    "articleSection": "Technology",
-    "keywords": tags || [],
-    "inLanguage": seo.lang
+    wordCount: wordCount,
+    articleSection: "Technology",
+    keywords: tags || [],
+    inLanguage: seo.lang,
   });
 }
 
@@ -183,20 +186,22 @@ if (faq && faq.length > 0) {
   schemas.push({
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": faq.map((item) => ({
+    mainEntity: faq.map((item) => ({
       "@type": "Question",
-      "name": item.question,
-      "acceptedAnswer": {
+      name: item.question,
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": item.answer
-      }
-    }))
+        text: item.answer,
+      },
+    })),
   });
 }
 ---
 
-{
-  schemas.map((schema) => (
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
-  ))
-}
+{schemas.map((schema) => (
+  <script
+    is:inline
+    type="application/ld+json"
+    set:html={serializeJsonLd(schema)}
+  />
+))}
