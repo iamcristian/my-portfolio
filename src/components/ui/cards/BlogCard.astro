@@ -33,8 +33,14 @@ const t = useTranslations(lang);
 ---
 
 {isFeatured ? (
-  <article class="card md:card-side bg-base-200 border border-base-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_0_15px_color-mix(in_oklch,var(--color-primary)_15%,transparent)] transition-all duration-300 overflow-hidden flex flex-col md:flex-row gap-6 p-6 group/card">
-    <div class="w-full md:w-5/12 overflow-hidden rounded-lg bg-base-300 relative min-h-50 shrink-0">
+  <article
+    class:list={[
+      "card md:card-side bg-base-200 border border-base-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_0_15px_color-mix(in_oklch,var(--color-primary)_15%,transparent)] transition-all duration-300 overflow-hidden flex flex-col md:flex-row gap-6 p-6 group/card w-full",
+      className,
+    ]}
+    {...rest}
+  >
+    <div class="w-full md:w-5/12 overflow-hidden rounded bg-base-300 relative min-h-50 shrink-0">
       <Image
         src={post.data.image}
         alt={post.data.imageAlt || post.data.title}
@@ -50,7 +56,7 @@ const t = useTranslations(lang);
         <span>{t("blog.featured")}</span>
       </span>
     </div>
-    <div class="flex-1 flex flex-col justify-start space-y-4">
+    <div class="flex-1 flex flex-col justify-between">
       <div class="space-y-2">
         <div class="flex gap-4 text-xs text-base-content/80">
           <span class="flex items-center gap-1">
@@ -89,7 +95,7 @@ const t = useTranslations(lang);
         </div>
       </div>
 
-      <div class="border-t border-base-300 pt-4 flex items-center justify-between relative">
+      <div class="border-t border-base-300 pt-4 mt-4 flex items-center justify-between">
         <a
           href={getRelativeLocaleUrl(lang, `blog/${post.data.slug}`)}
           class="btn btn-ghost btn-sm w-fit border border-base-content/10 hover:border-primary/30 group/btn"
@@ -100,9 +106,6 @@ const t = useTranslations(lang);
           </span>
           <span class="sr-only">: {post.data.title}</span>
         </a>
-        <div class="absolute left-1/2 -translate-x-1/2 flex items-center justify-center">
-          <slot name="carousel-indicators" />
-        </div>
       </div>
     </div>
   </article>

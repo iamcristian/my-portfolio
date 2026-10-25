@@ -41,11 +41,78 @@ const recentBlogPosts = sortedPosts
 >
   <SectionHeading subtitle={t("blog.subtitle")} title={t("blog.title")} />
 
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+  <div class="space-y-8">
     {featuredBlogPosts.length > 0 && (
-      <div class="md:col-span-3 relative group">
+      <div class="relative group/carousel">
+        {featuredBlogPosts.length > 1 && (
+          <div class="flex items-center justify-between pb-3 text-xs border-b border-base-300/40 mb-1">
+            <div class="flex items-center gap-2">
+              <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+              </span>
+              <span class="font-mono text-xs uppercase tracking-wider text-base-content font-semibold">
+                {t("blog.featured")}
+              </span>
+              <span class="text-base-content font-mono" aria-hidden="true">/</span>
+              <span
+                class="font-mono text-xs text-base-content"
+                id="carousel-counter"
+                aria-live="polite"
+              >
+                01 / {String(featuredBlogPosts.length).padStart(2, "0")}
+              </span>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <!-- Indicators / Pills -->
+              <div
+                class="hidden sm:flex items-center gap-1.5"
+                aria-label={t("blog.featured")}
+              >
+                {featuredBlogPosts.map((post, idx) => (
+                  <button
+                    type="button"
+                    class="carousel-indicator h-1.5 rounded-full transition-all duration-300 cursor-pointer"
+                    data-slide-index={idx}
+                    style={
+                      idx === 0
+                        ? "width: 1.5rem; background-color: var(--color-primary);"
+                        : "width: 0.5rem; background-color: var(--color-base-content); opacity: 0.4;"
+                    }
+                    aria-label={`Slide ${idx + 1}: ${post.data.title}`}
+                    aria-current={idx === 0 ? "true" : "false"}
+                  />
+                ))}
+              </div>
+
+              <div class="h-3 w-px bg-base-300 hidden sm:block"></div>
+
+              <!-- Controls Group: Prev/Next -->
+              <div class="flex items-center gap-1">
+                <button
+                  type="button"
+                  class="carousel-prev btn btn-xs btn-ghost border border-base-300 hover:border-primary/40 text-base-content hover:text-primary transition-colors p-0 w-7 h-7 rounded"
+                  aria-label={t("accessibility.previousPage")}
+                  title={t("accessibility.previousPage")}
+                >
+                  <ChevronLeftIcon class="w-3.5 h-3.5" />
+                </button>
+                <button
+                  type="button"
+                  class="carousel-next btn btn-xs btn-ghost border border-base-300 hover:border-primary/40 text-base-content hover:text-primary transition-colors p-0 w-7 h-7 rounded"
+                  aria-label={t("accessibility.nextPage")}
+                  title={t("accessibility.nextPage")}
+                >
+                  <ChevronRightIcon class="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div
-          class="carousel w-full rounded-2xl scroll-smooth"
+          class="carousel w-full rounded scroll-smooth pt-1 pb-2"
           id="featured-carousel"
           tabindex="0"
           role="region"
@@ -55,47 +122,34 @@ const recentBlogPosts = sortedPosts
           {featuredBlogPosts.map((post, index) => (
             <div
               id={`featured-slide-${index}`}
-              class="carousel-item relative w-full"
+              class="carousel-item relative w-full h-full"
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`${index + 1} of ${featuredBlogPosts.length}: ${post.data.title}`}
             >
-              <div class="w-full py-4 px-2">
-                <BlogCard post={post} isFeatured={true} />
+              <div class="w-full h-full">
+                <BlogCard post={post} isFeatured={true} class="h-full" />
               </div>
             </div>
           ))}
         </div>
-
-        {featuredBlogPosts.length > 1 && (
-          <button
-            class="carousel-pause btn btn-sm btn-ghost mt-2"
-            aria-pressed="true"
-            data-pause={t("accessibility.pause")}
-            data-play={t("accessibility.play")}
-          >
-            {t("accessibility.play")}
-          </button>
-        )}
-        {featuredBlogPosts.length > 1 && (
-          <>
-            <button
-              class="carousel-prev btn btn-circle btn-sm md:btn-md bg-base-100 hover:bg-base-200 text-base-content border border-base-300 shadow-md absolute -left-4 md:-left-5 top-1/2 -translate-y-1/2 z-10 transition-transform hover:scale-105 duration-200"
-              aria-label={t("accessibility.previousPage")}
-            >
-              <ChevronLeftIcon class="w-4 h-4 md:w-5 md:h-5" />
-            </button>
-            <button
-              class="carousel-next btn btn-circle btn-sm md:btn-md bg-base-100 hover:bg-base-200 text-base-content border border-base-300 shadow-md absolute -right-4 md:-right-5 top-1/2 -translate-y-1/2 z-10 transition-transform hover:scale-105 duration-200"
-              aria-label={t("accessibility.nextPage")}
-            >
-              <ChevronRightIcon class="w-4 h-4 md:w-5 md:h-5" />
-            </button>
-          </>
-        )}
       </div>
     )}
 
-    {recentBlogPosts.map((post) => (
-      <BlogCard post={post} />
-    ))}
+    {recentBlogPosts.length > 0 && (
+      <div
+        class:list={[
+          "grid grid-cols-1 gap-6",
+          recentBlogPosts.length === 1 && "max-w-xl mx-auto",
+          recentBlogPosts.length === 2 && "md:grid-cols-2",
+          recentBlogPosts.length >= 3 && "md:grid-cols-3",
+        ]}
+      >
+        {recentBlogPosts.map((post) => (
+          <BlogCard post={post} />
+        ))}
+      </div>
+    )}
   </div>
 
   <div class="text-center mt-10">
@@ -119,60 +173,92 @@ const recentBlogPosts = sortedPosts
     const slides = Array.from(
       carousel.querySelectorAll<HTMLElement>(".carousel-item"),
     );
-    const parent = carousel.parentElement!;
-    const pause = parent.querySelector<HTMLButtonElement>(".carousel-pause");
-    if (slides.length <= 1 || !pause) return;
+    const parent =
+      carousel.closest(".group\\/carousel") || carousel.parentElement!;
+    const counter = parent.querySelector<HTMLElement>("#carousel-counter");
+    const indicators = Array.from(
+      parent.querySelectorAll<HTMLButtonElement>(".carousel-indicator"),
+    );
+
+    if (slides.length <= 1) return;
+
     const motion = matchMedia("(prefers-reduced-motion: reduce)");
-    let paused = motion.matches;
     let hovered = false;
     let focused = false;
     let interval: ReturnType<typeof setInterval> | undefined;
+
+    const updateUI = (index: number) => {
+      if (counter) {
+        counter.textContent = `${String(index + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
+      }
+      indicators.forEach((btn, idx) => {
+        const isActive = idx === index;
+        btn.setAttribute("aria-current", String(isActive));
+        if (isActive) {
+          btn.style.width = "1.5rem";
+          btn.style.backgroundColor = "var(--color-primary)";
+          btn.style.opacity = "1";
+        } else {
+          btn.style.width = "0.5rem";
+          btn.style.backgroundColor = "var(--color-base-content)";
+          btn.style.opacity = "0.4";
+        }
+      });
+    };
+
+    const resetTimer = () => {
+      clearInterval(interval);
+      if (!motion.matches && !hovered && !focused && !document.hidden) {
+        interval = setInterval(() => move(1), 5000);
+      }
+    };
+
+    const goTo = (index: number) => {
+      carousel.scrollTo({
+        left: index * carousel.clientWidth,
+        behavior: scrollBehavior(),
+      });
+      updateUI(index);
+      resetTimer();
+    };
+
     const move = (delta: number) => {
       const index = Math.round(carousel.scrollLeft / carousel.clientWidth);
       const next = (index + delta + slides.length) % slides.length;
-      carousel.scrollTo({
-        left: next * carousel.clientWidth,
-        behavior: scrollBehavior(),
-      });
+      goTo(next);
     };
-    const sync = () => {
-      clearInterval(interval);
-      pause.textContent = paused ? pause.dataset.play! : pause.dataset.pause!;
-      pause.setAttribute("aria-pressed", String(paused));
-      if (!paused && !hovered && !focused && !document.hidden)
-        interval = setInterval(() => move(1), 5000);
-    };
+
     parent.querySelector(".carousel-prev")?.addEventListener(
       "click",
       () => {
-        paused = true;
         move(-1);
-        sync();
       },
       { signal },
     );
+
     parent.querySelector(".carousel-next")?.addEventListener(
       "click",
       () => {
-        paused = true;
         move(1);
-        sync();
       },
       { signal },
     );
-    pause.addEventListener(
-      "click",
-      () => {
-        paused = !paused;
-        sync();
-      },
-      { signal },
-    );
+
+    indicators.forEach((btn, idx) => {
+      btn.addEventListener(
+        "click",
+        () => {
+          goTo(idx);
+        },
+        { signal },
+      );
+    });
+
     parent.addEventListener(
       "mouseenter",
       () => {
         hovered = true;
-        sync();
+        resetTimer();
       },
       { signal },
     );
@@ -180,7 +266,7 @@ const recentBlogPosts = sortedPosts
       "mouseleave",
       () => {
         hovered = false;
-        sync();
+        resetTimer();
       },
       { signal },
     );
@@ -188,30 +274,30 @@ const recentBlogPosts = sortedPosts
       "focusin",
       () => {
         focused = true;
-        sync();
+        resetTimer();
       },
       { signal },
     );
     parent.addEventListener(
       "focusout",
       (event) => {
-        focused = parent.contains(event.relatedTarget as Node);
-        sync();
+        focused = parent.contains((event as FocusEvent).relatedTarget as Node);
+        resetTimer();
       },
       { signal },
     );
+
     carousel.addEventListener(
       "keydown",
       (event) => {
         if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
           event.preventDefault();
-          paused = true;
           move(event.key === "ArrowLeft" ? -1 : 1);
-          sync();
         }
       },
       { signal },
     );
+
     carousel.addEventListener(
       "focusin",
       (event) => {
@@ -225,16 +311,31 @@ const recentBlogPosts = sortedPosts
       },
       { signal },
     );
+
+    let scrollTimeout: ReturnType<typeof setTimeout> | undefined;
+    carousel.addEventListener(
+      "scroll",
+      () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+          const index = Math.round(carousel.scrollLeft / carousel.clientWidth);
+          updateUI(index);
+          resetTimer();
+        }, 50);
+      },
+      { signal, passive: true },
+    );
+
     motion.addEventListener(
       "change",
       () => {
-        if (motion.matches) paused = true;
-        sync();
+        resetTimer();
       },
       { signal },
     );
-    document.addEventListener("visibilitychange", sync, { signal });
-    sync();
+
+    document.addEventListener("visibilitychange", resetTimer, { signal });
+    resetTimer();
     return () => clearInterval(interval);
   });
 </script>
