@@ -85,7 +85,7 @@ html {
   --color-primary: oklch(24.353% 0 0);
   --color-primary-content: oklch(98% 0 0);
 
-  --color-secondary: oklch(50% 0.01 250);
+  --color-secondary: oklch(47% 0.01 250);
   --color-secondary-content: oklch(98% 0 0);
 
   --color-accent: oklch(35% 0.01 250);

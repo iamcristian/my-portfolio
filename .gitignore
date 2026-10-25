@@ -25,3 +25,12 @@ pnpm-debug.log*
 .idea/
 
 .vscode/
+
+# Impeccable - downloaded executables
+.agent/skills/impeccable/scripts/bin/
+
+# Impeccable - temporary files
+.impeccable/**/cache/
+.impeccable/**/*.log
+.impeccable/**/*.local.json
+

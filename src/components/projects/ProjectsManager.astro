@@ -136,14 +136,14 @@ const PROJECTS = sortFeaturedFirst(
           <input
             type="date"
             id="projects-start-date"
-            class="input input-ghost input-xs bg-transparent w-28 text-[11px] px-1.5 focus:outline-none"
+            class="input input-ghost input-xs bg-transparent w-28 text-xs px-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded"
             aria-label={t("blog.startDate")}
           />
           <span class="opacity-40 text-xs px-0.5">-</span>
           <input
             type="date"
             id="projects-end-date"
-            class="input input-ghost input-xs bg-transparent w-28 text-[11px] px-1.5 focus:outline-none"
+            class="input input-ghost input-xs bg-transparent w-28 text-xs px-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded"
             aria-label={t("blog.endDate")}
           />
         </div>
@@ -170,7 +170,7 @@ const PROJECTS = sortFeaturedFirst(
   <!-- Projects Container -->
   <div
     id="projects-container"
-    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-h-[300px]"
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-h-75"
   >
     {PROJECTS.map((project, index) => {
       const title = project.title;
@@ -251,9 +251,9 @@ const PROJECTS = sortFeaturedFirst(
           "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-h-[300px]",
         listContainerClass: "flex flex-col gap-3",
         gridCardClass:
-          "project-card card card-compact bg-base-200 border border-base-300 shadow-xl overflow-hidden hover:-translate-y-1 transition-transform duration-300 flex flex-col h-full",
+          "project-card card card-compact bg-base-200 border border-base-300 overflow-hidden hover:-translate-y-1 transition-transform duration-300 flex flex-col h-full",
         listCardClass:
-          "project-card card bg-base-200 border border-base-300 shadow-sm p-4 hover:border-primary/55 transition-all flex flex-col md:flex-row items-center justify-between gap-4 w-full",
+          "project-card card bg-base-200 border border-base-300 p-4 hover:border-primary/55 transition-all flex flex-col md:flex-row items-center justify-between gap-4 w-full",
         gridFigureClass:
           "project-figure relative h-48 bg-base-300 shrink-0 transition-all",
         listFigureClass: "project-figure hidden",

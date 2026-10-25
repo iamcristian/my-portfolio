@@ -19,7 +19,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
 const imageImport = images[item.logo]!;
 ---
 
-<div class="group card bg-base-200/50 backdrop-blur-sm border border-base-300 shadow-sm p-4 flex flex-row gap-4 items-start hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_0_15px_rgba(var(--color-primary),0.15)] transition-all duration-300">
+<div class="group card bg-base-200 border border-base-300 p-4 flex flex-row gap-4 items-start hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_0_15px_color-mix(in_oklch,var(--color-primary)_15%,transparent)] transition-all duration-300">
   <div class="avatar placeholder shrink-0 group-hover:scale-110 transition-transform duration-300">
     <div class="bg-base-300 rounded-lg w-12 h-12 flex items-center justify-center overflow-hidden">
       <Image
@@ -35,7 +35,7 @@ const imageImport = images[item.logo]!;
     <h4 class="font-bold text-xs md:text-sm leading-snug group-hover:text-primary transition-colors">
       {item.title}
     </h4>
-    <p class="text-[10px] sm:text-xs opacity-75 mt-0.5">
+    <p class="text-xs opacity-75 mt-0.5">
       {item.institution} · {item.date}
     </p>
     <p class="text-xs mt-2 opacity-80 leading-relaxed">{item.description}</p>
@@ -44,7 +44,7 @@ const imageImport = images[item.logo]!;
         href={item.link}
         target="_blank"
         rel="noopener noreferrer"
-        class="link link-primary text-[10px] sm:text-xs font-semibold inline-flex items-center gap-1 mt-2 hover:underline"
+        class="link link-primary text-xs font-semibold inline-flex items-center gap-1 mt-2 hover:underline"
       >
         {t("education.viewCredential")} &rarr;
       </a>

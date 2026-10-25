@@ -66,7 +66,7 @@ const starsLayer3Shadow = generateShadows(20);
 
   <div class="hero-content flex-col lg:flex-row gap-12 lg:gap-16 max-w-6xl w-full justify-between px-4 md:px-8 mx-auto z-10">
     <!-- Left Column: Text & CTAs -->
-    <div class="flex flex-col gap-6 text-center lg:text-left max-w-xl">
+    <div class="flex flex-col gap-6 text-center lg:text-left max-w-xl w-full">
       <div>
         <div class="inline-flex items-center gap-2 mb-3 justify-center lg:justify-start">
           <span class="w-1.5 h-1.5 rounded-full bg-primary/80 animate-pulse"></span>
@@ -74,8 +74,8 @@ const starsLayer3Shadow = generateShadows(20);
             {t("home.hello")}
           </span>
         </div>
-        <h1 class="text-5xl lg:text-7xl font-extrabold tracking-tight drop-shadow-sm">
-          <span class="bg-linear-to-r from-primary via-neutral-content to-secondary bg-clip-text text-transparent filter drop-shadow-[0_0_10px_rgba(var(--color-primary),0.2)]">
+        <h1 class="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight drop-shadow-sm">
+          <span class="inline-block bg-linear-to-r from-primary via-neutral-content to-secondary bg-clip-text text-transparent drop-shadow-[0_0_10px_color-mix(in_oklch,var(--color-primary)_20%,transparent)]">
             {t("home.name")}
           </span>
         </h1>
@@ -91,7 +91,7 @@ const starsLayer3Shadow = generateShadows(20);
       <div class="flex flex-wrap gap-4 justify-center lg:justify-start mt-4">
         <a
           href={cvPath}
-          class="btn btn-primary gap-2 transition-transform duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(var(--color-primary),0.3)]"
+          class="btn btn-primary gap-2 transition-all duration-300 hover:-translate-y-0.5 motion-reduce:hover:translate-y-0 hover:shadow-[0_0_20px_color-mix(in_oklch,var(--color-primary)_30%,transparent)]"
           target="_blank"
         >
           <DownloadIcon class="w-5 h-5" />
@@ -99,7 +99,7 @@ const starsLayer3Shadow = generateShadows(20);
         </a>
         <a
           href={`mailto:${SITE.email}`}
-          class="btn btn-outline gap-2 transition-all duration-300 hover:scale-105 hover:bg-base-content/10"
+          class="btn btn-outline gap-2 transition-all duration-300 hover:-translate-y-0.5 motion-reduce:hover:translate-y-0 hover:bg-base-content/10 hover:border-primary/40"
         >
           <MailIcon class="w-5 h-5" />
           <span>{t("home.contactMe")}</span>

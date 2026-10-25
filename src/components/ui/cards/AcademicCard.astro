@@ -28,7 +28,7 @@ const getLinkUrl = (url: string) => {
 };
 ---
 
-<div class="group card card-side bg-base-200/50 backdrop-blur-sm border border-base-300 shadow-md p-4 flex gap-4 items-start hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_0_15px_rgba(var(--color-primary),0.15)] transition-all duration-300">
+<div class="group card card-side bg-base-200 border border-base-300 p-4 flex gap-4 items-start hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_0_15px_color-mix(in_oklch,var(--color-primary)_15%,transparent)] transition-all duration-300">
   <div class="avatar placeholder shrink-0 group-hover:scale-110 transition-transform duration-300">
     <div class="bg-base-300 text-neutral-content rounded-lg w-12 h-12 flex items-center justify-center overflow-hidden">
       <Image
@@ -45,14 +45,14 @@ const getLinkUrl = (url: string) => {
       {item.title}
     </h3>
     <p class="text-xs font-medium opacity-80">{item.institution}</p>
-    <div class="flex flex-wrap items-center gap-x-2 gap-y-1 mt-2 text-[10px] sm:text-xs text-base-content/80">
+    <div class="flex flex-wrap items-center gap-x-2 gap-y-1 mt-2 text-xs text-base-content/80">
       <span>{item.date}</span>
       <span class="opacity-40">•</span>
       <span>{item.location}</span>
       {item.gpa && (
         <>
           <span class="opacity-40">•</span>
-          <span class="badge badge-sm badge-outline badge-primary font-semibold text-[10px] px-1.5 py-0 h-auto">
+          <span class="badge badge-sm badge-outline badge-primary font-semibold text-xs px-1.5 py-0 h-auto">
             {t("education.gpa")}: {item.gpa}
           </span>
         </>
@@ -67,7 +67,7 @@ const getLinkUrl = (url: string) => {
           rel={
             item.link.url.startsWith("http") ? "noopener noreferrer" : undefined
           }
-          class="link link-primary text-[10px] sm:text-xs font-semibold inline-flex items-center gap-1 hover:underline"
+          class="link link-primary text-xs font-semibold inline-flex items-center gap-1 hover:underline"
         >
           <LinkIcon class="w-3.5 h-3.5" />
           {item.link.text} &rarr;

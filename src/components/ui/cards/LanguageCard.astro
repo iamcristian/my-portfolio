@@ -18,9 +18,9 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
 const imageImport = images[item.logo]!;
 ---
 
-<div class="group card bg-base-200/50 backdrop-blur-md border border-base-300 hover:border-primary/50 p-6 text-center items-center transition-all duration-300 hover:shadow-[0_0_20px_rgba(var(--color-primary),0.05)]">
+<div class="group card bg-base-200 border border-base-300 hover:border-primary/50 p-6 text-center items-center transition-all duration-300 hover:shadow-[0_0_20px_color-mix(in_oklch,var(--color-primary)_5%,transparent)]">
   <!-- Flag container with hover scale and gradient border -->
-  <div class="relative w-16 h-16 mb-4 rounded-full p-0.75 bg-linear-to-tr from-primary to-secondary group-hover:scale-110 transition-transform duration-300 shrink-0 shadow-md">
+  <div class="relative w-16 h-16 mb-4 rounded-full p-0.75 bg-linear-to-tr from-primary to-secondary group-hover:scale-110 transition-transform duration-300 shrink-0">
     <div class="w-full h-full rounded-full overflow-hidden border-2 border-base-200 shrink-0">
       <Image
         src={imageImport()}

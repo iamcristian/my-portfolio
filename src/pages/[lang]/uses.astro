@@ -66,7 +66,7 @@ const usesCategories = getUsesForLang(lang);
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             {category.items.map((item) => (
-              <div class="card bg-base-200 border border-base-300 shadow-md p-5 hover:border-primary/30 transition-all group rounded-xl">
+              <div class="card bg-base-200 border border-base-300 p-5 hover:border-primary/30 transition-all group rounded-xl">
                 <h3 class="font-bold text-sm md:text-base group-hover:text-primary transition-colors">
                   {item.link ? (
                     <a href={item.link} class="link link-hover">

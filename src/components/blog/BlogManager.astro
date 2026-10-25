@@ -139,14 +139,14 @@ const allTags = Array.from(
           <input
             type="date"
             id="blog-start-date"
-            class="input input-ghost input-xs bg-transparent w-28 text-[11px] px-1.5 focus:outline-none"
+            class="input input-ghost input-xs bg-transparent w-28 text-xs px-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded"
             aria-label={t("blog.startDate")}
           />
           <span class="opacity-40 text-xs px-0.5">-</span>
           <input
             type="date"
             id="blog-end-date"
-            class="input input-ghost input-xs bg-transparent w-28 text-[11px] px-1.5 focus:outline-none"
+            class="input input-ghost input-xs bg-transparent w-28 text-xs px-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded"
             aria-label={t("blog.endDate")}
           />
         </div>
@@ -257,9 +257,9 @@ const allTags = Array.from(
           "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-h-[300px]",
         listContainerClass: "flex flex-col gap-3",
         gridCardClass:
-          "blog-card card card-compact bg-base-200 border border-base-300 shadow-md hover:-translate-y-1 transition-transform duration-300 flex flex-col h-full",
+          "blog-card card card-compact bg-base-200 border border-base-300 hover:-translate-y-1 transition-transform duration-300 flex flex-col h-full",
         listCardClass:
-          "blog-card card bg-base-200 border border-base-300 shadow-sm p-4 hover:border-primary/55 transition-all flex flex-col md:flex-row items-center justify-between gap-4 w-full",
+          "blog-card card bg-base-200 border border-base-300 p-4 hover:border-primary/55 transition-all flex flex-col md:flex-row items-center justify-between gap-4 w-full",
         gridFigureClass:
           "blog-figure relative h-44 bg-base-300 shrink-0 transition-all",
         listFigureClass: "blog-figure hidden",

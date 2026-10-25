@@ -44,9 +44,11 @@ function getPathForLocale(targetLang: string) {
     <Globe class="text-base-content/70 size-4" />
     <span class="text-xs">{currentLang.toUpperCase()}</span>
   </summary>
-  <div class="dropdown-content bg-base-200 text-base-content rounded-box mt-3 max-h-[calc(100vh-10rem)] overflow-y-auto border border-base-content/10 shadow-2xl z-50 w-36">
+  <div class="dropdown-content bg-base-200 text-base-content rounded-box mt-3 max-h-[calc(100vh-10rem)] overflow-y-auto overflow-x-hidden border border-base-content/10 shadow-2xl z-50 w-44">
     <ul class="menu menu-sm">
-      <li class="menu-title text-xs">{t("language.title")}</li>
+      <li class="menu-title text-xs whitespace-nowrap">
+        {t("language.title")}
+      </li>
       {Object.entries(languages).map(([code, { name }]) => {
         const active = code === currentLang;
         return (
@@ -57,11 +59,11 @@ function getPathForLocale(targetLang: string) {
               hreflang={code}
               class:list={["flex items-center gap-3 px-2 w-full", { active }]}
             >
-              <div class="bg-base-100 flex items-center justify-center rounded-md border border-base-content/10 shadow-sm size-6 shrink-0 text-[10px] font-bold font-mono tracking-wider opacity-75">
+              <div class="bg-base-100 flex items-center justify-center rounded-md border border-base-content/10 shadow-sm size-6 shrink-0 text-xs font-bold font-mono opacity-75">
                 {code.toUpperCase()}
               </div>
               <span class="text-left font-normal"> {name}</span>
-              {active && <Check class="visible!" />}
+              {active && <Check class="size-3 shrink-0 ml-auto" />}
             </a>
           </li>
         );
