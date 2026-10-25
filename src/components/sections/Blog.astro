@@ -67,22 +67,26 @@ const recentBlogPosts = sortedPosts
             <div class="flex items-center gap-3">
               <!-- Indicators / Pills -->
               <div
-                class="hidden sm:flex items-center gap-1.5"
+                class="hidden sm:flex items-center gap-1"
                 aria-label={t("blog.featured")}
               >
                 {featuredBlogPosts.map((post, idx) => (
                   <button
                     type="button"
-                    class="carousel-indicator h-1.5 rounded-full transition-all duration-300 cursor-pointer"
+                    class="carousel-indicator flex items-center justify-center min-w-6 h-7 px-1 rounded cursor-pointer transition-colors hover:bg-base-300/40 focus-visible:outline-2 focus-visible:outline-primary"
                     data-slide-index={idx}
-                    style={
-                      idx === 0
-                        ? "width: 1.5rem; background-color: var(--color-primary);"
-                        : "width: 0.5rem; background-color: var(--color-base-content); opacity: 0.4;"
-                    }
                     aria-label={`Slide ${idx + 1}: ${post.data.title}`}
                     aria-current={idx === 0 ? "true" : "false"}
-                  />
+                  >
+                    <span
+                      class="carousel-indicator-bar h-1.5 rounded-full transition-all duration-300 block"
+                      style={
+                        idx === 0
+                          ? "width: 1.5rem; background-color: var(--color-primary);"
+                          : "width: 0.5rem; background-color: var(--color-base-content); opacity: 0.4;"
+                      }
+                    />
+                  </button>
                 ))}
               </div>
 
@@ -194,14 +198,17 @@ const recentBlogPosts = sortedPosts
       indicators.forEach((btn, idx) => {
         const isActive = idx === index;
         btn.setAttribute("aria-current", String(isActive));
-        if (isActive) {
-          btn.style.width = "1.5rem";
-          btn.style.backgroundColor = "var(--color-primary)";
-          btn.style.opacity = "1";
-        } else {
-          btn.style.width = "0.5rem";
-          btn.style.backgroundColor = "var(--color-base-content)";
-          btn.style.opacity = "0.4";
+        const bar = btn.querySelector<HTMLElement>(".carousel-indicator-bar");
+        if (bar) {
+          if (isActive) {
+            bar.style.width = "1.5rem";
+            bar.style.backgroundColor = "var(--color-primary)";
+            bar.style.opacity = "1";
+          } else {
+            bar.style.width = "0.5rem";
+            bar.style.backgroundColor = "var(--color-base-content)";
+            bar.style.opacity = "0.4";
+          }
         }
       });
     };
