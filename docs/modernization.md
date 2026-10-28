@@ -24,6 +24,8 @@ Use one page title (provided by the article layout), then start article sections
 
 ## Verification
 
+CI uses the explicit Ubuntu 24.04 runner and Node 24 action runtimes. Prettier checks application code and maintained project documentation; downloaded agent skills and generated `.impeccable/` reports are excluded. `.gitattributes` keeps text files in LF format across Windows checkouts and Linux runners.
+
 ```sh
 pnpm install --frozen-lockfile
 pnpm lint

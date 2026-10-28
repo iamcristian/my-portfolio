@@ -2,3 +2,8 @@ dist/
 .astro/
 node_modules/
 pnpm-lock.yaml
+
+# Third-party agent tooling and generated design reports
+.agent/skills/
+.agents/skills/
+.impeccable/
