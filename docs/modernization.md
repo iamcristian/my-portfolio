@@ -24,7 +24,7 @@ Use one page title (provided by the article layout), then start article sections
 
 ## Verification
 
-CI uses the explicit Ubuntu 24.04 runner and Node 24 action runtimes. Prettier checks application code and maintained project documentation; downloaded agent skills and generated `.impeccable/` reports are excluded. `.gitattributes` keeps text files in LF format across Windows checkouts and Linux runners.
+CI uses the explicit Ubuntu 24.04 runner and Node 24 action runtimes. Prettier checks application code and maintained project documentation; downloaded agent skills and local design-tool reports are excluded. `.gitattributes` keeps text files in LF format across Windows checkouts and Linux runners.
 
 ```sh
 pnpm install --frozen-lockfile
@@ -49,11 +49,3 @@ Scripts are external files, including the early theme initializer. `assetsInline
 Two scoped pnpm overrides patch transitive advisories: typography's `postcss-selector-parser` to 7.1.7+ and Vite's `esbuild` to 0.28.1+. The latter affects esbuild's Windows development file server. Build and browser checks cover the current combination; remove overrides when upstream constraints include patched versions and rerun all gates. The completed dependency audit on 2026-10-22 reported zero known advisories; this is a point-in-time registry result, not a guarantee against unknown vulnerabilities.
 
 RSS rendering uses Astro's experimental container API with the MDX renderer. Keep feed validation when upgrading Astro; this API can change before a stable API. Sanitization is deliberately applied after rendering, and interactive components do not execute in feeds.
-
-## Follow-up work
-
-- Measure Lighthouse and real-user Core Web Vitals on the deployed site before choosing additional performance work. Local compilation is not evidence of field performance.
-- Validate final Vercel headers, analytics ingestion, Giscus authentication and external integrations after deployment. No deployment or account interaction is part of this change.
-- Add case-study content (problem, decisions, architecture, results) to the existing project catalog; avoid invented project metrics.
-- Consider a static search index when article volume warrants it, and feed subscriptions before introducing a newsletter backend.
-- Add browser regression automation and automated accessibility scanning as the site grows. Current keyboard checks and structural tests do not establish full WCAG conformance.

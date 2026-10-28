@@ -26,11 +26,8 @@ pnpm-debug.log*
 
 .vscode/
 
-# Impeccable - downloaded executables
-.agent/skills/impeccable/scripts/bin/
-
-# Impeccable - temporary files
-.impeccable/**/cache/
-.impeccable/**/*.log
-.impeccable/**/*.local.json
-
+# Local design-tool artifacts (not application source)
+.impeccable/
+.agent/skills/impeccable/
+PRODUCT.md
+DESIGN.md
