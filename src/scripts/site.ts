@@ -179,3 +179,27 @@ onPageLoad((signal) => {
     animations.forEach((animation) => animation.cancel());
   };
 });
+
+onPageLoad((signal) => {
+  document.addEventListener(
+    "keydown",
+    (event) => {
+      if (
+        (event.ctrlKey || event.metaKey) &&
+        event.key.toLowerCase() === "k" &&
+        !event.altKey
+      ) {
+        const element = event.target as HTMLElement;
+        if (
+          element.closest('input, textarea, select, [contenteditable="true"]')
+        )
+          return;
+        event.preventDefault();
+        window.location.assign(
+          "/" + document.documentElement.lang + "/search/",
+        );
+      }
+    },
+    { signal },
+  );
+});

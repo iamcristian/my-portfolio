@@ -2,6 +2,7 @@
 import { useTranslations } from "../../../i18n/utils";
 import type { Project } from "../../../types";
 import { Image } from "astro:assets";
+import { featureCopy } from "../../../i18n/features";
 import ShieldIcon from "../../../assets/icons/shield.svg";
 import fallbackImage from "../../../assets/images/website.webp";
 
@@ -92,7 +93,7 @@ const imageImport = images[project.image];
           </span>
         )}
         <Heading class="card-title text-sm md:text-base hover:text-primary transition-colors project-title">
-          {project.title}
+          <a href={`/${lang}/projects/${project.id}/`}>{project.title}</a>
         </Heading>
       </div>
       <p class="text-xs opacity-80 line-clamp-3 leading-relaxed project-desc">
@@ -107,6 +108,12 @@ const imageImport = images[project.image];
       </div>
     </div>
     <div class="project-footer card-actions justify-start gap-2 pt-4 mt-auto border-t border-base-300 transition-all">
+      <a
+        href={`/${lang}/projects/${project.id}/`}
+        class="btn btn-xs btn-primary"
+      >
+        {featureCopy(lang).caseStudy}
+      </a>
       <a href={project.github} target="_blank" class="btn btn-xs btn-outline">
         {t("projects.code")}
       </a>

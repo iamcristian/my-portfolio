@@ -20,6 +20,12 @@ const blog = defineCollection({
         description: z.string().trim().min(1),
         date: z.coerce.date(),
         updatedDate: z.coerce.date().optional(),
+        revisions: z.array(z.string().trim().min(1)).optional(),
+        versions: z.string().trim().min(1).optional(),
+        examplesChecked: z
+          .string()
+          .regex(/^\d{4}-\d{2}-\d{2}$/)
+          .optional(),
         author: z.string().default(SITE.name),
         tags: z.array(z.string()).default([]),
         image: image(),

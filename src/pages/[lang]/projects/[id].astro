@@ -1,0 +1,83 @@
+---
+import Shell from "../../../components/FeatureShell.astro";
+import { getProjectsForLang, type Lang } from "../../../i18n/utils";
+import { languages } from "../../../i18n/ui";
+import { caseStudies } from "../../../data/case-studies";
+import { projectCatalog } from "../../../data/projects";
+import { featureCopy } from "../../../i18n/features";
+import { Image } from "astro:assets";
+export function getStaticPaths() {
+  return Object.keys(languages).flatMap((lang) =>
+    projectCatalog.map((p) => ({ params: { lang, id: p.id } })),
+  );
+}
+const { lang, id } = Astro.params;
+const project = getProjectsForLang(lang as Lang).find((p) => p.id === id)!;
+const study = caseStudies[id as keyof typeof caseStudies];
+const c = featureCopy(lang as Lang);
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/images/projects/*.webp",
+);
+---
+
+<Shell title={project.title} description={project.description}>
+  <p class="text-lg max-w-3xl">{project.description}</p>
+  <Image
+    src={images[project.image]()}
+    alt={project.title}
+    width={1200}
+    height={675}
+    class="rounded-2xl w-full max-w-4xl border border-base-300"
+  />
+  <div class="flex flex-wrap gap-2">
+    {project.tech.map((tech) => (
+      <a
+        class="badge badge-outline p-3"
+        href={`/${lang}/search/?q=${encodeURIComponent(tech)}&evidence=1`}
+      >
+        {tech}
+      </a>
+    ))}
+  </div>
+  {lang !== "en" && <p class="text-sm">{c.english}</p>}
+  <article lang="en" class="prose max-w-3xl">
+    <p class="border-l-4 border-primary pl-4">
+      Editorial case study based on the portfolio’s project catalog. The
+      technology choices are documented there; the architectural discussion
+      below explains design considerations rather than claiming
+      repository-verified implementation details or measured results.
+    </p>
+    <h2>The problem</h2>
+    <p>{study.problem}</p>
+    <h2>Architecture walkthrough</h2>
+    <ol>
+      {study.architecture.map((part) => (
+        <li>{part}</li>
+      ))}
+    </ol>
+    <h2>A request through the system</h2>
+    <p>
+      Interface → application boundary → data service → response → interface
+      update. At each boundary, consider validation, error handling, and who is
+      allowed to perform the operation.
+    </p>
+    <h2>Tradeoffs</h2>
+    <p>{study.tradeoff}</p>
+    <h2>Engineering takeaway</h2>
+    <p>{study.lesson}</p>
+    <h2>What to validate next</h2>
+    <p>
+      Inspect the linked repository for the actual data model, tests, deployment
+      configuration, and access controls. Performance and user outcomes should
+      be added only when supported by measurements.
+    </p>
+  </article>
+  <a
+    class="btn btn-primary"
+    href={project.github}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    {project.title} · GitHub / GitLab ↗
+  </a>
+</Shell>

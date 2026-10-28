@@ -3,10 +3,13 @@ import { getRelativeLocaleUrl } from "astro:i18n";
 import { useTranslations } from "../i18n/utils";
 import ThemeController from "./ThemeController.astro";
 import LanguageController from "./LanguageController.astro";
+import { featureCopy } from "../i18n/features";
+import SearchIcon from "../assets/icons/search.svg";
 import MenuIcon from "../assets/icons/menu.svg";
 
 const { lang } = Astro.locals;
 const t = useTranslations(lang);
+const c = featureCopy(lang);
 
 const homeUrl = getRelativeLocaleUrl(lang, "");
 
@@ -66,7 +69,16 @@ const NAV_LINKS = [
     </div>
 
     <!-- Navbar End: Theme and Language selectors -->
-    <div class="navbar-end gap-2">
+    <div class="navbar-end items-center gap-1">
+      <a
+        href={getRelativeLocaleUrl(lang, "search")}
+        class="btn btn-ghost btn-sm h-10 gap-1.5"
+        aria-label={c.search}
+        aria-keyshortcuts="Control+k Meta+k"
+      >
+        <SearchIcon class="block size-4 shrink-0" aria-hidden="true" />
+        <span class="hidden xl:inline">{c.search}</span>
+      </a>
       <LanguageController />
       <ThemeController />
     </div>

@@ -21,6 +21,7 @@ const experienceItems = getExperienceForLang(lang);
   <ul class="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
     {experienceItems.map((item, index) => (
       <TimelineItem
+        id={`experience-${item.id}`}
         index={index}
         totalItems={experienceItems.length}
         title={item.title}

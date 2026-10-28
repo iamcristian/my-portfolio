@@ -1,6 +1,7 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { useTranslations } from "../i18n/utils";
+import { featureCopy } from "../i18n/features";
 import { SITE } from "../config/site";
 import SocialLinks from "./ui/SocialLinks.astro";
 import MailIcon from "../assets/icons/mail.svg";
@@ -54,6 +55,14 @@ const homeUrl = getRelativeLocaleUrl(lang, "");
         >
           {t("nav.blog")}
         </a>
+        {(["library", "series", "bookshelf"] as const).map((page) => (
+          <a
+            href={getRelativeLocaleUrl(lang, page)}
+            class="link link-hover text-sm opacity-80"
+          >
+            {featureCopy(lang)[page]}
+          </a>
+        ))}
         <a
           href={getRelativeLocaleUrl(lang, "uses")}
           class="link link-hover text-sm opacity-80 hover:text-primary transition-colors"

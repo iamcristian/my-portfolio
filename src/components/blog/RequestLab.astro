@@ -1,0 +1,90 @@
+---
+import { featureCopy } from "../../i18n/features";
+const c = featureCopy(Astro.locals.lang);
+---
+
+<details
+  class="request-lab not-prose border-y border-base-content/15 py-5 my-10"
+  aria-label={c.lab}
+>
+  <summary class="cursor-pointer text-base font-semibold py-2">{c.lab}</summary>
+  <div class="space-y-5 pt-4">
+    <p class="text-sm opacity-70">{c.labNote}</p>
+    <label class="flex flex-col gap-2">
+      {c.payload}
+      <input
+        class="range range-primary lab-payload"
+        type="range"
+        min="10"
+        max="1000"
+        step="10"
+        value="100"
+      />
+    </label>
+    <ol class="grid grid-cols-2 sm:grid-cols-4 gap-2" lang="en">
+      {["Browser", "API", "Database", "Response"].map((stage, i) => (
+        <li
+          class="lab-stage rounded-lg border border-base-300 p-3 text-sm"
+          data-stage={i}
+        >
+          <span class="text-xs opacity-60 block mb-1">0{i + 1}</span>
+          {stage}
+        </li>
+      ))}
+    </ol>
+    <p
+      class="lab-output font-mono text-lg border-l-2 border-primary pl-3"
+      role="status"
+      aria-live="polite"
+    ></p>
+    <div class="flex gap-2">
+      <button class="lab-next btn btn-primary btn-sm">{c.step}</button>
+      <button class="lab-reset btn btn-outline btn-sm">{c.restart}</button>
+    </div>
+    <p lang="en" class="text-sm">
+      Assumptions: a 1 MB/s transfer rate, 40 ms of network latency, and 20 ms
+      of server work. Increasing the payload changes the transfer cost; it does
+      not change the assumed server cost. Follow the highlighted step to see
+      where each cost appears.
+    </p>
+  </div>
+</details>
+<script>
+  import { onPageLoad } from "../../scripts/page-lifecycle";
+  onPageLoad((signal) => {
+    for (const root of document.querySelectorAll<HTMLElement>(".request-lab")) {
+      let step = 0;
+      const input = root.querySelector<HTMLInputElement>(".lab-payload")!;
+      const render = () => {
+        root.querySelectorAll<HTMLElement>(".lab-stage").forEach((el, i) => {
+          el.classList.toggle("bg-primary", i === step);
+          el.classList.toggle("text-primary-content", i === step);
+          el.setAttribute("aria-current", i === step ? "step" : "false");
+        });
+        const costs = [0, 40, 60, 60 + Number(input.value)];
+        root.querySelector(".lab-output")!.textContent =
+          `${input.value} KB · ${costs[step]} ms`;
+        root.querySelector<HTMLButtonElement>(".lab-next")!.disabled =
+          step === 3;
+      };
+      input.addEventListener("input", render, { signal });
+      root.querySelector(".lab-next")!.addEventListener(
+        "click",
+        () => {
+          step = Math.min(3, step + 1);
+          render();
+        },
+        { signal },
+      );
+      root.querySelector(".lab-reset")!.addEventListener(
+        "click",
+        () => {
+          step = 0;
+          render();
+        },
+        { signal },
+      );
+      render();
+    }
+  });
+</script>

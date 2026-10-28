@@ -1,0 +1,134 @@
+---
+import { useTranslations } from "../../i18n/utils";
+import Shell from "../../components/FeatureShell.astro";
+import { getLocaleStaticPaths } from "../../config/paths";
+import { featureCopy } from "../../i18n/features";
+export const getStaticPaths = getLocaleStaticPaths;
+const { lang } = Astro.locals;
+const c = featureCopy(lang);
+---
+
+<Shell title={c.search} description={c.query}>
+  <form id="discovery-form" class="space-y-4" role="search">
+    <label class="flex flex-col gap-2">
+      {c.query}
+      <input id="discovery-query" name="q" type="search" class="input w-full" />
+    </label>
+    <label class="flex gap-3 items-center">
+      <input id="discovery-all" type="checkbox" class="checkbox" />
+      {c.allLanguages}
+    </label>
+    <button class="btn btn-primary" type="submit">
+      {c.search}
+    </button>
+  </form>
+  <p
+    id="discovery-status"
+    role="status"
+    aria-live="polite"
+    data-empty={c.empty}
+    data-count={c.results}
+  ></p>
+  <div
+    id="discovery-results"
+    class="grid gap-4"
+    data-lang={lang}
+    data-articles={c.articles}
+    data-projects={c.projects}
+    data-experience={c.experience}
+    data-skills={useTranslations(lang)("nav.skills")}
+  ></div>
+</Shell>
+<script>
+  import { onPageLoad } from "../../scripts/page-lifecycle";
+  import type { SearchEntry } from "../../utils/discovery";
+  onPageLoad((signal) => {
+    const root = document.getElementById("discovery-results");
+    if (!root) return;
+    const input = document.querySelector<HTMLInputElement>("#discovery-query")!;
+    const all = document.querySelector<HTMLInputElement>("#discovery-all")!;
+    const status = document.getElementById("discovery-status")!;
+    const params = new URLSearchParams(location.search);
+    input.value = params.get("q") || "";
+    all.checked = params.get("all") === "1";
+    let entries: SearchEntry[] = [];
+    const render = () => {
+      const q = input.value.toLocaleLowerCase().trim();
+      const words = q.split(/\s+/).filter(Boolean);
+      const matches = q
+        ? entries
+            .filter(
+              (e) =>
+                (all.checked || e.lang === root.dataset.lang) &&
+                (params.get("evidence") !== "1" || e.kind !== "skills") &&
+                words.every((w) =>
+                  `${e.title} ${e.text}`.toLocaleLowerCase().includes(w),
+                ),
+            )
+            .sort(
+              (a, b) =>
+                Number(b.title.toLocaleLowerCase().includes(q)) -
+                Number(a.title.toLocaleLowerCase().includes(q)),
+            )
+        : [];
+      root.replaceChildren();
+      for (const entry of matches.slice(0, 60)) {
+        const card = document.createElement("article");
+        card.className = "card bg-base-200 border border-base-300 p-5 gap-3";
+        const h = document.createElement("h2");
+        const a = document.createElement("a");
+        a.href = entry.url;
+        if (entry.url.includes("#")) a.setAttribute("data-astro-reload", "");
+        a.className = "link text-lg font-semibold";
+        a.textContent = entry.title;
+        h.append(a);
+        const meta = document.createElement("p");
+        meta.className = "text-xs opacity-70";
+        meta.textContent = `${root.dataset[entry.kind] || entry.kind} · ${entry.lang}`;
+        const excerpt = document.createElement("p");
+        const at = Math.max(
+          0,
+          entry.text.toLocaleLowerCase().indexOf(words[0] || "") - 60,
+        );
+        excerpt.textContent = `${at ? "…" : ""}${entry.text.slice(at, at + 240)}${entry.text.length > at + 240 ? "…" : ""}`;
+        card.append(meta, h, excerpt);
+        root.append(card);
+      }
+      status.textContent = matches.length
+        ? `${Math.min(matches.length, 60)} / ${matches.length} ${status.dataset.count}`
+        : status.dataset.empty!;
+    };
+    const update = () => {
+      const url = new URL(location.href);
+      url.searchParams.set("q", input.value);
+      all.checked
+        ? url.searchParams.set("all", "1")
+        : url.searchParams.delete("all");
+      history.replaceState(history.state, "", url);
+      render();
+    };
+    document.getElementById("discovery-form")!.addEventListener(
+      "submit",
+      (e) => {
+        e.preventDefault();
+        update();
+      },
+      { signal },
+    );
+    input.addEventListener("input", update, { signal });
+    all.addEventListener("change", update, { signal });
+    fetch("/search-index.json", { signal })
+      .then((r) => {
+        if (!r.ok) throw Error(String(r.status));
+        return r.json();
+      })
+      .then((data) => {
+        entries = data;
+        render();
+      })
+      .catch((e) => {
+        if (e.name !== "AbortError")
+          status.textContent = `Search unavailable (${e.message}).`;
+      });
+  });
+</script>

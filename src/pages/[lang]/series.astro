@@ -1,0 +1,68 @@
+---
+import Shell from "../../components/FeatureShell.astro";
+import { getLocaleStaticPaths } from "../../config/paths";
+import { getCollection } from "astro:content";
+import { isPublished } from "../../utils/blog";
+import { readingPaths } from "../../data/series";
+import { featureCopy } from "../../i18n/features";
+export const getStaticPaths = getLocaleStaticPaths;
+const { lang } = Astro.locals;
+const c = featureCopy(lang);
+const posts = await getCollection(
+  "blog",
+  ({ data }) => data.lang === lang && isPublished(data),
+);
+---
+
+<Shell title={c.series}>
+  {lang !== "en" && <p>{c.english}</p>}
+  {readingPaths.map((path) => (
+    <section
+      id={path.id}
+      class="card bg-base-200 border border-base-300 p-6 space-y-4 scroll-mt-24"
+    >
+      <h2 class="text-xl font-bold" lang="en">
+        {path.title}
+      </h2>
+      <p lang="en">{path.description}</p>
+      <p>
+        <strong>{c.prerequisites}: </strong>
+        <span lang="en">{path.prerequisites}</span>
+      </p>
+      <ol class="list-decimal pl-6 space-y-3">
+        {path.slugs
+          .map((slug) => posts.find((p) => p.data.slug === slug))
+          .filter((p) => p !== undefined)
+          .map((post) => (
+            <li>
+              <a class="link" href={`/${lang}/blog/${post.data.slug}/`}>
+                {post.data.title}
+              </a>{" "}
+              <span
+                class="series-completion badge badge-success hidden"
+                data-url={`/${lang}/blog/${post.data.slug}/`}
+              >
+                {c.complete}
+              </span>
+            </li>
+          ))}
+      </ol>
+    </section>
+  ))}
+</Shell>
+<script>
+  import { onPageLoad } from "../../scripts/page-lifecycle";
+  import { readingEntries } from "../../utils/reader";
+  onPageLoad(() => {
+    const done = new Set(
+      readingEntries()
+        .filter((e) => e.completed || e.progress >= 0.98)
+        .map((e) => e.url),
+    );
+    document
+      .querySelectorAll<HTMLElement>(".series-completion")
+      .forEach((el) =>
+        el.classList.toggle("hidden", !done.has(el.dataset.url!)),
+      );
+  });
+</script>

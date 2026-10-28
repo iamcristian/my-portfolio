@@ -144,3 +144,7 @@ html {
     transition: none !important;
   }
 }
+
+html.preload {
+  scroll-behavior: auto;
+}

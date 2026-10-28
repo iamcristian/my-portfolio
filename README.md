@@ -52,6 +52,17 @@
 - **Post Navigation** — Previous/Next sibling post navigation at the bottom of each article
 - **RSS Feed** — Per-language RSS feeds with autodiscovery meta tags
 
+### Reader & Discovery Features
+
+- Adjustable article typography, reading width, and focus mode with local preferences
+- Saved articles, section-aware reading restoration, and completion tracking
+- Site-wide full-text search with localized results and skill evidence links
+- Four project case studies, ordered reading paths, and a searchable bookshelf derived from existing articles
+- An interactive request journey inside the framework comparison article
+- Passage links and visible article revision notes
+
+See [the feature walkthrough and testing guide](docs/features-testing.md) for routes, expected behavior, content maintenance, and limitations.
+
 ### 🌐 Internationalization (i18n)
 
 - **5 Languages** — English 🇺🇸 · Español 🇪🇸 · Deutsch 🇩🇪 · Русский 🇷🇺 · 日本語 🇯🇵

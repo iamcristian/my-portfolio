@@ -1,0 +1,376 @@
+---
+import { featureCopy } from "../../i18n/features";
+import ListIcon from "../../assets/icons/list.svg";
+const { lang } = Astro.locals;
+const c = featureCopy(lang);
+const { title } = Astro.props;
+---
+
+<section
+  id="reader-tools"
+  data-title={title}
+  data-lang={lang}
+  data-saved={c.saved}
+  data-save={c.save}
+  data-focus={c.focus}
+  data-exit={c.exit}
+  data-copied={c.copied}
+  data-failed={c.failed}
+  data-storage-failed={c.storageUnavailable}
+>
+  <div
+    id="reader-resume"
+    class="hidden flex flex-wrap items-center gap-2 p-3 my-4 rounded-xl bg-base-200 border border-base-300"
+  >
+    <button id="reader-continue" class="btn btn-sm btn-primary">
+      {c.resume}
+    </button>
+    <span id="reader-section" class="text-sm"></span>
+    <button id="reader-dismiss" class="btn btn-sm btn-ghost">
+      {c.dismiss}
+    </button>
+  </div>
+  <div id="reader-dock" class="reader-dock">
+    <div id="reader-actions" class="reader-actions" hidden>
+      <button
+        id="reader-settings"
+        class="reader-action"
+        aria-expanded="false"
+        aria-controls="reader-panel"
+        title={c.preferences}
+      >
+        <span aria-hidden="true" class="text-lg font-serif">
+          Aa
+        </span>
+        <span>{c.preferences}</span>
+      </button>
+      <button
+        id="reader-save"
+        class="reader-action"
+        aria-pressed="false"
+        title={c.save}
+      >
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+        >
+          <path d="M6 4h12v17l-6-4-6 4z" />
+        </svg>
+        <span data-save-label>{c.save}</span>
+      </button>
+      <button
+        id="reader-focus"
+        class="reader-action"
+        aria-pressed="false"
+        title={c.focus}
+      >
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+        >
+          <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" />
+        </svg>
+        <span data-focus-label>{c.focus}</span>
+      </button>
+      <button
+        id="reader-contents"
+        class="reader-action"
+        aria-controls="toc_modal"
+      >
+        <ListIcon aria-hidden="true" />
+        <span>{c.contents}</span>
+      </button>
+      <a class="reader-action" href={`/${lang}/library/`} title={c.library}>
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+        >
+          <path d="M4 5h5v15H4zM11 5h4v15h-4zM17 5l4 1-1 14-4-1z" />
+        </svg>
+        <span>{c.library}</span>
+      </a>
+    </div>
+    <button
+      id="reader-toggle"
+      class="btn btn-circle bg-base-100 border-base-content/20 shadow-lg"
+      aria-label={c.tools}
+      title={c.tools}
+      aria-expanded="false"
+      aria-controls="reader-actions"
+    >
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+        class="w-5 h-5"
+      >
+        <path d="M3 5c3-1 6-1 9 1 3-2 6-2 9-1v14c-3-1-6-1-9 1-3-2-6-2-9-1zM12 6v14" />
+      </svg>
+    </button>
+  </div>
+  <section
+    id="reader-panel"
+    class="reader-panel bg-base-100 border border-base-content/15 rounded-2xl shadow-xl"
+    aria-labelledby="reader-panel-title"
+    hidden
+  >
+    <div class="flex items-center justify-between gap-2 mb-4">
+      <div class="flex items-center gap-1 min-w-0">
+        <button
+          id="reader-back"
+          class="btn btn-ghost btn-sm btn-circle shrink-0"
+          aria-label={c.back}
+          title={c.back}
+        >
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+            class="size-4"
+          >
+            <path d="M19 12H5m7-7-7 7 7 7" />
+          </svg>
+        </button>
+        <h2 id="reader-panel-title" class="font-semibold text-sm">
+          {c.preferences}
+        </h2>
+      </div>
+      <button
+        id="reader-close"
+        class="btn btn-ghost btn-sm btn-circle"
+        aria-label={c.close}
+      >
+        ✕
+      </button>
+    </div>
+    <label class="block text-xs font-medium">
+      <span class="flex justify-between mb-3">
+        {c.size}
+        <output id="reader-size-value">14px</output>
+      </span>
+      <input
+        id="reader-size"
+        type="range"
+        min="14"
+        max="28"
+        step="1"
+        value="14"
+        class="range range-xs w-full"
+      />
+    </label>
+    <div class="grid grid-cols-2 gap-3 mt-4">
+      <label class="flex flex-col gap-1 text-xs">
+        {c.font}
+        <select id="reader-font" class="select select-sm w-full">
+          <option value="sans">{c.sans}</option>
+          <option value="serif">{c.serif}</option>
+        </select>
+      </label>
+      <label class="flex flex-col gap-1 text-xs">
+        {c.spacing}
+        <select id="reader-spacing" class="select select-sm w-full">
+          <option value="standard">{c.standard}</option>
+          <option value="relaxed">{c.relaxed}</option>
+        </select>
+      </label>
+      <label class="reader-width-control flex flex-col gap-1 text-xs col-span-2">
+        {c.width}
+        <select id="reader-width" class="select select-sm w-full">
+          <option value="narrow">{c.narrow}</option>
+          <option value="standard">{c.standard}</option>
+          <option value="wide" selected>
+            {c.wide}
+          </option>
+        </select>
+      </label>
+    </div>
+    <button id="reader-reset" class="btn btn-ghost btn-sm w-full mt-3">
+      {c.reset}
+    </button>
+  </section>
+  <button
+    id="reader-share"
+    class="reader-selection btn btn-sm bg-base-100 border-base-content/20 shadow-lg"
+    hidden
+  >
+    {c.share}
+  </button>
+  <p
+    id="reader-message"
+    class="reader-message bg-base-100 rounded-lg shadow-lg text-sm"
+    role="status"
+    aria-live="polite"
+    hidden
+  ></p>
+</section>
+<script>
+  import "../../scripts/reader";
+</script>
+<style is:global>
+  article.reader-article {
+    font-size: var(--reader-size, 0.875rem);
+    line-height: var(--reader-leading, 1.8);
+    max-width: var(--reader-width, 85ch);
+    width: 100%;
+    margin-inline: auto;
+    overflow-wrap: anywhere;
+    min-width: 0;
+  }
+  article.reader-article :where(p, li, blockquote) {
+    font-size: inherit;
+    line-height: inherit;
+  }
+  article.reader-article[data-reader-font="serif"] {
+    font-family: Georgia, "Yu Mincho", "Hiragino Mincho ProN", serif;
+  }
+  article.reader-article {
+    scroll-margin-top: 6rem;
+  }
+  .reader-focus #reader-toggle {
+    border-color: var(--color-primary);
+  }
+  article.reader-article h2 {
+    font-size: 1.4em;
+    line-height: 1.3;
+  }
+  article.reader-article h3 {
+    font-size: 1.15em;
+    line-height: 1.4;
+  }
+  article.reader-article pre {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  article.reader-article table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  .reader-dock {
+    position: fixed;
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: calc(1rem + env(safe-area-inset-bottom));
+    z-index: 45;
+    display: flex;
+    align-items: flex-end;
+    gap: 0.6rem;
+  }
+  .reader-actions {
+    display: flex;
+    flex-direction: column;
+    padding: 0.4rem;
+    border: 1px solid
+      color-mix(in oklch, var(--color-base-content) 15%, transparent);
+    background: var(--color-base-100);
+    border-radius: 1rem;
+    box-shadow: 0 8px 30px #0002;
+    width: min(17rem, calc(100vw - 6rem));
+    min-width: 0;
+  }
+  .reader-action {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 0.8rem;
+    font-size: 0.8rem;
+    border-radius: 0.6rem;
+    text-align: left;
+    min-height: 44px;
+  }
+  .reader-action svg {
+    width: 1.1rem;
+    height: 1.1rem;
+    flex-shrink: 0;
+  }
+  #reader-save[aria-pressed="true"] svg {
+    fill: currentColor;
+  }
+  .reader-action:hover,
+  .reader-action[aria-pressed="true"],
+  .reader-action[aria-expanded="true"] {
+    background: var(--color-base-200);
+  }
+  .reader-panel {
+    position: fixed;
+    z-index: 46;
+    right: 1rem;
+    bottom: calc(5rem + env(safe-area-inset-bottom));
+    width: 19rem;
+    max-height: calc(100dvh - 7rem);
+    overflow-y: auto;
+    padding: 1rem;
+  }
+  .reader-selection {
+    position: fixed;
+    z-index: 47;
+    max-width: calc(100vw - 24px);
+    white-space: normal;
+  }
+  .reader-message {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: calc(5rem + env(safe-area-inset-bottom));
+    z-index: 48;
+    max-width: calc(100vw - 2rem);
+    padding: 0.75rem 1rem;
+    overflow-wrap: anywhere;
+  }
+  .reader-focus #main-header,
+  .reader-focus footer,
+  .reader-focus #article-toc,
+  .reader-focus #related-articles,
+  .reader-focus .giscus-wrapper {
+    display: none;
+  }
+  .reader-focus #article-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  #article-grid > div {
+    min-width: 0;
+  }
+  body:has(#reader-tools) #toc-fab {
+    display: none;
+  }
+  body:has(#reader-tools) #main-content {
+    padding-bottom: 7rem;
+  }
+  @media (min-width: 1024px) {
+    .reader-settings-open #main-content {
+      width: calc(100% - 22rem);
+      margin-left: 0;
+      margin-right: 22rem;
+    }
+    .reader-settings-open #article-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .reader-settings-open #article-toc {
+      display: none;
+    }
+  }
+  @media (max-width: 1023px) {
+    .reader-panel {
+      width: min(22rem, calc(100% - 2rem));
+      max-height: 44dvh;
+    }
+    .reader-width-control {
+      display: none;
+    }
+    .reader-settings-open {
+      padding-bottom: 20rem;
+    }
+  }
+</style>

@@ -1,0 +1,93 @@
+---
+import Shell from "../../components/FeatureShell.astro";
+import { getLocaleStaticPaths } from "../../config/paths";
+import { featureCopy } from "../../i18n/features";
+export const getStaticPaths = getLocaleStaticPaths;
+const c = featureCopy(Astro.locals.lang);
+---
+
+<Shell title={c.library}>
+  <p>{c.local}</p>
+  <button id="reading-clear" class="btn btn-outline">
+    {c.clear}
+  </button>
+  <p id="reading-empty" role="status">
+    {c.empty}
+  </p>
+  <div
+    id="reading-list"
+    class="grid sm:grid-cols-2 gap-4"
+    data-complete={c.complete}
+    data-saved={c.saved}
+    data-resume={c.resume}
+  ></div>
+</Shell>
+<script>
+  import { onPageLoad } from "../../scripts/page-lifecycle";
+  import { readingEntries, writeLocal } from "../../utils/reader";
+  onPageLoad((signal) => {
+    const root = document.getElementById("reading-list");
+    if (!root) return;
+    const render = () => {
+      root.replaceChildren();
+      const entries = readingEntries().filter(
+        (e) => e.saved || e.completed || e.progress > 0.03,
+      );
+      document.getElementById("reading-empty")!.hidden = entries.length > 0;
+      for (const entry of entries) {
+        const card = document.createElement("article");
+        card.className = "card bg-base-200 p-5 border border-base-300 gap-3";
+        const h = document.createElement("h2");
+        const a = document.createElement("a");
+        a.href = entry.url;
+        a.textContent = entry.title;
+        a.className = "link font-semibold";
+        h.append(a);
+        const p = document.createElement("p");
+        p.textContent = `${entry.lang} · ${Math.round(entry.progress * 100)}%${entry.completed || entry.progress >= 0.98 ? ` · ${root.dataset.complete}` : ""}`;
+        card.append(h, p);
+        if (entry.saved) {
+          const remove = document.createElement("button");
+          remove.className = "btn btn-sm btn-outline";
+          remove.textContent = root.dataset.saved!;
+          remove.addEventListener(
+            "click",
+            () => {
+              writeLocal(
+                "portfolio-reading-v1",
+                readingEntries().map((e) =>
+                  e.url === entry.url ? { ...e, saved: false } : e,
+                ),
+              );
+              render();
+            },
+            { signal },
+          );
+          card.append(remove);
+        }
+        root.append(card);
+      }
+    };
+    render();
+    document.getElementById("reading-clear")!.addEventListener(
+      "click",
+      () => {
+        writeLocal(
+          "portfolio-reading-v1",
+          readingEntries()
+            .filter((e) => e.saved)
+            .map((e) => ({
+              ...e,
+              progress: 0,
+              completed: false,
+              heading: "",
+              offset: 0,
+            })),
+        );
+        render();
+      },
+      { signal },
+    );
+    window.addEventListener("storage", render, { signal });
+  });
+</script>

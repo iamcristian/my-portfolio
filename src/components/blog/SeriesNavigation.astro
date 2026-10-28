@@ -1,0 +1,44 @@
+---
+import { getCollection } from "astro:content";
+import { readingPaths } from "../../data/series";
+import { isPublished } from "../../utils/blog";
+import { featureCopy } from "../../i18n/features";
+const { slug } = Astro.props;
+const { lang } = Astro.locals;
+const c = featureCopy(lang);
+const path = readingPaths.find((p) =>
+  (p.slugs as readonly string[]).includes(slug),
+);
+const posts = await getCollection(
+  "blog",
+  ({ data }) => data.lang === lang && isPublished(data),
+);
+const ordered =
+  path?.slugs
+    .map((s) => posts.find((p) => p.data.slug === s))
+    .filter((p) => p !== undefined) || [];
+const index = ordered.findIndex((p) => p.data.slug === slug);
+---
+
+{path && (
+  <section
+    class="my-8 card bg-base-200 border border-base-300 p-5 gap-3"
+    aria-label={c.series}
+  >
+    <a class="link font-semibold" href={`/${lang}/series/#${path.id}`}>
+      {c.series} · {index + 1}/{ordered.length}
+    </a>
+    <div class="flex flex-wrap justify-between gap-4">
+      {ordered[index - 1] && (
+        <a class="link" href={`/${lang}/blog/${ordered[index - 1].data.slug}/`}>
+          ← {c.previous}: {ordered[index - 1].data.title}
+        </a>
+      )}
+      {ordered[index + 1] && (
+        <a class="link" href={`/${lang}/blog/${ordered[index + 1].data.slug}/`}>
+          {c.next}: {ordered[index + 1].data.title} →
+        </a>
+      )}
+    </div>
+  </section>
+)}

@@ -6,6 +6,10 @@ import { getRelativeLocaleUrl } from "astro:i18n";
 import { useTranslations } from "@i18n/utils";
 import { getReadTime } from "@utils/blog";
 import { Image } from "astro:assets";
+import ContentsList from "./ContentsList.astro";
+import ReaderTools from "./ReaderTools.astro";
+import SeriesNavigation from "./SeriesNavigation.astro";
+import { featureCopy } from "../../i18n/features";
 import Giscus from "./Giscus.astro";
 import ShareButtons from "./ShareButtons.astro";
 import BlogCard from "@components/ui/cards/BlogCard.astro";
@@ -23,6 +27,7 @@ const { post } = Astro.props;
 const { lang } = Astro.locals;
 const langCode = lang;
 const t = useTranslations(langCode);
+const c = featureCopy(lang);
 
 // Render markdown content and retrieve headings
 const { Content, headings } = await render(post);
@@ -102,8 +107,45 @@ const formattedDate = new Intl.DateTimeFormat(lang, {
     </div>
   </header>
 
+  <ReaderTools title={post.data.title} />
+  {post.data.updatedDate && (
+    <p class="text-sm mb-4">
+      {c.updated}:{" "}
+      {new Intl.DateTimeFormat(lang, {
+        dateStyle: "long",
+        timeZone: "UTC",
+      }).format(post.data.updatedDate)}
+    </p>
+  )}
+  {(post.data.revisions?.length ||
+    post.data.versions ||
+    post.data.examplesChecked) && (
+    <details class="collapse collapse-arrow bg-base-200 mb-6">
+      <summary class="collapse-title font-medium">{c.revisions}</summary>
+      <div class="collapse-content space-y-2">
+        {post.data.versions && (
+          <p>
+            {c.versions}: {post.data.versions}
+          </p>
+        )}
+        {post.data.examplesChecked && (
+          <p>
+            {c.checked}: {post.data.examplesChecked}
+          </p>
+        )}
+        <ul>
+          {post.data.revisions?.map((note) => (
+            <li>{note}</li>
+          ))}
+        </ul>
+      </div>
+    </details>
+  )}
   <!-- Content Layout Grid -->
-  <div class="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-12 items-start">
+  <div
+    id="article-grid"
+    class="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-12 items-start"
+  >
     <!-- Left Column: Markdown Content -->
     <div class="flex flex-col gap-6">
       {post.data.image && (
@@ -119,7 +161,7 @@ const formattedDate = new Intl.DateTimeFormat(lang, {
           class="w-full object-cover aspect-21/9 max-h-75 rounded-xl border border-base-300 shadow-md"
         />
       )}
-      <article class="prose prose-sm max-w-none prose-headings:scroll-mt-24 prose-headings:font-bold prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl">
+      <article class="reader-article prose max-w-none prose-headings:scroll-mt-24 prose-headings:font-bold prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl">
         <Content />
       </article>
       {post.data.faq && post.data.faq.length > 0 && (
@@ -133,33 +175,22 @@ const formattedDate = new Intl.DateTimeFormat(lang, {
           ))}
         </section>
       )}
+      <SeriesNavigation slug={post.data.slug} />
       <Giscus />
     </div>
 
     <!-- Right Column: Sidebar Table of Contents (Desktop only) -->
     {tocHeadings.length > 0 && (
-      <aside class="hidden lg:block sticky top-24">
-        <div class="card bg-base-200 border border-base-300 p-6">
-          <h2
-            class="font-bold text-xs uppercase tracking-wider text-primary mb-4"
-            aria-label={t("blog.toc")}
-          >
-            {t("blog.toc")}
+      <aside id="article-toc" class="hidden lg:block sticky top-24">
+        <div class="border-t border-base-content/20 pt-5">
+          <h2 class="text-xs uppercase tracking-[.16em] opacity-60 mb-5">
+            {c.contents}
           </h2>
-          <nav id="desktop-toc" class="flex flex-col gap-2 text-xs">
-            {tocHeadings.map((h) => (
-              <a
-                href={`#${h.slug}`}
-                aria-label={h.text}
-                class:list={[
-                  "border-l-2 border-base-300 pl-3 py-1 opacity-70 hover:opacity-100 hover:border-primary transition-all block",
-                  { "ml-3 border-l-0 text-base-content/80": h.depth === 3 },
-                ]}
-              >
-                {h.text}
-              </a>
-            ))}
-          </nav>
+          <ContentsList
+            id="desktop-toc"
+            headings={tocHeadings}
+            label={t("blog.toc")}
+          />
         </div>
       </aside>
     )}
@@ -181,35 +212,29 @@ const formattedDate = new Intl.DateTimeFormat(lang, {
       <dialog
         aria-labelledby="toc-title"
         id="toc_modal"
-        class="modal modal-bottom sm:modal-middle"
+        class="modal toc-modal"
       >
-        <div class="modal-box bg-base-200 border border-base-300 shadow-2xl">
-          <h2
-            id="toc-title"
-            class="font-bold text-lg text-primary mb-4"
-            aria-label={t("blog.toc")}
-          >
-            {t("blog.toc")}
-          </h2>
-          <nav class="flex flex-col gap-3 max-h-[60vh] overflow-y-auto py-2">
-            {tocHeadings.map((h) => (
-              <a
-                href={`#${h.slug}`}
-                aria-label={h.text}
-                class:list={[
-                  "block p-2 rounded-lg bg-base-100 hover:bg-base-300 text-sm font-medium transition-colors",
-                  { "pl-6 text-xs text-base-content/80": h.depth === 3 },
-                ]}
-              >
-                {h.text}
-              </a>
-            ))}
-          </nav>
-          <div class="modal-action">
+        <div class="modal-box toc-paper bg-base-100 text-base-content">
+          <div class="flex justify-between items-center gap-4 mb-8">
+            <span class="text-[10px] uppercase tracking-[.2em] opacity-50">
+              {getReadTime(post.body, post.data.lang)} {t("blog.readTime")}
+            </span>
             <form method="dialog">
-              <button class="btn btn-sm btn-outline">{t("blog.close")}</button>
+              <button
+                class="btn btn-ghost btn-circle btn-sm"
+                aria-label={t("blog.close")}
+              >
+                <span aria-hidden="true">✕</span>
+              </button>
             </form>
           </div>
+          <h2 id="toc-title" class="font-serif text-3xl tracking-tight mb-3">
+            {c.contents}
+          </h2>
+          <p class="text-xs leading-relaxed opacity-55 mb-8">
+            {post.data.title}
+          </p>
+          <ContentsList headings={tocHeadings} label={t("blog.toc")} />
         </div>
         <form method="dialog" class="modal-backdrop">
           <button>{t("blog.close")}</button>
@@ -220,7 +245,7 @@ const formattedDate = new Intl.DateTimeFormat(lang, {
 
   <!-- Related Posts Section -->
   {finalRelatedPosts.length > 0 && (
-    <div class="mt-16 pt-8 border-t border-base-300">
+    <div id="related-articles" class="mt-16 pt-8 border-t border-base-300">
       <h2 class="text-lg md:text-xl font-bold mb-6">
         {t("blog.relatedPosts") || "Related Articles"}
       </h2>
@@ -234,14 +259,28 @@ const formattedDate = new Intl.DateTimeFormat(lang, {
 </main>
 
 <style>
-  #desktop-toc a.toc-active {
-    opacity: 1 !important;
-    border-left-color: var(--color-primary) !important;
-    font-weight: 600;
+  .toc-modal {
+    justify-items: end;
+    padding: 0;
   }
-  #toc_modal nav a.toc-active {
-    background-color: var(--color-primary) !important;
-    color: var(--color-primary-content) !important;
+  .toc-modal .toc-paper {
+    width: min(26rem, 100vw);
+    max-width: 100vw;
+    height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0;
+    margin: 0;
+    padding: 2rem;
+    overflow-y: auto;
+    border-left: 1px solid
+      color-mix(in oklch, var(--color-base-content) 15%, transparent);
+    box-shadow: -12px 0 48px #0002;
+  }
+  @media (max-width: 480px) {
+    .toc-modal .toc-paper {
+      padding: 1.5rem;
+      width: calc(100vw - 1rem);
+    }
   }
 </style>
 

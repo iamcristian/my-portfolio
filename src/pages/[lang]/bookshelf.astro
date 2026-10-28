@@ -1,0 +1,102 @@
+---
+import { parseBooks } from "../../utils/books";
+import Shell from "../../components/FeatureShell.astro";
+import { getLocaleStaticPaths } from "../../config/paths";
+import { getCollection } from "astro:content";
+import { isPublished } from "../../utils/blog";
+import { featureCopy } from "../../i18n/features";
+export const getStaticPaths = getLocaleStaticPaths;
+const { lang } = Astro.locals;
+const c = featureCopy(lang);
+const shelf = (
+  await getCollection(
+    "blog",
+    ({ data }) =>
+      data.lang === lang && data.slug === "my-bookshelf" && isPublished(data),
+  )
+)[0];
+const notable = (
+  await getCollection(
+    "blog",
+    ({ data }) =>
+      data.lang === lang &&
+      data.slug === "my-most-notable-reads" &&
+      isPublished(data),
+  )
+)[0];
+const books = parseBooks(shelf?.body || "", notable?.body || "");
+---
+
+<Shell title={c.bookshelf}>
+  <div class="flex flex-wrap gap-4">
+    <label class="flex flex-col gap-2">
+      {c.bookSearch}
+      <input id="book-query" type="search" class="input" />
+    </label>
+    <label class="flex flex-col gap-2">
+      {c.status}
+      <select id="book-status" class="select">
+        <option value="all">{c.all}</option>
+        <option value="read">{c.read}</option>
+        <option value="planned">{c.planned}</option>
+      </select>
+    </label>
+  </div>
+  <p id="book-count" role="status" aria-live="polite" data-label={c.results}>
+    {books.length} {c.results}
+  </p>
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    {books.map((book) => (
+      <article
+        class="book-card card bg-base-200 border border-base-300 p-5 gap-3"
+        data-search={`${book.title} ${book.theme} ${book.author}`.toLocaleLowerCase()}
+        data-status={book.status}
+      >
+        <p class="text-xs opacity-70">{book.theme}</p>
+        <h2 class="font-bold">{book.title}</h2>
+        <p>{book.author}</p>
+        {book.note && (
+          <blockquote class="text-sm border-l-2 border-primary pl-3">
+            {book.note}
+          </blockquote>
+        )}
+        <span class="badge badge-outline">
+          {book.status === "read" ? c.read : c.planned}
+        </span>
+        <a class="link text-sm" href={`/${lang}/blog/my-bookshelf/`}>
+          {c.articles}
+        </a>
+        <a
+          class="link text-sm"
+          href={`/${lang}/search/?q=${encodeURIComponent(book.title.split(" — ")[0])}&evidence=1`}
+        >
+          {c.evidence}
+        </a>
+      </article>
+    ))}
+  </div>
+</Shell>
+<script>
+  import { onPageLoad } from "../../scripts/page-lifecycle";
+  onPageLoad((signal) => {
+    const input = document.querySelector<HTMLInputElement>("#book-query");
+    if (!input) return;
+    const select = document.querySelector<HTMLSelectElement>("#book-status")!;
+    const render = () => {
+      let count = 0;
+      document.querySelectorAll<HTMLElement>(".book-card").forEach((card) => {
+        const visible =
+          card.dataset.search!.includes(
+            input.value.trim().toLocaleLowerCase(),
+          ) &&
+          (select.value === "all" || select.value === card.dataset.status);
+        card.hidden = !visible;
+        if (visible) count++;
+      });
+      const output = document.getElementById("book-count")!;
+      output.textContent = `${count} ${output.dataset.label}`;
+    };
+    input.addEventListener("input", render, { signal });
+    select.addEventListener("change", render, { signal });
+  });
+</script>

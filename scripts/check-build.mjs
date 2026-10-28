@@ -147,6 +147,67 @@ for (const file of allFiles.filter((file) => file.endsWith(".xml"))) {
     }
   }
 }
+const searchEntries = JSON.parse(
+  await readFile(path.join(root, "search-index.json"), "utf8"),
+);
+for (const entry of searchEntries) {
+  assert.ok(
+    entry.title && entry.text && entry.lang && entry.kind,
+    "search result metadata",
+  );
+  const targetUrl = new URL(entry.url, origin);
+  if (targetUrl.hash)
+    assert.ok(
+      pages.get(targetUrl.pathname)?.getElementById(targetUrl.hash.slice(1)),
+      `search fragment exists: ${entry.url}`,
+    );
+  assert.ok(
+    pages.has(new URL(entry.url, origin).pathname),
+    `search target exists: ${entry.url}`,
+  );
+}
+for (const lang of ["en", "es", "de", "ru", "ja"]) {
+  for (const route of ["search", "library", "series", "bookshelf"])
+    assert.ok(
+      pages.has(`/${lang}/${route}/`),
+      `${lang}: discovery page ${route}`,
+    );
+  for (const route of ["search", "library", "series", "bookshelf"]) {
+    const nav = pages
+      .get("/" + lang + "/" + route + "/")
+      .querySelector("main nav");
+    assert.equal(
+      nav.querySelectorAll('[aria-current="page"]').length,
+      1,
+      "discovery navigation has one current page",
+    );
+    assert.equal(
+      nav.querySelectorAll("a[data-astro-reload]").length,
+      3,
+      "discovery links use direct navigation",
+    );
+  }
+  const article = pages.get(`/${lang}/blog/astro-vs-nextjs/`);
+  for (const id of [
+    "reader-tools",
+    "reader-panel",
+    "reader-save",
+    "reader-toggle",
+  ])
+    assert.ok(article.getElementById(id), `${lang}: reader control ${id}`);
+  assert.ok(
+    article.querySelector(".request-lab"),
+    `${lang}: interactive example`,
+  );
+  assert.ok(
+    pages.get(`/${lang}/bookshelf/`).querySelectorAll(".book-card").length > 0,
+    `${lang}: bookshelf parsed`,
+  );
+  assert.ok(
+    searchEntries.some((e) => e.lang === lang && e.kind === "articles"),
+    `${lang}: indexed articles`,
+  );
+}
 console.log(
   `Verified ${pages.size} HTML pages and ${xmlCount} XML files: headings, skip links, metadata, JSON-LD, alternates, internal links, image dimensions and feeds.`,
 );

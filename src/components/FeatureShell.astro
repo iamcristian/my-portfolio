@@ -1,0 +1,51 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "./Header.astro";
+import Footer from "./Footer.astro";
+import { featureCopy } from "../i18n/features";
+const { title, description = title } = Astro.props;
+const { lang } = Astro.locals;
+const c = featureCopy(lang);
+const links = [
+  { path: "search", label: c.search },
+  { path: "library", label: c.library },
+  { path: "series", label: c.series },
+  { path: "bookshelf", label: c.bookshelf },
+];
+const currentPath = Astro.url.pathname.replace(/\/$/, "");
+---
+
+<Layout title={title} description={description}>
+  <Header />
+  <main
+    id="main-content"
+    class="max-w-6xl mx-auto px-4 md:px-8 py-12 min-h-screen space-y-8"
+  >
+    <h1 class="text-3xl font-bold tracking-tight">{title}</h1>
+    <nav
+      class="flex flex-wrap gap-x-6 gap-y-1 border-b border-base-content/15"
+      aria-label={c.evidence}
+    >
+      {links.map((link) =>
+        currentPath === "/" + lang + "/" + link.path ? (
+          <span
+            aria-current="page"
+            class="inline-flex items-center min-h-11 border-b-2 border-base-content text-sm font-semibold"
+          >
+            {link.label}
+          </span>
+        ) : (
+          <a
+            data-astro-reload
+            href={"/" + lang + "/" + link.path + "/"}
+            class="inline-flex items-center min-h-11 border-b-2 border-transparent text-sm opacity-65 hover:opacity-100"
+          >
+            {link.label}
+          </a>
+        ),
+      )}
+    </nav>
+    <slot />
+  </main>
+  <Footer />
+</Layout>
