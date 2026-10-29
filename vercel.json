@@ -45,6 +45,14 @@
   ],
   "rewrites": [
     {
+      "source": "/_next/:path*",
+      "destination": "https://inside-link.vercel.app/_next/:path*"
+    },
+    {
+      "source": "/_next/:path*/",
+      "destination": "https://inside-link.vercel.app/_next/:path*"
+    },
+    {
       "source": "/admin",
       "destination": "https://inside-link.vercel.app/admin"
     },
@@ -54,6 +62,10 @@
     },
     {
       "source": "/admin/:path*",
+      "destination": "https://inside-link.vercel.app/admin/:path*"
+    },
+    {
+      "source": "/admin/:path*/",
       "destination": "https://inside-link.vercel.app/admin/:path*"
     },
     {
@@ -77,7 +89,15 @@
       "destination": "https://inside-link.vercel.app/api/auth/:path*"
     },
     {
+      "source": "/api/auth/:path*/",
+      "destination": "https://inside-link.vercel.app/api/auth/:path*"
+    },
+    {
       "source": "/api/v1/:path*",
+      "destination": "https://inside-link.vercel.app/api/v1/:path*"
+    },
+    {
+      "source": "/api/v1/:path*/",
       "destination": "https://inside-link.vercel.app/api/v1/:path*"
     },
     {
