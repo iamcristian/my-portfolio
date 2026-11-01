@@ -63,4 +63,3 @@ export const features = {
   results: "件",
   english: "この解説は現在英語で提供されています。",
 };
-

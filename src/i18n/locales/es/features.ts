@@ -62,4 +62,3 @@ export const features = {
   results: "resultados",
   english: "Esta explicación editorial está disponible actualmente en inglés.",
 };
-
