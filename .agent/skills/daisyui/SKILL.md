@@ -2136,7 +2136,7 @@ Rotating words in a sentence, different colors for each word
 Custom line height in case you have a tall font or need more vertical spacing between lines
 
 ```html
-<span class="text-rotate max-md:text-3xl text-7xl font-title leading-[2]">
+<span class="text-rotate max-md:text-3xl text-7xl font-title leading-loose">
   <span class="justify-items-center">
     <span>📐 DESIGN</span>
     <span>⌨️ DEVELOP</span>
