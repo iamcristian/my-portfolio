@@ -29,9 +29,9 @@ const generateDeterministicShadows = (count: number, seed: number) => {
     const x = (prng() * 99).toFixed(2);
     // Keep stars well within the Hero fold (0vh to 90vh)
     const y = (prng() * 90).toFixed(2);
-    // Subtle, gentle opacities that complement typography without distraction
-    const opacity = (0.25 + prng() * 0.45).toFixed(2);
-    const isCoolWhite = prng() > 0.4;
+    // Crisp, clearly visible celestial brightness
+    const opacity = (0.55 + prng() * 0.4).toFixed(2);
+    const isCoolWhite = prng() > 0.45;
     const color = isCoolWhite
       ? `rgba(224, 242, 254, ${opacity})`
       : `rgba(255, 255, 255, ${opacity})`;
@@ -41,26 +41,19 @@ const generateDeterministicShadows = (count: number, seed: number) => {
   return shadows.join(", ");
 };
 
-// Minimalist, elegant starfield densities (refined micro-points)
-const starsLayer1Shadow = generateDeterministicShadows(30, 1337);
-const starsLayer2Shadow = generateDeterministicShadows(18, 2026);
+// 3 refined, well-balanced layers: 26 far micro-stars, 16 mid stars, 8 accent stars (50 stars total)
+const starsLayer1Shadow = generateDeterministicShadows(26, 1337);
+const starsLayer2Shadow = generateDeterministicShadows(16, 2026);
 const starsLayer3Shadow = generateDeterministicShadows(8, 777);
 ---
 
 <section
   id="home"
   class="hero min-h-[calc(100vh-4rem)] bg-base-100 relative overflow-hidden group/hero"
-  style="--mouse-x: 50%; --mouse-y: 50%;"
 >
-  <!-- Ambient Cosmic Nebula Glows -->
-  <div class="absolute top-1/4 left-1/4 w-100 h-100 rounded-full bg-primary/10 blur-[110px] pointer-events-none nebula-glow-1"></div>
-  <div class="absolute bottom-1/4 right-1/4 w-130 h-130 rounded-full bg-secondary/8 blur-[130px] pointer-events-none nebula-glow-2"></div>
-
-  <!-- Interactive Cosmic Nebula Spotlight (Follows mouse) -->
-  <div
-    class="absolute inset-0 pointer-events-none opacity-0 group-hover/hero:opacity-100 transition-opacity duration-700"
-    style="background: radial-gradient(850px circle at var(--mouse-x) var(--mouse-y), color-mix(in oklch, var(--color-primary) 12%, transparent) 0%, color-mix(in oklch, var(--color-secondary) 4%, transparent) 45%, transparent 75%);"
-  ></div>
+  <!-- Ambient Cosmic Nebula Glows (Static, zero CPU/GPU rasterization overhead) -->
+  <div class="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-primary/8 blur-[90px] pointer-events-none"></div>
+  <div class="absolute bottom-1/4 right-1/4 w-112 h-112 rounded-full bg-secondary/6 blur-[100px] pointer-events-none"></div>
 
   <!-- Celestial Coordinate Chart (Astronomical Graticule) -->
   <div class="absolute inset-0 pointer-events-none celestial-chart overflow-hidden flex items-center justify-end pr-[5%] opacity-[0.05]">
@@ -95,7 +88,7 @@ const starsLayer3Shadow = generateDeterministicShadows(8, 777);
     </svg>
   </div>
 
-  <!-- Stars Backdrop (Atmospheric, non-intrusive night sky) -->
+  <!-- Stars Backdrop (Clean, crisp, atmospheric night sky) -->
   <div class="absolute inset-0 pointer-events-none stars-container overflow-hidden">
     <div
       class="stars-layer stars-layer-1"
@@ -109,9 +102,23 @@ const starsLayer3Shadow = generateDeterministicShadows(8, 777);
       class="stars-layer stars-layer-3"
       style={`box-shadow: ${starsLayer3Shadow};`}
     ></div>
+
+    <!-- Soft 4-Point Constellation Vector Diamond Stars -->
+    <svg class="sparkle-star sparkle-1" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 0 C12 7 12 7 19 12 C12 12 12 17 12 24 C12 17 12 17 5 12 C12 12 12 7 12 0 Z" />
+    </svg>
+    <svg class="sparkle-star sparkle-2" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 0 C12 7 12 7 19 12 C12 12 12 17 12 24 C12 17 12 17 5 12 C12 12 12 7 12 0 Z" />
+    </svg>
+    <svg class="sparkle-star sparkle-3" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 0 C12 7 12 7 19 12 C12 12 12 17 12 24 C12 17 12 17 5 12 C12 12 12 7 12 0 Z" />
+    </svg>
+    <svg class="sparkle-star sparkle-4" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 0 C12 7 12 7 19 12 C12 12 12 17 12 24 C12 17 12 17 5 12 C12 12 12 7 12 0 Z" />
+    </svg>
   </div>
 
-  <!-- Realistic Comets & Shooting Stars with Luminous Core and Tail -->
+  <!-- Comets / Shooting Stars with Luminous Core and Tail -->
   <div class="shooting-star-track shooting-star-1">
     <div class="shooting-star-body">
       <span class="shooting-star-core"></span>
@@ -119,12 +126,6 @@ const starsLayer3Shadow = generateDeterministicShadows(8, 777);
     </div>
   </div>
   <div class="shooting-star-track shooting-star-2">
-    <div class="shooting-star-body">
-      <span class="shooting-star-core"></span>
-      <span class="shooting-star-tail"></span>
-    </div>
-  </div>
-  <div class="shooting-star-track shooting-star-3">
     <div class="shooting-star-body">
       <span class="shooting-star-core"></span>
       <span class="shooting-star-tail"></span>
@@ -180,11 +181,11 @@ const starsLayer3Shadow = generateDeterministicShadows(8, 777);
     <!-- Right Column: Lagrange Star Chart Card with Cosmic Gravitational Lens Frame -->
     <div class="hidden md:flex justify-center items-center relative w-115 h-127.5 group/gravitational">
       <!-- Deep Cosmic Accretion Glow (Lens effect behind card) -->
-      <div class="absolute -inset-10 rounded-full bg-radial from-primary/12 via-secondary/6 to-transparent blur-[60px] pointer-events-none gravitational-aura"></div>
+      <div class="absolute -inset-10 rounded-full bg-radial from-primary/10 via-secondary/5 to-transparent blur-[50px] pointer-events-none"></div>
 
-      <!-- Gravitational Curvature Orbit Rings -->
-      <div class="absolute -inset-5 rounded-full border border-primary/15 pointer-events-none gravitational-ring-1"></div>
-      <div class="absolute -inset-12 rounded-full border border-secondary/10 pointer-events-none gravitational-ring-2"></div>
+      <!-- Gravitational Curvature Orbit Rings (Static decorative accents) -->
+      <div class="absolute -inset-5 rounded-full border border-primary/15 border-dashed pointer-events-none"></div>
+      <div class="absolute -inset-12 rounded-full border border-secondary/10 border-dashed pointer-events-none"></div>
 
       <!-- Untouched Original Lagrange Simulation Component -->
       <LagrangeSimulation class="w-full h-full flex justify-center items-center relative" />
@@ -193,66 +194,7 @@ const starsLayer3Shadow = generateDeterministicShadows(8, 777);
 </section>
 
 <style>
-  /* Keyframes for Cosmic floating elements */
-  @keyframes float-nebula {
-    0%,
-    100% {
-      transform: translate(0, 0) scale(1);
-    }
-    50% {
-      transform: translate(18px, -18px) scale(1.05);
-    }
-  }
-
-  .nebula-glow-1 {
-    animation: float-nebula 16s ease-in-out infinite;
-    will-change: transform;
-  }
-  .nebula-glow-2 {
-    animation: float-nebula 24s ease-in-out infinite reverse;
-    will-change: transform;
-  }
-
-  /* Gravitational Lens Aura & Rings */
-  @keyframes gravitational-pulse {
-    0%,
-    100% {
-      transform: scale(0.95);
-      opacity: 0.55;
-    }
-    50% {
-      transform: scale(1.06);
-      opacity: 0.85;
-    }
-  }
-
-  @keyframes gravitational-rotate {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-
-  .gravitational-aura {
-    animation: gravitational-pulse 9s ease-in-out infinite;
-    will-change: transform, opacity;
-  }
-
-  .gravitational-ring-1 {
-    animation: gravitational-rotate 55s linear infinite;
-    border-style: dashed;
-    border-dasharray: 6 12;
-  }
-
-  .gravitational-ring-2 {
-    animation: gravitational-rotate 85s linear infinite reverse;
-    border-style: dashed;
-    border-dasharray: 3 9;
-  }
-
-  /* Realistic Shooting Stars / Comets */
+  /* Comets / Shooting Stars */
   .shooting-star-track {
     position: absolute;
     pointer-events: none;
@@ -267,46 +209,40 @@ const starsLayer3Shadow = generateDeterministicShadows(8, 777);
   }
 
   .shooting-star-core {
-    width: 3.5px;
-    height: 3.5px;
+    width: 3px;
+    height: 3px;
     background: #ffffff;
     border-radius: 9999px;
     box-shadow:
-      0 0 6px #ffffff,
-      0 0 14px var(--color-primary);
+      0 0 4px #ffffff,
+      0 0 10px var(--color-primary);
     flex-shrink: 0;
   }
 
   .shooting-star-tail {
     height: 1.5px;
-    width: 120px;
+    width: 100px;
     background: linear-gradient(
       to left,
       transparent,
-      color-mix(in oklch, var(--color-primary) 70%, transparent),
+      color-mix(in oklch, var(--color-primary) 65%, transparent),
       #ffffff
     );
-    opacity: 0.9;
+    opacity: 0.85;
     border-radius: 9999px;
   }
 
   .shooting-star-1 {
     top: 14%;
     right: 22%;
-    animation: shooting-star-realistic 9s cubic-bezier(0.25, 0.1, 0.25, 1)
-      infinite 2.5s;
+    animation: shooting-star-realistic 12s cubic-bezier(0.25, 0.1, 0.25, 1)
+      infinite 3s;
   }
   .shooting-star-2 {
-    top: 32%;
-    right: 48%;
-    animation: shooting-star-realistic 14s cubic-bezier(0.25, 0.1, 0.25, 1)
-      infinite 7s;
-  }
-  .shooting-star-3 {
-    top: 50%;
-    right: 15%;
-    animation: shooting-star-realistic 19s cubic-bezier(0.25, 0.1, 0.25, 1)
-      infinite 12s;
+    top: 40%;
+    right: 42%;
+    animation: shooting-star-realistic 18s cubic-bezier(0.25, 0.1, 0.25, 1)
+      infinite 9s;
   }
 
   @keyframes shooting-star-realistic {
@@ -316,7 +252,7 @@ const starsLayer3Shadow = generateDeterministicShadows(8, 777);
     }
     4% {
       opacity: 1;
-      transform: translate3d(70px, -70px, 0) rotate(-45deg) scale(1.15);
+      transform: translate3d(70px, -70px, 0) rotate(-45deg) scale(1.1);
     }
     12% {
       transform: translate3d(-190px, 190px, 0) rotate(-45deg) scale(0.5);
@@ -329,21 +265,6 @@ const starsLayer3Shadow = generateDeterministicShadows(8, 777);
   }
 
   /* Cosmic Stars Backdrop Layers */
-  .stars-container {
-    mask-image: radial-gradient(
-      ellipse 65% 60% at 50% 50%,
-      rgba(0, 0, 0, 0.15) 0%,
-      rgba(0, 0, 0, 0.45) 45%,
-      rgba(0, 0, 0, 1) 85%
-    );
-    -webkit-mask-image: radial-gradient(
-      ellipse 65% 60% at 50% 50%,
-      rgba(0, 0, 0, 0.15) 0%,
-      rgba(0, 0, 0, 0.45) 45%,
-      rgba(0, 0, 0, 1) 85%
-    );
-  }
-
   .stars-layer {
     position: absolute;
     top: 0;
@@ -354,127 +275,107 @@ const starsLayer3Shadow = generateDeterministicShadows(8, 777);
   }
 
   .stars-layer-1 {
-    width: 1px;
-    height: 1px;
+    width: 1.5px;
+    height: 1.5px;
     animation: twinkle-1 7s ease-in-out infinite;
   }
 
   .stars-layer-2 {
-    width: 1.5px;
-    height: 1.5px;
+    width: 2px;
+    height: 2px;
     animation: twinkle-2 10s ease-in-out infinite;
   }
 
   .stars-layer-3 {
-    width: 2.25px;
-    height: 2.25px;
-    animation: twinkle-3 14s ease-in-out infinite;
+    width: 2.75px;
+    height: 2.75px;
+    animation: twinkle-3 13s ease-in-out infinite;
   }
 
-  .celestial-chart {
-    /* Fixed astronomical graticule background */
+  /* 4-Point Constellation Vector Diamond Stars (Gentle, elegant, no harsh glare) */
+  .sparkle-star {
+    position: absolute;
+    color: #ffffff;
+    pointer-events: none;
+    backface-visibility: hidden;
+  }
+
+  .sparkle-1 {
+    top: 16%;
+    left: 12%;
+    width: 11px;
+    height: 11px;
+    animation: sparkle-twinkle 6s ease-in-out infinite;
+  }
+  .sparkle-2 {
+    top: 22%;
+    right: 20%;
+    width: 9px;
+    height: 9px;
+    animation: sparkle-twinkle 8s ease-in-out infinite 2s;
+  }
+  .sparkle-3 {
+    top: 65%;
+    left: 18%;
+    width: 10px;
+    height: 10px;
+    animation: sparkle-twinkle 7s ease-in-out infinite 3.5s;
+  }
+  .sparkle-4 {
+    top: 75%;
+    right: 26%;
+    width: 9px;
+    height: 9px;
+    animation: sparkle-twinkle 9s ease-in-out infinite 1s;
+  }
+
+  @keyframes sparkle-twinkle {
+    0%,
+    100% {
+      opacity: 0.35;
+      transform: scale(0.9);
+    }
+    50% {
+      opacity: 0.7;
+      transform: scale(1.05);
+    }
   }
 
   @keyframes twinkle-1 {
     0%,
     100% {
-      opacity: 0.25;
+      opacity: 0.4;
     }
     50% {
-      opacity: 0.75;
+      opacity: 0.95;
     }
   }
   @keyframes twinkle-2 {
     0%,
     100% {
-      opacity: 0.7;
+      opacity: 0.85;
     }
     50% {
-      opacity: 0.2;
+      opacity: 0.35;
     }
   }
   @keyframes twinkle-3 {
     0%,
     100% {
-      opacity: 0.35;
+      opacity: 0.45;
     }
     50% {
-      opacity: 0.8;
+      opacity: 0.9;
     }
   }
 
   /* Accessibility: Prefers Reduced Motion */
   @media (prefers-reduced-motion: reduce) {
     .stars-layer,
-    .celestial-chart,
-    .gravitational-aura,
-    .gravitational-ring-1,
-    .gravitational-ring-2,
-    .shooting-star-track,
-    .nebula-glow-1,
-    .nebula-glow-2 {
+    .sparkle-star,
+    .shooting-star-track {
       animation: none !important;
       transform: none !important;
     }
   }
 </style>
-
-<script>
-  let heroCleanup: (() => void) | null = null;
-
-  function initCosmicHero() {
-    heroCleanup?.();
-    const hero = document.getElementById("home");
-    if (!hero) return;
-
-    // Set initial mouse values centered for the ambient spotlight
-    hero.style.setProperty("--mouse-x", "50%");
-    hero.style.setProperty("--mouse-y", "50%");
-
-    const controller = new AbortController();
-    const signal = controller.signal;
-
-    let ticking = false;
-    let frame = 0;
-
-    hero.addEventListener(
-      "mousemove",
-      (e) => {
-        if (!ticking) {
-          frame = window.requestAnimationFrame(() => {
-            const rect = hero.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            hero.style.setProperty("--mouse-x", `${x}px`);
-            hero.style.setProperty("--mouse-y", `${y}px`);
-            ticking = false;
-          });
-          ticking = true;
-        }
-      },
-      { signal },
-    );
-
-    hero.addEventListener(
-      "mouseleave",
-      () => {
-        hero.style.setProperty("--mouse-x", "50%");
-        hero.style.setProperty("--mouse-y", "50%");
-      },
-      { signal },
-    );
-
-    heroCleanup = () => {
-      controller.abort();
-      cancelAnimationFrame(frame);
-    };
-  }
-
-  // Initialize on load and on Astro page swaps
-  document.addEventListener("astro:page-load", initCosmicHero);
-  document.addEventListener("astro:before-swap", () => {
-    heroCleanup?.();
-    heroCleanup = null;
-  });
-</script>
