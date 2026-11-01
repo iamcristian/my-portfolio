@@ -32,6 +32,8 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
   "/src/assets/images/projects/*.{jpeg,jpg,png,gif,webp}",
 );
 const imageImport = images[project.image];
+const isExternal = project.image.startsWith("http");
+const localImage = imageImport ? imageImport() : fallbackImage;
 ---
 
 <article
@@ -42,18 +44,7 @@ const imageImport = images[project.image];
   {...rest}
 >
   <figure class="project-figure relative h-48 bg-base-300 shrink-0 transition-all overflow-hidden">
-    {imageImport ? (
-      <Image
-        src={imageImport()}
-        alt={project.title}
-        widths={[400, 800]}
-        sizes="(min-width: 1024px) 360px, (min-width: 768px) 50vw, calc(100vw - 32px)"
-        width={400}
-        height={225}
-        loading={loading}
-        class="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-500"
-      />
-    ) : project.image.startsWith("http") ? (
+    {isExternal ? (
       <Image
         src={project.image}
         alt={project.title}
@@ -66,7 +57,7 @@ const imageImport = images[project.image];
       />
     ) : (
       <Image
-        src={fallbackImage}
+        src={localImage}
         alt={project.title}
         widths={[400, 800]}
         sizes="(min-width: 1024px) 360px, (min-width: 768px) 50vw, calc(100vw - 32px)"
