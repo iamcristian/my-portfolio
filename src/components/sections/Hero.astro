@@ -41,19 +41,26 @@ const generateDeterministicShadows = (count: number, seed: number) => {
   return shadows.join(", ");
 };
 
-// 3 refined, well-balanced layers: 26 far micro-stars, 16 mid stars, 8 accent stars (50 stars total)
-const starsLayer1Shadow = generateDeterministicShadows(26, 1337);
-const starsLayer2Shadow = generateDeterministicShadows(16, 2026);
+// 3 refined, well-balanced layers (51 stars total: clearly visible, non-intrusive)
+const starsLayer1Shadow = generateDeterministicShadows(25, 1337);
+const starsLayer2Shadow = generateDeterministicShadows(18, 2026);
 const starsLayer3Shadow = generateDeterministicShadows(8, 777);
 ---
 
 <section
   id="home"
   class="hero min-h-[calc(100vh-4rem)] bg-base-100 relative overflow-hidden group/hero"
+  style="--mouse-x: 50%; --mouse-y: 50%;"
 >
   <!-- Ambient Cosmic Nebula Glows (Static, zero CPU/GPU rasterization overhead) -->
   <div class="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-primary/8 blur-[90px] pointer-events-none"></div>
-  <div class="absolute bottom-1/4 right-1/4 w-112 h-112 rounded-full bg-secondary/6 blur-[100px] pointer-events-none"></div>
+  <div class="absolute bottom-1/4 right-1/4 w-md h-112 rounded-full bg-secondary/6 blur-[100px] pointer-events-none"></div>
+
+  <!-- Interactive Cosmic Nebula Spotlight (Follows mouse, dynamically adapts to theme colors) -->
+  <div
+    class="absolute inset-0 pointer-events-none opacity-0 group-hover/hero:opacity-100 transition-opacity duration-700"
+    style="background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), color-mix(in oklch, var(--color-primary) 10%, transparent) 0%, color-mix(in oklch, var(--color-secondary) 3%, transparent) 50%, transparent 80%);"
+  ></div>
 
   <!-- Celestial Coordinate Chart (Astronomical Graticule) -->
   <div class="absolute inset-0 pointer-events-none celestial-chart overflow-hidden flex items-center justify-end pr-[5%] opacity-[0.05]">
@@ -103,7 +110,7 @@ const starsLayer3Shadow = generateDeterministicShadows(8, 777);
       style={`box-shadow: ${starsLayer3Shadow};`}
     ></div>
 
-    <!-- Soft 4-Point Constellation Vector Diamond Stars -->
+    <!-- Soft 4-Point Constellation Vector Diamond Stars (Gentle, elegant, no harsh glare) -->
     <svg class="sparkle-star sparkle-1" viewBox="0 0 24 24" fill="currentColor">
       <path d="M12 0 C12 7 12 7 19 12 C12 12 12 17 12 24 C12 17 12 17 5 12 C12 12 12 7 12 0 Z" />
     </svg>
@@ -178,18 +185,8 @@ const starsLayer3Shadow = generateDeterministicShadows(8, 777);
       <SocialLinks class="justify-center lg:justify-start mt-2" />
     </div>
 
-    <!-- Right Column: Lagrange Star Chart Card with Cosmic Gravitational Lens Frame -->
-    <div class="hidden md:flex justify-center items-center relative w-115 h-127.5 group/gravitational">
-      <!-- Deep Cosmic Accretion Glow (Lens effect behind card) -->
-      <div class="absolute -inset-10 rounded-full bg-radial from-primary/10 via-secondary/5 to-transparent blur-[50px] pointer-events-none"></div>
-
-      <!-- Gravitational Curvature Orbit Rings (Static decorative accents) -->
-      <div class="absolute -inset-5 rounded-full border border-primary/15 border-dashed pointer-events-none"></div>
-      <div class="absolute -inset-12 rounded-full border border-secondary/10 border-dashed pointer-events-none"></div>
-
-      <!-- Untouched Original Lagrange Simulation Component -->
-      <LagrangeSimulation class="w-full h-full flex justify-center items-center relative" />
-    </div>
+    <!-- Right Column: Lagrange Star Chart Card (Hidden on mobile, shown on tablet & desktop) -->
+    <LagrangeSimulation class="hidden md:flex justify-center items-center relative w-115 h-127.5" />
   </div>
 </section>
 
@@ -379,3 +376,63 @@ const starsLayer3Shadow = generateDeterministicShadows(8, 777);
     }
   }
 </style>
+
+<script>
+  let heroCleanup: (() => void) | null = null;
+
+  function initCosmicHero() {
+    heroCleanup?.();
+    const hero = document.getElementById("home");
+    if (!hero || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    // Set initial mouse position values to center
+    hero.style.setProperty("--mouse-x", "50%");
+    hero.style.setProperty("--mouse-y", "50%");
+
+    // Throttled mousemove handler for interactive nebula spotlight (original flashlight)
+    const controller = new AbortController();
+    const signal = controller.signal;
+    let ticking = false;
+    let frame = 0;
+
+    hero.addEventListener(
+      "mousemove",
+      (e) => {
+        if (!ticking) {
+          frame = window.requestAnimationFrame(() => {
+            const rect = hero.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            hero.style.setProperty("--mouse-x", `${x}px`);
+            hero.style.setProperty("--mouse-y", `${y}px`);
+            ticking = false;
+          });
+          ticking = true;
+        }
+      },
+      { signal },
+    );
+
+    hero.addEventListener(
+      "mouseleave",
+      () => {
+        hero.style.setProperty("--mouse-x", "50%");
+        hero.style.setProperty("--mouse-y", "50%");
+      },
+      { signal },
+    );
+
+    heroCleanup = () => {
+      controller.abort();
+      cancelAnimationFrame(frame);
+    };
+  }
+
+  // Initialize on load and on Astro page swaps
+  document.addEventListener("astro:page-load", initCosmicHero);
+  document.addEventListener("astro:before-swap", () => {
+    heroCleanup?.();
+    heroCleanup = null;
+  });
+</script>
