@@ -22,41 +22,29 @@ const createPrng = (seed: number) => {
   };
 };
 
-const generateDeterministicShadows = (
-  count: number,
-  seed: number,
-  withGlow = false,
-) => {
+const generateDeterministicShadows = (count: number, seed: number) => {
   const prng = createPrng(seed);
   const shadows: string[] = [];
   for (let i = 0; i < count; i++) {
     const x = (prng() * 99).toFixed(2);
-    // Keep stars well within the Hero fold (0vh to 92vh)
-    const y = (prng() * 92).toFixed(2);
-    const opacity = (0.7 + prng() * 0.3).toFixed(2);
+    // Keep stars well within the Hero fold (0vh to 90vh)
+    const y = (prng() * 90).toFixed(2);
+    // Subtle, gentle opacities that complement typography without distraction
+    const opacity = (0.25 + prng() * 0.45).toFixed(2);
     const isCoolWhite = prng() > 0.4;
     const color = isCoolWhite
       ? `rgba(224, 242, 254, ${opacity})`
       : `rgba(255, 255, 255, ${opacity})`;
 
-    // Solid star core
     shadows.push(`${x}vw ${y}vh ${color}`);
-
-    // If luminous foreground star, add a soft radiant halo
-    if (withGlow) {
-      const haloColor = isCoolWhite
-        ? `rgba(186, 230, 253, 0.75)`
-        : `rgba(254, 240, 138, 0.75)`;
-      shadows.push(`${x}vw ${y}vh 3px ${haloColor}`);
-    }
   }
   return shadows.join(", ");
 };
 
-// 3 depth layers of stars with generous densities and crisp brightness
-const starsLayer1Shadow = generateDeterministicShadows(85, 1337);
-const starsLayer2Shadow = generateDeterministicShadows(55, 2026);
-const starsLayer3Shadow = generateDeterministicShadows(25, 777, true);
+// Minimalist, elegant starfield densities (refined micro-points)
+const starsLayer1Shadow = generateDeterministicShadows(30, 1337);
+const starsLayer2Shadow = generateDeterministicShadows(18, 2026);
+const starsLayer3Shadow = generateDeterministicShadows(8, 777);
 ---
 
 <section
@@ -107,7 +95,7 @@ const starsLayer3Shadow = generateDeterministicShadows(25, 777, true);
     </svg>
   </div>
 
-  <!-- Stars Backdrop with 3D Depth Parallax -->
+  <!-- Stars Backdrop (Atmospheric, non-intrusive night sky) -->
   <div class="absolute inset-0 pointer-events-none stars-container overflow-hidden">
     <div
       class="stars-layer stars-layer-1"
@@ -121,23 +109,6 @@ const starsLayer3Shadow = generateDeterministicShadows(25, 777, true);
       class="stars-layer stars-layer-3"
       style={`box-shadow: ${starsLayer3Shadow};`}
     ></div>
-
-    <!-- Sparkling 4-Point Constellation Stars -->
-    <svg class="sparkle-star sparkle-1" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 0 C12 7 12 7 19 12 C12 12 12 17 12 24 C12 17 12 17 5 12 C12 12 12 7 12 0 Z" />
-    </svg>
-    <svg class="sparkle-star sparkle-2" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 0 C12 7 12 7 19 12 C12 12 12 17 12 24 C12 17 12 17 5 12 C12 12 12 7 12 0 Z" />
-    </svg>
-    <svg class="sparkle-star sparkle-3" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 0 C12 7 12 7 19 12 C12 12 12 17 12 24 C12 17 12 17 5 12 C12 12 12 7 12 0 Z" />
-    </svg>
-    <svg class="sparkle-star sparkle-4" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 0 C12 7 12 7 19 12 C12 12 12 17 12 24 C12 17 12 17 5 12 C12 12 12 7 12 0 Z" />
-    </svg>
-    <svg class="sparkle-star sparkle-5" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 0 C12 7 12 7 19 12 C12 12 12 17 12 24 C12 17 12 17 5 12 C12 12 12 7 12 0 Z" />
-    </svg>
   </div>
 
   <!-- Realistic Comets & Shooting Stars with Luminous Core and Tail -->
@@ -358,6 +329,21 @@ const starsLayer3Shadow = generateDeterministicShadows(25, 777, true);
   }
 
   /* Cosmic Stars Backdrop Layers */
+  .stars-container {
+    mask-image: radial-gradient(
+      ellipse 65% 60% at 50% 50%,
+      rgba(0, 0, 0, 0.15) 0%,
+      rgba(0, 0, 0, 0.45) 45%,
+      rgba(0, 0, 0, 1) 85%
+    );
+    -webkit-mask-image: radial-gradient(
+      ellipse 65% 60% at 50% 50%,
+      rgba(0, 0, 0, 0.15) 0%,
+      rgba(0, 0, 0, 0.45) 45%,
+      rgba(0, 0, 0, 1) 85%
+    );
+  }
+
   .stars-layer {
     position: absolute;
     top: 0;
@@ -368,117 +354,58 @@ const starsLayer3Shadow = generateDeterministicShadows(25, 777, true);
   }
 
   .stars-layer-1 {
-    width: 2px;
-    height: 2px;
-    animation: twinkle-1 6s ease-in-out infinite;
+    width: 1px;
+    height: 1px;
+    animation: twinkle-1 7s ease-in-out infinite;
   }
 
   .stars-layer-2 {
-    width: 2.75px;
-    height: 2.75px;
-    animation: twinkle-2 9s ease-in-out infinite;
+    width: 1.5px;
+    height: 1.5px;
+    animation: twinkle-2 10s ease-in-out infinite;
   }
 
   .stars-layer-3 {
-    width: 4px;
-    height: 4px;
-    animation: twinkle-3 12s ease-in-out infinite;
+    width: 2.25px;
+    height: 2.25px;
+    animation: twinkle-3 14s ease-in-out infinite;
   }
 
   .celestial-chart {
     /* Fixed astronomical graticule background */
   }
 
-  /* 4-Point Sparkling Diamond Stars */
-  .sparkle-star {
-    position: absolute;
-    color: #ffffff;
-    filter: drop-shadow(0 0 4px var(--color-primary))
-      drop-shadow(0 0 8px #ffffff);
-    pointer-events: none;
-    will-change: transform, opacity;
-  }
-
-  .sparkle-1 {
-    top: 18%;
-    left: 14%;
-    width: 14px;
-    height: 14px;
-    animation: sparkle-pulse 5s ease-in-out infinite;
-  }
-  .sparkle-2 {
-    top: 24%;
-    left: 48%;
-    width: 10px;
-    height: 10px;
-    animation: sparkle-pulse 7s ease-in-out infinite 1.5s;
-  }
-  .sparkle-3 {
-    top: 68%;
-    left: 22%;
-    width: 12px;
-    height: 12px;
-    animation: sparkle-pulse 6s ease-in-out infinite 3s;
-  }
-  .sparkle-4 {
-    top: 15%;
-    right: 18%;
-    width: 13px;
-    height: 13px;
-    animation: sparkle-pulse 8s ease-in-out infinite 0.7s;
-  }
-  .sparkle-5 {
-    top: 76%;
-    right: 28%;
-    width: 11px;
-    height: 11px;
-    animation: sparkle-pulse 6.5s ease-in-out infinite 2.2s;
-  }
-
-  @keyframes sparkle-pulse {
-    0%,
-    100% {
-      transform: scale(0.65) rotate(0deg);
-      opacity: 0.35;
-    }
-    50% {
-      transform: scale(1.15) rotate(15deg);
-      opacity: 0.95;
-    }
-  }
-
   @keyframes twinkle-1 {
     0%,
     100% {
-      opacity: 0.6;
+      opacity: 0.25;
     }
     50% {
-      opacity: 1;
+      opacity: 0.75;
     }
   }
   @keyframes twinkle-2 {
     0%,
     100% {
-      opacity: 1;
+      opacity: 0.7;
     }
     50% {
-      opacity: 0.65;
+      opacity: 0.2;
     }
   }
   @keyframes twinkle-3 {
     0%,
     100% {
-      opacity: 0.75;
+      opacity: 0.35;
     }
     50% {
-      opacity: 1;
+      opacity: 0.8;
     }
   }
 
   /* Accessibility: Prefers Reduced Motion */
   @media (prefers-reduced-motion: reduce) {
     .stars-layer,
-    .sparkle-star,
     .celestial-chart,
     .gravitational-aura,
     .gravitational-ring-1,
