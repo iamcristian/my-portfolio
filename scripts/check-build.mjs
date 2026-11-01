@@ -187,7 +187,7 @@ for (const lang of ["en", "es", "de", "ru", "ja"]) {
       "discovery links use direct navigation",
     );
   }
-  const article = pages.get(`/${lang}/blog/astro-vs-nextjs/`);
+  const article = pages.get(`/${lang}/blog/strategic-pessimism/`);
   for (const id of [
     "reader-tools",
     "reader-panel",
