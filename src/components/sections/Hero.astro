@@ -375,6 +375,19 @@ const starsLayer3Shadow = generateDeterministicShadows(8, 777);
       transform: none !important;
     }
   }
+
+  /* Light theme: smooth inversion of stars and comets to deep celestial charcoal/slate */
+  .stars-layer,
+  .sparkle-star,
+  .shooting-star-track {
+    transition: filter 0.4s ease;
+  }
+
+  :global([data-theme="light"]) .stars-layer,
+  :global([data-theme="light"]) .sparkle-star,
+  :global([data-theme="light"]) .shooting-star-track {
+    filter: invert(0.85);
+  }
 </style>
 
 <script>
