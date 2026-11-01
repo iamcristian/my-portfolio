@@ -6,6 +6,8 @@ import { caseStudies } from "../../../data/case-studies";
 import { projectCatalog } from "../../../data/projects";
 import { featureCopy } from "../../../i18n/features";
 import { Image } from "astro:assets";
+import fallbackImage from "../../../assets/images/website.webp";
+
 export function getStaticPaths() {
   return Object.keys(languages).flatMap((lang) =>
     projectCatalog.map((p) => ({ params: { lang, id: p.id } })),
@@ -18,28 +20,36 @@ const c = featureCopy(lang as Lang);
 const images = import.meta.glob<{ default: ImageMetadata }>(
   "/src/assets/images/projects/*.webp",
 );
+const imageImporter = images[project.image];
+const imageModule = imageImporter ? await imageImporter() : null;
+const projectImage = imageModule?.default || fallbackImage;
 ---
 
-<Shell title={project.title} description={project.description}>
-  <p class="text-lg max-w-3xl">{project.description}</p>
+<Shell
+  title={project.title}
+  description={project.description}
+  image={projectImage}
+  imageAlt={project.title}
+>
+  <p class="text-lg max-w-3xl leading-relaxed">{project.description}</p>
   <Image
-    src={images[project.image]()}
+    src={projectImage}
     alt={project.title}
     width={1200}
     height={675}
-    class="rounded-2xl w-full max-w-4xl border border-base-300"
+    class="rounded-2xl w-full max-w-4xl border border-base-300 shadow-md object-cover"
   />
   <div class="flex flex-wrap gap-2">
     {project.tech.map((tech) => (
       <a
-        class="badge badge-outline p-3"
+        class="badge badge-outline p-3 hover:badge-primary transition-colors"
         href={`/${lang}/search/?q=${encodeURIComponent(tech)}&evidence=1`}
       >
         {tech}
       </a>
     ))}
   </div>
-  {lang !== "en" && <p class="text-sm">{c.english}</p>}
+  {lang !== "en" && <p class="text-sm opacity-75">{c.english}</p>}
   <article lang="en" class="prose max-w-3xl">
     <p class="border-l-4 border-primary pl-4">
       Editorial case study based on the portfolio’s project catalog. The
@@ -72,12 +82,24 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
       be added only when supported by measurements.
     </p>
   </article>
-  <a
-    class="btn btn-primary"
-    href={project.github}
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    {project.title} · GitHub / GitLab ↗
-  </a>
+  <div class="flex flex-wrap gap-4 pt-4 border-t border-base-300">
+    {project.live && (
+      <a
+        class="btn btn-primary"
+        href={project.live}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span>Live Demo ↗</span>
+      </a>
+    )}
+    <a
+      class={project.live ? "btn btn-outline" : "btn btn-primary"}
+      href={project.github}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <span>GitHub / Repository ↗</span>
+    </a>
+  </div>
 </Shell>

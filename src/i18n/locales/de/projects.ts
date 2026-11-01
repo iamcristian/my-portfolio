@@ -1,24 +1,39 @@
 import type { ProjectCopy } from "../../../data/projects";
 
 export const projectCopy = {
-  onelink: {
-    title: "OneLink - Personal Link-sharing Platform",
+  "onelink-saas": {
+    title: "OneLink SaaS - Link-in-Bio & Creator-Telemetrie-Plattform",
     description:
-      "Eine Fullstack-Anwendung zum Erstellen und Teilen persönlicher Link-Seiten, entwickelt mit React, Tailwind, Express und MongoDB.",
+      "Hochleistungsfähige Link-in-Bio-Plattform mit Next.js 16, NestJS 12, PostgreSQL, TimescaleDB, Redis, BullMQ und Docker.",
+  },
+  "kerr-spacetime-workstation": {
+    title: "Kerr Spacetime Workstation - Numerische Relativität & WebGL",
+    description:
+      "Interaktiver Arbeitsplatz für Allgemeine Relativitätstheorie und Akkretionsscheiben um rotierende Schwarze Löcher mit WebGL 2.0, Three.js und GLSL.",
+  },
+  "crowdsafe-physics": {
+    title: "CrowdSafe-Physics - Fußgängerdynamik & Evakuierungsstudio",
+    description:
+      "Forschungsstudio für Fußgängerdynamik und Evakuierungssimulationen basierend auf dem HFV-Social-Force-Modell mit Python und FastAPI.",
+  },
+  fluenttube: {
+    title: "FluentTube AI - Lokale Video-Sprachpraxis",
+    description:
+      "Lokale Sprachlern-App für Hör-, Diktat- und Sprechübungen mit eigenen Videos und YouTube unter Verwendung von Faster-Whisper, FastAPI und React.",
   },
   "explora-bolivia": {
     title: "Explora Bolivia - Travel Guide App",
     description:
-      "Eine Reiseführer-Webanwendung für Bolivien, entwickelt mit Next.js und NestJS, die Informationen über Touristenattraktionen, Unterkünfte und die lokale Kultur bietet.",
+      "Eine Reiseführer-Webanwendung für Bolivien, entwickelt mit Next.js und NestJS, die Informationen über Sehenswürdigkeiten, Unterkünfte und die lokale Kultur bietet.",
   },
   "maxi-basquet": {
     title: "Maxi Basquet - Basketball Team Management",
     description:
-      "Eine Webanwendung zur Verwaltung von Basketballteams, einschließlich Spielerstatistiken, Spielplänen und Team-Rankings, entwickelt mit Django und Bootstrap.",
+      "Eine Webanwendung für das Management von Basketballteams, einschließlich Spielerstatistiken, Spielplänen und Team-Ranglisten, entwickelt mit Django und Bootstrap.",
   },
   "long-old-live": {
     title: "Long Old Live+",
     description:
-      "Eine Website, die dem Wohlbefinden älterer Erwachsener gewidmet ist und nützliche Muskelübungen sowie mentale Aktivitäten zur Stärkung des Geistes bietet. Entwickelt mit JavaScript, HTML und CSS.",
+      "Eine Website für das Wohlbefinden älterer Menschen mit Muskel- und Denkaufgaben zur mentalen Stärkung. Entwickelt mit JavaScript, HTML und CSS.",
   },
 } satisfies ProjectCopy;

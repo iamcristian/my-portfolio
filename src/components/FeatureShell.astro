@@ -3,7 +3,22 @@ import Layout from "../layouts/Layout.astro";
 import Header from "./Header.astro";
 import Footer from "./Footer.astro";
 import { featureCopy } from "../i18n/features";
-const { title, description = title } = Astro.props;
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string | ImageMetadata;
+  imageAlt?: string;
+  type?: "website" | "article";
+}
+
+const {
+  title,
+  description = title,
+  image,
+  imageAlt,
+  type = "website",
+} = Astro.props;
 const { lang } = Astro.locals;
 const c = featureCopy(lang);
 const links = [
@@ -15,7 +30,13 @@ const links = [
 const currentPath = Astro.url.pathname.replace(/\/$/, "");
 ---
 
-<Layout title={title} description={description}>
+<Layout
+  title={title}
+  description={description}
+  image={image}
+  imageAlt={imageAlt}
+  type={type}
+>
   <Header />
   <main
     id="main-content"
