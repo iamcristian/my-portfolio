@@ -5,6 +5,7 @@ import {
   renderOGPng,
   type OGCardData,
   type Lang,
+  I18N_OG,
 } from "../../utils/og-template";
 import { languages } from "../../i18n/ui";
 import { useTranslations, getProjectsForLang } from "../../i18n/utils";
@@ -30,7 +31,6 @@ export async function getStaticPaths() {
         subtitle:
           defaultT("home.tagline") ||
           "Designing software systems through structure, modularity, and careful decomposition of complexity",
-        kicker: "• HELLO, I'M",
         tags: ["Systems Architecture", "Security", "Philosophy"],
       },
     },
@@ -40,6 +40,7 @@ export async function getStaticPaths() {
   for (const lang of langList) {
     const t = useTranslations(lang);
     const fc = featureCopy(lang);
+    const loc = I18N_OG[lang] || I18N_OG.en;
 
     const tagsByLang: Record<Lang, string[]> = {
       en: ["Systems Architecture", "Security", "Philosophy"],
@@ -47,14 +48,6 @@ export async function getStaticPaths() {
       de: ["Systemarchitektur", "Sicherheit", "Philosophie"],
       ja: ["システム設計", "セキュリティ", "哲学"],
       ru: ["Архитектура систем", "Безопасность", "Философия"],
-    };
-
-    const kickersByLang: Record<Lang, string> = {
-      en: "• HELLO, I'M",
-      es: "• HOLA, SOY",
-      de: "• HALLO, ICH BIN",
-      ja: "• こんにちは、",
-      ru: "• ПРИВЕТ, Я",
     };
 
     // Home (/og/[lang]/home.png)
@@ -68,7 +61,6 @@ export async function getStaticPaths() {
           subtitle:
             t("home.tagline") ||
             "Designing software systems through structure, modularity, and careful decomposition of complexity",
-          kicker: kickersByLang[lang] || "• HELLO, I'M",
           tags: tagsByLang[lang],
         },
       },
@@ -85,7 +77,7 @@ export async function getStaticPaths() {
           subtitle:
             t("blog.subtitlePage") ||
             "Reflections on systems, architecture, and philosophy",
-          kicker: "• ARCHIVE // ESSAYS",
+          kickerTopic: loc.tags["philosophy"] || "ESSAYS",
           tags: tagsByLang[lang],
           imagePath: path.resolve("src/assets/images/blog/hello-world.webp"),
         },
@@ -103,7 +95,7 @@ export async function getStaticPaths() {
           subtitle:
             t("projects.subtitlePage") ||
             "Production systems, simulations, and engineering case studies",
-          kicker: "• SHOWCASE // WORK",
+          kickerTopic: loc.showcaseWork,
           tags: ["Architecture", "Performance", "Security"],
           imagePath: path.resolve(
             "src/assets/images/projects/kerr-spacetime-workstation.webp",
@@ -122,7 +114,7 @@ export async function getStaticPaths() {
           title: "Hardware, Software & Workstation",
           subtitle:
             t("uses.subtitlePage") || "Engineering environment and daily setup",
-          kicker: "• SETUP // TOOLING",
+          kickerTopic: loc.setupTooling,
           tags: ["Hardware", "Workstation", "Tooling"],
           imagePath: path.resolve("src/assets/images/website.webp"),
         },
@@ -139,8 +131,8 @@ export async function getStaticPaths() {
           title: fc.bookshelf || "Bookshelf",
           subtitle:
             "Classical literature, philosophy, and software engineering reading archive",
-          kicker: "• READING ARCHIVE // CLASSICS",
-          tags: ["Literature", "Philosophy", "Classics"],
+          kickerTopic: loc.tags["classics"] || "CLASSICS",
+          tags: ["literature", "philosophy", "classics"],
           imagePath: path.resolve("src/assets/images/blog/my-bookshelf.webp"),
         },
       },
@@ -156,8 +148,8 @@ export async function getStaticPaths() {
           title: fc.library || "Reading List",
           subtitle:
             "Personal reading queue, bookmarks, and offline reading archive",
-          kicker: "• READING QUEUE // BOOKMARKS",
-          tags: ["Bookmarks", "Offline Reading", "Queue"],
+          kickerTopic: loc.tags["reading list"] || "QUEUE",
+          tags: ["reading list", "systems", "philosophy"],
           imagePath: path.resolve(
             "src/assets/images/blog/my-most-notable-reads.webp",
           ),
@@ -175,8 +167,8 @@ export async function getStaticPaths() {
           title: fc.series || "Reading Paths",
           subtitle:
             "Curated learning paths across systems architecture and philosophy",
-          kicker: "• CURATED PATHS // ROADMAP",
-          tags: ["Learning Paths", "Systems", "Security"],
+          kickerTopic: loc.curatedRoadmap,
+          tags: ["architecture", "systems", "security"],
           imagePath: path.resolve(
             "src/assets/images/blog/seven-levels-of-logical-thinking.webp",
           ),
@@ -194,7 +186,7 @@ export async function getStaticPaths() {
           title: fc.search || "Search",
           subtitle:
             "Full-text index search across all articles, essays, and project case studies",
-          kicker: "• DISCOVERY // INDEX",
+          kickerTopic: loc.discoveryIndex,
           tags: ["Full-Text", "Index", "Search"],
           imagePath: path.resolve("src/assets/images/website.webp"),
         },
@@ -213,7 +205,7 @@ export async function getStaticPaths() {
             lang,
             title: project.title,
             subtitle: project.description,
-            kicker: `• CASE STUDY // ${project.tech[0]?.toUpperCase() || "SYSTEM"}`,
+            kickerTopic: project.tech[0]?.toUpperCase() || "SYSTEM",
             tags: project.tech.slice(0, 3),
             imagePath: projImgPath,
           },
@@ -242,6 +234,10 @@ export async function getStaticPaths() {
       `src/assets/images/blog/${post.data.slug}.webp`,
     );
 
+    const primaryTag = post.data.tags?.[0]?.toLowerCase() || "philosophy";
+    const loc = I18N_OG[postLang] || I18N_OG.en;
+    const localizedTopic = loc.tags[primaryTag] || primaryTag;
+
     paths.push({
       params: { route: `${post.data.lang}/blog/${post.data.slug}` },
       props: {
@@ -250,7 +246,7 @@ export async function getStaticPaths() {
           lang: postLang,
           title: post.data.title,
           subtitle: post.data.description,
-          kicker: `• ESSAY & ANALYSIS // ${post.data.tags?.[0]?.toUpperCase() || "PHILOSOPHY"}`,
+          kickerTopic: localizedTopic,
           tags: (post.data.tags || []).slice(0, 3),
           date: dateStr,
           readTime: readTimeStr,
