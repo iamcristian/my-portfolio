@@ -61,4 +61,16 @@ export const features = {
   labNote: "Illustratives Modell: Annahmen, keine Messungen dieser Website.",
   results: "Ergebnisse",
   english: "Diese redaktionelle Erklärung ist derzeit auf Englisch verfügbar.",
+  caseStudyTheProblem: "Das Problem",
+  caseStudyArchitecture: "Architekturüberblick",
+  caseStudyRequestFlow: "Anfragefluss durch das System",
+  caseStudyTradeoffs: "Kompromisse & Entwurfsentscheidungen",
+  caseStudyTakeaway: "Erkenntnisse der Systemtechnik",
+  caseStudyValidateNext: "Nächste Validierungsschritte",
+  caseStudyDisclaimer:
+    "Redaktionelle Fallstudie basierend auf dem Projektkatalog des Portfolios. Die Architekturanalyse erläutert Entwurfsüberlegungen und Systementscheidungen statt ungeprüfter Behauptungen.",
+  caseStudyRequestText:
+    "Benutzeroberfläche → Anwendungsgrenze → Datendienst → Antwort → Oberflächenaktualisierung. An jeder Grenze sind Validierung, Fehlerbehandlung und Zugriffsberechtigungen zu beachten.",
+  caseStudyValidateText:
+    "Im verlinkten Repository finden sich das Datenmodell, automatisierte Tests, Deployment-Konfigurationen und Zugriffskontrollen. Leistungsdaten sollten stets durch Messungen untermauert werden.",
 };

@@ -61,4 +61,16 @@ export const features = {
     "An illustrative model: the numbers are assumptions, not measurements of this website.",
   results: "results",
   english: "This editorial explanation is currently available in English.",
+  caseStudyTheProblem: "The problem",
+  caseStudyArchitecture: "Architecture walkthrough",
+  caseStudyRequestFlow: "A request through the system",
+  caseStudyTradeoffs: "Tradeoffs & design decisions",
+  caseStudyTakeaway: "Engineering takeaway",
+  caseStudyValidateNext: "What to validate next",
+  caseStudyDisclaimer:
+    "Editorial case study based on the portfolio's project catalog. The technology choices are documented there; the architectural discussion below explains design considerations rather than claiming repository-verified implementation details or measured results.",
+  caseStudyRequestText:
+    "Interface → application boundary → data service → response → interface update. At each boundary, consider validation, error handling, and who is allowed to perform the operation.",
+  caseStudyValidateText:
+    "Inspect the linked repository for the actual data model, tests, deployment configuration, and access controls. Performance and user outcomes should be added only when supported by measurements.",
 };

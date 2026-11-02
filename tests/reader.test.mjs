@@ -32,9 +32,26 @@ test("storage validates article destinations and survives disabled storage", () 
   });
   localStorage.setItem(
     "portfolio-reading-v1",
-    JSON.stringify([{ url: "javascript:alert(1)", title: "bad" }, null]),
+    JSON.stringify([
+      { url: "javascript:alert(1)", title: "bad" },
+      {
+        url: "/en/projects/kerr-spacetime-workstation/",
+        title: "Kerr Project",
+        lang: "en",
+        saved: true,
+        heading: "the-problem",
+        offset: 0.2,
+        progress: 0.5,
+        updated: Date.now(),
+      },
+      null,
+    ]),
   );
-  assert.deepEqual(readingEntries(), []);
+  assert.equal(readingEntries().length, 1);
+  assert.equal(
+    readingEntries()[0].url,
+    "/en/projects/kerr-spacetime-workstation/",
+  );
   localStorage.setItem("portfolio-reading-v1", "broken JSON");
   assert.deepEqual(readingEntries(), []);
   Object.defineProperty(globalThis, "localStorage", {

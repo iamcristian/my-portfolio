@@ -74,6 +74,7 @@ export const home = {
   "projects.sortDateOldest": "日付 (古い順)",
   "projects.sortNameAsc": "名前 (A-Z)",
   "projects.sortNameDesc": "名前 (Z-A)",
+  "projects.back": "プロジェクト一覧に戻る",
   "blog.title": "ブログ",
   "blog.subtitle": "// ブログ",
   "blog.filterDateRange": "期間",

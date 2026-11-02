@@ -81,6 +81,7 @@ export const home = {
   "projects.sortDateOldest": "Date (Oldest)",
   "projects.sortNameAsc": "Name (A-Z)",
   "projects.sortNameDesc": "Name (Z-A)",
+  "projects.back": "Back to Projects",
 
   "blog.title": "Blog",
   "blog.subtitle": "// Blog",

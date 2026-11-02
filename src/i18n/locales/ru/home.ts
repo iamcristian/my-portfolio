@@ -74,6 +74,7 @@ export const home = {
   "projects.sortDateOldest": "Дата (Сначала старые)",
   "projects.sortNameAsc": "Имя (А-Я)",
   "projects.sortNameDesc": "Имя (Я-А)",
+  "projects.back": "Назад к проектам",
   "blog.title": "Блог",
   "blog.subtitle": "// Блог",
   "blog.filterDateRange": "Период",

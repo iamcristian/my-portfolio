@@ -74,6 +74,7 @@ export const home = {
   "projects.sortDateOldest": "Fecha (Más antiguo)",
   "projects.sortNameAsc": "Nombre (A-Z)",
   "projects.sortNameDesc": "Nombre (Z-A)",
+  "projects.back": "Volver a Proyectos",
   "blog.title": "Blog",
   "blog.subtitle": "// Blog",
   "blog.filterDateRange": "Rango de fecha",

@@ -1,0 +1,239 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { useTranslations } from "../../i18n/utils";
+import { featureCopy } from "../../i18n/features";
+import { getReadTime } from "../../utils/blog";
+import { getCaseStudy, type ProjectId } from "../../data/case-studies";
+import type { Project } from "../../data/projects";
+import { Image } from "astro:assets";
+import ContentsList from "../blog/ContentsList.astro";
+import ReaderTools from "../blog/ReaderTools.astro";
+import ShareButtons from "../blog/ShareButtons.astro";
+import ClockIcon from "../../assets/icons/clock.svg";
+
+interface Props {
+  project: Project;
+  projectImage: ImageMetadata;
+}
+
+const { project, projectImage } = Astro.props;
+const { lang } = Astro.locals;
+const t = useTranslations(lang);
+const c = featureCopy(lang);
+const study = getCaseStudy(project.id as ProjectId, lang);
+
+const studyText = [
+  study.problem,
+  ...study.architecture,
+  study.tradeoff,
+  study.lesson,
+].join(" ");
+const readTime = getReadTime(studyText, lang);
+
+const tocHeadings = [
+  { depth: 2, slug: "the-problem", text: c.caseStudyTheProblem },
+  {
+    depth: 2,
+    slug: "architecture-walkthrough",
+    text: c.caseStudyArchitecture,
+  },
+  {
+    depth: 2,
+    slug: "a-request-through-the-system",
+    text: c.caseStudyRequestFlow,
+  },
+  { depth: 2, slug: "tradeoffs", text: c.caseStudyTradeoffs },
+  { depth: 2, slug: "engineering-takeaway", text: c.caseStudyTakeaway },
+  {
+    depth: 2,
+    slug: "what-to-validate-next",
+    text: c.caseStudyValidateNext,
+  },
+];
+---
+
+<main
+  id="main-content"
+  class="max-w-6xl mx-auto px-4 md:px-8 pt-8 md:pt-12 pb-16 md:pb-24 min-h-screen"
+>
+  <!-- Back to Projects Button -->
+  <div class="mb-6 md:mb-8">
+    <a
+      href={getRelativeLocaleUrl(lang, "projects")}
+      class="btn btn-ghost btn-sm gap-2"
+    >
+      &larr; {t("projects.back")}
+    </a>
+  </div>
+
+  <!-- Project Header -->
+  <header class="max-w-3xl space-y-4">
+    <div class="flex flex-wrap gap-1.5">
+      {project.tech.map((tech) => (
+        <a
+          class="badge badge-xs font-mono bg-base-300/50 border border-base-content/10 text-base-content/80 hover:text-primary transition-colors py-2 px-2"
+          href={`/${lang}/search/?q=${encodeURIComponent(tech)}&evidence=1`}
+        >
+          {tech}
+        </a>
+      ))}
+    </div>
+    <h1 class="text-2xl md:text-4xl font-extrabold tracking-tight leading-tight">
+      {project.title}
+    </h1>
+    <p class="text-base md:text-lg text-base-content/80 leading-relaxed">
+      {project.description}
+    </p>
+    <div class="flex items-center justify-between flex-wrap gap-4 pt-2 border-b border-base-300 pb-4">
+      <div class="flex items-center gap-4 text-xs text-base-content/80">
+        <span class="flex items-center gap-1">
+          <ClockIcon class="w-4 h-4" />
+          <span>
+            {readTime} {t("blog.readTime")}
+          </span>
+        </span>
+        <span class="badge badge-sm badge-outline font-mono">
+          {c.caseStudy}
+        </span>
+      </div>
+      <ShareButtons title={project.title} />
+    </div>
+  </header>
+
+  <ReaderTools title={project.title} />
+
+  <!-- Content Layout Grid -->
+  <div
+    id="article-grid"
+    class="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-12 items-start mt-8"
+  >
+    <!-- Left Column: Case Study Content -->
+    <div class="flex flex-col gap-6">
+      <Image
+        src={projectImage}
+        alt={project.title}
+        widths={[400, 800, 1200]}
+        sizes="(min-width: 1024px) 768px, calc(100vw - 32px)"
+        width={1200}
+        height={675}
+        loading="eager"
+        fetchpriority="high"
+        class="w-full object-cover aspect-16/9 rounded-2xl border border-base-300 shadow-md"
+      />
+
+      <div class="flex flex-wrap gap-4 py-2 border-b border-base-300">
+        {project.live && (
+          <a
+            class="btn btn-primary btn-sm md:btn-md gap-2"
+            href={project.live}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>{t("projects.demo")} ↗</span>
+          </a>
+        )}
+        <a
+          class={
+            project.live
+              ? "btn btn-outline btn-sm md:btn-md gap-2"
+              : "btn btn-primary btn-sm md:btn-md gap-2"
+          }
+          href={project.github}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>{t("projects.code")} ↗</span>
+        </a>
+      </div>
+
+      <article class="reader-article prose max-w-none prose-headings:scroll-mt-24 prose-headings:font-bold prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl">
+        <p class="border-l-4 border-primary pl-4 py-1 text-sm md:text-base opacity-90 italic">
+          {c.caseStudyDisclaimer}
+        </p>
+
+        <h2 id="the-problem">{c.caseStudyTheProblem}</h2>
+        <p>{study.problem}</p>
+
+        <h2 id="architecture-walkthrough">{c.caseStudyArchitecture}</h2>
+        <ol>
+          {study.architecture.map((part) => (
+            <li>{part}</li>
+          ))}
+        </ol>
+
+        <h2 id="a-request-through-the-system">{c.caseStudyRequestFlow}</h2>
+        <p>{c.caseStudyRequestText}</p>
+
+        <h2 id="tradeoffs">{c.caseStudyTradeoffs}</h2>
+        <p>{study.tradeoff}</p>
+
+        <h2 id="engineering-takeaway">{c.caseStudyTakeaway}</h2>
+        <p>{study.lesson}</p>
+
+        <h2 id="what-to-validate-next">{c.caseStudyValidateNext}</h2>
+        <p>{c.caseStudyValidateText}</p>
+      </article>
+
+      <div class="flex flex-wrap gap-4 pt-6 border-t border-base-300">
+        {project.live && (
+          <a
+            class="btn btn-primary"
+            href={project.live}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>{t("projects.demo")} ↗</span>
+          </a>
+        )}
+        <a
+          class={project.live ? "btn btn-outline" : "btn btn-primary"}
+          href={project.github}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>{t("projects.code")} ↗</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Right Column: Sidebar Table of Contents (Desktop only) -->
+    <aside id="article-toc" class="hidden lg:block sticky top-24">
+      <div class="border-t border-base-content/20 pt-5">
+        <h2 class="text-xs uppercase tracking-[.16em] opacity-60 mb-5">
+          {c.contents}
+        </h2>
+        <ContentsList
+          id="desktop-toc"
+          headings={tocHeadings}
+          label={t("blog.toc")}
+        />
+      </div>
+    </aside>
+  </div>
+
+  <!-- Mobile TOC Dialog Modal -->
+  <dialog id="toc_modal" class="modal modal-bottom sm:modal-middle">
+    <div class="modal-box">
+      <h3 class="font-bold text-lg mb-4">{t("blog.toc")}</h3>
+      <ContentsList
+        id="mobile-toc"
+        headings={tocHeadings}
+        label={t("blog.toc")}
+      />
+      <div class="modal-action">
+        <form method="dialog">
+          <button class="btn btn-sm btn-ghost">✕</button>
+        </form>
+      </div>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+      <button>{c.close}</button>
+    </form>
+  </dialog>
+</main>
+
+<script>
+  import { initTableOfContents } from "../../scripts/toc";
+
+  initTableOfContents();
+</script>

@@ -62,4 +62,16 @@ export const features = {
     "説明用モデルです。数値は仮定であり、このサイトの実測値ではありません。",
   results: "件",
   english: "この解説は現在英語で提供されています。",
+  caseStudyTheProblem: "課題と要件",
+  caseStudyArchitecture: "アーキテクチャの解説",
+  caseStudyRequestFlow: "システム内のリクエストフロー",
+  caseStudyTradeoffs: "トレードオフと設計判断",
+  caseStudyTakeaway: "エンジニアリングの教訓",
+  caseStudyValidateNext: "今後の検証ポイント",
+  caseStudyDisclaimer:
+    "ポートフォリオのプロジェクトカタログに基づく技術ケーススタディ。設計上の考慮事項とアーキテクチャ上の判断について解説しています。",
+  caseStudyRequestText:
+    "ユーザーインターフェース → アプリケーション境界 → データサービス → レスポンス → 画面更新。各レイヤー境界でバリデーション、エラーハンドリング、認可制御を実施します。",
+  caseStudyValidateText:
+    "リンク先のプロジェクトリポジトリで実際のデータモデル、テスト、デプロイ構成、アクセス制御を確認できます。パフォーマンス指標は実測値に基づいて検証されるべきです。",
 };

@@ -61,4 +61,16 @@ export const features = {
     "Modelo ilustrativo: las cifras son supuestos, no mediciones de este sitio.",
   results: "resultados",
   english: "Esta explicación editorial está disponible actualmente en inglés.",
+  caseStudyTheProblem: "El problema",
+  caseStudyArchitecture: "Recorrido de la arquitectura",
+  caseStudyRequestFlow: "Flujo de una petición en el sistema",
+  caseStudyTradeoffs: "Compromisos y decisiones de diseño",
+  caseStudyTakeaway: "Conclusión de ingeniería",
+  caseStudyValidateNext: "Próximos pasos de validación",
+  caseStudyDisclaimer:
+    "Estudio de caso editorial basado en el catálogo de proyectos del portafolio. Las decisiones tecnológicas están documentadas allí; la discusión arquitectónica a continuación explica consideraciones de diseño en lugar de asumir métricas no verificadas.",
+  caseStudyRequestText:
+    "Interfaz → límite de aplicación → servicio de datos → respuesta → actualización de interfaz. En cada frontera se debe validar, gestionar errores y verificar permisos de acceso.",
+  caseStudyValidateText:
+    "Inspecciona el repositorio enlazado para examinar el modelo de datos real, las pruebas, la configuración de despliegue y los controles de acceso. Las métricas de rendimiento deben incorporarse siempre respaldadas por mediciones.",
 };

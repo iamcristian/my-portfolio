@@ -60,7 +60,7 @@ export function readingEntries(): ReadingEntry[] {
       (v): v is ReadingEntry =>
         v &&
         typeof v.url === "string" &&
-        /^\/(en|es|de|ru|ja)\/blog\/[a-z0-9-]+\/?$/.test(v.url) &&
+        /^\/(en|es|de|ru|ja)\/(blog|projects)\/[a-z0-9-]+\/?$/.test(v.url) &&
         typeof v.title === "string" &&
         typeof v.lang === "string" &&
         typeof v.saved === "boolean" &&
