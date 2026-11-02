@@ -72,26 +72,35 @@ export const I18N_OG: Record<Lang, LocaleDict> = {
     rendererLabel: "RENDERER",
     targetLabel: "TARGET",
     tags: {
+      personal: "Personal",
+      manifesto: "Manifesto",
       philosophy: "Philosophy",
+      systems: "Systems",
+      logic: "Logic",
+      "critical-thinking": "Critical Thinking",
+      books: "Books",
+      reading: "Reading",
+      bookshelf: "Bookshelf",
+      cybersecurity: "Cybersecurity",
+      "penetration testing": "Penetration Testing",
+      owasp: "OWASP",
+      classics: "Classics",
       literature: "Literature",
       dostoevsky: "Dostoevsky",
-      logic: "Logic",
+      existentialism: "Existentialism",
+      cognition: "Cognition",
+      epistemology: "Epistemology",
+      "mental-models": "Mental Models",
+      architecture: "Architecture",
+      resilience: "Resilience",
+      modularity: "Modularity",
+      security: "Security",
       fallacies: "Fallacies",
       thinking: "Thinking",
-      security: "Security",
-      cybersecurity: "Cybersecurity",
-      architecture: "Architecture",
-      systems: "Systems",
-      modularity: "Modularity",
-      classics: "Classics",
-      bookshelf: "Bookshelf",
       "reading list": "Reading List",
       pessimism: "Pessimism",
       stoicism: "Stoicism",
-      existentialism: "Existentialism",
       heuristics: "Heuristics",
-      owasp: "OWASP",
-      "penetration testing": "Penetration Testing",
     },
   },
   es: {
@@ -127,26 +136,35 @@ export const I18N_OG: Record<Lang, LocaleDict> = {
     rendererLabel: "MOTOR",
     targetLabel: "OBJETIVO",
     tags: {
+      personal: "Personal",
+      manifesto: "Manifiesto",
       philosophy: "Filosofía",
+      systems: "Sistemas",
+      logic: "Lógica",
+      "critical-thinking": "Pensamiento Crítico",
+      books: "Libros",
+      reading: "Lectura",
+      bookshelf: "Biblioteca",
+      cybersecurity: "Ciberseguridad",
+      "penetration testing": "Hacking Ético",
+      owasp: "OWASP",
+      classics: "Clásicos",
       literature: "Literatura",
       dostoevsky: "Dostoievski",
-      logic: "Lógica",
+      existentialism: "Existencialismo",
+      cognition: "Cognición",
+      epistemology: "Epistemología",
+      "mental-models": "Modelos Mentales",
+      architecture: "Arquitectura",
+      resilience: "Resiliencia",
+      modularity: "Modularidad",
+      security: "Seguridad",
       fallacies: "Falacias",
       thinking: "Pensamiento",
-      security: "Seguridad",
-      cybersecurity: "Ciberseguridad",
-      architecture: "Arquitectura",
-      systems: "Sistemas",
-      modularity: "Modularidad",
-      classics: "Clásicos",
-      bookshelf: "Biblioteca",
       "reading list": "Lista de Lectura",
       pessimism: "Pesimismo",
       stoicism: "Estoicismo",
-      existentialism: "Existencialismo",
       heuristics: "Heurística",
-      owasp: "OWASP",
-      "penetration testing": "Hacking Ético",
     },
   },
   ru: {
@@ -182,26 +200,35 @@ export const I18N_OG: Record<Lang, LocaleDict> = {
     rendererLabel: "РЕНДЕР",
     targetLabel: "ЦЕЛЬ",
     tags: {
+      personal: "Личное",
+      manifesto: "Манифест",
       philosophy: "Философия",
+      systems: "Системы",
+      logic: "Логика",
+      "critical-thinking": "Критическое мышление",
+      books: "Книги",
+      reading: "Чтение",
+      bookshelf: "Книжная полка",
+      cybersecurity: "Кибербезопасность",
+      "penetration testing": "Пентестинг",
+      owasp: "OWASP",
+      classics: "Классика",
       literature: "Литература",
       dostoevsky: "Достоевский",
-      logic: "Логика",
+      existentialism: "Экзистенциализм",
+      cognition: "Когниция",
+      epistemology: "Эпистемология",
+      "mental-models": "Ментальные модели",
+      architecture: "Архитектура",
+      resilience: "Устойчивость",
+      modularity: "Модульность",
+      security: "Безопасность",
       fallacies: "Заблуждения",
       thinking: "Мышление",
-      security: "Безопасность",
-      cybersecurity: "Кибербезопасность",
-      architecture: "Архитектура",
-      systems: "Системы",
-      modularity: "Модульность",
-      classics: "Классика",
-      bookshelf: "Книжная полка",
       "reading list": "Список чтения",
       pessimism: "Пессимизм",
       stoicism: "Стоицизм",
-      existentialism: "Экзистенциализм",
       heuristics: "Эвристика",
-      owasp: "OWASP",
-      "penetration testing": "Пентестинг",
     },
   },
   de: {
@@ -237,26 +264,35 @@ export const I18N_OG: Record<Lang, LocaleDict> = {
     rendererLabel: "RENDERER",
     targetLabel: "ZIEL",
     tags: {
+      personal: "Persönlich",
+      manifesto: "Manifest",
       philosophy: "Philosophie",
+      systems: "Systeme",
+      logic: "Logik",
+      "critical-thinking": "Kritisches Denken",
+      books: "Bücher",
+      reading: "Lesen",
+      bookshelf: "Bücherregal",
+      cybersecurity: "Cybersicherheit",
+      "penetration testing": "Penetrationstest",
+      owasp: "OWASP",
+      classics: "Klassiker",
       literature: "Literatur",
       dostoevsky: "Dostojewski",
-      logic: "Logik",
+      existentialism: "Existenzialismus",
+      cognition: "Kognition",
+      epistemology: "Epistemologie",
+      "mental-models": "Mentale Modelle",
+      architecture: "Architektur",
+      resilience: "Resilienz",
+      modularity: "Modularität",
+      security: "Sicherheit",
       fallacies: "Trugschlüsse",
       thinking: "Denken",
-      security: "Sicherheit",
-      cybersecurity: "Cybersicherheit",
-      architecture: "Architektur",
-      systems: "Systeme",
-      modularity: "Modularität",
-      classics: "Klassiker",
-      bookshelf: "Bücherregal",
       "reading list": "Leseliste",
       pessimism: "Pessimismus",
       stoicism: "Stoizismus",
-      existentialism: "Existenzialismus",
       heuristics: "Heuristik",
-      owasp: "OWASP",
-      "penetration testing": "Penetrationstest",
     },
   },
   ja: {
@@ -292,26 +328,35 @@ export const I18N_OG: Record<Lang, LocaleDict> = {
     rendererLabel: "描画",
     targetLabel: "対象",
     tags: {
+      personal: "パーソナル",
+      manifesto: "マニフェスト",
       philosophy: "哲学",
+      systems: "システム設計",
+      logic: "論理学",
+      "critical-thinking": "批判的思考",
+      books: "書籍",
+      reading: "読書",
+      bookshelf: "本棚",
+      cybersecurity: "サイバーセキュリティ",
+      "penetration testing": "脆弱性診断",
+      owasp: "OWASP",
+      classics: "古典文学",
       literature: "文学",
       dostoevsky: "ドストエフスキー",
-      logic: "論理学",
+      existentialism: "実存主義",
+      cognition: "認知科学",
+      epistemology: "認識論",
+      "mental-models": "メンタルモデル",
+      architecture: "アーキテクチャ",
+      resilience: "レジリエンス",
+      modularity: "モジュール性",
+      security: "セキュリティ",
       fallacies: "誤謬",
       thinking: "思考法",
-      security: "セキュリティ",
-      cybersecurity: "サイバーセキュリティ",
-      architecture: "アーキテクチャ",
-      systems: "システム設計",
-      modularity: "モジュール性",
-      classics: "古典文学",
-      bookshelf: "本棚",
       "reading list": "読書リスト",
       pessimism: "悲観主義",
       stoicism: "ストア派",
-      existentialism: "実存主義",
       heuristics: "ヒューリスティクス",
-      owasp: "OWASP",
-      "penetration testing": "脆弱性診断",
     },
   },
 };
@@ -379,9 +424,46 @@ function getVisualWidth(str: string): number {
   return width;
 }
 
+function isCJK(char: string): boolean {
+  const code = char.charCodeAt(0);
+  return (
+    (code >= 0x2e80 && code <= 0x9fff) ||
+    (code >= 0x3040 && code <= 0x30ff) ||
+    (code >= 0xac00 && code <= 0xd7af) ||
+    (code >= 0xff01 && code <= 0xff60)
+  );
+}
+
+function tokenizeText(text: string): string[] {
+  const tokens: string[] = [];
+  let currentToken = "";
+
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (/\s/.test(ch)) {
+      if (currentToken) {
+        tokens.push(currentToken);
+        currentToken = "";
+      }
+    } else if (isCJK(ch)) {
+      if (currentToken) {
+        tokens.push(currentToken);
+        currentToken = "";
+      }
+      tokens.push(ch);
+    } else {
+      currentToken += ch;
+    }
+  }
+  if (currentToken) {
+    tokens.push(currentToken);
+  }
+  return tokens;
+}
+
 /**
- * Intelligent text wrapping that packs lines neatly and appends '...'
- * if remaining text exceeds maximum allowed lines.
+ * Intelligent, locale-aware text wrapping that supports Latin, Cyrillic,
+ * CJK (Japanese), and mixed punctuation seamlessly without line overflow.
  */
 function wrapText(
   text: string,
@@ -389,68 +471,55 @@ function wrapText(
   maxLines = 3,
 ): string[] {
   if (!text) return [];
-
-  if (text.includes(" ")) {
-    const words = text.split(/\s+/);
-    const lines: string[] = [];
-    let currentLine = "";
-
-    for (let i = 0; i < words.length; i++) {
-      const word = words[i];
-      const candidate = currentLine ? `${currentLine} ${word}` : word;
-
-      if (getVisualWidth(candidate) <= maxVisualWidth) {
-        currentLine = candidate;
-      } else {
-        if (currentLine) lines.push(currentLine);
-        currentLine = word;
-
-        if (lines.length === maxLines - 1) {
-          // On the final allowed line: pack as many words as fit, then append '...'
-          for (let j = i + 1; j < words.length; j++) {
-            const nextCand = `${currentLine} ${words[j]}`;
-            if (getVisualWidth(nextCand) <= maxVisualWidth - 3) {
-              currentLine = nextCand;
-            } else {
-              currentLine += "...";
-              break;
-            }
-          }
-          break;
-        }
-      }
-    }
-
-    if (currentLine && lines.length < maxLines) {
-      lines.push(currentLine);
-    }
-
-    return lines;
-  }
-
-  // Continuous script (Japanese)
+  const tokens = tokenizeText(text);
   const lines: string[] = [];
-  let current = "";
-  for (let i = 0; i < text.length; i++) {
-    const char = text[i];
-    if (getVisualWidth(current + char) > maxVisualWidth) {
-      lines.push(current);
-      current = char;
-      if (lines.length >= maxLines - 1) {
-        const remaining = text.slice(i);
-        if (remaining.length > 2) {
-          current =
-            remaining.slice(0, Math.floor(maxVisualWidth / 2) - 2) + "...";
+  let currentLine = "";
+
+  for (let i = 0; i < tokens.length; i++) {
+    const token = tokens[i];
+    const needsSpace =
+      currentLine.length > 0 &&
+      !isCJK(currentLine.slice(-1)) &&
+      !isCJK(token.charAt(0));
+    const candidate = currentLine
+      ? needsSpace
+        ? `${currentLine} ${token}`
+        : `${currentLine}${token}`
+      : token;
+
+    if (getVisualWidth(candidate) <= maxVisualWidth) {
+      currentLine = candidate;
+    } else {
+      if (currentLine) lines.push(currentLine);
+      currentLine = token;
+
+      if (lines.length === maxLines - 1) {
+        for (let j = i + 1; j < tokens.length; j++) {
+          const nextTok = tokens[j];
+          const nSpace =
+            currentLine.length > 0 &&
+            !isCJK(currentLine.slice(-1)) &&
+            !isCJK(nextTok.charAt(0));
+          const nextCand = nSpace
+            ? `${currentLine} ${nextTok}`
+            : `${currentLine}${nextTok}`;
+
+          if (getVisualWidth(nextCand) <= maxVisualWidth - 3) {
+            currentLine = nextCand;
+          } else {
+            currentLine += "...";
+            break;
+          }
         }
         break;
       }
-    } else {
-      current += char;
     }
   }
-  if (current && lines.length < maxLines) {
-    lines.push(current);
+
+  if (currentLine && lines.length < maxLines) {
+    lines.push(currentLine);
   }
+
   return lines;
 }
 
@@ -472,8 +541,8 @@ export function generateOGSvg(data: OGCardData): string {
   // Determine kicker based on type and localized strings
   let kicker = loc.helloIm;
   if (type === "blog") {
-    const topic =
-      kickerTopic || loc.tags[tags[0]?.toLowerCase()] || "PHILOSOPHY";
+    const rawTag = kickerTopic || tags[0]?.toLowerCase() || "philosophy";
+    const topic = loc.tags[rawTag.toLowerCase()] || rawTag;
     kicker = `• ${loc.essayAnalysis} // ${topic.toUpperCase()}`;
   } else if (type === "project") {
     const topic = kickerTopic || tags[0]?.toUpperCase() || "SYSTEM";
@@ -483,8 +552,13 @@ export function generateOGSvg(data: OGCardData): string {
     kicker = `• ${loc.archiveReading} // ${topic.toUpperCase()}`;
   }
 
-  const escapedTitleLines = wrapText(title, 34, 3).map(escapeXml);
-  const escapedSubtitleLines = wrapText(subtitle, 58, 3).map(escapeXml);
+  // Strict visual width limit for titles (25 characters) to guarantee zero card overlap
+  const isHome = type === "home";
+  const titleMaxVisualWidth = isHome ? 32 : 25;
+  const escapedTitleLines = wrapText(title, titleMaxVisualWidth, 3).map(
+    escapeXml,
+  );
+  const escapedSubtitleLines = wrapText(subtitle, 40, 3).map(escapeXml);
   const escapedKicker = escapeXml(kicker);
   const langUpper = lang.toUpperCase();
 
@@ -526,8 +600,8 @@ export function generateOGSvg(data: OGCardData): string {
       .map((rawTag) => {
         const localizedTag = loc.tags[rawTag.toLowerCase()] || rawTag;
         const textWidth = Math.max(
-          85,
-          Math.min(180, getVisualWidth(localizedTag) * 11 + 24),
+          80,
+          Math.min(180, getVisualWidth(localizedTag) * 10.5 + 24),
         );
         const element = `
           <g transform="translate(${currentX}, 416)">
@@ -548,23 +622,28 @@ export function generateOGSvg(data: OGCardData): string {
     if (date) parts.push(`📅 ${escapeXml(date)}`);
     if (readTime) parts.push(`⏱️ ${escapeXml(readTime)}`);
     metaLine = `
-      <text x="72" y="302" font-family="system-ui, sans-serif" font-size="16" font-weight="500" fill="#94a3b8">
+      <text x="72" y="295" font-family="system-ui, sans-serif" font-size="15" font-weight="500" fill="#94a3b8">
         ${parts.join("   •   ")}
       </text>
     `;
   }
 
   // Layout Title
-  const isHome = type === "home";
   const titleFontSize = isHome
     ? 58
     : escapedTitleLines.length === 1
-      ? 48
+      ? 44
       : escapedTitleLines.length === 2
-        ? 43
-        : 37;
-  const titleLineHeight = isHome ? 64 : 48;
-  const titleStartY = isHome ? 172 : escapedTitleLines.length === 1 ? 185 : 155;
+        ? 38
+        : 34;
+  const titleLineHeight = isHome
+    ? 64
+    : escapedTitleLines.length === 1
+      ? 50
+      : escapedTitleLines.length === 2
+        ? 45
+        : 40;
+  const titleStartY = isHome ? 172 : escapedTitleLines.length === 1 ? 180 : 155;
 
   const titleSvg = escapedTitleLines
     .map(
@@ -575,12 +654,12 @@ export function generateOGSvg(data: OGCardData): string {
 
   const subtitleStartY =
     date || readTime
-      ? 334
+      ? 328
       : titleStartY + escapedTitleLines.length * titleLineHeight + 16;
   const subtitleSvg = escapedSubtitleLines
     .map(
       (line, i) =>
-        `<tspan x="72" y="${subtitleStartY + i * 26}">${line}</tspan>`,
+        `<tspan x="72" y="${subtitleStartY + i * 25}">${line}</tspan>`,
     )
     .join("");
 
@@ -589,7 +668,7 @@ export function generateOGSvg(data: OGCardData): string {
   if (!imagePath || isHome) {
     // Lagrange Equilibrium graphic fully localized
     cardInnerContent = `
-      <g transform="translate(217, 215)">
+      <g transform="translate(210, 215)">
         <circle r="120" stroke="#ffffff" stroke-opacity="0.08" stroke-width="0.8" stroke-dasharray="2 4" fill="none"/>
         <circle r="80" stroke="#38bdf8" stroke-opacity="0.15" stroke-width="1" stroke-dasharray="3 5" fill="none"/>
         <circle r="50" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.5" fill="none"/>
@@ -612,25 +691,25 @@ export function generateOGSvg(data: OGCardData): string {
         <path d="M 40 -69 L 44 -65 L 40 -61 L 36 -65 Z" fill="#ffffff" fill-opacity="0.8"/>
         <path d="M 40 61 L 44 65 L 40 69 L 36 65 Z" fill="#ffffff" fill-opacity="0.8"/>
       </g>
-      <g transform="translate(26, 385)">
-        <line x1="0" y1="0" x2="383" y2="0" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
-        <text x="191" y="24" font-family="'Courier New', monospace" font-size="13" font-weight="700" fill="#ffffff" letter-spacing="1.5" text-anchor="middle">${escapeXml(loc.lagrangeTitle)}</text>
-        <text x="191" y="42" font-family="system-ui, sans-serif" font-size="11" font-weight="400" fill="#64748b" text-anchor="middle">${escapeXml(loc.lagrangeDesc)}</text>
+      <g transform="translate(24, 385)">
+        <line x1="0" y1="0" x2="372" y2="0" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+        <text x="186" y="24" font-family="'Courier New', monospace" font-size="13" font-weight="700" fill="#ffffff" letter-spacing="1.5" text-anchor="middle">${escapeXml(loc.lagrangeTitle)}</text>
+        <text x="186" y="42" font-family="system-ui, sans-serif" font-size="11" font-weight="400" fill="#64748b" text-anchor="middle">${escapeXml(loc.lagrangeDesc)}</text>
         <g transform="translate(10, 65)">
           <text x="0" y="0" font-family="'Courier New', monospace" font-size="10" font-weight="700" fill="#475569">${escapeXml(loc.system)}: <tspan fill="#94a3b8">${escapeXml(loc.balanced)}</tspan></text>
-          <text x="210" y="0" font-family="'Courier New', monospace" font-size="10" font-weight="700" fill="#475569">${escapeXml(loc.cohesion)}: <tspan fill="#10b981">${escapeXml(loc.optimal)}</tspan></text>
+          <text x="200" y="0" font-family="'Courier New', monospace" font-size="10" font-weight="700" fill="#475569">${escapeXml(loc.cohesion)}: <tspan fill="#10b981">${escapeXml(loc.optimal)}</tspan></text>
           <text x="0" y="16" font-family="'Courier New', monospace" font-size="10" font-weight="700" fill="#475569">${escapeXml(loc.focus)}: <tspan fill="#38bdf8">${escapeXml(loc.absolute)}</tspan></text>
-          <text x="210" y="16" font-family="'Courier New', monospace" font-size="10" font-weight="700" fill="#475569">${escapeXml(loc.sysRev)}: <tspan fill="#94a3b8">2026.04</tspan></text>
+          <text x="200" y="16" font-family="'Courier New', monospace" font-size="10" font-weight="700" fill="#475569">${escapeXml(loc.sysRev)}: <tspan fill="#94a3b8">2026.04</tspan></text>
         </g>
       </g>
     `;
   } else {
-    // Themed artwork frame (image composited at 708, 135)
+    // Themed artwork frame (image composited at 725, 135)
     cardInnerContent = `
       <g transform="translate(24, 410)">
-        <line x1="0" y1="0" x2="387" y2="0" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+        <line x1="0" y1="0" x2="372" y2="0" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
         <text x="0" y="22" font-family="'Courier New', monospace" font-size="11" font-weight="700" fill="#64748b">${escapeXml(loc.statusVerified)}</text>
-        <text x="220" y="22" font-family="'Courier New', monospace" font-size="11" font-weight="700" fill="#64748b">${escapeXml(loc.categoryLabel)}: <tspan fill="${accentColor}">${type.toUpperCase()}</tspan></text>
+        <text x="210" y="22" font-family="'Courier New', monospace" font-size="11" font-weight="700" fill="#64748b">${escapeXml(loc.categoryLabel)}: <tspan fill="${accentColor}">${type.toUpperCase()}</tspan></text>
         <text x="0" y="40" font-family="'Courier New', monospace" font-size="10" font-weight="600" fill="#475569">${escapeXml(loc.polymathArchive)}</text>
       </g>
     `;
@@ -667,7 +746,7 @@ export function generateOGSvg(data: OGCardData): string {
   ${starsSvg}
 
   <!-- Concentric Celestial Orbits Background (Right side) -->
-  <g transform="translate(910, 315)" stroke="#ffffff" stroke-opacity="0.04" fill="none">
+  <g transform="translate(925, 315)" stroke="#ffffff" stroke-opacity="0.04" fill="none">
     <circle r="140" stroke-dasharray="3 6"/>
     <circle r="250" stroke-dasharray="2 4"/>
     <circle r="360"/>
@@ -696,7 +775,7 @@ export function generateOGSvg(data: OGCardData): string {
   ${metaLine}
 
   <!-- Subtitle / Description -->
-  <text font-family="system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', 'Segoe UI Historic', 'Arial Unicode MS', sans-serif" font-size="18" font-weight="400" fill="#8492a6">
+  <text font-family="system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', 'Segoe UI Historic', 'Arial Unicode MS', sans-serif" font-size="17" font-weight="400" fill="#8492a6">
     ${subtitleSvg}
   </text>
 
@@ -718,18 +797,18 @@ export function generateOGSvg(data: OGCardData): string {
     </g>
   </g>
 
-  <!-- RIGHT COLUMN: Floating Card (x: 690, y: 75, w: 435, h: 480) -->
-  <g transform="translate(690, 75)">
-    <rect width="435" height="480" rx="20" fill="#131722" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1.5"/>
+  <!-- RIGHT COLUMN: Floating Card (x: 715, y: 75, w: 420, h: 480) -->
+  <g transform="translate(715, 75)">
+    <rect width="420" height="480" rx="20" fill="#131722" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1.5"/>
 
     <!-- Header of Card -->
     <g transform="translate(24, 26)">
       <text x="0" y="14" font-family="'Courier New', monospace" font-size="12" font-weight="700" fill="#94a3b8" letter-spacing="1.5">${escapeXml(cardTitle)}</text>
-      <g transform="translate(325, 4)">
+      <g transform="translate(310, 4)">
         <circle cx="5" cy="6" r="3.5" fill="${cardStatusColor}"/>
         <text x="14" y="10" font-family="'Courier New', monospace" font-size="11" font-weight="700" fill="${cardStatusColor}" letter-spacing="1">${escapeXml(cardStatus)}</text>
       </g>
-      <line x1="0" y1="26" x2="387" y2="26" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+      <line x1="0" y1="26" x2="372" y2="26" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
     </g>
 
     ${cardInnerContent}
@@ -753,8 +832,8 @@ async function createCircularAvatar(
 
 async function createRoundedThemedImage(
   imagePath: string,
-  width = 400,
-  height = 260,
+  width = 385,
+  height = 255,
 ): Promise<Buffer> {
   const mask = Buffer.from(
     `<svg width="${width}" height="${height}"><rect width="${width}" height="${height}" rx="14" fill="#fff"/></svg>`,
@@ -787,10 +866,10 @@ export async function renderOGPng(data: OGCardData): Promise<Buffer> {
     try {
       const themedBuf = await createRoundedThemedImage(
         data.imagePath,
-        400,
-        260,
+        385,
+        255,
       );
-      composites.push({ input: themedBuf, top: 135, left: 708 });
+      composites.push({ input: themedBuf, top: 135, left: 732 });
     } catch {
       // If themed image missing, skip silently
     }
