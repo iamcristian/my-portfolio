@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
+import path from "node:path";
 import {
   renderOGPng,
   type OGCardData,
@@ -25,12 +26,12 @@ export async function getStaticPaths() {
       cardData: {
         type: "home",
         lang: "en",
-        title: "Cristian Arando — Software & Systems Engineer",
+        title: "Cristian Arando",
         subtitle:
           defaultT("home.tagline") ||
           "Designing software systems through structure, modularity, and careful decomposition of complexity",
-        category: "SOFTWARE & SYSTEMS",
-        tags: ["Systems Architecture", "Security", "Philosophy", "Modularity"],
+        kicker: "• HELLO, I'M",
+        tags: ["Systems Architecture", "Security", "Philosophy"],
       },
     },
   });
@@ -41,18 +42,19 @@ export async function getStaticPaths() {
     const fc = featureCopy(lang);
 
     const tagsByLang: Record<Lang, string[]> = {
-      en: ["Systems Architecture", "Security", "Philosophy", "Modularity"],
-      es: ["Arquitectura de Sistemas", "Seguridad", "Filosofía", "Modularidad"],
-      de: ["Systemarchitektur", "Sicherheit", "Philosophie", "Modularität"],
-      ja: ["システムアーキテクチャ", "セキュリティ", "哲学", "モジュール性"],
-      ru: ["Архитектура систем", "Безопасность", "Философия", "Модульность"],
+      en: ["Systems Architecture", "Security", "Philosophy"],
+      es: ["Arquitectura de Sistemas", "Seguridad", "Filosofía"],
+      de: ["Systemarchitektur", "Sicherheit", "Philosophie"],
+      ja: ["システム設計", "セキュリティ", "哲学"],
+      ru: ["Архитектура систем", "Безопасность", "Философия"],
     };
-    const categoryByLang: Record<Lang, string> = {
-      en: "SOFTWARE & SYSTEMS",
-      es: "SOFTWARE Y SISTEMAS",
-      de: "SOFTWARE & SYSTEME",
-      ja: "ソフトウェア＆システム",
-      ru: "ПРОГРАММНЫЕ СИСТЕМЫ",
+
+    const kickersByLang: Record<Lang, string> = {
+      en: "• HELLO, I'M",
+      es: "• HOLA, SOY",
+      de: "• HALLO, ICH BIN",
+      ja: "• こんにちは、",
+      ru: "• ПРИВЕТ, Я",
     };
 
     // Home (/og/[lang]/home.png)
@@ -63,21 +65,16 @@ export async function getStaticPaths() {
           type: "home",
           lang,
           title: t("home.name") || "Cristian Arando",
-          subtitle: t("home.tagline") || "Software & Systems Engineer",
-          category: categoryByLang[lang] || "SOFTWARE & SYSTEMS",
+          subtitle:
+            t("home.tagline") ||
+            "Designing software systems through structure, modularity, and careful decomposition of complexity",
+          kicker: kickersByLang[lang] || "• HELLO, I'M",
           tags: tagsByLang[lang],
         },
       },
     });
 
     // Blog Index (/og/[lang]/blog.png)
-    const blogCatByLang: Record<Lang, string> = {
-      en: "BLOG ARCHIVE",
-      es: "ARCHIVO DE BLOG",
-      de: "BLOG ARCHIV",
-      ja: "ブログアーカイブ",
-      ru: "АРХИВ БЛОГА",
-    };
     paths.push({
       params: { route: `${lang}/blog` },
       props: {
@@ -88,20 +85,14 @@ export async function getStaticPaths() {
           subtitle:
             t("blog.subtitlePage") ||
             "Reflections on systems, architecture, and philosophy",
-          category: blogCatByLang[lang],
+          kicker: "• ARCHIVE // ESSAYS",
           tags: tagsByLang[lang],
+          imagePath: path.resolve("src/assets/images/blog/hello-world.webp"),
         },
       },
     });
 
     // Projects Index (/og/[lang]/projects.png)
-    const projectCatByLang: Record<Lang, string> = {
-      en: "FEATURED WORK",
-      es: "PROYECTOS DESTACADOS",
-      de: "AUSGEWÄHLTE PROJEKTE",
-      ja: "主な開発実績",
-      ru: "ИЗБРАННЫЕ ПРОЕКТЫ",
-    };
     paths.push({
       params: { route: `${lang}/projects` },
       props: {
@@ -112,8 +103,11 @@ export async function getStaticPaths() {
           subtitle:
             t("projects.subtitlePage") ||
             "Production systems, simulations, and engineering case studies",
-          category: projectCatByLang[lang],
-          tags: ["Architecture", "Performance", "Security", "Reliability"],
+          kicker: "• SHOWCASE // WORK",
+          tags: ["Architecture", "Performance", "Security"],
+          imagePath: path.resolve(
+            "src/assets/images/projects/kerr-spacetime-workstation.webp",
+          ),
         },
       },
     });
@@ -128,8 +122,9 @@ export async function getStaticPaths() {
           title: "Hardware, Software & Workstation",
           subtitle:
             t("uses.subtitlePage") || "Engineering environment and daily setup",
-          category: "DEV ENVIRONMENT",
-          tags: ["Hardware", "Workstation", "Tooling", "Setup"],
+          kicker: "• SETUP // TOOLING",
+          tags: ["Hardware", "Workstation", "Tooling"],
+          imagePath: path.resolve("src/assets/images/website.webp"),
         },
       },
     });
@@ -144,8 +139,9 @@ export async function getStaticPaths() {
           title: fc.bookshelf || "Bookshelf",
           subtitle:
             "Classical literature, philosophy, and software engineering reading archive",
-          category: "BOOKSHELF",
-          tags: ["Literature", "Philosophy", "Classics", "Dostoevsky"],
+          kicker: "• READING ARCHIVE // CLASSICS",
+          tags: ["Literature", "Philosophy", "Classics"],
+          imagePath: path.resolve("src/assets/images/blog/my-bookshelf.webp"),
         },
       },
     });
@@ -160,8 +156,11 @@ export async function getStaticPaths() {
           title: fc.library || "Reading List",
           subtitle:
             "Personal reading queue, bookmarks, and offline reading archive",
-          category: "READING LIST",
-          tags: ["Bookmarks", "Offline Reading", "Queue", "Archive"],
+          kicker: "• READING QUEUE // BOOKMARKS",
+          tags: ["Bookmarks", "Offline Reading", "Queue"],
+          imagePath: path.resolve(
+            "src/assets/images/blog/my-most-notable-reads.webp",
+          ),
         },
       },
     });
@@ -176,8 +175,11 @@ export async function getStaticPaths() {
           title: fc.series || "Reading Paths",
           subtitle:
             "Curated learning paths across systems architecture and philosophy",
-          category: "READING PATHS",
-          tags: ["Learning Paths", "Systems", "Security", "Philosophy"],
+          kicker: "• CURATED PATHS // ROADMAP",
+          tags: ["Learning Paths", "Systems", "Security"],
+          imagePath: path.resolve(
+            "src/assets/images/blog/seven-levels-of-logical-thinking.webp",
+          ),
         },
       },
     });
@@ -192,8 +194,9 @@ export async function getStaticPaths() {
           title: fc.search || "Search",
           subtitle:
             "Full-text index search across all articles, essays, and project case studies",
-          category: "SEARCH INDEX",
-          tags: ["Full-Text", "Index", "Search", "Discovery"],
+          kicker: "• DISCOVERY // INDEX",
+          tags: ["Full-Text", "Index", "Search"],
+          imagePath: path.resolve("src/assets/images/website.webp"),
         },
       },
     });
@@ -201,6 +204,7 @@ export async function getStaticPaths() {
     // Projects Detail (/og/[lang]/projects/[id].png)
     const localizedProjects = getProjectsForLang(lang);
     for (const project of localizedProjects) {
+      const projImgPath = path.resolve("." + project.image);
       paths.push({
         params: { route: `${lang}/projects/${project.id}` },
         props: {
@@ -209,8 +213,9 @@ export async function getStaticPaths() {
             lang,
             title: project.title,
             subtitle: project.description,
-            category: "CASE STUDY",
-            tags: project.tech.slice(0, 4),
+            kicker: `• CASE STUDY // ${project.tech[0]?.toUpperCase() || "SYSTEM"}`,
+            tags: project.tech.slice(0, 3),
+            imagePath: projImgPath,
           },
         },
       });
@@ -233,6 +238,9 @@ export async function getStaticPaths() {
     const minutes = getReadTime(post.body, postLang);
     const readTimeStr = `${minutes} ${readUnitByLang[postLang] || "min read"}`;
     const dateStr = post.data.date.toISOString().split("T")[0];
+    const postImgPath = path.resolve(
+      `src/assets/images/blog/${post.data.slug}.webp`,
+    );
 
     paths.push({
       params: { route: `${post.data.lang}/blog/${post.data.slug}` },
@@ -242,10 +250,11 @@ export async function getStaticPaths() {
           lang: postLang,
           title: post.data.title,
           subtitle: post.data.description,
-          category: "ESSAY & ANALYSIS",
-          tags: post.data.tags || [],
+          kicker: `• ESSAY & ANALYSIS // ${post.data.tags?.[0]?.toUpperCase() || "PHILOSOPHY"}`,
+          tags: (post.data.tags || []).slice(0, 3),
           date: dateStr,
           readTime: readTimeStr,
+          imagePath: postImgPath,
         },
       },
     });
