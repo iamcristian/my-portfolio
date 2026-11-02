@@ -1,7 +1,6 @@
 import { SITE } from "../config/site";
 import { useTranslations, type Lang } from "../i18n/utils";
 import { locales, OG_LOCALES } from "../i18n/ui";
-import meImage from "../assets/images/me.webp";
 
 interface SEOProps {
   title?: string;
@@ -74,20 +73,51 @@ export function resolveSEOData(
 
   const ogLocale = OG_LOCALES[lang] || "en_US";
 
-  // Resolve OpenGraph & Twitter Image
-  const imageSource = props.image || meImage;
-  const imageUrl =
-    typeof imageSource === "string"
-      ? imageSource.startsWith("http")
-        ? imageSource
-        : `${cleanSiteUrl}${imageSource}`
-      : new URL(imageSource.src, cleanSiteUrl).href;
-  const fullImageAlt = props.imageAlt || title || t("home.name") || SITE.name;
+  // Resolve dynamic Open Graph Image path matching the current route
+  let dynamicOgPath: string | null = null;
+  const blogPostMatch = pathname.match(
+    /^\/(en|es|de|ja|ru)\/blog\/([a-z0-9-]+)\/?$/,
+  );
+  const projectPostMatch = pathname.match(
+    /^\/(en|es|de|ja|ru)\/projects\/([a-z0-9-]+)\/?$/,
+  );
+  const hubMatch = pathname.match(
+    /^\/(en|es|de|ja|ru)\/(blog|projects|uses|bookshelf|library|series|search)\/?$/,
+  );
 
-  const imageWidth =
-    typeof imageSource === "object" ? imageSource.width.toString() : "1200";
-  const imageHeight =
-    typeof imageSource === "object" ? imageSource.height.toString() : "630";
+  if (isHome) {
+    dynamicOgPath = `/og/${lang || "en"}/home.png`;
+  } else if (blogPostMatch) {
+    dynamicOgPath = `/og/${blogPostMatch[1]}/blog/${blogPostMatch[2]}.png`;
+  } else if (projectPostMatch) {
+    dynamicOgPath = `/og/${projectPostMatch[1]}/projects/${projectPostMatch[2]}.png`;
+  } else if (hubMatch) {
+    dynamicOgPath = `/og/${hubMatch[1]}/${hubMatch[2]}.png`;
+  }
+
+  // Resolve OpenGraph & Twitter Image URL and Dimensions
+  let imageUrl: string;
+  let imageWidth = "1200";
+  let imageHeight = "630";
+
+  if (dynamicOgPath) {
+    imageUrl = `${cleanSiteUrl}${dynamicOgPath}`;
+  } else if (props.image) {
+    const imageSource = props.image;
+    imageUrl =
+      typeof imageSource === "string"
+        ? imageSource.startsWith("http")
+          ? imageSource
+          : `${cleanSiteUrl}${imageSource}`
+        : new URL(imageSource.src, cleanSiteUrl).href;
+    imageWidth =
+      typeof imageSource === "object" ? imageSource.width.toString() : "1200";
+    imageHeight =
+      typeof imageSource === "object" ? imageSource.height.toString() : "630";
+  } else {
+    imageUrl = `${cleanSiteUrl}/og/home.png`;
+  }
+  const fullImageAlt = props.imageAlt || title || t("home.name") || SITE.name;
 
   return {
     lang,

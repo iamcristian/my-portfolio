@@ -4,9 +4,9 @@
 
 export const SITE = {
   name: "Cristian Arando",
-  title: "Cristian Arando — Full Stack Developer",
+  title: "Cristian Arando — Software & Systems Engineer",
   description:
-    "Strategy-driven developer passionate about solving complex problems with technology. Portfolio showcasing full-stack projects, blog articles, and professional experience.",
+    "Software & Systems Engineer designing systems through structure, modularity, and careful decomposition of complexity. Exploring system design, architecture, security, and philosophy.",
   email: "crisarandosyse@gmail.com",
   url: "https://cristianarando.dev",
   social: {
