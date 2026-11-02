@@ -1,6 +1,8 @@
 import type { ProjectId } from "./projects";
 import type { Lang } from "../i18n/utils";
 
+export type { ProjectId };
+
 export interface CaseStudyData {
   problem: string;
   architecture: string[];

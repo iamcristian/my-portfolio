@@ -4,7 +4,7 @@ import { useTranslations } from "../../i18n/utils";
 import { featureCopy } from "../../i18n/features";
 import { getReadTime } from "../../utils/blog";
 import { getCaseStudy, type ProjectId } from "../../data/case-studies";
-import type { Project } from "../../data/projects";
+import type { Project } from "../../types";
 import { Image } from "astro:assets";
 import ContentsList from "../blog/ContentsList.astro";
 import ReaderTools from "../blog/ReaderTools.astro";
@@ -118,7 +118,7 @@ const tocHeadings = [
         height={675}
         loading="eager"
         fetchpriority="high"
-        class="w-full object-cover aspect-16/9 rounded-2xl border border-base-300 shadow-md"
+        class="w-full object-cover aspect-video rounded-2xl border border-base-300 shadow-md"
       />
 
       <div class="flex flex-wrap gap-4 py-2 border-b border-base-300">
