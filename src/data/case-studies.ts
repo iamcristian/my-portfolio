@@ -1,3 +1,4 @@
+import { fluenttubeByLang } from "../i18n/fluenttube";
 import type { ProjectId } from "./projects";
 import type { Lang } from "../i18n/utils";
 
@@ -60,21 +61,7 @@ export const caseStudiesByLang: Record<
       lesson:
         "Separate scenario authoring, physical numerical integration, and telemetry recording into decoupled pipelines so that experiment configurations remain completely deterministic and reproducible.",
     },
-    fluenttube: {
-      problem:
-        "A local-first language learning application that transforms user-chosen videos and YouTube content into structured listening, dictation, and speaking practice while keeping user media, transcripts, and progress private on the host machine.",
-      architecture: [
-        "React and TypeScript frontend with TanStack Query for server state synchronization and Zustand for fine-grained playback/dictation state.",
-        "FastAPI REST backend with background job queue handling asynchronous transcription and media processing.",
-        "Local speech-to-text pipeline utilizing Faster-Whisper with CPU fallback and optional NVIDIA CUDA GPU acceleration.",
-        "FFmpeg and ffprobe pipeline for media inspection, audio extraction, and fragmented MP4 caching without re-encoding.",
-        "SQLite persistence with Write-Ahead Logging (WAL) and foreign key enforcement for resilient local library storage.",
-      ],
-      tradeoff:
-        "Running Faster-Whisper locally guarantees 100% data privacy and offline capability, but requires initial model downloads and hardware-dependent execution times compared to cloud speech APIs.",
-      lesson:
-        "Long-running media processing jobs must be chunked and checkpointed (e.g. 5-minute parts) to ensure recoverability and allow seamless resumption if the process restarts.",
-    },
+    fluenttube: fluenttubeByLang.en.study,
     "explora-bolivia": {
       problem:
         "A Bolivia-focused exploration application needs a clear way to present destinations and organize the data behind that experience.",
@@ -161,21 +148,7 @@ export const caseStudiesByLang: Record<
       lesson:
         "Separa la edición de escenarios, la integración física numérica y la telemetría en pipelines desacoplados para que la configuración experimental sea totalmente determinista y reproducible.",
     },
-    fluenttube: {
-      problem:
-        "Aplicación local-first para el aprendizaje de idiomas que convierte vídeos y contenido de YouTube en ejercicios estructurados de dictado, comprensión auditiva y pronunciación, preservando la total privacidad de los archivos y el progreso en la máquina del usuario.",
-      architecture: [
-        "Frontend en React y TypeScript con TanStack Query para sincronización y Zustand para gestión de estados de reproducción y dictado.",
-        "Backend REST en FastAPI con cola de trabajos en segundo plano para transcripción asíncrona y procesamiento de medios.",
-        "Pipeline local de voz a texto con Faster-Whisper, compatible con CPU y aceleración GPU opcional mediante NVIDIA CUDA.",
-        "Integración con FFmpeg y ffprobe para inspección de flujos, extracción de audio y caché de segmentos MP4 sin transcodificación pesada.",
-        "Base de datos SQLite con Write-Ahead Logging (WAL) e integridad referencial para persistencia local confiable.",
-      ],
-      tradeoff:
-        "Ejecutar Faster-Whisper localmente garantiza privacidad absoluta y funcionamiento offline, pero requiere la descarga previa del modelo y tiempos de cómputo sujetos al hardware del usuario frente a APIs cloud.",
-      lesson:
-        "Las tareas extensas de procesamiento audiovisual deben dividirse en fragmentos con puntos de control (checkpoints) para asegurar la recuperación inmediata si el proceso se interrumpe.",
-    },
+    fluenttube: fluenttubeByLang.es.study,
     "explora-bolivia": {
       problem:
         "Aplicación web de exploración turística en Bolivia que requiere una presentación intuitiva de atractivos y un esquema relacional estructurado para su catálogo.",
@@ -262,21 +235,7 @@ export const caseStudiesByLang: Record<
       lesson:
         "Trennen Sie Szenario-Erstellung, numerische Integration und Telemetrieaufzeichnung in voneinander unabhängige Pipelines für vollständige Reproduzierbarkeit.",
     },
-    fluenttube: {
-      problem:
-        "Lokale Sprachlern-App, die YouTube-Videos und Mediendateien in interaktive Diktat- und Ausspracheübungen umwandelt, während Daten und Lernfortschritt auf dem Gerät verbleiben.",
-      architecture: [
-        "React- und TypeScript-Frontend mit TanStack Query für Serversynchronisation und Zustand für Wiedergabesteuerung.",
-        "FastAPI-REST-Backend mit Hintergrundwarteschlange für Medienextraktion und Transkription.",
-        "Lokale Spracherkennung über Faster-Whisper mit CPU-Unterstützung und optionaler NVIDIA CUDA-Beschleunigung.",
-        "FFmpeg- und ffprobe-Pipeline für Audioextraktion und MP4-Caching ohne Neukodierung.",
-        "SQLite-Datenbank mit Write-Ahead Logging (WAL) für sichere lokale Datenhaltung.",
-      ],
-      tradeoff:
-        "Lokale Ausführung garantiert absolute Privatsphäre und Offline-Funktionalität, erfordert jedoch initiale Modelldownloads und hardwareabhängige Rechenzeiten.",
-      lesson:
-        "Länger andauernde Medienverarbeitungsaufgaben müssen in Chunks mit Checkpoints unterteilt werden, um bei Unterbrechungen nahtlos fortgesetzt werden zu können.",
-    },
+    fluenttube: fluenttubeByLang.de.study,
     "explora-bolivia": {
       problem:
         "Webanwendung zur Erkundung von Reisezielen in Bolivien mit übersichtlicher Präsentation und strukturierter Persistenz.",
@@ -363,21 +322,7 @@ export const caseStudiesByLang: Record<
       lesson:
         "Разделяйте создание сценариев, физический расчет и запись метрик на независимые этапы для обеспечения полной воспроизводимости экспериментов.",
     },
-    fluenttube: {
-      problem:
-        "Автономное локальное приложение для изучения языков по видеоматериалам YouTube с сохранением конфиденциальности файлов и прогресса на устройстве.",
-      architecture: [
-        "Интерфейс на React и TypeScript с TanStack Query и Zustand для управления состояниями воспроизведения и диктанта.",
-        "Серверная часть на FastAPI с очередью фоновых задач для асинхронного извлечения аудио и транскрибации.",
-        "Локальная нейросеть Faster-Whisper с автоматическим выбором между процессором и графическим ускорителем NVIDIA CUDA.",
-        "Конвейер FFmpeg и ffprobe для анализа медиапотоков и кеширования MP4 без перекодирования.",
-        "Хранилище SQLite с режимом Write-Ahead Logging (WAL) и строгим контролем внешних ключей.",
-      ],
-      tradeoff:
-        "Локальная работа Faster-Whisper гарантирует абсолютную приватность и офлайн-режим, но требует загрузки модели и зависит от мощности процессора.",
-      lesson:
-        "Длительные задачи обработки медиафайлов должны разбиваться на контрольные отрезки (чекпоинты) для восстановления при сбоях.",
-    },
+    fluenttube: fluenttubeByLang.ru.study,
     "explora-bolivia": {
       problem:
         "Туристический веб-сервис по достопримечательностям Боливии с каталогом маршрутов и структурированным хранением данных.",
@@ -464,21 +409,7 @@ export const caseStudiesByLang: Record<
       lesson:
         "シナリオ作成、数値積分、テレメトリ記録のパイプラインを疎結合に保ち、実験条件の決定性と再現性を完全に担保すること。",
     },
-    fluenttube: {
-      problem:
-        "動画音声からディクテーションや発音練習を生成するローカルファースト語学学習環境。ユーザーの学習データやメディアファイルを外部に送信せず端末内で安全に完結。",
-      architecture: [
-        "TanStack QueryおよびZustandによる再生・回答状態のきめ細やかな管理を備えたReact＋TypeScriptフロントエンド。",
-        "メディア抽出と非同期文字起こしキューを制御するFastAPIバックエンド。",
-        "Faster-Whisperを用いた完全ローカル音声認識（CPU動作およびNVIDIA CUDA GPUアクセラレーション対応）。",
-        "FFmpegおよびffprobeによるメディア解析、音声抽出、再エンコード不要のMP4セグメントキャッシュ。",
-        "Write-Ahead Logging（WAL）と外部キー制約を有効化した堅牢なSQLiteローカルデータベース。",
-      ],
-      tradeoff:
-        "Faster-Whisperのローカル実行は完全なプライバシーとオフライン動作を保証しますが、モデルのダウンロードと端末スペックに応じた計算時間が必要です。",
-      lesson:
-        "長時間のメディア変換処理はチェックポイント付きの分割単位（例：5分単位）で設計し、プロセス中断時にも即座に復帰できるようにすること。",
-    },
+    fluenttube: fluenttubeByLang.ja.study,
     "explora-bolivia": {
       problem:
         "ボリビアの観光資源やおすすめルートを体系的に紹介し、探索体験を支えるWebプラットフォーム。",

@@ -1,3 +1,4 @@
+import { fluenttube } from "./fluenttube.ts";
 import type { ProjectCopy } from "../../../data/projects";
 
 export const projectCopy = {
@@ -16,11 +17,7 @@ export const projectCopy = {
     description:
       "Estudio de investigación para modelado de dinámica de multitudes y evacuaciones de emergencia mediante el modelo de fuerzas sociales HFV en Python y FastAPI.",
   },
-  fluenttube: {
-    title: "FluentTube AI - Práctica de Inglés Local-First",
-    description:
-      "Aplicación local-first para la práctica de escucha, dictado y habla con videos propios o YouTube, transcripción Faster-Whisper y SQLite.",
-  },
+  fluenttube: { title: fluenttube.title, description: fluenttube.description },
   "explora-bolivia": {
     title: "Explora Bolivia - Travel Guide App",
     description:

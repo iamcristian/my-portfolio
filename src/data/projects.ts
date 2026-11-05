@@ -37,7 +37,7 @@ export const projectCatalog = [
     github: "https://github.com/iamcristian/kerr-spacetime-workstation",
     live: "https://iamcristian.github.io/kerr-spacetime-workstation/",
     image: "/src/assets/images/projects/kerr-spacetime-workstation.webp",
-    featured: true,
+    featured: false,
     date: "2026-10-29",
   },
   {

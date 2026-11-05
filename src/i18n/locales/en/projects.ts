@@ -1,3 +1,4 @@
+import { fluenttube } from "./fluenttube.ts";
 import type { ProjectCopy } from "../../../data/projects";
 
 export const projectCopy = {
@@ -16,11 +17,7 @@ export const projectCopy = {
     description:
       "Research studio for pedestrian dynamics, evacuation experiments, and Helbing-Farkas-Vicsek social force simulations built with Python and FastAPI.",
   },
-  fluenttube: {
-    title: "FluentTube AI - Local-First Video Language Practice",
-    description:
-      "Local-first language practice application turning video speech into dictation and speaking exercises using Faster-Whisper, FastAPI, and React.",
-  },
+  fluenttube: { title: fluenttube.title, description: fluenttube.description },
   "explora-bolivia": {
     title: "Explora Bolivia - Travel Guide App",
     description:

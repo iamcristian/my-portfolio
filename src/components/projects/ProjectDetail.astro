@@ -2,6 +2,9 @@
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { useTranslations } from "../../i18n/utils";
 import { featureCopy } from "../../i18n/features";
+import { fluenttubeByLang } from "../../i18n/fluenttube";
+import dictationImage from "../../assets/images/projects/fluenttube-dictation.webp";
+import speakingImage from "../../assets/images/projects/fluenttube-speaking.webp";
 import { getReadTime } from "../../utils/blog";
 import { getCaseStudy, type ProjectId } from "../../data/case-studies";
 import type { Project } from "../../types";
@@ -21,17 +24,28 @@ const { lang } = Astro.locals;
 const t = useTranslations(lang);
 const c = featureCopy(lang);
 const study = getCaseStudy(project.id as ProjectId, lang);
+const fluenttube = project.id === "fluenttube" ? fluenttubeByLang[lang] : null;
+const screenshots = [projectImage, dictationImage, speakingImage];
 
 const studyText = [
   study.problem,
   ...study.architecture,
   study.tradeoff,
   study.lesson,
+  ...(fluenttube?.features ?? []),
+  fluenttube?.requestFlow ?? "",
+  fluenttube?.validateNext ?? "",
 ].join(" ");
 const readTime = getReadTime(studyText, lang);
 
 const tocHeadings = [
   { depth: 2, slug: "the-problem", text: c.caseStudyTheProblem },
+  ...(fluenttube
+    ? [
+        { depth: 2, slug: "practice-tools", text: fluenttube.featuresTitle },
+        { depth: 2, slug: "screenshots", text: fluenttube.screenshotsTitle },
+      ]
+    : []),
   {
     depth: 2,
     slug: "architecture-walkthrough",
@@ -118,7 +132,10 @@ const tocHeadings = [
         height={675}
         loading="eager"
         fetchpriority="high"
-        class="w-full object-cover aspect-video rounded-2xl border border-base-300 shadow-md"
+        class:list={[
+          "w-full object-cover aspect-video rounded-2xl border border-base-300 shadow-md",
+          { "object-top": fluenttube },
+        ]}
       />
 
       <div class="flex flex-wrap gap-4 py-2 border-b border-base-300">
@@ -154,6 +171,34 @@ const tocHeadings = [
         <h2 id="the-problem">{c.caseStudyTheProblem}</h2>
         <p>{study.problem}</p>
 
+        {fluenttube && (
+          <>
+            <h2 id="practice-tools">{fluenttube.featuresTitle}</h2>
+            <ul>
+              {fluenttube.features.map((feature) => (
+                <li>{feature}</li>
+              ))}
+            </ul>
+            <h2 id="screenshots">{fluenttube.screenshotsTitle}</h2>
+            <p>{fluenttube.screenshotsNote}</p>
+            {screenshots.map((image, index) => (
+              <figure>
+                <a href={image.src} target="_blank" rel="noopener noreferrer">
+                  <Image
+                    src={image}
+                    alt={fluenttube.captions[index]}
+                    widths={[400, 800, 1200]}
+                    sizes="(min-width: 1024px) 768px, calc(100vw - 32px)"
+                    loading="lazy"
+                    class="w-full h-auto border border-base-300"
+                  />
+                </a>
+                <figcaption>{fluenttube.captions[index]}</figcaption>
+              </figure>
+            ))}
+          </>
+        )}
+
         <h2 id="architecture-walkthrough">{c.caseStudyArchitecture}</h2>
         <ol>
           {study.architecture.map((part) => (
@@ -162,7 +207,7 @@ const tocHeadings = [
         </ol>
 
         <h2 id="a-request-through-the-system">{c.caseStudyRequestFlow}</h2>
-        <p>{c.caseStudyRequestText}</p>
+        <p>{fluenttube?.requestFlow ?? c.caseStudyRequestText}</p>
 
         <h2 id="tradeoffs">{c.caseStudyTradeoffs}</h2>
         <p>{study.tradeoff}</p>
@@ -171,7 +216,7 @@ const tocHeadings = [
         <p>{study.lesson}</p>
 
         <h2 id="what-to-validate-next">{c.caseStudyValidateNext}</h2>
-        <p>{c.caseStudyValidateText}</p>
+        <p>{fluenttube?.validateNext ?? c.caseStudyValidateText}</p>
       </article>
 
       <div class="flex flex-wrap gap-4 pt-6 border-t border-base-300">

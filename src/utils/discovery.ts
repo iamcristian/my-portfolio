@@ -6,6 +6,7 @@ import {
   type Lang,
 } from "../i18n/utils";
 import { languages } from "../i18n/ui";
+import { fluenttubeByLang } from "../i18n/fluenttube";
 import { isPublished } from "./blog";
 export interface SearchEntry {
   title: string;
@@ -37,7 +38,7 @@ export async function discoveryEntries(): Promise<SearchEntry[]> {
     entries.push(
       ...getProjectsForLang(lang).map((p) => ({
         title: p.title,
-        text: `${p.description} ${p.tech.join(" ")}`,
+        text: `${p.description} ${p.tech.join(" ")}${p.id === "fluenttube" ? ` ${fluenttubeByLang[lang].features.join(" ")}` : ""}`,
         url: `/${lang}/projects/${p.id}/`,
         lang,
         kind: "projects",
