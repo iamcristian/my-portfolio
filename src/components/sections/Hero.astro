@@ -50,7 +50,8 @@ const starsLayer3Shadow = generateDeterministicShadows(8, 777);
 const deepSkyRandom = createPrng(9421);
 const distantStars = Array.from({ length: 180 }, () => {
   const x = deepSkyRandom() * 1600;
-  const spread = (deepSkyRandom() + deepSkyRandom() + deepSkyRandom() - 1.5) * 180;
+  const spread =
+    (deepSkyRandom() + deepSkyRandom() + deepSkyRandom() - 1.5) * 180;
   const y = 760 - x * 0.42 + Math.sin(x / 190) * 40 + spread;
   return {
     x: x.toFixed(2),
@@ -84,7 +85,13 @@ const distantStars = Array.from({ length: 180 }, () => {
     focusable="false"
   >
     <defs>
-      <filter id="hero-dust-softness" x="-20%" y="-30%" width="140%" height="160%">
+      <filter
+        id="hero-dust-softness"
+        x="-20%"
+        y="-30%"
+        width="140%"
+        height="160%"
+      >
         <feGaussianBlur stdDeviation="22" />
       </filter>
       <radialGradient id="hero-sky-fade">
@@ -98,12 +105,23 @@ const distantStars = Array.from({ length: 180 }, () => {
     </defs>
     <g mask="url(#hero-sky-mask)">
       <g fill="currentColor" filter="url(#hero-dust-softness)">
-        <path opacity="0.065" d="M-80 800 C100 620 180 790 360 600 S570 650 760 430 S960 480 1150 260 S1400 250 1680 20 L1680 140 C1430 390 1390 260 1190 370 S1000 560 800 530 S600 710 400 690 S180 860 -80 880Z" />
-        <path opacity="0.04" d="M-60 710 C180 760 220 570 430 620 S650 450 830 460 S1070 250 1260 290 S1460 120 1680 80 L1680 110 C1450 200 1420 330 1240 330 S1060 340 850 510 S620 480 450 660 S170 780 -60 760Z" />
+        <path
+          opacity="0.065"
+          d="M-80 800 C100 620 180 790 360 600 S570 650 760 430 S960 480 1150 260 S1400 250 1680 20 L1680 140 C1430 390 1390 260 1190 370 S1000 560 800 530 S600 710 400 690 S180 860 -80 880Z"
+        />
+        <path
+          opacity="0.04"
+          d="M-60 710 C180 760 220 570 430 620 S650 450 830 460 S1070 250 1260 290 S1460 120 1680 80 L1680 110 C1450 200 1420 330 1240 330 S1060 340 850 510 S620 480 450 660 S170 780 -60 760Z"
+        />
       </g>
       <g fill="currentColor">
         {distantStars.map((star) => (
-          <circle cx={star.x} cy={star.y} r={star.radius} opacity={star.opacity} />
+          <circle
+            cx={star.x}
+            cy={star.y}
+            r={star.radius}
+            opacity={star.opacity}
+          />
         ))}
       </g>
     </g>
