@@ -17,7 +17,7 @@ export const home = {
   "home.subtitle": "ソフトウェア＆システムエンジニア",
   "home.tagline":
     "構造、モジュール性、そして複雑さの注意深い分解を通じてソフトウェアシステムを設計する",
-  "home.downloadCv": "履歴書をダウンロード",
+  "home.downloadCv": "履歴書を見る",
   "home.contactMe": "お問い合わせ",
   "site.title": "クリスティアン・アランド | ソフトウェア＆システムエンジニア",
   "site.description":
@@ -104,9 +104,10 @@ export const home = {
   "blog.share": "共有:",
   "blog.shareCopied": "コピーしました！",
   "blog.relatedPosts": "関連記事",
+  "blog.faq": "よくある質問",
 
   "nav.uses": "愛用ツール",
-  "uses.title": "/uses",
+  "uses.title": "愛用ツールと開発環境",
   "uses.subtitle": "// 愛用ツール＆環境",
   "uses.subtitlePage":
     "ソフトウェアシステムの設計や構築にあたって、私が日々愛用しているハードウェア、ソフトウェア、開発ツールの一覧です。",

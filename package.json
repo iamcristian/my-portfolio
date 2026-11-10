@@ -14,6 +14,7 @@
     "astro": "astro",
     "check": "astro check",
     "check:i18n": "node scripts/check-i18n.ts",
+    "generate-assets": "node scripts/generate-assets.ts",
     "test": "node --test tests/*.test.ts tests/*.test.mjs",
     "check:build": "node scripts/check-build.mjs",
     "lint": "prettier --check .",

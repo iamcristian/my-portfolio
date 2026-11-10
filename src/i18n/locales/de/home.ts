@@ -17,7 +17,7 @@ export const home = {
   "home.subtitle": "Software- & Systemingenieur",
   "home.tagline":
     "Entwurf von Softwaresystemen durch Struktur, Modulbauweise und sorgfältige Dekomposition von Komplexität",
-  "home.downloadCv": "Lebenslauf herunterladen",
+  "home.downloadCv": "Lebenslauf ansehen",
   "home.contactMe": "Kontaktiere mich",
   "site.title": "Cristian Arando | Software- & Systemingenieur",
   "site.description":
@@ -104,9 +104,10 @@ export const home = {
   "blog.share": "Teilen:",
   "blog.shareCopied": "Kopiert!",
   "blog.relatedPosts": "Ähnliche Artikel",
+  "blog.faq": "Häufig gestellte Fragen",
 
   "nav.uses": "Tech-Stack",
-  "uses.title": "/uses",
+  "uses.title": "Setup & Werkzeuge",
   "uses.subtitle": "// Hardware & Software",
   "uses.subtitlePage":
     "Eine detaillierte Liste der Hardware, Software und Tools, die ich täglich verwende, um Softwaresysteme zu entwickeln.",

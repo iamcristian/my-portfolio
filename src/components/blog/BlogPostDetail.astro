@@ -165,8 +165,8 @@ const formattedDate = new Intl.DateTimeFormat(lang, {
         <Content />
       </article>
       {post.data.faq && post.data.faq.length > 0 && (
-        <section class="prose prose-sm max-w-none" aria-label="FAQ">
-          <h2>FAQ</h2>
+        <section class="prose prose-sm max-w-none" aria-label={t("blog.faq")}>
+          <h2>{t("blog.faq")}</h2>
           {post.data.faq.map((item) => (
             <div>
               <h3>{item.question}</h3>

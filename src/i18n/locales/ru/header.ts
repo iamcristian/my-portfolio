@@ -6,6 +6,7 @@ export const header = {
   "nav.projects": "Проекты",
   "nav.skills": "Навыки",
   "nav.blog": "Блог",
+  "nav.mainLabel": "Основная навигация",
   "nav.toggleMenu": "Переключить меню навигации",
   "nav.title": "Меню",
   "theme.title": "Сменить тему",

@@ -56,12 +56,20 @@ function getPathForLocale(targetLang: string) {
       </li>
       {Object.entries(languages).map(([code, { name }]) => {
         const active = code === currentLang;
+        const isUntranslated =
+          translatedLocales !== null &&
+          !translatedLocales.some((lang) => lang === code);
         return (
           <li>
             <a
               href={getPathForLocale(code)}
               lang={code}
               hreflang={code}
+              title={
+                isUntranslated
+                  ? t("blog.fallbackWarning").replace("{lang}", name)
+                  : undefined
+              }
               class:list={["flex items-center gap-3 px-2 w-full", { active }]}
             >
               <div class="bg-base-100 flex items-center justify-center rounded-md border border-base-content/10 shadow-sm size-6 shrink-0 text-xs font-bold font-mono opacity-75">

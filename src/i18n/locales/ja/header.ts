@@ -6,6 +6,7 @@ export const header = {
   "nav.projects": "プロジェクト",
   "nav.skills": "スキル",
   "nav.blog": "ブログ",
+  "nav.mainLabel": "メインナビゲーション",
   "nav.toggleMenu": "ナビゲーションメニューの切り替え",
   "nav.title": "メニュー",
   "theme.title": "テーマ変更",

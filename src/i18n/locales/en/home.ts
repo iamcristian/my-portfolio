@@ -16,7 +16,7 @@ export const home = {
   "home.subtitle": "Software & Systems Engineer",
   "home.tagline":
     "Designing software systems through structure, modularity, and careful decomposition of complexity",
-  "home.downloadCv": "Download CV",
+  "home.downloadCv": "View CV",
   "home.contactMe": "Contact Me",
 
   "site.title": "Cristian Arando | Software & Systems Engineer",
@@ -112,6 +112,7 @@ export const home = {
   "blog.share": "Share:",
   "blog.shareCopied": "Copied!",
   "blog.relatedPosts": "Related Articles",
+  "blog.faq": "Frequently Asked Questions",
 
   "nav.uses": "Uses",
   "uses.title": "Uses",

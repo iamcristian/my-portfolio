@@ -17,7 +17,7 @@ export const home = {
   "home.subtitle": "Ingeniero de Software y Sistemas",
   "home.tagline":
     "Diseño de sistemas de software mediante estructura, modularidad y una cuidadosa descomposición de la complejidad",
-  "home.downloadCv": "Descargar CV",
+  "home.downloadCv": "Ver CV",
   "home.contactMe": "Contáctame",
   "site.title": "Cristian Arando | Ingeniero de Software y Sistemas",
   "site.description":
@@ -104,9 +104,10 @@ export const home = {
   "blog.share": "Compartir:",
   "blog.shareCopied": "¡Copiado!",
   "blog.relatedPosts": "Artículos Relacionados",
+  "blog.faq": "Preguntas Frecuentes",
 
   "nav.uses": "Usos",
-  "uses.title": "/uses",
+  "uses.title": "Usos y Herramientas",
   "uses.subtitle": "// Herramientas y Workspace",
   "uses.subtitlePage":
     "Una lista detallada del hardware, software y herramientas que utilizo a diario para construir sistemas de software.",
