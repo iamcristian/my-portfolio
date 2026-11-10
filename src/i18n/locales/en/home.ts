@@ -70,6 +70,8 @@ export const home = {
   "projects.frontend": "Frontend",
   "projects.backend": "Backend",
   "projects.fullstack": "Fullstack",
+  "projects.scientific": "Scientific Computing",
+  "projects.ai": "AI & ML",
   "projects.subtitlePage":
     "A selection of software systems and engineering projects focused on architecture, backend logic, and practical system design.",
   "projects.viewGrid": "Grid View",

@@ -7,7 +7,7 @@ export interface Project {
   title: string;
   description: string;
   tech: string[];
-  category: "frontend" | "backend" | "fullstack";
+  category: "frontend" | "backend" | "fullstack" | "scientific" | "ai";
   github: string;
   live?: string;
   image: string;

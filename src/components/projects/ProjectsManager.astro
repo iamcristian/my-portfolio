@@ -15,7 +15,7 @@ const PROJECTS = sortFeaturedFirst(
   (p) => p.date,
 );
 const availableCategories = (
-  ["frontend", "backend", "fullstack"] as const
+  ["fullstack", "scientific", "ai", "frontend", "backend"] as const
 ).filter((cat) => PROJECTS.some((p) => p.category === cat));
 ---
 

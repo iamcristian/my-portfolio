@@ -63,6 +63,8 @@ export const home = {
   "projects.frontend": "Frontend",
   "projects.backend": "Backend",
   "projects.fullstack": "Fullstack",
+  "projects.scientific": "Wissenschaftliches Rechnen",
+  "projects.ai": "KI & ML",
   "projects.subtitlePage":
     "Eine Auswahl an Softwaresystemen und Engineering-Projekten mit Fokus auf Architektur, Backend-Logik und praktischem Systemdesign.",
   "projects.viewGrid": "Rasteransicht",

@@ -63,6 +63,8 @@ export const home = {
   "projects.frontend": "フロントエンド",
   "projects.backend": "バックエンド",
   "projects.fullstack": "フルスタック",
+  "projects.scientific": "科学計算",
+  "projects.ai": "AI・ML",
   "projects.subtitlePage":
     "アーキテクチャ、バックエンドロジック、および実用的なシステム設計に焦点を当てた、ソフトウェアシステムとエンジニアリングプロジェクトのセレクション。",
   "projects.viewGrid": "グリッド表示",

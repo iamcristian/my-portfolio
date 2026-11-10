@@ -3,6 +3,7 @@ import {
   getProjectsForLang,
   getExperienceForLang,
   getSkillsForLang,
+  useTranslations,
   type Lang,
 } from "../i18n/utils";
 import { languages } from "../i18n/ui";
@@ -39,15 +40,17 @@ export async function discoveryEntries(): Promise<SearchEntry[]> {
     kind: "articles",
   }));
   for (const lang of Object.keys(languages) as Lang[]) {
+    const t = useTranslations(lang);
     entries.push(
       ...getProjectsForLang(lang).map((p) => {
         const study = getCaseStudy(p.id as ProjectId, lang);
         const studyText = study
           ? `${study.problem} ${study.architecture.join(" ")} ${study.tradeoff} ${study.lesson}`
           : "";
+        const categoryLabel = t(`projects.${p.category}`);
         return {
           title: p.title,
-          text: `${p.description} ${p.tech.join(" ")} ${studyText}${p.id === "fluenttube" ? ` ${fluenttubeByLang[lang].features.join(" ")}` : ""}`.trim(),
+          text: `${categoryLabel} ${p.description} ${p.tech.join(" ")} ${studyText}${p.id === "fluenttube" ? ` ${fluenttubeByLang[lang].features.join(" ")}` : ""}`.trim(),
           url: `/${lang}/projects/${p.id}/`,
           lang,
           kind: "projects",
