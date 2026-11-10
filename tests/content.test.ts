@@ -24,21 +24,52 @@ import {
 import { SITE } from "../src/config/site.ts";
 import { ui, locales } from "../src/i18n/ui.ts";
 
-test("vercel.json CSP enforces script-src without unsafe-inline and preserves reserved routes", () => {
+test("vercel.json CSP enforces script-src without unsafe-inline on portfolio routes, preserves Next.js/InsideLink proxy compatibility, and protects reserved routes", () => {
   const vercel = JSON.parse(readFileSync("vercel.json", "utf8"));
-  const cspHeader = vercel.headers[0].headers.find(
+  const baseRule = vercel.headers.find(
+    (h: { source: string }) => h.source === "/(.*)",
+  );
+  assert.ok(baseRule, "Baseline /(.*) header rule must exist");
+  const cspHeader = baseRule.headers.find(
     (h: { key: string; value: string }) => h.key === "Content-Security-Policy",
   );
-  assert.ok(cspHeader, "CSP header must exist");
+  assert.ok(cspHeader, "Baseline CSP header must exist");
   const scriptSrc = cspHeader.value
     .split(";")
     .map((s: string) => s.trim())
     .find((s: string) => s.startsWith("script-src "));
-  assert.ok(scriptSrc, "script-src directive must exist");
+  assert.ok(scriptSrc, "Baseline script-src directive must exist");
   assert.ok(
     !scriptSrc.includes("'unsafe-inline'"),
-    "script-src must not allow unsafe-inline",
+    "Portfolio baseline script-src must not allow unsafe-inline",
   );
+
+  const expectedLookahead = `(?!${RESERVED_ROOT_SEGMENTS.map((s) => `${s}$`).join("|")})`;
+  const expectedProxyCspSources = [
+    "/admin",
+    "/admin/",
+    "/admin/:path*",
+    "/login",
+    "/login/",
+    "/links",
+    "/links/",
+    `/:slug(${expectedLookahead}[a-z0-9][a-z0-9-_]{2,99})`,
+    `/:slug(${expectedLookahead}[a-z0-9][a-z0-9-_]{2,99})/`,
+  ];
+  for (const proxySource of expectedProxyCspSources) {
+    const rule = vercel.headers.find(
+      (h: { source: string }) => h.source === proxySource,
+    );
+    assert.ok(
+      rule,
+      `InsideLink proxied route "${proxySource}" must have scoped CSP header override`,
+    );
+    const proxyCsp = rule.headers.find(
+      (h: { key: string }) => h.key === "Content-Security-Policy",
+    );
+    assert.ok(proxyCsp?.value.includes("'unsafe-inline'"));
+    assert.ok(proxyCsp?.value.includes("blob:"));
+  }
 
   const catchAllRewrites = vercel.rewrites.filter((r: { source: string }) =>
     r.source.startsWith("/:slug("),
@@ -49,7 +80,6 @@ test("vercel.json CSP enforces script-src without unsafe-inline and preserves re
     "must have two catch-all slug rules",
   );
 
-  const expectedLookahead = `(?!${RESERVED_ROOT_SEGMENTS.map((s) => `${s}$`).join("|")})`;
   for (const rule of catchAllRewrites) {
     assert.ok(
       rule.source.includes(expectedLookahead),

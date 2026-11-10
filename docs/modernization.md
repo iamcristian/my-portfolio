@@ -10,9 +10,10 @@ This guide documents the architectural decisions, security posture, and content 
 
 All responses served by Vercel include strict HTTP security headers:
 
-- **`script-src`**: `'self'` plus `https://giscus.app` and `https://va.vercel-scripts.com` (no `'unsafe-inline'`). All executable scripts are external modules or static assets (`src/scripts/theme.js`); JSON-LD structured data blocks use `<script type="application/ld+json">` and are escaped with `serializeJsonLd()` so `<` can never terminate a script tag.
-- **`style-src`**: `'self' 'unsafe-inline'` to support Astro scoped styles and dynamic CSS custom properties.
-- **`img-src`**: `'self' data: https:` to support both portfolio assets and external user/organization logos rendered by the companion URL shortener service (`inside-link`).
+- **`script-src` (Portfolio Baseline `/(.*)`):** `'self'` plus `https://va.vercel-scripts.com` and `https://inside-link.vercel.app` (no `'unsafe-inline'`). All Astro portfolio scripts are external modules or static assets (`src/scripts/theme.js`); JSON-LD structured data blocks use `<script type="application/ld+json">` and are escaped with `serializeJsonLd()` so `<` can never terminate a script tag.
+- **`script-src` & `img-src` Scoped Overrides (`inside-link` Proxy Routes):** Next.js 16 SSR (`/admin`, `/admin/:path*`, `/login`, `/links`) emits inline RSC hydration scripts, while short-link/HUB/PIN pages (`/:slug`) execute inline telemetry/unlock scripts and `qr-modal.tsx` creates `blob:` URLs for client-side QR rasterization. Targeted header override rules in `vercel.json` allow `'unsafe-inline'` in `script-src` and `blob:` in `img-src` **strictly on those proxied `inside-link` routes** without weakening Astro portfolio pages.
+- **`style-src`**: `'self' 'unsafe-inline'` to support Astro scoped styles, Next.js utilities, and dynamic CSS custom properties.
+- **`img-src`**: `'self' data: https:` on portfolio pages (`'self' data: blob: https:` on proxied `inside-link` routes) to support external user/organization logos and client-side QR PNG exports.
 
 ### 1.2 Coexistence with `inside-link` Rewrites
 
