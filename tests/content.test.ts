@@ -1,11 +1,17 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync, existsSync, readdirSync } from "node:fs";
+import path from "node:path";
 import {
   matchesDateRange,
   parseFilterValues,
   normalizeText,
   scoreItem,
+  filterItems,
+  sortItems,
+  paginateItems,
+  isInvertedDateRange,
+  getListViewClasses,
   validateSearchEntries,
 } from "../src/utils/list.ts";
 import { serializeJsonLd } from "../src/utils/serialize.ts";
@@ -296,4 +302,100 @@ test("README.md and CONTRIBUTING.md local links and documented pnpm scripts exis
       );
     }
   }
+});
+
+test("skills keep HTML/CSS out of Programming Languages across all locales and categorize under Frontend", async () => {
+  for (const locale of locales) {
+    const mod = (await import(`../src/i18n/locales/${locale}/skills.ts`)) as {
+      skills: Array<{ id: string; items: string[] }>;
+    };
+    const languages = mod.skills.find((c) => c.id === "languages");
+    const frontend = mod.skills.find((c) => c.id === "frontend");
+    assert.ok(languages, `${locale}: languages category exists`);
+    assert.ok(frontend, `${locale}: frontend category exists`);
+    assert.ok(
+      !languages.items.includes("HTML") && !languages.items.includes("CSS"),
+      `${locale}: HTML/CSS must not be listed under languages`,
+    );
+    assert.ok(
+      frontend.items.includes("HTML") && frontend.items.includes("CSS"),
+      `${locale}: HTML/CSS must be listed under frontend`,
+    );
+  }
+});
+
+test("all blog posts declare valid editorial category frontmatter across all locales", () => {
+  const validCategories = new Set([
+    "technology",
+    "security",
+    "philosophy",
+    "literature",
+  ]);
+  for (const locale of locales) {
+    const dir = path.join("src/content/blog", locale);
+    const files = readdirSync(dir).filter((f) => f.endsWith(".mdx"));
+    assert.equal(files.length, 8, `${locale}: expected 8 blog posts`);
+    for (const file of files) {
+      const content = readFileSync(path.join(dir, file), "utf8");
+      const match = content.match(/^category:\s*([a-z]+)/m);
+      assert.ok(match, `${locale}/${file}: missing category frontmatter`);
+      assert.ok(
+        validCategories.has(match[1]),
+        `${locale}/${file}: invalid category "${match[1]}"`,
+      );
+    }
+  }
+});
+
+test("pure list helpers filter, sort, paginate, and flag inverted custom date ranges", () => {
+  assert.ok(isInvertedDateRange("custom", "2026-10-25", "2026-10-20"));
+  assert.ok(!isInvertedDateRange("custom", "2026-10-20", "2026-10-25"));
+  assert.ok(!isInvertedDateRange("all", "2026-10-25", "2026-10-20"));
+
+  const records = [
+    {
+      item: "desc-only",
+      name: "general essay",
+      description: "discusses owasp security controls",
+      tech: "",
+      tags: "[]",
+      filterValues: ["systems"],
+      featured: false,
+      date: "2025-01-01",
+    },
+    {
+      item: "title-match",
+      name: "owasp penetration testing",
+      description: "guide",
+      tech: "",
+      tags: '["owasp"]',
+      filterValues: ["owasp"],
+      featured: false,
+      date: "2024-09-20",
+    },
+  ];
+
+  const filtered = filterItems(records, {
+    query: "owasp",
+    filter: "all",
+    dateRange: "all",
+    startDate: "",
+    endDate: "",
+    hasFeatured: true,
+  });
+  const sorted = sortItems(filtered, "relevance", true, "en");
+  assert.equal(sorted[0].item, "title-match");
+
+  const page1 = paginateItems(sorted, 1, 1);
+  assert.equal(page1.totalPages, 2);
+  assert.equal(page1.currentPage, 1);
+  assert.equal(page1.pageItems.length, 1);
+
+  const overflow = paginateItems(sorted, 99, 1);
+  assert.equal(overflow.currentPage, 2);
+
+  const blogClasses = getListViewClasses("blog");
+  assert.ok(blogClasses.gridCardClass.includes("blog-card"));
+  const projectClasses = getListViewClasses("project");
+  assert.ok(projectClasses.gridCardClass.includes("project-card"));
 });

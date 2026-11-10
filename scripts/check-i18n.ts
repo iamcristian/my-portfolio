@@ -31,6 +31,19 @@ function checkKeys(enVal: unknown, locVal: unknown, pathStr: string): string[] {
     if (enVal.trim().length > 0 && locVal.trim().length === 0) {
       errors.push(`Empty translation string at ${pathStr}`);
     }
+    const enPlaceholders = Array.from(
+      enVal.matchAll(/\{[a-zA-Z0-9_]+\}/g),
+      (m) => m[0],
+    ).sort();
+    const locPlaceholders = Array.from(
+      locVal.matchAll(/\{[a-zA-Z0-9_]+\}/g),
+      (m) => m[0],
+    ).sort();
+    if (enPlaceholders.join(",") !== locPlaceholders.join(",")) {
+      errors.push(
+        `Placeholder mismatch at ${pathStr}: expected [${enPlaceholders.join(", ")}], got [${locPlaceholders.join(", ")}]`,
+      );
+    }
     return errors;
   }
   if (Array.isArray(enVal)) {

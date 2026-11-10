@@ -9,6 +9,9 @@ test("filters, views, pagination, DOM order and cleanup work together", async ()
     <input id="search"><select id="sort"><option value="date-desc">Newest</option><option value="date-asc">Oldest</option></select>
     <button class="filter" data-tag="all">All</button><button class="filter" data-tag="penetration testing">Penetration testing</button>
     <button id="grid">Grid</button><button id="list">List</button>
+    <select id="date-range"><option value="all">All</option><option value="custom">Custom</option></select>
+    <div id="custom-dates" class="hidden"><input id="start-date" type="date"><input id="end-date" type="date"></div>
+    <p id="date-error" class="hidden">Invalid date range</p>
     <div id="cards" class="custom-container-class">
       <article class="card custom-card-class" data-name="oldest" data-date="2025-01-01" data-tags='["penetration testing"]'></article>
       <article class="card" data-name="middle" data-date="2025-02-01" data-tags='["web"]'></article>
@@ -49,6 +52,11 @@ test("filters, views, pagination, DOM order and cleanup work together", async ()
     figureSelector: "figure",
     bodySelector: ".body",
     footerSelector: "footer",
+    dateRangeSelectId: "date-range",
+    customDateContainerId: "custom-dates",
+    startDateInputId: "start-date",
+    endDateInputId: "end-date",
+    dateErrorId: "date-error",
   };
   for (const view of ["grid", "list"])
     for (const part of ["Container", "Card", "Figure", "Body", "Footer"])
@@ -108,6 +116,28 @@ test("filters, views, pagination, DOM order and cleanup work together", async ()
       $("#cards").querySelector(".card:not([hidden])").dataset.name,
       "oldest",
     );
+    assert.ok(
+      window.location.search.includes("sort=date-asc") &&
+        window.location.search.includes("filter=penetration+testing"),
+      "filter and sort state persist in URL search params",
+    );
+    $("#date-range").value = "custom";
+    $("#date-range").dispatchEvent(new window.Event("change"));
+    $("#start-date").value = "2026-10-25";
+    $("#start-date").dispatchEvent(new window.Event("input"));
+    $("#end-date").value = "2026-10-20";
+    $("#end-date").dispatchEvent(new window.Event("input"));
+    assert.equal(
+      $("#start-date").getAttribute("aria-invalid"),
+      "true",
+      "inverted custom date range marks inputs aria-invalid",
+    );
+    assert.ok(
+      !$("#date-error").classList.contains("hidden"),
+      "inverted custom date range displays error message",
+    );
+    $("#date-range").value = "all";
+    $("#date-range").dispatchEvent(new window.Event("change"));
     $("#search").value = "missing";
     $("#search").dispatchEvent(new window.Event("input"));
     controller.abort();
