@@ -32,8 +32,9 @@ The domain `cristianarando.dev` hosts both the static Astro portfolio and proxie
 
 ---
 
-## 3. Content & i18n Maintenance Workflow
+## 3. Content, PWA Manifest & i18n Maintenance Workflow
 
-1. **Adding or updating UI translations:** Edit `src/i18n/locales/en/*.ts` first, then update `es`, `de`, `ru`, and `ja`. Run `pnpm check:i18n` to verify key parity, value types, and non-empty strings.
-2. **Adding a blog post:** Create the MDX file in `src/content/blog/{lang}/{slug}.mdx` following the Zod schema in `src/content.config.ts` (including optional `category: "technology" | "security" | "philosophy" | "literature"`).
-3. **Updating the manifest preview screenshot:** Run `pnpm generate-assets` (`scripts/generate-assets.ts`) whenever hero branding or CTA labels change.
+1. **Adding or updating UI translations:** Edit `src/i18n/locales/en/*.ts` first, then update `es`, `de`, `ru`, and `ja`. Run `pnpm check:i18n` to verify key parity, value types, placeholder tokens (`{lang}`), and non-empty strings.
+2. **Adding a blog post:** Create the MDX file in `src/content/blog/{lang}/{slug}.mdx` following the Zod schema in `src/content.config.ts` (including explicit `category: "technology" | "security" | "philosophy" | "literature"`).
+3. **PWA manifest entry (`UX-10`):** `public/site.webmanifest` intentionally sets `start_url: "/en/"` (matching the root `/` redirect in `vercel.json`) with an in-app language switcher across all 5 locales, avoiding implicit client-side redirects on install.
+4. **Updating the manifest preview screenshot:** Run `pnpm generate-assets` (`scripts/generate-assets.ts`) whenever hero branding or CTA labels change.

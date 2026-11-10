@@ -28,14 +28,16 @@ Every user-facing page is generated at build time across all five supported loca
 
 ## 2. Interactive Features & Expected Behavior
 
-### 2.1 Shared List Manager (`src/scripts/list-manager.ts` & `src/utils/list.ts`)
+### 2.1 Shared List Manager (`src/scripts/list-manager.ts`, `src/utils/list.ts`, `ListControls.astro`, `ListFooter.astro`)
 
-Both `/{lang}/blog/` and `/{lang}/projects/` use the shared list manager:
+Both `/{lang}/blog/` and `/{lang}/projects/` share common list controls and pure data transformations (`filterItems`, `sortItems`, `paginateItems`, `isInvertedDateRange`, `getListViewClasses`):
 
 - **Diacritic-insensitive multi-token search:** Searching `penetracion owasp` matches `"Pruebas de Penetración con OWASP"` regardless of accents or token order.
 - **Weighted relevance ranking:** When sorted by `Relevance`, title matches outrank tag/technology matches, which outrank description matches, with featured items breaking ties.
-- **Non-destructive view switching:** Toggling between Grid and List view swaps only the layout-specific CSS tokens via `swapViewClasses()`, preserving custom classes on containers and cards.
-- **URL state synchronization:** Active search queries (`?q=`), tag/category filters (`?filter=`), and sort modes (`?sort=`) sync with `history.replaceState` and initialize cleanly on page load.
+- **Rolling date windows & validation:** `Last 7 days`, `Last 30 days`, and `Last 365 days` match UTC rolling windows cleanly; inverted custom date ranges mark inputs `aria-invalid="true"` with `input-error` styling and announce a localized validation alert.
+- **Non-destructive view switching:** Toggling between Grid and List view swaps only layout-specific CSS tokens via `swapViewClasses()`, preserving custom classes on containers and cards.
+- **URL state synchronization:** Active search queries (`?q=`), tag/category filters (`?filter=`), sort modes (`?sort=`), and pagination (`?page=`) sync with `history.replaceState` and initialize cleanly on page load.
+- **Progressive tag disclosure:** `BlogManager.astro` orders tags by post frequency, keeping the top 7 visible and grouping overflow tags inside a collapsible disclosure toggle.
 
 ### 2.2 Site-Wide Discovery (`/{lang}/search/`)
 
@@ -55,8 +57,9 @@ Both `/{lang}/blog/` and `/{lang}/projects/` use the shared list manager:
 Run the full verification suite before opening a pull request:
 
 ```bash
-pnpm lint          # Prettier formatting check
-pnpm check:i18n    # Strict 5-locale key, type, and non-empty string alignment
+pnpm lint          # Prettier formatting check + strict TypeScript checks
+pnpm format:check  # Standalone Prettier formatting check
+pnpm check:i18n    # Strict 5-locale key, type, placeholder, and non-empty string alignment
 pnpm check         # Astro + TypeScript strict diagnostics
 pnpm build         # Full static production build
 pnpm test          # Unit and JSDOM integration tests (node --test)

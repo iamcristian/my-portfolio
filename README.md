@@ -33,7 +33,7 @@
 
 ### 🏠 Portfolio & Personal Brand
 
-- **Hero Section** — Cosmic-themed landing with interactive Lagrange Point simulation, particle star field, shooting stars, and mouse-tracking nebula spotlight
+- **Hero Section** — Cosmic-themed landing with an interactive Lagrange equilibrium SVG visualization, particle star field, shooting stars, and mouse-tracking nebula spotlight
 - **About Section** — Professional bio with metrics dashboard (years of experience, areas of passion, strategic thinking)
 - **Experience Timeline** — Interactive DaisyUI timeline with responsibilities, tech stacks, and company links
 - **Projects Gallery** — Filterable project cards with category filtering (Frontend/Backend/Fullstack), search, sorting, pagination, and grid/list toggle
@@ -175,20 +175,21 @@ See [the modernization and maintenance guide](docs/modernization.md) for content
 
 ### Available Commands
 
-| Command                | Action                                                                  |
-| ---------------------- | ----------------------------------------------------------------------- |
-| `pnpm dev`             | Start local dev server at `localhost:4321`                              |
-| `pnpm build`           | Build production site to `./dist/`                                      |
-| `pnpm test`            | Run content and list interaction regression tests                       |
-| `pnpm check:build`     | Validate generated HTML/XML after a build                               |
-| `pnpm preview:secure`  | Preview at localhost:4354 with production security headers              |
-| `pnpm preview`         | Preview the production build locally                                    |
-| `pnpm check`           | Run Astro type-check and diagnostics                                    |
-| `pnpm check:i18n`      | Validate all locale files are in sync with the English source of truth  |
-| `pnpm generate-assets` | Generate the 1903×955 WebP manifest preview screenshot from site config |
-| `pnpm lint`            | Check formatting with Prettier                                          |
-| `pnpm lint:fix`        | Auto-fix formatting with Prettier                                       |
-| `pnpm astro ...`       | Run Astro CLI commands (`add`, `check`, etc.)                           |
+| Command                | Action                                                                     |
+| ---------------------- | -------------------------------------------------------------------------- |
+| `pnpm dev`             | Start local dev server at `localhost:4321`                                 |
+| `pnpm build`           | Build production site to `./dist/`                                         |
+| `pnpm test`            | Run content and list interaction regression tests                          |
+| `pnpm check:build`     | Validate generated HTML/XML after a build                                  |
+| `pnpm preview:secure`  | Preview at localhost:4354 with production security headers                 |
+| `pnpm preview`         | Preview the production build locally                                       |
+| `pnpm check`           | Run Astro type-check and diagnostics                                       |
+| `pnpm check:i18n`      | Validate all locale files are in sync with the English source of truth     |
+| `pnpm format:check`    | Check code formatting with Prettier                                        |
+| `pnpm generate-assets` | Generate the 1903×955 WebP manifest preview screenshot from site config    |
+| `pnpm lint`            | Run Prettier formatting check and strict TypeScript check (`tsc --noEmit`) |
+| `pnpm lint:fix`        | Auto-fix formatting with Prettier                                          |
+| `pnpm astro ...`       | Run Astro CLI commands (`add`, `check`, etc.)                              |
 
 ---
 
@@ -226,7 +227,7 @@ my-portfolio/
 │   │   ├── blog/              # BlogManager, BlogPostDetail, ReaderTools, RequestLab, Giscus
 │   │   ├── projects/          # ProjectsManager, ProjectDetail
 │   │   ├── sections/          # Hero, About, Education, Experience, Projects, Skills, Blog
-│   │   ├── ui/                # Reusable UI: cards/, Divider, SectionHeading, LagrangeSimulation
+│   │   ├── ui/                # Reusable UI: cards/, ListControls, ListFooter, LagrangeSimulation
 │   │   ├── FeatureShell.astro # Discovery layout shell (search, library, series, bookshelf)
 │   │   ├── Header.astro
 │   │   ├── Footer.astro
@@ -312,15 +313,15 @@ graph LR
     style F fill:#0f3460,stroke:#53a653,color:#fff
 ```
 
-| Step                    | Command                         | Purpose                                                         |
-| ----------------------- | ------------------------------- | --------------------------------------------------------------- |
-| **Lint & Format Check** | `pnpm lint`                     | Ensures consistent code style via Prettier                      |
-| **i18n Key Alignment**  | `pnpm check:i18n`               | Validates all 4 non-English locales match English keys          |
-| **Type & Astro Check**  | `pnpm check`                    | TypeScript and Astro diagnostics                                |
-| **Production Build**    | `pnpm build`                    | Full static build to catch any runtime/build errors             |
-| **Regression Tests**    | `pnpm test`                     | Runs unit and DOM integration tests (`node --test`)             |
-| **Build Output Audit**  | `pnpm check:build`              | Verifies HTML, XML, CSP compliance, JSON-LD, OG images, & links |
-| **Dependency Audit**    | `pnpm audit --audit-level=high` | Checks dependency tree for high/critical CVEs                   |
+| Step                      | Command                         | Purpose                                                               |
+| ------------------------- | ------------------------------- | --------------------------------------------------------------------- |
+| **Lint & Semantic Check** | `pnpm lint`                     | Prettier formatting + strict TypeScript unused/return checks          |
+| **i18n Key Alignment**    | `pnpm check:i18n`               | Validates all 4 non-English locales match English keys & placeholders |
+| **Type & Astro Check**    | `pnpm check`                    | TypeScript and Astro diagnostics                                      |
+| **Production Build**      | `pnpm build`                    | Full static build to catch any runtime/build errors                   |
+| **Regression Tests**      | `pnpm test`                     | Runs unit and DOM integration tests (`node --test`)                   |
+| **Build Output Audit**    | `pnpm check:build`              | Verifies HTML, XML, CSP compliance, JSON-LD, OG images, & links       |
+| **Dependency Audit**      | `pnpm audit --audit-level=high` | Checks dependency tree for high/critical CVEs                         |
 
 The pipeline runs on **Node.js 24** with **pnpm 10.34.7** and uses `--frozen-lockfile` to guarantee reproducible installs.
 
