@@ -6,24 +6,24 @@ export const skills: SkillCategory[] = [
     name: "開発言語",
     icon: "code",
     description:
-      "ソフトウェアおよびWeb開発のためのプログラミング・スクリプト・マークアップ言語",
-    items: [
-      "JavaScript",
-      "TypeScript",
-      "Python",
-      "Java",
-      "HTML",
-      "CSS",
-      "SQL",
-      "Bash",
-    ],
+      "アプリケーションのロジックを構築するためのプログラミング・スクリプト・クエリ言語",
+    items: ["JavaScript", "TypeScript", "Python", "Java", "SQL", "Bash"],
   },
   {
     id: "frontend",
     name: "フロントエンド",
     icon: "monitor",
-    description: "魅力的なユーザーインターフェースを構築する技術とライブラリ",
-    items: ["React", "Next.js", "Astro", "Tailwind CSS", "Redux"],
+    description:
+      "魅力的なユーザーインターフェースを構築するWeb標準・フレームワーク・ライブラリ",
+    items: [
+      "HTML",
+      "CSS",
+      "React",
+      "Next.js",
+      "Astro",
+      "Tailwind CSS",
+      "Redux",
+    ],
   },
   {
     id: "backend",
