@@ -5,9 +5,8 @@ export const skills: SkillCategory[] = [
     id: "languages",
     name: "Sprachen",
     icon: "code",
-    description:
-      "Programmier-, Skript- und Abfragesprachen für die Anwendungslogik",
-    items: ["JavaScript", "TypeScript", "Python", "Java", "SQL", "Bash"],
+    description: "Zentrale Programmiersprachen für Anwendungs- und Systemlogik",
+    items: ["TypeScript", "JavaScript", "Python", "Java"],
   },
   {
     id: "frontend",
@@ -15,30 +14,22 @@ export const skills: SkillCategory[] = [
     icon: "monitor",
     description:
       "Webstandards, Frameworks und Bibliotheken für interaktive Oberflächen",
-    items: [
-      "HTML",
-      "CSS",
-      "React",
-      "Next.js",
-      "Astro",
-      "Tailwind CSS",
-      "Redux",
-    ],
+    items: ["HTML", "CSS", "React", "Next.js", "Astro", "Tailwind CSS"],
   },
   {
     id: "backend",
     name: "Backend",
     icon: "server",
     description: "Serverseitige Architekturen, REST-APIs und Geschäftslogik",
-    items: ["Node.js", "NestJS", "Express", "Flask"],
+    items: ["Node.js", "NestJS", "FastAPI", "Django", "Express"],
   },
   {
     id: "databases",
     name: "Datenbanken",
     icon: "database",
     description:
-      "Relationale und nicht-relationale Systeme zur Datenverwaltung",
-    items: ["PostgreSQL", "MongoDB", "MySQL", "Redis"],
+      "Relationale, Zeitreihen-, In-Memory- und dokumentenorientierte Datenbanksysteme",
+    items: ["PostgreSQL", "TimescaleDB", "MySQL", "MongoDB", "Redis", "SQLite"],
   },
   {
     id: "devops",
@@ -64,7 +55,7 @@ export const skills: SkillCategory[] = [
       "Model Context Protocol (MCP)",
       "Prompt Engineering",
       "Agenten-Workflows",
-      "Skills",
+      "Agent Skills",
     ],
   },
   {

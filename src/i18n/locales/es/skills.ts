@@ -6,8 +6,8 @@ export const skills: SkillCategory[] = [
     name: "Lenguajes",
     icon: "code",
     description:
-      "Lenguajes de programación, scripting y consulta utilizados para construir la lógica de aplicaciones",
-    items: ["JavaScript", "TypeScript", "Python", "Java", "SQL", "Bash"],
+      "Lenguajes de programación principales utilizados para construir la lógica de aplicaciones y sistemas",
+    items: ["TypeScript", "JavaScript", "Python", "Java"],
   },
   {
     id: "frontend",
@@ -15,30 +15,22 @@ export const skills: SkillCategory[] = [
     icon: "monitor",
     description:
       "Estándares web, frameworks y librerías para construir interfaces de usuario",
-    items: [
-      "HTML",
-      "CSS",
-      "React",
-      "Next.js",
-      "Astro",
-      "Tailwind CSS",
-      "Redux",
-    ],
+    items: ["HTML", "CSS", "React", "Next.js", "Astro", "Tailwind CSS"],
   },
   {
     id: "backend",
     name: "Backend",
     icon: "server",
     description: "Arquitecturas de servidor, APIs y lógica de negocio",
-    items: ["Node.js", "NestJS", "Express", "Flask"],
+    items: ["Node.js", "NestJS", "FastAPI", "Django", "Express"],
   },
   {
     id: "databases",
     name: "Bases de Datos",
     icon: "database",
     description:
-      "Motores de almacenamiento de bases de datos relacionales y no relacionales",
-    items: ["PostgreSQL", "MongoDB", "MySQL", "Redis"],
+      "Motores de bases de datos relacionales, de series temporales, en memoria y documentales",
+    items: ["PostgreSQL", "TimescaleDB", "MySQL", "MongoDB", "Redis", "SQLite"],
   },
   {
     id: "devops",
@@ -65,7 +57,7 @@ export const skills: SkillCategory[] = [
       "Model Context Protocol (MCP)",
       "Prompt Engineering",
       "Flujos Agénticos",
-      "Skills",
+      "Agent Skills",
     ],
   },
   {

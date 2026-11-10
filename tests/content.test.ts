@@ -304,23 +304,49 @@ test("README.md and CONTRIBUTING.md local links and documented pnpm scripts exis
   }
 });
 
-test("skills keep HTML/CSS out of Programming Languages across all locales and categorize under Frontend", async () => {
+test("skills keep Languages strictly to programming languages, categorize HTML/CSS under Frontend, and include FastAPI/Django", async () => {
   for (const locale of locales) {
     const mod = (await import(`../src/i18n/locales/${locale}/skills.ts`)) as {
       skills: Array<{ id: string; items: string[] }>;
     };
     const languages = mod.skills.find((c) => c.id === "languages");
     const frontend = mod.skills.find((c) => c.id === "frontend");
+    const backend = mod.skills.find((c) => c.id === "backend");
     assert.ok(languages, `${locale}: languages category exists`);
     assert.ok(frontend, `${locale}: frontend category exists`);
-    assert.ok(
-      !languages.items.includes("HTML") && !languages.items.includes("CSS"),
-      `${locale}: HTML/CSS must not be listed under languages`,
-    );
+    assert.ok(backend, `${locale}: backend category exists`);
+    for (const forbidden of ["HTML", "CSS", "SQL", "Bash"]) {
+      assert.ok(
+        !languages.items.includes(forbidden),
+        `${locale}: "${forbidden}" must not be listed under languages`,
+      );
+    }
     assert.ok(
       frontend.items.includes("HTML") && frontend.items.includes("CSS"),
       `${locale}: HTML/CSS must be listed under frontend`,
     );
+    assert.ok(
+      !frontend.items.includes("Redux"),
+      `${locale}: Redux must not be listed under frontend`,
+    );
+    assert.ok(
+      !backend.items.includes("Flask"),
+      `${locale}: Flask must not be listed under backend`,
+    );
+    assert.ok(
+      backend.items.includes("FastAPI") && backend.items.includes("Django"),
+      `${locale}: FastAPI and Django must be listed under backend`,
+    );
+  }
+
+  const { projectCatalog } = await import("../src/data/projects.ts");
+  const categories = new Map(projectCatalog.map((p) => [p.id, p.category]));
+  assert.equal(categories.get("crowdsafe-physics"), "scientific");
+  assert.equal(categories.get("kerr-spacetime-workstation"), "scientific");
+  assert.equal(categories.get("fluenttube"), "ai");
+  for (const locale of locales) {
+    assert.ok(ui[locale]["projects.scientific"]);
+    assert.ok(ui[locale]["projects.ai"]);
   }
 });
 

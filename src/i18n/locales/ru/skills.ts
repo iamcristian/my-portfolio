@@ -6,8 +6,8 @@ export const skills: SkillCategory[] = [
     name: "Языки",
     icon: "code",
     description:
-      "Языки программирования, скриптинга и запросов для построения логики приложений",
-    items: ["JavaScript", "TypeScript", "Python", "Java", "SQL", "Bash"],
+      "Основные языки программирования для создания прикладной и системной логики",
+    items: ["TypeScript", "JavaScript", "Python", "Java"],
   },
   {
     id: "frontend",
@@ -15,29 +15,22 @@ export const skills: SkillCategory[] = [
     icon: "monitor",
     description:
       "Веб-стандарты, фреймворки и библиотеки для создания пользовательских интерфейсов",
-    items: [
-      "HTML",
-      "CSS",
-      "React",
-      "Next.js",
-      "Astro",
-      "Tailwind CSS",
-      "Redux",
-    ],
+    items: ["HTML", "CSS", "React", "Next.js", "Astro", "Tailwind CSS"],
   },
   {
     id: "backend",
     name: "Бэкенд",
     icon: "server",
     description: "Серверные архитектуры, API и бизнес-логика",
-    items: ["Node.js", "NestJS", "Express", "Flask"],
+    items: ["Node.js", "NestJS", "FastAPI", "Django", "Express"],
   },
   {
     id: "databases",
     name: "Базы данных",
     icon: "database",
-    description: "Реляционные и нереляционные хранилища данных",
-    items: ["PostgreSQL", "MongoDB", "MySQL", "Redis"],
+    description:
+      "Реляционные, временных рядов, in-memory и документные хранилища данных",
+    items: ["PostgreSQL", "TimescaleDB", "MySQL", "MongoDB", "Redis", "SQLite"],
   },
   {
     id: "devops",
@@ -63,7 +56,7 @@ export const skills: SkillCategory[] = [
       "Model Context Protocol (MCP)",
       "Промпт-инжиниринг",
       "Агентные рабочие процессы",
-      "Skills",
+      "Agent Skills",
     ],
   },
   {

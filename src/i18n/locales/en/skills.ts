@@ -6,8 +6,8 @@ export const skills: SkillCategory[] = [
     name: "Languages",
     icon: "code",
     description:
-      "Programming, scripting, and query languages used to build application logic",
-    items: ["JavaScript", "TypeScript", "Python", "Java", "SQL", "Bash"],
+      "Core programming languages used to build application and system logic",
+    items: ["TypeScript", "JavaScript", "Python", "Java"],
   },
   {
     id: "frontend",
@@ -15,29 +15,22 @@ export const skills: SkillCategory[] = [
     icon: "monitor",
     description:
       "Web standards, frameworks, and libraries for building user interfaces",
-    items: [
-      "HTML",
-      "CSS",
-      "React",
-      "Next.js",
-      "Astro",
-      "Tailwind CSS",
-      "Redux",
-    ],
+    items: ["HTML", "CSS", "React", "Next.js", "Astro", "Tailwind CSS"],
   },
   {
     id: "backend",
     name: "Backend",
     icon: "server",
     description: "Server-side architectures, APIs, and business logic",
-    items: ["Node.js", "NestJS", "Express", "Flask"],
+    items: ["Node.js", "NestJS", "FastAPI", "Django", "Express"],
   },
   {
     id: "databases",
     name: "Databases",
     icon: "database",
-    description: "Relational and non-relational database storage engines",
-    items: ["PostgreSQL", "MongoDB", "MySQL", "Redis"],
+    description:
+      "Relational, time-series, in-memory, and document database engines",
+    items: ["PostgreSQL", "TimescaleDB", "MySQL", "MongoDB", "Redis", "SQLite"],
   },
 
   {
@@ -64,7 +57,7 @@ export const skills: SkillCategory[] = [
       "Model Context Protocol (MCP)",
       "Prompt Engineering",
       "Agentic Workflows",
-      "Skills",
+      "Agent Skills",
     ],
   },
   {
