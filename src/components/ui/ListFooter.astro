@@ -1,0 +1,37 @@
+---
+import { useTranslations } from "../../i18n/utils";
+
+interface Props {
+  noResultsText: string;
+}
+
+const { noResultsText } = Astro.props;
+const { lang } = Astro.locals;
+const t = useTranslations(lang);
+---
+
+<p
+  id="list-status"
+  class="sr-only"
+  role="status"
+  aria-live="polite"
+  aria-atomic="true"
+  data-label={t("accessibility.results")}
+  data-invalid-range={t("blog.invalidDateRange")}
+></p>
+
+<div id="no-results-state" class="hidden text-center py-12">
+  <p class="text-lg opacity-70">{noResultsText}</p>
+</div>
+
+<div class="flex justify-center mt-8" id="pagination-wrapper">
+  <div
+    class="join"
+    id="pagination-controls"
+    role="navigation"
+    aria-label={t("accessibility.pagination")}
+    data-previous={t("accessibility.previousPage")}
+    data-next={t("accessibility.nextPage")}
+    data-page={t("accessibility.page")}
+  ></div>
+</div>

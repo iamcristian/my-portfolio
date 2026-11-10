@@ -1,8 +1,11 @@
 import {
   parseFilterValues,
-  matchesDateRange,
-  scoreItem,
+  filterItems,
+  sortItems,
+  paginateItems,
+  isInvertedDateRange,
   swapViewClasses,
+  type ListItemRecord,
 } from "../utils/list.ts";
 import { scrollBehavior } from "./page-lifecycle.ts";
 
@@ -48,6 +51,7 @@ export interface ListManagerConfig {
   customDateContainerId?: string;
   startDateInputId?: string;
   endDateInputId?: string;
+  dateErrorId?: string;
 }
 
 export function initListManager(
@@ -84,6 +88,7 @@ export function initListManager(
     customDateContainerId,
     startDateInputId,
     endDateInputId,
+    dateErrorId,
   } = config;
 
   const container = document.getElementById(containerId);
@@ -92,6 +97,17 @@ export function initListManager(
   const allCards = Array.from(
     container?.querySelectorAll(cardSelector) || [],
   ) as HTMLElement[];
+
+  const records: ListItemRecord<HTMLElement>[] = allCards.map((card) => ({
+    item: card,
+    name: card.dataset.name || "",
+    description: card.dataset.description || "",
+    tech: card.dataset.tech || "",
+    tags: card.dataset.tags || "",
+    filterValues: parseFilterValues(card.getAttribute(filterAttr) || ""),
+    featured: card.dataset.featured === "true",
+    date: card.dataset.date || "",
+  }));
 
   const searchInput = document.getElementById(
     searchInputId,
@@ -117,18 +133,25 @@ export function initListManager(
   const endDateInput = endDateInputId
     ? (document.getElementById(endDateInputId) as HTMLInputElement | null)
     : null;
+  const dateErrorEl = dateErrorId ? document.getElementById(dateErrorId) : null;
 
   const initialParams = new URL(location.href).searchParams;
   const defaultSort = sortSelect ? sortSelect.value : "date-desc";
-  let currentView = initialParams.get("view") === "list" ? "list" : "grid";
+  let currentView = "grid";
   let currentFilter = initialParams.get("filter") || "all";
   let currentSort = initialParams.get("sort") || defaultSort;
   if (sortSelect && initialParams.get("sort")) {
-    sortSelect.value = currentSort;
+    const hasOption = Array.from(sortSelect.options).some(
+      (opt) => opt.value === currentSort,
+    );
+    if (hasOption) sortSelect.value = currentSort;
+    else currentSort = defaultSort;
   }
   let searchQuery = initialParams.get("q")?.trim() || "";
   if (searchInput) searchInput.value = searchQuery;
-  let currentPage = 1;
+  const initialPage = Number.parseInt(initialParams.get("page") || "1", 10);
+  let currentPage =
+    Number.isFinite(initialPage) && initialPage > 0 ? initialPage : 1;
 
   if (currentFilter !== "all" && filterButtons.length > 0) {
     filterButtons.forEach((other) => {
@@ -159,6 +182,9 @@ export function initListManager(
     if (currentSort && currentSort !== defaultSort)
       url.searchParams.set("sort", currentSort);
     else url.searchParams.delete("sort");
+
+    if (currentPage > 1) url.searchParams.set("page", String(currentPage));
+    else url.searchParams.delete("page");
 
     history.replaceState(history.state, "", url);
   }
@@ -216,84 +242,72 @@ export function initListManager(
     }
   }
 
-  function getCardScore(card: HTMLElement): number {
-    return scoreItem(
-      {
-        name: card.dataset.name,
-        description: card.dataset.description,
-        tech: card.dataset.tech,
-        tags: card.dataset.tags,
-        featured: hasFeatured && card.dataset.featured === "true",
-      },
-      searchQuery,
-    );
+  function updateDateValidationUI(inverted: boolean) {
+    for (const input of [startDateInput, endDateInput]) {
+      if (!input) continue;
+      if (inverted) {
+        input.setAttribute("aria-invalid", "true");
+        input.classList.add("input-error");
+      } else {
+        input.removeAttribute("aria-invalid");
+        input.classList.remove("input-error");
+      }
+    }
+    dateErrorEl?.classList.toggle("hidden", !inverted);
   }
 
   function processItems() {
     if (!container || !noResults || !paginationControls) return;
-    const scoreMap = new Map<HTMLElement, number>();
-    const filtered = allCards
-      .filter((card) => {
-        const filterMatch =
-          currentFilter === "all" ||
-          parseFilterValues(card.getAttribute(filterAttr) || "").includes(
-            currentFilter.toLowerCase(),
-          );
-        if (!filterMatch) return false;
 
-        const score = getCardScore(card);
-        if (searchQuery && score <= 0) return false;
-        scoreMap.set(card, score);
+    const inverted = isInvertedDateRange(
+      currentDateRange,
+      customStartDate,
+      customEndDate,
+    );
+    updateDateValidationUI(inverted);
 
-        return matchesDateRange(
-          card.dataset.date || "",
-          currentDateRange,
-          customStartDate,
-          customEndDate,
-        );
-      })
-      .sort((a, b) => {
-        if (currentSort === "relevance") {
-          const scoreDiff = (scoreMap.get(b) || 0) - (scoreMap.get(a) || 0);
-          if (scoreDiff !== 0) return scoreDiff;
-          if (hasFeatured) {
-            const featured =
-              Number(b.dataset.featured === "true") -
-              Number(a.dataset.featured === "true");
-            if (featured) return featured;
-          }
-        }
-        if (currentSort.startsWith("name")) {
-          const order = (a.dataset.name || "").localeCompare(
-            b.dataset.name || "",
-            document.documentElement.lang,
-          );
-          return currentSort === "name-asc" ? order : -order;
-        }
-        const order =
-          (Date.parse(a.dataset.date || "") || 0) -
-          (Date.parse(b.dataset.date || "") || 0);
-        return currentSort === "date-asc" ? order : -order;
-      });
+    const matching = filterItems(records, {
+      query: searchQuery,
+      filter: currentFilter,
+      dateRange: currentDateRange,
+      startDate: customStartDate,
+      endDate: customEndDate,
+      hasFeatured,
+    });
+    const sorted = sortItems(
+      matching,
+      currentSort,
+      hasFeatured,
+      document.documentElement.lang,
+    );
+    const orderedCards = sorted.map((entry) => entry.item);
+
     allCards.forEach((card) => {
       card.hidden = true;
     });
     // Reorder the DOM, so keyboard/screen-reader order matches the visual order.
-    filtered.forEach((card) => container.append(card));
-    noResults.classList.toggle("hidden", filtered.length !== 0);
-    const totalPages = Math.ceil(filtered.length / itemsPerPage);
-    currentPage = Math.max(1, Math.min(currentPage, totalPages));
-    filtered
-      .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
-      .forEach((card) => {
-        card.hidden = false;
-      });
+    orderedCards.forEach((card) => container.append(card));
+    noResults.classList.toggle("hidden", orderedCards.length !== 0);
+
+    const {
+      pageItems,
+      currentPage: nextPage,
+      totalPages,
+    } = paginateItems(orderedCards, currentPage, itemsPerPage);
+    currentPage = nextPage;
+    pageItems.forEach((card) => {
+      card.hidden = false;
+    });
     renderPagination(totalPages);
+
     const status = document.getElementById("list-status");
-    if (status)
-      status.textContent = filtered.length
-        ? `${filtered.length} ${status.dataset.label || "results"}`
-        : noResults.textContent;
+    if (status) {
+      status.textContent = inverted
+        ? status.dataset.invalidRange || noResults.textContent
+        : orderedCards.length
+          ? `${orderedCards.length} ${status.dataset.label || "results"}`
+          : noResults.textContent;
+    }
   }
 
   function renderPagination(totalPages: number) {
@@ -320,6 +334,7 @@ export function initListManager(
       // The discarded pagination buttons are garbage collectible after replaceChildren.
       button.addEventListener("click", () => {
         currentPage = page;
+        syncUrlState();
         processItems();
         container.scrollIntoView({
           behavior: scrollBehavior(),
@@ -354,6 +369,7 @@ export function initListManager(
 
   const reset = () => {
     currentPage = 1;
+    syncUrlState();
     processItems();
   };
   let timer: number;
@@ -367,7 +383,6 @@ export function initListManager(
       timer = window.setTimeout(() => {
         if (signal.aborted) return;
         searchQuery = searchInput.value.trim();
-        syncUrlState();
         reset();
       }, 200);
     },
@@ -377,7 +392,6 @@ export function initListManager(
     "change",
     () => {
       currentSort = sortSelect.value;
-      syncUrlState();
       reset();
     },
     { signal },
@@ -390,6 +404,11 @@ export function initListManager(
         "hidden",
         currentDateRange !== "custom",
       );
+      if (currentDateRange === "custom") {
+        customDateContainer?.classList.add("flex");
+      } else {
+        customDateContainer?.classList.remove("flex");
+      }
       reset();
     },
     { signal },
@@ -422,7 +441,6 @@ export function initListManager(
           other.classList.toggle("btn-outline", !active);
           other.setAttribute("aria-pressed", String(active));
         });
-        syncUrlState();
         reset();
       },
       { signal },
