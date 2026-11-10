@@ -83,10 +83,12 @@ for (const [route, document] of pages) {
     (element) => element.id,
   );
   assert.equal(new Set(ids).size, ids.length, `${route}: duplicate IDs`);
+  const jsonLdObjects = [];
   for (const script of document.querySelectorAll(
     'script[type="application/ld+json"]',
-  ))
-    JSON.parse(script.textContent);
+  )) {
+    jsonLdObjects.push(JSON.parse(script.textContent));
+  }
   for (const image of document.querySelectorAll("img")) {
     assert.ok(image.hasAttribute("alt"), `${route}: image alt`);
     assert.ok(image.width && image.height, `${route}: image dimensions`);
@@ -99,7 +101,32 @@ for (const [route, document] of pages) {
     assert.equal(document.querySelectorAll("[hreflang]").length, 0);
   } else {
     assert.equal(document.documentElement.lang, route.split("/")[1]);
-    assert.ok(document.querySelector('meta[property="og:image"]')?.content);
+    const ogImageContent = document.querySelector(
+      'meta[property="og:image"]',
+    )?.content;
+    assert.ok(ogImageContent, `${route}: og:image present`);
+    const ogUrl = new URL(ogImageContent, origin);
+    const ogFilePath = path.join(root, decodeURIComponent(ogUrl.pathname));
+    const ogBuf = await readFile(ogFilePath).catch(() =>
+      assert.fail(`${route}: missing og:image asset ${ogUrl.pathname}`),
+    );
+    if (ogFilePath.endsWith(".png")) {
+      const pngWidth = ogBuf.readUInt32BE(16);
+      const pngHeight = ogBuf.readUInt32BE(20);
+      assert.equal(pngWidth, 1200, `${route}: og:image width must be 1200`);
+      assert.equal(pngHeight, 630, `${route}: og:image height must be 630`);
+    }
+    const breadcrumb = jsonLdObjects.find(
+      (obj) => obj["@type"] === "BreadcrumbList",
+    );
+    assert.ok(breadcrumb, `${route}: BreadcrumbList schema present`);
+    const routeSegments = route.split("/").filter(Boolean);
+    const expectedBreadcrumbCount = Math.min(routeSegments.length, 3);
+    assert.equal(
+      breadcrumb.itemListElement.length,
+      expectedBreadcrumbCount,
+      `${route}: BreadcrumbList depth matches route depth`,
+    );
     const alternates = [...document.querySelectorAll("link[hreflang]")];
     for (const alternate of alternates) {
       const target = pages.get(new URL(alternate.href).pathname);

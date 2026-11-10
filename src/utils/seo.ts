@@ -1,6 +1,13 @@
-import { SITE } from "../config/site";
-import { useTranslations, type Lang } from "../i18n/utils";
-import { locales, OG_LOCALES } from "../i18n/ui";
+import { SITE } from "../config/site.ts";
+import { ui, defaultLang, locales, OG_LOCALES } from "../i18n/ui.ts";
+
+export type Lang = keyof typeof ui;
+
+function createTranslator(lang: Lang) {
+  return function t(key: keyof (typeof ui)[typeof defaultLang]): string {
+    return ui[lang]?.[key] || ui[defaultLang][key];
+  };
+}
 
 interface SEOProps {
   title?: string;
@@ -11,6 +18,100 @@ interface SEOProps {
   publishDate?: Date;
   updatedDate?: Date;
   tags?: string[];
+  category?: string;
+}
+
+const ARTICLE_SECTIONS: Record<Lang, Record<string, string>> = {
+  en: {
+    technology: "Technology",
+    security: "Cybersecurity",
+    philosophy: "Philosophy",
+    literature: "Literature",
+  },
+  es: {
+    technology: "Tecnología",
+    security: "Ciberseguridad",
+    philosophy: "Filosofía",
+    literature: "Literatura",
+  },
+  de: {
+    technology: "Technologie",
+    security: "Cybersicherheit",
+    philosophy: "Philosophie",
+    literature: "Literatur",
+  },
+  ru: {
+    technology: "Технологии",
+    security: "Кибербезопасность",
+    philosophy: "Философия",
+    literature: "Литература",
+  },
+  ja: {
+    technology: "テクノロジー",
+    security: "サイバーセキュリティ",
+    philosophy: "哲学",
+    literature: "文学",
+  },
+};
+
+export function resolveArticleSection(
+  category?: string,
+  tags?: string[],
+  lang: Lang = "en",
+): string {
+  const dict = ARTICLE_SECTIONS[lang] || ARTICLE_SECTIONS.en;
+  if (category && dict[category]) return dict[category];
+  const lowerTags = (tags || []).map((t) => t.toLowerCase());
+  if (
+    lowerTags.some((t) =>
+      [
+        "cybersecurity",
+        "ciberseguridad",
+        "cybersicherheit",
+        "кибербезопасность",
+        "サイバーセキュリティ",
+        "owasp",
+        "penetration testing",
+        "security",
+      ].includes(t),
+    )
+  ) {
+    return dict.security;
+  }
+  if (
+    lowerTags.some((t) =>
+      [
+        "literature",
+        "literatura",
+        "literatur",
+        "литература",
+        "文学",
+        "dostoevsky",
+        "classics",
+        "books",
+        "bookshelf",
+      ].includes(t),
+    )
+  ) {
+    return dict.literature;
+  }
+  if (
+    lowerTags.some((t) =>
+      [
+        "philosophy",
+        "filosofía",
+        "philosophie",
+        "философия",
+        "哲学",
+        "logic",
+        "epistemology",
+        "cognition",
+      ].includes(t),
+    )
+  ) {
+    return dict.philosophy;
+  }
+  return dict.technology;
 }
 
 export function resolveSEOData(
@@ -19,7 +120,7 @@ export function resolveSEOData(
   lang: Lang,
   slug?: string,
 ) {
-  const t = useTranslations(lang);
+  const t = createTranslator(lang);
   const pathname = url.pathname;
 
   const siteUrl = SITE.url;
@@ -33,22 +134,36 @@ export function resolveSEOData(
     (pathname.endsWith("/blog") || pathname.endsWith("/blog/")) && !slug;
 
   // Determine localized title
+  const authorName = t("home.name") || SITE.name;
   let title = props.title;
   if (title) {
-    if (props.type === "article") {
-      title = title.includes(t("home.name") || SITE.name)
-        ? `${title} | Blog`
-        : `${title} | Blog | ${t("home.name") || SITE.name}`;
+    // Strip trailing redundant author attribution (e.g. " - Cristian Arando") before appending suffix
+    const redundantDash = new RegExp(
+      `\\s*[-—|]\\s*(?:${SITE.name}|${authorName})$`,
+      "i",
+    );
+    const cleanedTitle = title.replace(redundantDash, "").trim();
+    if (props.type === "article" && !isProjects) {
+      title =
+        cleanedTitle.includes(authorName) || cleanedTitle.includes(SITE.name)
+          ? `${cleanedTitle} | ${t("blog.title")}`
+          : `${cleanedTitle} | ${t("blog.title")} | ${authorName}`;
+    } else if (
+      isProjects &&
+      !pathname.endsWith("/projects") &&
+      !pathname.endsWith("/projects/")
+    ) {
+      title = `${cleanedTitle} | ${t("projects.title")} | ${authorName}`;
     } else {
-      title = `${title} | ${t("home.name") || SITE.name}`;
+      title = `${cleanedTitle} | ${authorName}`;
     }
   } else {
     if (isHome) {
-      title = `${t("home.name") || SITE.name} — ${t("home.subtitle")}`;
+      title = `${authorName} — ${t("home.subtitle")}`;
     } else if (isProjects) {
-      title = `${t("projects.title")} | ${t("home.name") || SITE.name}`;
+      title = `${t("projects.title")} | ${authorName}`;
     } else if (isBlogIndex) {
-      title = `${t("blog.title")} | ${t("home.name") || SITE.name}`;
+      title = `${t("blog.title")} | ${authorName}`;
     } else {
       title = t("site.title") || SITE.title;
     }
@@ -118,6 +233,11 @@ export function resolveSEOData(
     imageUrl = `${cleanSiteUrl}/og/home.png`;
   }
   const fullImageAlt = props.imageAlt || title || t("home.name") || SITE.name;
+  const articleSection = resolveArticleSection(
+    props.category,
+    props.tags,
+    lang,
+  );
 
   return {
     lang,
@@ -135,6 +255,7 @@ export function resolveSEOData(
     imageWidth,
     imageHeight,
     pathname,
+    articleSection,
   };
 }
 

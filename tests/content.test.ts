@@ -4,6 +4,13 @@ import { readFileSync } from "node:fs";
 import { matchesDateRange, parseFilterValues } from "../src/utils/list.ts";
 import { serializeJsonLd } from "../src/utils/serialize.ts";
 import { RESERVED_ROOT_SEGMENTS } from "../src/config/paths.ts";
+import {
+  resolveSEOData,
+  resolveArticleSection,
+  getAlternateUrls,
+} from "../src/utils/seo.ts";
+import { SITE } from "../src/config/site.ts";
+import { ui, locales } from "../src/i18n/ui.ts";
 
 test("vercel.json CSP enforces script-src without unsafe-inline and preserves reserved routes", () => {
   const vercel = JSON.parse(readFileSync("vercel.json", "utf8"));
@@ -112,4 +119,69 @@ test("isPublished excludes drafts and respects calendar day boundaries", async (
   assert.ok(
     !isPublished({ draft: false, date: new Date("2026-10-24T00:00:00Z") }, now),
   );
+});
+
+test("resolveSEOData deduplicates redundant author suffix and resolves localized articleSection", () => {
+  assert.equal(SITE.jobTitle, "Software & Systems Engineer");
+  for (const locale of locales) {
+    assert.equal(
+      SITE.cv[locale],
+      `/cv/cv_${locale}.pdf`,
+      `CV URL must exist for locale ${locale}`,
+    );
+    assert.ok(
+      !ui[locale]["home.subtitle"].includes("Full Stack"),
+      `Locale ${locale} subtitle must not use legacy Full Stack title`,
+    );
+  }
+
+  const seoArticle = resolveSEOData(
+    {
+      title:
+        "My Final Project: Penetration Testing with OWASP - Cristian Arando",
+      type: "article",
+      tags: ["Cybersecurity", "OWASP"],
+    },
+    new URL("https://cristianarando.dev/en/blog/my-final-project/"),
+    "en",
+    "my-final-project",
+  );
+  assert.equal(
+    seoArticle.title,
+    "My Final Project: Penetration Testing with OWASP | Blog | Cristian Arando",
+  );
+  assert.equal(seoArticle.articleSection, "Cybersecurity");
+  assert.equal(
+    seoArticle.imageUrl,
+    "https://cristianarando.dev/og/en/blog/my-final-project.png",
+  );
+
+  assert.equal(
+    resolveArticleSection(undefined, ["Literature", "Dostoevsky"], "es"),
+    "Literatura",
+  );
+  assert.equal(
+    resolveArticleSection(undefined, ["Philosophy", "Logic"], "de"),
+    "Philosophie",
+  );
+  assert.equal(
+    resolveArticleSection(undefined, ["Web Development"], "ja"),
+    "テクノロジー",
+  );
+
+  const alts = getAlternateUrls(
+    "/en/blog/strategic-pessimism/",
+    ["en", "es"],
+    "https://cristianarando.dev",
+  );
+  assert.deepEqual(alts, [
+    {
+      lang: "en",
+      url: "https://cristianarando.dev/en/blog/strategic-pessimism/",
+    },
+    {
+      lang: "es",
+      url: "https://cristianarando.dev/es/blog/strategic-pessimism/",
+    },
+  ]);
 });

@@ -3,6 +3,7 @@ import { serializeJsonLd } from "../utils/serialize";
 import { SITE } from "../config/site";
 import { resolveSEOData } from "../utils/seo";
 import { locales } from "../i18n/ui";
+import { featureCopy } from "../i18n/features";
 import meImage from "../assets/images/me.webp";
 
 export interface Props {
@@ -14,6 +15,7 @@ export interface Props {
   publishDate?: Date;
   updatedDate?: Date;
   tags?: string[];
+  category?: string;
   structuredDataType?: "profile" | "collection";
   wordCount?: number;
   faq?: Array<{ question: string; answer: string }>;
@@ -34,6 +36,7 @@ const slug = Astro.params.slug;
 
 const seo = resolveSEOData(Astro.props, Astro.url, lang, slug);
 const t = seo.t;
+const c = featureCopy(seo.lang);
 
 // Schemas list
 const schemas: Record<string, unknown>[] = [];
@@ -65,15 +68,44 @@ if (segments.length > 1) {
       breadcrumbItems.push({
         "@type": "ListItem",
         position: 3,
-        name: seo.title,
+        name: Astro.props.title || seo.title,
         item: seo.canonicalUrl,
       });
     }
-  } else if (categorySegment === "projects" || categorySegment === "uses") {
+  } else if (categorySegment === "projects") {
     breadcrumbItems.push({
       "@type": "ListItem",
       position: 2,
-      name: categorySegment === "uses" ? t("nav.uses") : t("nav.projects"),
+      name: t("nav.projects"),
+      item: `${seo.cleanSiteUrl}/${seo.lang}/projects/`,
+    });
+
+    if (segments.length > 2) {
+      // Individual project case study
+      breadcrumbItems.push({
+        "@type": "ListItem",
+        position: 3,
+        name: Astro.props.title || seo.title,
+        item: seo.canonicalUrl,
+      });
+    }
+  } else if (categorySegment === "uses") {
+    breadcrumbItems.push({
+      "@type": "ListItem",
+      position: 2,
+      name: t("nav.uses"),
+      item: `${seo.cleanSiteUrl}/${seo.lang}/uses/`,
+    });
+  } else if (
+    categorySegment === "search" ||
+    categorySegment === "library" ||
+    categorySegment === "series" ||
+    categorySegment === "bookshelf"
+  ) {
+    breadcrumbItems.push({
+      "@type": "ListItem",
+      position: 2,
+      name: c[categorySegment],
       item: `${seo.cleanSiteUrl}/${seo.lang}/${categorySegment}/`,
     });
   }
@@ -106,12 +138,12 @@ if (seo.isHome || structuredDataType === "profile") {
       "@type": "Person",
       "@id": `${seo.cleanSiteUrl}/#person`,
       name: SITE.name,
-      jobTitle: "Full Stack Software Developer",
+      jobTitle: t("home.subtitle") || SITE.jobTitle,
       url: `${seo.cleanSiteUrl}/${seo.lang}/`,
       email: SITE.email,
       image: new URL(meImage.src, seo.cleanSiteUrl).href,
       sameAs: [SITE.social.github, SITE.social.linkedin],
-      knowsLanguage: ["es", "en"],
+      knowsLanguage: locales,
       alumniOf: {
         "@type": "CollegeOrUniversity",
         name: "Universidad Mayor de San Simón",
@@ -121,7 +153,11 @@ if (seo.isHome || structuredDataType === "profile") {
 }
 
 // 4. CollectionPage schema (For blog index or projects index)
-if (seo.isBlogIndex || seo.isProjects || structuredDataType === "collection") {
+if (
+  seo.isBlogIndex ||
+  (seo.isProjects && segments.length === 2) ||
+  structuredDataType === "collection"
+) {
   schemas.push({
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -137,8 +173,9 @@ if (seo.isBlogIndex || seo.isProjects || structuredDataType === "collection") {
   });
 }
 
-// 5. BlogPosting schema (For individual blog post)
+// 5. BlogPosting schema (For individual blog post or project case study)
 if (type === "article") {
+  const isSiteAuthor = !Astro.props.author || Astro.props.author === SITE.name;
   schemas.push({
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -153,13 +190,14 @@ if (type === "article") {
         : undefined,
     author: {
       "@type": "Person",
-      "@id":
-        !Astro.props.author || Astro.props.author === SITE.name
-          ? `${seo.cleanSiteUrl}/#person`
-          : undefined,
+      ...(isSiteAuthor
+        ? {
+            "@id": `${seo.cleanSiteUrl}/#person`,
+            url: `${seo.cleanSiteUrl}/${seo.lang}/`,
+            sameAs: [SITE.social.github, SITE.social.linkedin],
+          }
+        : {}),
       name: Astro.props.author || SITE.name,
-      url: `${seo.cleanSiteUrl}/${seo.lang}/`,
-      sameAs: [SITE.social.github, SITE.social.linkedin],
     },
     publisher: {
       "@type": "Person",
@@ -175,7 +213,7 @@ if (type === "article") {
       "@id": seo.canonicalUrl,
     },
     wordCount: wordCount,
-    articleSection: "Technology",
+    articleSection: seo.articleSection,
     keywords: tags || [],
     inLanguage: seo.lang,
   });

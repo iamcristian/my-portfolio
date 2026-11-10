@@ -14,18 +14,18 @@ export const home = {
 
   "home.hello": "Hallo, ich bin",
   "home.name": "Cristian Arando",
-  "home.subtitle": "Software- & System-Ingenieur",
+  "home.subtitle": "Software- & Systemingenieur",
   "home.tagline":
     "Entwurf von Softwaresystemen durch Struktur, Modulbauweise und sorgfältige Dekomposition von Komplexität",
   "home.downloadCv": "Lebenslauf herunterladen",
   "home.contactMe": "Kontaktiere mich",
-  "site.title": "Cristian Arando | Software- & System-Ingenieur",
+  "site.title": "Cristian Arando | Software- & Systemingenieur",
   "site.description":
-    "Software- & System-Ingenieur mit Fokus auf den Entwurf und Aufbau skalierbarer Websysteme. Ich priorisiere Systemdesign, Architektur und Softwarequalität und nutze moderne Technologien als Implementierungswerkzeuge, anstatt Einschränkungen zu definieren.",
+    "Software- & Systemingenieur mit Fokus auf den Entwurf und Aufbau skalierbarer Websysteme. Ich priorisiere Systemdesign, Architektur und Softwarequalität und nutze moderne Technologien als Implementierungswerkzeuge, anstatt Einschränkungen zu definieren.",
   "about.title": "Über Mich",
   "about.subtitle": "// Über Mich",
   "about.p1":
-    "Ich bin Software- & System-Ingenieur und konzentriere mich auf den Entwurf und Aufbau von Full-Stack-Websystemen. Meine Arbeit legt Wert auf Klarheit, Leistung und langfristige Wartbarkeit durch durchdachtes Systemdesign.",
+    "Ich bin Software- & Systemingenieur und konzentriere mich auf den Entwurf und Aufbau von Full-Stack-Websystemen. Meine Arbeit legt Wert auf Klarheit, Leistung und langfristige Wartbarkeit durch durchdachtes Systemdesign.",
   "about.p2":
     "Mein Ansatz ist systemorientiert statt technologieorientiert. Ich denke in Dimensionen von Systemdesign, API-Grenzen, modularer Architektur und wartbarer Struktur. Technologien sind Implementierungsdetails; Designprinzipien definieren das System.",
   "about.p3":

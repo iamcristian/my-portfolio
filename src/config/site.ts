@@ -2,8 +2,11 @@
 // Single source of truth for personal data, social links, and meta info.
 // Eliminates hardcoded values scattered across Hero, Contact, Footer, etc.
 
+import type { Lang } from "../i18n/utils.ts";
+
 export const SITE = {
   name: "Cristian Arando",
+  jobTitle: "Software & Systems Engineer",
   title: "Cristian Arando — Software & Systems Engineer",
   description:
     "Software & Systems Engineer designing systems through structure, modularity, and careful decomposition of complexity. Exploring system design, architecture, security, and philosophy.",
@@ -20,5 +23,5 @@ export const SITE = {
     de: "/cv/cv_de.pdf",
     ja: "/cv/cv_ja.pdf",
     ru: "/cv/cv_ru.pdf",
-  } as Record<string, string>,
+  } satisfies Record<Lang, string>,
 } as const;

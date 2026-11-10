@@ -169,7 +169,7 @@ export const I18N_OG: Record<Lang, LocaleDict> = {
   },
   ru: {
     helloIm: "• ПРИВЕТ, Я",
-    role: "Инженер программных систем",
+    role: "Инженер программного обеспечения и систем",
     essayAnalysis: "ЭССЕ И АНАЛИЗ",
     caseStudy: "ПРАКТИЧЕСКИЙ КЕЙС",
     archiveReading: "АРХИВ ЧТЕНИЯ",

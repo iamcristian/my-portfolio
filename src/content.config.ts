@@ -27,6 +27,9 @@ const blog = defineCollection({
           .regex(/^\d{4}-\d{2}-\d{2}$/)
           .optional(),
         author: z.string().default(SITE.name),
+        category: z
+          .enum(["technology", "security", "philosophy", "literature"])
+          .optional(),
         tags: z.array(z.string()).default([]),
         image: image(),
         imageAlt: z.string().optional(),

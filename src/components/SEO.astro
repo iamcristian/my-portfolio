@@ -16,6 +16,7 @@ export interface Props {
   publishDate?: Date;
   updatedDate?: Date;
   tags?: string[];
+  category?: string;
 }
 
 const { type = "website", publishDate, updatedDate, tags } = Astro.props;
@@ -111,16 +112,13 @@ const alternateUrls = Astro.props.noindex
       />
     )}
     {updatedDate && (
-      <>
-        <meta
-          property="article:modified_time"
-          content={updatedDate.toISOString()}
-        />
-        <meta http-equiv="last-modified" content={updatedDate.toISOString()} />
-      </>
+      <meta
+        property="article:modified_time"
+        content={updatedDate.toISOString()}
+      />
     )}
     <meta property="article:author" content={Astro.props.author || SITE.name} />
-    <meta property="article:section" content="Technology" />
+    <meta property="article:section" content={seo.articleSection} />
     {tags?.map((tag) => (
       <meta property="article:tag" content={tag} />
     ))}
