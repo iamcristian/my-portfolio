@@ -1,7 +1,56 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { matchesDateRange, parseFilterValues } from "../src/utils/list.ts";
 import { serializeJsonLd } from "../src/utils/serialize.ts";
+import { RESERVED_ROOT_SEGMENTS } from "../src/config/paths.ts";
+
+test("vercel.json CSP enforces script-src without unsafe-inline and preserves reserved routes", () => {
+  const vercel = JSON.parse(readFileSync("vercel.json", "utf8"));
+  const cspHeader = vercel.headers[0].headers.find(
+    (h: { key: string; value: string }) => h.key === "Content-Security-Policy",
+  );
+  assert.ok(cspHeader, "CSP header must exist");
+  const scriptSrc = cspHeader.value
+    .split(";")
+    .map((s: string) => s.trim())
+    .find((s: string) => s.startsWith("script-src "));
+  assert.ok(scriptSrc, "script-src directive must exist");
+  assert.ok(
+    !scriptSrc.includes("'unsafe-inline'"),
+    "script-src must not allow unsafe-inline",
+  );
+
+  const catchAllRewrites = vercel.rewrites.filter((r: { source: string }) =>
+    r.source.startsWith("/:slug("),
+  );
+  assert.equal(
+    catchAllRewrites.length,
+    2,
+    "must have two catch-all slug rules",
+  );
+
+  const expectedLookahead = `(?!${RESERVED_ROOT_SEGMENTS.map((s) => `${s}$`).join("|")})`;
+  for (const rule of catchAllRewrites) {
+    assert.ok(
+      rule.source.includes(expectedLookahead),
+      `Rewrite rule ${rule.source} must match RESERVED_ROOT_SEGMENTS`,
+    );
+  }
+
+  const pattern = new RegExp(`^${expectedLookahead}[a-z0-9][a-z0-9-_]{2,99}$`);
+  for (const reserved of RESERVED_ROOT_SEGMENTS) {
+    assert.ok(
+      !pattern.test(reserved),
+      `Reserved segment "${reserved}" must not be matched by catch-all slug rewrite`,
+    );
+  }
+  assert.ok(pattern.test("my-short-link"), "Valid custom slug should match");
+  assert.ok(
+    pattern.test("blog-post-link"),
+    "Prefix of reserved word should match",
+  );
+});
 
 test("multiword tags survive serialization without partial matches", () => {
   const tags = parseFilterValues(

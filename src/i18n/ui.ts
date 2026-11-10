@@ -1,23 +1,23 @@
 // ── i18n UI translations registry ──
 // Merges all locale modules into a single lookup map.
 
-import { header as enHeader } from "./locales/en/header";
-import { header as esHeader } from "./locales/es/header";
-import { header as deHeader } from "./locales/de/header";
-import { header as ruHeader } from "./locales/ru/header";
-import { header as jaHeader } from "./locales/ja/header";
+import { header as enHeader } from "./locales/en/header.ts";
+import { header as esHeader } from "./locales/es/header.ts";
+import { header as deHeader } from "./locales/de/header.ts";
+import { header as ruHeader } from "./locales/ru/header.ts";
+import { header as jaHeader } from "./locales/ja/header.ts";
 
-import { home as enHome } from "./locales/en/home";
-import { home as esHome } from "./locales/es/home";
-import { home as deHome } from "./locales/de/home";
-import { home as ruHome } from "./locales/ru/home";
-import { home as jaHome } from "./locales/ja/home";
+import { home as enHome } from "./locales/en/home.ts";
+import { home as esHome } from "./locales/es/home.ts";
+import { home as deHome } from "./locales/de/home.ts";
+import { home as ruHome } from "./locales/ru/home.ts";
+import { home as jaHome } from "./locales/ja/home.ts";
 
-import { footer as enFooter } from "./locales/en/footer";
-import { footer as esFooter } from "./locales/es/footer";
-import { footer as deFooter } from "./locales/de/footer";
-import { footer as ruFooter } from "./locales/ru/footer";
-import { footer as jaFooter } from "./locales/ja/footer";
+import { footer as enFooter } from "./locales/en/footer.ts";
+import { footer as esFooter } from "./locales/es/footer.ts";
+import { footer as deFooter } from "./locales/de/footer.ts";
+import { footer as ruFooter } from "./locales/ru/footer.ts";
+import { footer as jaFooter } from "./locales/ja/footer.ts";
 
 export const languages = {
   en: { name: "English", code: "EN" },

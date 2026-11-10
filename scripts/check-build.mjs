@@ -5,6 +5,13 @@ import { JSDOM } from "jsdom";
 
 const root = path.resolve("dist");
 const origin = "https://cristianarando.dev";
+const vercel = JSON.parse(await readFile("vercel.json", "utf8"));
+const catchAllRule = vercel.rewrites.find((r) =>
+  r.source.startsWith("/:slug("),
+);
+const slugPattern = new RegExp(
+  "^" + catchAllRule.source.slice("/:slug(".length, -1) + "$",
+);
 async function files(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
   return (
@@ -42,6 +49,16 @@ for (const file of allFiles.filter((file) => file.endsWith(".html"))) {
 }
 for (const [route, document] of pages) {
   if (route === "/") continue; // Intentional static-host redirect fallback.
+  const firstSegment = route
+    .split("/")
+    .filter(Boolean)[0]
+    ?.replace(/\.html$/, "");
+  if (firstSegment) {
+    assert.ok(
+      !slugPattern.test(firstSegment),
+      `${route}: top-level segment "${firstSegment}" would be intercepted by catch-all slug rewrite`,
+    );
+  }
   assert.equal(document.querySelectorAll("h1").length, 1, `${route}: one h1`);
   assert.ok(
     document.querySelector("main#main-content"),
