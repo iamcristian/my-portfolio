@@ -28,6 +28,7 @@ const c = featureCopy(lang);
     aria-live="polite"
     data-empty={c.empty}
     data-count={c.results}
+    data-error={c.empty}
   ></p>
   <div
     id="discovery-results"
@@ -41,7 +42,13 @@ const c = featureCopy(lang);
 </Shell>
 <script>
   import { onPageLoad } from "../../scripts/page-lifecycle";
-  import type { SearchEntry } from "../../utils/discovery";
+  import {
+    normalizeText,
+    tokenizeQuery,
+    validateSearchEntries,
+    type ValidatedSearchEntry,
+  } from "../../utils/list";
+
   onPageLoad((signal) => {
     const root = document.getElementById("discovery-results");
     if (!root) return;
@@ -51,34 +58,75 @@ const c = featureCopy(lang);
     const params = new URLSearchParams(location.search);
     input.value = params.get("q") || "";
     all.checked = params.get("all") === "1";
-    let entries: SearchEntry[] = [];
+    let entries: ValidatedSearchEntry[] = [];
+
+    const scoreEntry = (
+      entry: ValidatedSearchEntry,
+      qNorm: string,
+      words: string[],
+    ) => {
+      const titleNorm = normalizeText(entry.title);
+      const textNorm = normalizeText(entry.text);
+      let score = 0;
+      if (titleNorm === qNorm) score += 100;
+      else if (titleNorm.startsWith(qNorm)) score += 60;
+      else if (titleNorm.includes(qNorm)) score += 40;
+      for (const w of words) {
+        if (titleNorm.includes(w)) score += 20;
+        if (textNorm.includes(w)) score += 5;
+      }
+      return score;
+    };
+
     const render = () => {
-      const q = input.value.toLocaleLowerCase().trim();
-      const words = q.split(/\s+/).filter(Boolean);
-      const matches = q
-        ? entries
-            .filter(
-              (e) =>
-                (all.checked || e.lang === root.dataset.lang) &&
-                (params.get("evidence") !== "1" || e.kind !== "skills") &&
-                words.every((w) =>
-                  `${e.title} ${e.text}`.toLocaleLowerCase().includes(w),
-                ),
+      const qNorm = normalizeText(input.value);
+      const words = tokenizeQuery(input.value);
+      const isEvidence = params.get("evidence") === "1";
+
+      let matches: ValidatedSearchEntry[] = [];
+      if (words.length > 0) {
+        const langFiltered = entries.filter(
+          (e) => all.checked || e.lang === root.dataset.lang,
+        );
+        matches = langFiltered
+          .filter(
+            (e) =>
+              (!isEvidence || e.kind !== "skills") &&
+              words.every((w) =>
+                normalizeText(`${e.title} ${e.text}`).includes(w),
+              ),
+          )
+          .sort(
+            (a, b) => scoreEntry(b, qNorm, words) - scoreEntry(a, qNorm, words),
+          );
+
+        // Fallback when a skill pill (evidence=1) has no exact multi-word match in articles/projects/experience
+        if (matches.length === 0 && isEvidence) {
+          matches = langFiltered
+            .filter((e) =>
+              words.some((w) =>
+                normalizeText(`${e.title} ${e.text}`).includes(w),
+              ),
             )
             .sort(
               (a, b) =>
-                Number(b.title.toLocaleLowerCase().includes(q)) -
-                Number(a.title.toLocaleLowerCase().includes(q)),
-            )
-        : [];
+                Number(a.kind === "skills") - Number(b.kind === "skills") ||
+                scoreEntry(b, qNorm, words) - scoreEntry(a, qNorm, words),
+            );
+        }
+      }
+
       root.replaceChildren();
       for (const entry of matches.slice(0, 60)) {
         const card = document.createElement("article");
         card.className = "card bg-base-200 border border-base-300 p-5 gap-3";
         const h = document.createElement("h2");
         const a = document.createElement("a");
-        a.href = entry.url;
-        if (entry.url.includes("#")) a.setAttribute("data-astro-reload", "");
+        a.href =
+          entry.kind === "skills" && isEvidence
+            ? `/${entry.lang}/#skills`
+            : entry.url;
+        if (a.href.includes("#")) a.setAttribute("data-astro-reload", "");
         a.className = "link text-lg font-semibold";
         a.textContent = entry.title;
         h.append(a);
@@ -86,10 +134,10 @@ const c = featureCopy(lang);
         meta.className = "text-xs opacity-70";
         meta.textContent = `${root.dataset[entry.kind] || entry.kind} · ${entry.lang}`;
         const excerpt = document.createElement("p");
-        const at = Math.max(
-          0,
-          entry.text.toLocaleLowerCase().indexOf(words[0] || "") - 60,
-        );
+        const firstWord = words[0] || "";
+        const normText = normalizeText(entry.text);
+        const idx = firstWord ? normText.indexOf(firstWord) : 0;
+        const at = Math.max(0, (idx >= 0 ? idx : 0) - 60);
         excerpt.textContent = `${at ? "…" : ""}${entry.text.slice(at, at + 240)}${entry.text.length > at + 240 ? "…" : ""}`;
         card.append(meta, h, excerpt);
         root.append(card);
@@ -100,7 +148,8 @@ const c = featureCopy(lang);
     };
     const update = () => {
       const url = new URL(location.href);
-      url.searchParams.set("q", input.value);
+      if (input.value.trim()) url.searchParams.set("q", input.value);
+      else url.searchParams.delete("q");
       all.checked
         ? url.searchParams.set("all", "1")
         : url.searchParams.delete("all");
@@ -122,13 +171,13 @@ const c = featureCopy(lang);
         if (!r.ok) throw Error(String(r.status));
         return r.json();
       })
-      .then((data) => {
-        entries = data;
+      .then((data: unknown) => {
+        entries = validateSearchEntries(data);
         render();
       })
-      .catch((e) => {
-        if (e.name !== "AbortError")
-          status.textContent = `Search unavailable (${e.message}).`;
+      .catch((e: unknown) => {
+        if (e instanceof Error && e.name === "AbortError") return;
+        status.textContent = status.dataset.error || status.dataset.empty || "";
       });
   });
 </script>

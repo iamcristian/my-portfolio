@@ -21,6 +21,9 @@ const PROJECTS = sortFeaturedFirst(
   (p) => p.featured,
   (p) => p.date,
 );
+const availableCategories = (
+  ["frontend", "backend", "fullstack"] as const
+).filter((cat) => PROJECTS.some((p) => p.category === cat));
 ---
 
 <main
@@ -82,27 +85,15 @@ const PROJECTS = sortFeaturedFirst(
         >
           {t("projects.all")}
         </button>
-        <button
-          class="btn btn-sm btn-outline cat-btn"
-          aria-pressed="false"
-          data-category="frontend"
-        >
-          {t("projects.frontend")}
-        </button>
-        <button
-          class="btn btn-sm btn-outline cat-btn"
-          aria-pressed="false"
-          data-category="backend"
-        >
-          {t("projects.backend")}
-        </button>
-        <button
-          class="btn btn-sm btn-outline cat-btn"
-          aria-pressed="false"
-          data-category="fullstack"
-        >
-          {t("projects.fullstack")}
-        </button>
+        {availableCategories.map((cat) => (
+          <button
+            class="btn btn-sm btn-outline cat-btn"
+            aria-pressed="false"
+            data-category={cat}
+          >
+            {t(`projects.${cat}`)}
+          </button>
+        ))}
       </div>
 
       <!-- Controls Group -->

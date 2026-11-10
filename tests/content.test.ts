@@ -1,7 +1,13 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { matchesDateRange, parseFilterValues } from "../src/utils/list.ts";
+import {
+  matchesDateRange,
+  parseFilterValues,
+  normalizeText,
+  scoreItem,
+  validateSearchEntries,
+} from "../src/utils/list.ts";
 import { serializeJsonLd } from "../src/utils/serialize.ts";
 import { RESERVED_ROOT_SEGMENTS } from "../src/config/paths.ts";
 import {
@@ -184,4 +190,77 @@ test("resolveSEOData deduplicates redundant author suffix and resolves localized
       url: "https://cristianarando.dev/es/blog/strategic-pessimism/",
     },
   ]);
+});
+
+test("normalizeText and scoreItem support diacritic-insensitive multi-token search and relevance ranking", () => {
+  assert.equal(
+    normalizeText("Pruebas de Penetración y Lógica"),
+    "pruebas de penetracion y logica",
+  );
+
+  const titleMatch = scoreItem(
+    {
+      name: "Pruebas de Penetración con OWASP",
+      description: "Evaluación de seguridad",
+      tags: "ciberseguridad owasp",
+    },
+    "penetracion owasp",
+  );
+  const descMatch = scoreItem(
+    {
+      name: "Otro artículo general",
+      description: "Menciona pruebas de penetracion y owasp en el texto",
+      tags: "general",
+    },
+    "penetracion owasp",
+  );
+  const nonMatch = scoreItem(
+    {
+      name: "Pruebas de Penetración",
+      description: "Sin el segundo token",
+      tags: "ciberseguridad",
+    },
+    "penetracion kubernetes",
+  );
+
+  assert.ok(
+    titleMatch > descMatch,
+    "Title/tag match must outrank description match",
+  );
+  assert.ok(descMatch > 0, "Description match must have positive score");
+  assert.equal(nonMatch, 0, "Missing token must score 0");
+});
+
+test("validateSearchEntries filters malformed entries and enforces same-origin relative paths", () => {
+  assert.throws(() => validateSearchEntries({ not: "an array" }));
+  const validated = validateSearchEntries([
+    {
+      title: "Valid Entry",
+      text: "Some body text",
+      url: "/en/blog/my-final-project/",
+      lang: "en",
+      kind: "articles",
+    },
+    {
+      title: "Protocol-relative attack",
+      text: "Bad url",
+      url: "//evil.example/xss",
+      lang: "en",
+      kind: "articles",
+    },
+    {
+      title: "Missing fields",
+      url: "/en/",
+    },
+  ]);
+  assert.equal(validated.length, 1);
+  assert.equal(validated[0].title, "Valid Entry");
+});
+
+test("getReadTime calibrates reading speed for Japanese vs alphabetic scripts", async () => {
+  const { getReadTime } = await import("../src/utils/blog.ts");
+  const jaText = "これは日本語のテスト文章です。".repeat(45);
+  const enText = "word ".repeat(300);
+  assert.equal(getReadTime(jaText, "ja"), 1);
+  assert.equal(getReadTime(enText, "en"), 2);
 });

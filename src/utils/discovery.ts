@@ -7,7 +7,9 @@ import {
 } from "../i18n/utils";
 import { languages } from "../i18n/ui";
 import { fluenttubeByLang } from "../i18n/fluenttube";
+import { getCaseStudy, type ProjectId } from "../data/case-studies";
 import { isPublished } from "./blog";
+
 export interface SearchEntry {
   title: string;
   text: string;
@@ -15,6 +17,7 @@ export interface SearchEntry {
   lang: string;
   kind: string;
 }
+
 export function plainText(body: string) {
   return body
     .replace(/^\s*(import|export) .*$/gm, "")
@@ -25,6 +28,7 @@ export function plainText(body: string) {
     .replace(/\s+/g, " ")
     .trim();
 }
+
 export async function discoveryEntries(): Promise<SearchEntry[]> {
   const posts = await getCollection("blog", ({ data }) => isPublished(data));
   const entries: SearchEntry[] = posts.map((p) => ({
@@ -36,13 +40,19 @@ export async function discoveryEntries(): Promise<SearchEntry[]> {
   }));
   for (const lang of Object.keys(languages) as Lang[]) {
     entries.push(
-      ...getProjectsForLang(lang).map((p) => ({
-        title: p.title,
-        text: `${p.description} ${p.tech.join(" ")}${p.id === "fluenttube" ? ` ${fluenttubeByLang[lang].features.join(" ")}` : ""}`,
-        url: `/${lang}/projects/${p.id}/`,
-        lang,
-        kind: "projects",
-      })),
+      ...getProjectsForLang(lang).map((p) => {
+        const study = getCaseStudy(p.id as ProjectId, lang);
+        const studyText = study
+          ? `${study.problem} ${study.architecture.join(" ")} ${study.tradeoff} ${study.lesson}`
+          : "";
+        return {
+          title: p.title,
+          text: `${p.description} ${p.tech.join(" ")} ${studyText}${p.id === "fluenttube" ? ` ${fluenttubeByLang[lang].features.join(" ")}` : ""}`.trim(),
+          url: `/${lang}/projects/${p.id}/`,
+          lang,
+          kind: "projects",
+        };
+      }),
     );
     entries.push(
       ...getExperienceForLang(lang).map((e) => ({
@@ -57,7 +67,7 @@ export async function discoveryEntries(): Promise<SearchEntry[]> {
       ...getSkillsForLang(lang).flatMap((c) =>
         c.items.map((title) => ({
           title,
-          text: `${c.name} ${c.description || ""}`,
+          text: `${c.name} — ${c.description || ""} (${c.items.join(", ")})`,
           url: `/${lang}/search/?q=${encodeURIComponent(title)}&evidence=1`,
           lang,
           kind: "skills",

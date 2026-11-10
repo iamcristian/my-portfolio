@@ -11,7 +11,9 @@ export function getWordCount(body: string | undefined, lang = "en"): number {
 }
 
 export function getReadTime(body: string | undefined, lang = "en"): number {
-  return Math.max(1, Math.ceil(getWordCount(body, lang) / 200));
+  // CJK segmentation yields more morphological word tokens per sentence (~350 segments/min vs ~200 wpm for alphabetic scripts)
+  const wordsPerMinute = lang === "ja" ? 350 : 200;
+  return Math.max(1, Math.ceil(getWordCount(body, lang) / wordsPerMinute));
 }
 
 export function isPublished(

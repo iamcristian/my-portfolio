@@ -3,14 +3,18 @@ import path from "path";
 import { pathToFileURL } from "url";
 
 const localesDir = path.resolve("src/i18n/locales");
-const locales = ["es", "de", "ru", "ja"];
+const locales = ["es", "de", "ru", "ja"] as const;
 
-async function getExports(filePath: string) {
-  const fileUrl = pathToFileURL(filePath).href;
-  return await import(fileUrl);
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-function checkKeys(enVal: any, locVal: any, pathStr: string): string[] {
+async function getExports(filePath: string): Promise<Record<string, unknown>> {
+  const fileUrl = pathToFileURL(filePath).href;
+  return (await import(fileUrl)) as Record<string, unknown>;
+}
+
+function checkKeys(enVal: unknown, locVal: unknown, pathStr: string): string[] {
   const errors: string[] = [];
   if (enVal === null || enVal === undefined) return [];
   if (locVal === null || locVal === undefined) {
@@ -21,6 +25,12 @@ function checkKeys(enVal: any, locVal: any, pathStr: string): string[] {
     errors.push(
       `Type mismatch at ${pathStr}: expected ${typeof enVal}, got ${typeof locVal}`,
     );
+    return errors;
+  }
+  if (typeof enVal === "string" && typeof locVal === "string") {
+    if (enVal.trim().length > 0 && locVal.trim().length === 0) {
+      errors.push(`Empty translation string at ${pathStr}`);
+    }
     return errors;
   }
   if (Array.isArray(enVal)) {
@@ -36,12 +46,17 @@ function checkKeys(enVal: any, locVal: any, pathStr: string): string[] {
     for (let i = 0; i < Math.min(enVal.length, locVal.length); i++) {
       errors.push(...checkKeys(enVal[i], locVal[i], `${pathStr}[${i}]`));
     }
-  } else if (typeof enVal === "object") {
+  } else if (isRecord(enVal) && isRecord(locVal)) {
     for (const key of Object.keys(enVal)) {
       if (!(key in locVal)) {
         errors.push(`Missing key: ${pathStr}.${key}`);
       } else {
         errors.push(...checkKeys(enVal[key], locVal[key], `${pathStr}.${key}`));
+      }
+    }
+    for (const key of Object.keys(locVal)) {
+      if (!(key in enVal)) {
+        errors.push(`Extra key not in English source: ${pathStr}.${key}`);
       }
     }
   }
@@ -100,10 +115,11 @@ async function run() {
             }
           }
         }
-      } catch (err: any) {
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
         console.error(
           `  [ERROR] Failed to compare ${file} for locale ${locale}:`,
-          err.message,
+          message,
         );
         localeErrors++;
       }
@@ -128,7 +144,7 @@ async function run() {
   process.exit(exitCode);
 }
 
-run().catch((err) => {
+run().catch((err: unknown) => {
   console.error("Validation runner crashed:", err);
   process.exit(1);
 });

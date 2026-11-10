@@ -1,4 +1,9 @@
-import { parseFilterValues, matchesDateRange } from "../utils/list.ts";
+import {
+  parseFilterValues,
+  matchesDateRange,
+  scoreItem,
+  swapViewClasses,
+} from "../utils/list.ts";
 import { scrollBehavior } from "./page-lifecycle.ts";
 
 // ── Shared list-manager module ──
@@ -113,19 +118,50 @@ export function initListManager(
     ? (document.getElementById(endDateInputId) as HTMLInputElement | null)
     : null;
 
-  let currentView = "grid";
-  let currentFilter = "all";
-  let currentSort = sortSelect ? sortSelect.value : "date-desc";
-  let searchQuery =
-    new URL(location.href).searchParams.get("q")?.toLowerCase().trim() || "";
+  const initialParams = new URL(location.href).searchParams;
+  const defaultSort = sortSelect ? sortSelect.value : "date-desc";
+  let currentView = initialParams.get("view") === "list" ? "list" : "grid";
+  let currentFilter = initialParams.get("filter") || "all";
+  let currentSort = initialParams.get("sort") || defaultSort;
+  if (sortSelect && initialParams.get("sort")) {
+    sortSelect.value = currentSort;
+  }
+  let searchQuery = initialParams.get("q")?.trim() || "";
   if (searchInput) searchInput.value = searchQuery;
   let currentPage = 1;
+
+  if (currentFilter !== "all" && filterButtons.length > 0) {
+    filterButtons.forEach((other) => {
+      const btnVal = other.dataset.tag || other.dataset.category || "all";
+      const active = btnVal.toLowerCase() === currentFilter.toLowerCase();
+      other.classList.toggle("btn-neutral", active);
+      other.classList.toggle("active", active);
+      other.classList.toggle("btn-outline", !active);
+      other.setAttribute("aria-pressed", String(active));
+    });
+  }
 
   let currentDateRange = dateRangeSelect ? dateRangeSelect.value : "all";
   let customStartDate = startDateInput ? startDateInput.value : "";
   let customEndDate = endDateInput ? endDateInput.value : "";
 
   if (!container || !paginationControls) return;
+
+  function syncUrlState() {
+    const url = new URL(location.href);
+    if (searchQuery) url.searchParams.set("q", searchQuery);
+    else url.searchParams.delete("q");
+
+    if (currentFilter && currentFilter !== "all")
+      url.searchParams.set("filter", currentFilter);
+    else url.searchParams.delete("filter");
+
+    if (currentSort && currentSort !== defaultSort)
+      url.searchParams.set("sort", currentSort);
+    else url.searchParams.delete("sort");
+
+    history.replaceState(history.state, "", url);
+  }
 
   // ── View Toggle ──
   function updateViewLayout() {
@@ -136,34 +172,66 @@ export function initListManager(
     if (currentView === "grid") {
       gridBtn.classList.add("btn-active");
       listBtn.classList.remove("btn-active");
-      container.className = gridContainerClass;
+      swapViewClasses(container, gridContainerClass, listContainerClass);
       allCards.forEach((card) => {
-        card.className = gridCardClass;
-        const fig = card.querySelector(figureSelector);
-        if (fig) fig.className = gridFigureClass;
-        const body = card.querySelector(bodySelector);
-        if (body) body.className = gridBodyClass;
-        const footer = card.querySelector(footerSelector);
-        if (footer) footer.className = gridFooterClass;
+        swapViewClasses(card, gridCardClass, listCardClass);
+        swapViewClasses(
+          card.querySelector(figureSelector),
+          gridFigureClass,
+          listFigureClass,
+        );
+        swapViewClasses(
+          card.querySelector(bodySelector),
+          gridBodyClass,
+          listBodyClass,
+        );
+        swapViewClasses(
+          card.querySelector(footerSelector),
+          gridFooterClass,
+          listFooterClass,
+        );
       });
     } else {
       listBtn.classList.add("btn-active");
       gridBtn.classList.remove("btn-active");
-      container.className = listContainerClass;
+      swapViewClasses(container, listContainerClass, gridContainerClass);
       allCards.forEach((card) => {
-        card.className = listCardClass;
-        const fig = card.querySelector(figureSelector);
-        if (fig) fig.className = listFigureClass;
-        const body = card.querySelector(bodySelector);
-        if (body) body.className = listBodyClass;
-        const footer = card.querySelector(footerSelector);
-        if (footer) footer.className = listFooterClass;
+        swapViewClasses(card, listCardClass, gridCardClass);
+        swapViewClasses(
+          card.querySelector(figureSelector),
+          listFigureClass,
+          gridFigureClass,
+        );
+        swapViewClasses(
+          card.querySelector(bodySelector),
+          listBodyClass,
+          gridBodyClass,
+        );
+        swapViewClasses(
+          card.querySelector(footerSelector),
+          listFooterClass,
+          gridFooterClass,
+        );
       });
     }
   }
 
+  function getCardScore(card: HTMLElement): number {
+    return scoreItem(
+      {
+        name: card.dataset.name,
+        description: card.dataset.description,
+        tech: card.dataset.tech,
+        tags: card.dataset.tags,
+        featured: hasFeatured && card.dataset.featured === "true",
+      },
+      searchQuery,
+    );
+  }
+
   function processItems() {
     if (!container || !noResults || !paginationControls) return;
+    const scoreMap = new Map<HTMLElement, number>();
     const filtered = allCards
       .filter((card) => {
         const filterMatch =
@@ -171,31 +239,29 @@ export function initListManager(
           parseFilterValues(card.getAttribute(filterAttr) || "").includes(
             currentFilter.toLowerCase(),
           );
-        const text = [
-          card.dataset.name,
-          card.dataset.description,
-          card.dataset.tech,
-          card.dataset.tags,
-        ]
-          .join(" ")
-          .toLowerCase();
-        return (
-          filterMatch &&
-          (!searchQuery || text.includes(searchQuery)) &&
-          matchesDateRange(
-            card.dataset.date || "",
-            currentDateRange,
-            customStartDate,
-            customEndDate,
-          )
+        if (!filterMatch) return false;
+
+        const score = getCardScore(card);
+        if (searchQuery && score <= 0) return false;
+        scoreMap.set(card, score);
+
+        return matchesDateRange(
+          card.dataset.date || "",
+          currentDateRange,
+          customStartDate,
+          customEndDate,
         );
       })
       .sort((a, b) => {
-        if (currentSort === "relevance" && hasFeatured) {
-          const featured =
-            Number(b.dataset.featured === "true") -
-            Number(a.dataset.featured === "true");
-          if (featured) return featured;
+        if (currentSort === "relevance") {
+          const scoreDiff = (scoreMap.get(b) || 0) - (scoreMap.get(a) || 0);
+          if (scoreDiff !== 0) return scoreDiff;
+          if (hasFeatured) {
+            const featured =
+              Number(b.dataset.featured === "true") -
+              Number(a.dataset.featured === "true");
+            if (featured) return featured;
+          }
         }
         if (currentSort.startsWith("name")) {
           const order = (a.dataset.name || "").localeCompare(
@@ -300,11 +366,8 @@ export function initListManager(
       window.clearTimeout(timer);
       timer = window.setTimeout(() => {
         if (signal.aborted) return;
-        searchQuery = searchInput.value.toLowerCase().trim();
-        const url = new URL(location.href);
-        if (searchQuery) url.searchParams.set("q", searchQuery);
-        else url.searchParams.delete("q");
-        history.replaceState(history.state, "", url);
+        searchQuery = searchInput.value.trim();
+        syncUrlState();
         reset();
       }, 200);
     },
@@ -314,6 +377,7 @@ export function initListManager(
     "change",
     () => {
       currentSort = sortSelect.value;
+      syncUrlState();
       reset();
     },
     { signal },
@@ -358,6 +422,7 @@ export function initListManager(
           other.classList.toggle("btn-outline", !active);
           other.setAttribute("aria-pressed", String(active));
         });
+        syncUrlState();
         reset();
       },
       { signal },
