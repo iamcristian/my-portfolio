@@ -71,7 +71,7 @@ export async function discoveryEntries(): Promise<SearchEntry[]> {
         c.items.map((title) => ({
           title,
           text: `${c.name} — ${c.description || ""} (${c.items.join(", ")})`,
-          url: `/${lang}/search/?q=${encodeURIComponent(title)}&evidence=1`,
+          url: `/${lang}/#skills-${c.id}`,
           lang,
           kind: "skills",
         })),

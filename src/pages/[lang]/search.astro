@@ -122,11 +122,8 @@ const c = featureCopy(lang);
         card.className = "card bg-base-200 border border-base-300 p-5 gap-3";
         const h = document.createElement("h2");
         const a = document.createElement("a");
-        a.href =
-          entry.kind === "skills" && isEvidence
-            ? `/${entry.lang}/#skills`
-            : entry.url;
-        if (a.href.includes("#")) a.setAttribute("data-astro-reload", "");
+        a.href = entry.url;
+        if (entry.url.includes("#")) a.setAttribute("data-astro-reload", "");
         a.className = "link text-lg font-semibold";
         a.textContent = entry.title;
         h.append(a);
@@ -137,8 +134,13 @@ const c = featureCopy(lang);
         const firstWord = words[0] || "";
         const normText = normalizeText(entry.text);
         const idx = firstWord ? normText.indexOf(firstWord) : 0;
-        const at = Math.max(0, (idx >= 0 ? idx : 0) - 60);
-        excerpt.textContent = `${at ? "…" : ""}${entry.text.slice(at, at + 240)}${entry.text.length > at + 240 ? "…" : ""}`;
+        let at = 0;
+        if (idx > 90) {
+          const rawStart = idx - 60;
+          const nextSpace = entry.text.indexOf(" ", rawStart);
+          at = nextSpace !== -1 && nextSpace < idx ? nextSpace + 1 : rawStart;
+        }
+        excerpt.textContent = `${at > 0 ? "…" : ""}${entry.text.slice(at, at + 240)}${entry.text.length > at + 240 ? "…" : ""}`;
         card.append(meta, h, excerpt);
         root.append(card);
       }

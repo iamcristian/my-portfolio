@@ -200,6 +200,10 @@ for (const entry of searchEntries) {
     "search result metadata",
   );
   const targetUrl = new URL(entry.url, origin);
+  assert.ok(
+    !targetUrl.pathname.endsWith("/search/"),
+    `search index entry must point to content destination, not search loop: ${entry.url}`,
+  );
   if (targetUrl.hash)
     assert.ok(
       pages.get(targetUrl.pathname)?.getElementById(targetUrl.hash.slice(1)),
