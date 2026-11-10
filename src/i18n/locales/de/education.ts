@@ -18,7 +18,7 @@ export const education: AcademicItem[] = [
     date: "Februar 2024 – Dezember 2024",
     location: "Cochabamba, Bolivien",
     description:
-      "Spezialisiertes Postgraduiertenprogramm, das Informationssicherheit, Cybersicherheits-Frameworks, Netzwerkverteidigung, Schwachstellenbewertung, ethisches Hacken und Sicherheits-Governance gemäß internationalen Standards abdeckt.",
+      "Spezialisiertes Postgraduiertenprogramm, das Informationssicherheit, Cybersicherheits-Frameworks, Netzwerkverteidigung, Schwachstellenbewertung, ethisches Hacken und Sicherheits-Governance gemäß internationalen Standards abdeckt. Das Abschlussprojekt diente zugleich als Dual-Degree-Abschlussmodalität für den Bachelor in Systemtechnik.",
     logo: "/src/assets/images/certs/posgradoumss.webp",
     gpa: "90/100",
     link: {
@@ -33,7 +33,7 @@ export const education: AcademicItem[] = [
     date: "Februar 2019 – Dezember 2023",
     location: "Cochabamba, Bolivien",
     description:
-      "Umfassendes fünfjähriges Ingenieurstudium in den Bereichen Softwareentwicklung, Algorithmen, Datenstrukturen, Datenbanken, Netzwerke, Betriebssysteme und Softwareprojektmanagement. Abschluss mit einer Bachelorarbeit über webbasierte Informationssysteme.",
+      "Umfassendes fünfjähriges Ingenieurstudium in den Bereichen Softwareentwicklung, Algorithmen, Datenstrukturen, Datenbanken, Netzwerke, Betriebssysteme und Softwareprojektmanagement. Studienplan im Dezember 2023 abgeschlossen und Graduierung über das Dual-Degree-Postgraduiertenprogramm im September 2024.",
     logo: "/src/assets/images/certs/umss.webp",
     gpa: "74/100",
   },

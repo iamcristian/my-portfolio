@@ -18,7 +18,7 @@ export const education: AcademicItem[] = [
     date: "Febrero 2024 – Diciembre 2024",
     location: "Cochabamba, Bolivia",
     description:
-      "Programa de posgrado especializado que cubre seguridad de la información, marcos de ciberseguridad, defensa de redes, evaluación de vulnerabilidades, hacking ético y gobernanza de seguridad alineada con estándares internacionales.",
+      "Programa de posgrado especializado que cubre seguridad de la información, marcos de ciberseguridad, defensa de redes, evaluación de vulnerabilidades, hacking ético y gobernanza de seguridad alineada con estándares internacionales. Su proyecto final de evaluación de seguridad sirvió simultáneamente como modalidad de doble titulación para la Licenciatura en Ingeniería de Sistemas.",
     logo: "/src/assets/images/certs/posgradoumss.webp",
     gpa: "90/100",
     link: {
@@ -33,7 +33,7 @@ export const education: AcademicItem[] = [
     date: "Febrero 2019 – Diciembre 2023",
     location: "Cochabamba, Bolivia",
     description:
-      "Programa integral de ingeniería de cinco años que abarca desarrollo de software, algoritmos, estructuras de datos, bases de datos, redes, sistemas operativos y gestión de proyectos de software. Graduado con proyecto de tesis sobre sistemas de información basados en web.",
+      "Programa integral de ingeniería de cinco años que abarca desarrollo de software, algoritmos, estructuras de datos, bases de datos, redes, sistemas operativos y gestión de proyectos de software. Plan de estudios concluido en diciembre de 2023 y titulación obtenida mediante modalidad de doble titulación por diplomado en septiembre de 2024.",
     logo: "/src/assets/images/certs/umss.webp",
     gpa: "74/100",
   },

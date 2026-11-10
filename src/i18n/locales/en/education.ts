@@ -14,12 +14,12 @@ export const education: AcademicItem[] = [
   },
   {
     id: "umss-dip",
-    title: "Diplomat in Information and Technology Security",
+    title: "Postgraduate Diploma in Information and Technology Security",
     institution: "Escuela Universitaria de Posgrado – UMSS",
     date: "February 2024 – December 2024",
     location: "Cochabamba, Bolivia",
     description:
-      "Specialized postgraduate program covering information security, cybersecurity frameworks, network defense, vulnerability assessment, ethical hacking, and security governance aligned with international standards.",
+      "Specialized postgraduate program covering information security, cybersecurity frameworks, network defense, vulnerability assessment, ethical hacking, and security governance aligned with international standards. Its final security assessment project also served as the dual-degree graduation modality for my B.Sc. in Systems Engineering.",
     logo: "/src/assets/images/certs/posgradoumss.webp",
     gpa: "90/100",
     link: {
@@ -34,7 +34,7 @@ export const education: AcademicItem[] = [
     date: "February 2019 – December 2023",
     location: "Cochabamba, Bolivia",
     description:
-      "Comprehensive five-year engineering program covering software development, algorithms, data structures, databases, networks, operating systems, and software project management. Graduated with a thesis project on web-based information systems.",
+      "Comprehensive five-year engineering program covering software development, algorithms, data structures, databases, networks, operating systems, and software project management. Completed curriculum coursework in December 2023 and graduated via the dual-degree postgraduate security program in September 2024.",
     logo: "/src/assets/images/certs/umss.webp",
     gpa: "74/100",
   },

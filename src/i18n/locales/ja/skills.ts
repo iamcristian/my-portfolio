@@ -6,7 +6,7 @@ export const skills: SkillCategory[] = [
     name: "開発言語",
     icon: "code",
     description:
-      "アプリケーションの基本ロジックを構築するためのプログラミング言語",
+      "ソフトウェアおよびWeb開発のためのプログラミング・スクリプト・マークアップ言語",
     items: [
       "JavaScript",
       "TypeScript",

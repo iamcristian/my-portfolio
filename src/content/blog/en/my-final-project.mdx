@@ -1,7 +1,8 @@
 ---
-title: "My Final Project - Penetration Testing with OWASP - Cristian Arando"
-description: "My final project to obtain my Systems Engineering degree, a penetration testing applying OWASP in a fullstack academic system."
+title: "My Final Project: Penetration Testing with OWASP"
+description: "My final project to obtain my Systems Engineering degree via dual graduation: a penetration testing assessment applying OWASP Top 10:2021 and OWASP API Security Top 10 (2023) to an academic web system."
 date: 2024-09-20
+category: security
 tags: ["cybersecurity", "penetration testing", "owasp"]
 image: "../../../assets/images/blog/my-final-project.webp"
 featured: true
@@ -9,61 +10,62 @@ draft: false
 lang: en
 slug: my-final-project
 author: "Cristian Arando"
-imageAlt: "Secure E-Commerce architecture diagram and interface mockup"
+imageAlt: "Cover slide of the UMSS postgraduate presentation on penetration testing of the SISGAA web system using OWASP Top 10 and OWASP API Security Top 10"
 ---
 
 ## Introduction
 
-As my final project to obtain my Systems Engineering degree, I conducted a comprehensive penetration testing assessment of the SISGAA web system at Universidad Mayor de San Simon. The project applied industry-standard methodologies from OWASP Top 10 and OWASP API Security Top 10 to identify, analyze, and recommend mitigations for security vulnerabilities.
+As the final monograph project for the Postgraduate Diploma in Information and Technology Security—which simultaneously served as the dual-degree graduation modality to obtain my B.Sc. in Systems Engineering—I conducted an authorized penetration testing assessment of the SISGAA web system at Universidad Mayor de San Simón (UMSS) in 2024. The project applied industry-standard methodologies from **OWASP Top 10:2021** and **OWASP API Security Top 10 (2023)** to identify, analyze, and recommend mitigations for security vulnerabilities.
 
-> **Note:** You can view the complete document of this project in the <a href="http://atlas.umss.edu.bo/handle/123456789/47539" target="_blank" rel="noopener noreferrer">UMSS institutional repository</a>.
+> **Note:** You can view the complete academic monograph in the <a href="http://atlas.umss.edu.bo/handle/123456789/47539" target="_blank" rel="noopener noreferrer">UMSS institutional repository</a>. All findings described below reflect a point-in-time academic security evaluation conducted in 2024 in a controlled setting and delivered to the institution with remediation guidelines; they do not describe the current state of any live system.
 
 ## Project Background
 
-The SISGAA (Sistema de Gestión Académica y Administrativa) system is a critical web application used by the Department of Computer Science and Systems. It manages sensitive academic and administrative data, making its security essential for protecting both institutional and personal information.
+The SISGAA (Sistema de Gestión Académica y Administrativa) system is a web application used by the Department of Computer Science and Systems. Because it handles academic and administrative workflows, evaluating its security posture under established international standards was essential for strengthening institutional software quality.
 
 ## Methodology
 
 My approach followed a structured penetration testing methodology:
 
-1. **Planning and Scope Definition**: Established clear boundaries and objectives for the security assessment
+1. **Planning and Scope Definition**: Established clear boundaries and objectives for the authorized security assessment
 2. **Information Gathering**: Collected data about the system architecture and technology stack
-3. **Vulnerability Analysis**: Identified potential security weaknesses
+3. **Vulnerability Analysis**: Identified potential security weaknesses against OWASP benchmarks
 4. **Exploitation**: Verified vulnerabilities through controlled testing
-5. **Documentation**: Detailed findings and recommendations
+5. **Documentation**: Detailed findings and remediation recommendations for the development team
 
 ## Technical Approach
 
-The penetration testing process incorporated two complementary frameworks:
+The penetration testing process incorporated the two latest OWASP standards available at the time of the 2024 assessment:
 
-### Web Application Testing (OWASP Top 10)
+### Web Application Testing (OWASP Top 10:2021)
 
-I conducted thorough tests for common web vulnerabilities, including:
+I conducted tests aligned with the **OWASP Top 10:2021** categories, focusing on:
 
-- Cross-Site Scripting (XSS)
-- Broken Authentication
-- Sensitive Data Exposure
-- Security Misconfigurations
+- **A03:2021 – Injection (including Cross-Site Scripting / XSS)**
+- **A07:2021 – Identification and Authentication Failures**
+- **A02:2021 – Cryptographic Failures** (sensitive data exposure in transit or storage)
+- **A05:2021 – Security Misconfiguration**
+- **A06:2021 – Vulnerable and Outdated Components**
 
-### API Security Testing (OWASP API Security Top 10)
+### API Security Testing (OWASP API Security Top 10 – 2023)
 
-With modern web applications heavily relying on APIs, I implemented a specialized methodology:
+Because modern web applications rely heavily on REST APIs, I paired web testing with the **OWASP API Security Top 10 (2023)** methodology:
 
-1. **Discovery**: Mapping the API structure and endpoints
-2. **Endpoint Analysis**: Examining request/response patterns
-3. **Authentication Testing**: Verifying login mechanisms
-4. **Authorization Exploitation**: Testing access control boundaries
+1. **Discovery**: Mapping the API structure and endpoints (**API9:2023 – Improper Inventory Management**)
+2. **Endpoint Analysis**: Examining request/response patterns and configuration (**API8:2023 – Security Misconfiguration**)
+3. **Authentication Testing**: Verifying login and token mechanisms (**API2:2023 – Broken Authentication**)
+4. **Authorization Verification**: Testing object- and function-level access control boundaries (**API1:2023 – Broken Object Level Authorization** and **API5:2023 – Broken Function Level Authorization**)
 
-## Key Findings
+## Key Findings (2024 Point-in-Time Assessment)
 
-My assessment revealed several security vulnerabilities in the SISGAA system:
+During the 2024 evaluation, the assessment identified the following categories of weaknesses for remediation:
 
-1. **Cross Site Scripting (Reflected)**: Allowed potential injection of malicious scripts
-2. **Broken Object Level Authorization**: Permitted unauthorized access to resources
-3. **Broken Function Level Authorization**: Enabled unauthorized functionality access
-4. **API Documentation Leakage**: Exposed sensitive endpoint information via Swagger
-5. **Missing Security Headers**: Lacked critical browser security configurations
-6. **Vulnerable JavaScript Libraries**: Used outdated components with known vulnerabilities
+1. **Reflected Cross-Site Scripting (OWASP A03:2021)**: Insufficient output encoding on specific parameters allowed reflected script execution in controlled test cases
+2. **Broken Object Level Authorization (OWASP API1:2023)**: Missing object-level ownership checks on certain API endpoints
+3. **Broken Function Level Authorization (OWASP API5:2023)**: Insufficient role verification on privileged endpoints
+4. **API Documentation Exposure (OWASP API8:2023 / API9:2023)**: Publicly accessible Swagger specification endpoints
+5. **Missing HTTP Security Headers (OWASP A05:2021)**: Absence of restrictive browser security headers such as `Content-Security-Policy` and `X-Frame-Options`
+6. **Vulnerable and Outdated Client Libraries (OWASP A06:2021)**: Use of frontend JavaScript dependencies with known advisories
 
 ## Technical Implementation
 
@@ -71,29 +73,27 @@ The project utilized specialized security tools:
 
 - **OWASP ZAP**: For automated vulnerability scanning
 - **Burp Suite**: For intercepting and analyzing HTTP requests
-- **Custom Scripts**: For testing API authorization flaws
-- **Browser Developer Tools**: For analyzing web application behavior
+- **Custom Scripts**: For testing API authorization boundaries
+- **Browser Developer Tools**: For analyzing client-side application behavior
 
 ## Impact and Mitigation
 
-For each vulnerability, I provided detailed mitigation strategies:
+For each finding documented in the 2024 report, I provided concrete remediation strategies:
 
-- **Input Validation and Output Encoding**: To prevent XSS attacks
-- **Proper Authorization Checks**: To enforce access control
-- **API Security Controls**: To protect sensitive endpoints
-- **Security Header Implementation**: To enhance browser security
-- **Component Updates**: To eliminate known vulnerabilities
+- **Input Validation and Context-Aware Output Encoding**: To prevent XSS and injection vectors
+- **Granular Authorization Checks**: To enforce object- and function-level access control on every API route
+- **API Surface Hardening**: To restrict specification endpoints to non-production environments
+- **Security Header Implementation**: To enforce defense-in-depth browser policies
+- **Dependency Lifecycle Management**: To audit and update third-party libraries continuously
 
 ## Conclusion
 
-This project demonstrated how systematic penetration testing can identify critical security vulnerabilities in web applications before they can be exploited by malicious actors. The findings highlighted the importance of incorporating security throughout the development lifecycle, particularly for systems handling sensitive information.
-
-The recommendations provided will help strengthen the SISGAA system's security posture, protecting both the institution and its users from potential cyber threats.
+This project demonstrated how systematic penetration testing grounded in **OWASP Top 10:2021** and **OWASP API Security Top 10 (2023)** can surface architectural and configuration weaknesses early so engineering teams can remediate them. Above all, the work underscored the importance of integrating security controls throughout the software development lifecycle.
 
 ## Technical Skills Demonstrated
 
-- Web application security assessment
-- API security testing
-- Vulnerability exploitation techniques
-- Security documentation and reporting
-- Practical application of OWASP methodologies
+- Web application security assessment (OWASP Top 10:2021)
+- API security testing (OWASP API Security Top 10 – 2023)
+- Controlled vulnerability verification techniques
+- Security documentation and remediation reporting
+- Practical application of defensive and offensive OWASP methodologies

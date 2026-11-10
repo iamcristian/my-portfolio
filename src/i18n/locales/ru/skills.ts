@@ -5,7 +5,8 @@ export const skills: SkillCategory[] = [
     id: "languages",
     name: "Языки",
     icon: "code",
-    description: "Языки программирования для построения логики приложений",
+    description:
+      "Языки программирования, скриптинга и разметки для разработки ПО и веб-систем",
     items: [
       "JavaScript",
       "TypeScript",
