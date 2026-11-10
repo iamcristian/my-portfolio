@@ -10,7 +10,7 @@
 [![daisyUI](https://img.shields.io/badge/daisyUI-5.7-5A0EF8?style=for-the-badge&logo=daisyui&logoColor=white)](https://daisyui.com)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![CI](https://img.shields.io/github/actions/workflow/status/iamcristian/my-portfolio/ci.yml?branch=main&style=for-the-badge&label=CI&logo=githubactions&logoColor=white)](https://github.com/iamcristian/my-portfolio/actions)
-[![License](https://img.shields.io/badge/License-MIT-22c55e?style=for-the-badge)](/LICENSE)
+[![License](https://img.shields.io/badge/License-MIT-22c55e?style=for-the-badge)](./LICENSE)
 
 <br>
 
@@ -57,7 +57,7 @@
 - Adjustable article typography, reading width, and focus mode with local preferences
 - Saved articles, section-aware reading restoration, and completion tracking
 - Site-wide full-text search with localized results and skill evidence links
-- Four project case studies, ordered reading paths, and a searchable bookshelf derived from existing articles
+- Seven project case studies, ordered reading paths, and a searchable bookshelf derived from existing articles
 - An interactive request journey inside the framework comparison article
 - Passage links and visible article revision notes
 
@@ -175,20 +175,20 @@ See [the modernization and maintenance guide](docs/modernization.md) for content
 
 ### Available Commands
 
-| Command                | Action                                                                       |
-| ---------------------- | ---------------------------------------------------------------------------- |
-| `pnpm dev`             | Start local dev server at `localhost:4321`                                   |
-| `pnpm build`           | Build production site to `./dist/`                                           |
-| `pnpm test`            | Run content and list interaction regression tests                            |
-| `pnpm check:build`     | Validate generated HTML/XML after a build                                    |
-| `pnpm preview:secure`  | Preview at localhost:4354 with production security headers                   |
-| `pnpm preview`         | Preview the production build locally                                         |
-| `pnpm check`           | Run Astro type-check and diagnostics                                         |
-| `pnpm check:i18n`      | Validate all locale files are in sync with the English source of truth       |
-| `pnpm generate-assets` | Generate PWA icons (192×192, 512×512) and copy screenshot from `favicon.svg` |
-| `pnpm lint`            | Check formatting with Prettier                                               |
-| `pnpm lint:fix`        | Auto-fix formatting with Prettier                                            |
-| `pnpm astro ...`       | Run Astro CLI commands (`add`, `check`, etc.)                                |
+| Command                | Action                                                                  |
+| ---------------------- | ----------------------------------------------------------------------- |
+| `pnpm dev`             | Start local dev server at `localhost:4321`                              |
+| `pnpm build`           | Build production site to `./dist/`                                      |
+| `pnpm test`            | Run content and list interaction regression tests                       |
+| `pnpm check:build`     | Validate generated HTML/XML after a build                               |
+| `pnpm preview:secure`  | Preview at localhost:4354 with production security headers              |
+| `pnpm preview`         | Preview the production build locally                                    |
+| `pnpm check`           | Run Astro type-check and diagnostics                                    |
+| `pnpm check:i18n`      | Validate all locale files are in sync with the English source of truth  |
+| `pnpm generate-assets` | Generate the 1903×955 WebP manifest preview screenshot from site config |
+| `pnpm lint`            | Check formatting with Prettier                                          |
+| `pnpm lint:fix`        | Auto-fix formatting with Prettier                                       |
+| `pnpm astro ...`       | Run Astro CLI commands (`add`, `check`, etc.)                           |
 
 ---
 
@@ -199,28 +199,35 @@ my-portfolio/
 ├── .github/
 │   └── workflows/
 │       └── ci.yml             # GitHub Actions CI pipeline
+├── docs/
+│   ├── features-testing.md    # Feature walkthrough and testing guide
+│   ├── modernization.md       # Architecture, security decisions, and maintenance guide
+│   └── remediation-report.md  # Technical audit and remediation verification report
 ├── public/
 │   ├── cv/                    # Localized PDF resumes
 │   ├── favicon.ico
 │   ├── favicon.svg
-│   ├── icon-192.png           # PWA icon (generated)
-│   ├── icon-512.png           # PWA icon (generated)
-│   ├── screenshot.webp        # PWA screenshot (generated)
+│   ├── icon-192.png           # PWA icon (192×192)
+│   ├── icon-512.png           # PWA icon (512×512)
+│   ├── screenshot.webp        # PWA manifest screenshot (1903×955)
 │   ├── robots.txt
 │   └── site.webmanifest
 ├── scripts/
+│   ├── check-build.mjs        # Post-build HTML/XML, CSP, JSON-LD, OG image, and link verifier
 │   ├── check-i18n.ts          # Validates locale key alignment across all 5 languages
-│   └── generate-assets.ts     # Generates PWA icons and screenshots from favicon.svg
+│   ├── generate-assets.ts     # Generates public/screenshot.webp from site metadata
+│   └── preview-secure.mjs     # Local preview server with vercel.json security headers
 ├── src/
 │   ├── assets/
 │   │   ├── app.css            # Global styles, Tailwind config, daisyUI themes
 │   │   ├── icons/             # SVG icon library
 │   │   └── images/            # Optimized images (blog, projects, certs, etc.)
 │   ├── components/
-│   │   ├── blog/              # BlogManager, BlogPostDetail, Giscus
-│   │   ├── projects/          # ProjectsManager
+│   │   ├── blog/              # BlogManager, BlogPostDetail, ReaderTools, RequestLab, Giscus
+│   │   ├── projects/          # ProjectsManager, ProjectDetail
 │   │   ├── sections/          # Hero, About, Education, Experience, Projects, Skills, Blog
-│   │   ├── ui/                # Reusable UI: cards/, Divider, SectionHeading, etc.
+│   │   ├── ui/                # Reusable UI: cards/, Divider, SectionHeading, LagrangeSimulation
+│   │   ├── FeatureShell.astro # Discovery layout shell (search, library, series, bookshelf)
 │   │   ├── Header.astro
 │   │   ├── Footer.astro
 │   │   ├── SEO.astro
@@ -228,42 +235,55 @@ my-portfolio/
 │   │   ├── ThemeController.astro
 │   │   └── LanguageController.astro
 │   ├── config/
-│   │   ├── site.ts            # Site-wide constants (name, email, socials, CV paths)
-│   │   └── paths.ts           # Shared i18n static paths utility
+│   │   ├── site.ts            # Site-wide constants (name, role, email, socials, CV paths)
+│   │   └── paths.ts           # Shared i18n static paths and reserved route segments
 │   ├── content/
 │   │   └── blog/              # MDX blog posts organized by locale (en/, es/, de/, ru/, ja/)
+│   ├── data/
+│   │   ├── projects.ts        # Canonical project catalog and metadata
+│   │   ├── case-studies.ts    # Localized architectural case studies for all 7 projects
+│   │   └── series.ts          # Curated reading paths across blog articles
 │   ├── i18n/
-│   │   ├── locales/           # Translation files per language
-│   │   │   ├── en/            # header, home, footer, projects, skills, education, uses, etc.
-│   │   │   ├── es/
-│   │   │   ├── de/
-│   │   │   ├── ru/
-│   │   │   └── ja/
+│   │   ├── locales/           # Translation files per language (en, es, de, ru, ja)
+│   │   ├── features.ts        # Reader and discovery UI translations
+│   │   ├── fluenttube.ts      # Localized FluentTube deep-dive content
 │   │   ├── ui.ts              # Translation registry (merges all locale modules)
-│   │   └── utils.ts           # Type-safe t() helper, localized data accessors
+│   │   └── utils.ts           # Type-safe t() helper and localized data accessors
 │   ├── layouts/
+│   │   ├── BlogLayout.astro   # Article layout wrapper
 │   │   └── Layout.astro       # Base HTML layout with SEO, themes, analytics
-│   ├── middleware.ts           # Sets Astro.locals.lang once per request (DRY lang resolution)
+│   ├── middleware.ts          # Sets Astro.locals.lang once per request
 │   ├── pages/
-│   │   ├── [lang]/            # Locale-prefixed routes
-│   │   │   ├── index.astro    # Home page (all sections)
-│   │   │   ├── uses.astro     # /uses page (hardware, software, office)
-│   │   │   ├── blog/          # Blog index + [slug] detail
-│   │   │   ├── projects/      # Projects gallery
-│   │   │   ├── rss.xml.ts     # Per-language RSS feed
-│   │   │   └── news-sitemap.xml.ts
+│   │   ├── [lang]/            # Locale-prefixed routes (index, blog, projects, uses, search, etc.)
+│   │   ├── og/[...route].png.ts # Build-time 1200×630 Open Graph PNG generator
 │   │   ├── 404.astro          # Custom localized 404 page
 │   │   ├── index.astro        # Root redirect → /en/
-│   │   └── rss.xml.ts         # Root RSS XML feed (English)
+│   │   ├── rss.xml.ts         # Root RSS XML feed (English)
+│   │   └── search-index.json.ts # Build-time site-wide search index endpoint
 │   ├── scripts/
-│   │   └── list-manager.ts    # Shared client-side filter/sort/paginate/view-toggle engine
+│   │   ├── list-manager.ts    # Shared client-side filter/sort/paginate/view-toggle engine
+│   │   ├── page-lifecycle.ts  # Astro View Transitions lifecycle and cleanup helper
+│   │   ├── reader.ts          # Reader tools, local storage, and reading progress
+│   │   ├── site.ts            # Global keyboard shortcuts and interactive behaviors
+│   │   ├── theme.js           # Flash-free blocking theme initializer
+│   │   └── toc.ts             # Scroll-aware table of contents highlighter
 │   ├── types/
 │   │   └── index.ts           # Shared TypeScript interfaces
 │   ├── utils/
-│   │   └── blog.ts            # Reading time calculator
+│   │   ├── blog.ts            # Locale-aware word count and reading time calculator
+│   │   ├── books.ts           # Bookshelf markdown parser
+│   │   ├── discovery.ts       # Full-text search index builder
+│   │   ├── feed.ts            # Sanitized RSS XML builder
+│   │   ├── list.ts            # Pure search scoring, date filtering, and class toggling helpers
+│   │   ├── og-template.ts     # Satori Open Graph card templates
+│   │   ├── reader.ts          # Reader preference validation and sanitization
+│   │   ├── seo.ts             # Canonical, hreflang, title, and section resolution
+│   │   ├── serialize.ts       # Safe JSON-LD script serializer
+│   │   └── sort.ts            # Featured-first sorting helper
 │   └── content.config.ts      # Content collection schema (Zod validation)
+├── tests/                     # Node test runner regression suites
 ├── astro.config.mjs           # Astro config (sitemap, MDX, i18n, Tailwind)
-├── vercel.json                # Security headers + asset caching rules
+├── vercel.json                # Security headers, rewrites, and asset caching rules
 ├── tsconfig.json
 └── package.json
 ```
@@ -282,7 +302,7 @@ graph LR
     B --> C["🌍 i18n Check"]
     C --> D["✅ Type Check"]
     D --> E["🏗️ Build"]
-    E --> F["Regression tests, generated output, security audit"]
+    E --> F["🧪 Tests & Output Audit"]
 
     style A fill:#1a1a2e,stroke:#e94560,color:#fff
     style B fill:#16213e,stroke:#0f3460,color:#fff
@@ -292,21 +312,25 @@ graph LR
     style F fill:#0f3460,stroke:#53a653,color:#fff
 ```
 
-| Step                    | Command           | Purpose                                                |
-| ----------------------- | ----------------- | ------------------------------------------------------ |
-| **Lint & Format Check** | `pnpm lint`       | Ensures consistent code style via Prettier             |
-| **i18n Key Alignment**  | `pnpm check:i18n` | Validates all 4 non-English locales match English keys |
-| **Type & Astro Check**  | `pnpm check`      | TypeScript and Astro diagnostics                       |
-| **Production Build**    | `pnpm build`      | Full build to catch any runtime/build errors           |
+| Step                    | Command                         | Purpose                                                         |
+| ----------------------- | ------------------------------- | --------------------------------------------------------------- |
+| **Lint & Format Check** | `pnpm lint`                     | Ensures consistent code style via Prettier                      |
+| **i18n Key Alignment**  | `pnpm check:i18n`               | Validates all 4 non-English locales match English keys          |
+| **Type & Astro Check**  | `pnpm check`                    | TypeScript and Astro diagnostics                                |
+| **Production Build**    | `pnpm build`                    | Full static build to catch any runtime/build errors             |
+| **Regression Tests**    | `pnpm test`                     | Runs unit and DOM integration tests (`node --test`)             |
+| **Build Output Audit**  | `pnpm check:build`              | Verifies HTML, XML, CSP compliance, JSON-LD, OG images, & links |
+| **Dependency Audit**    | `pnpm audit --audit-level=high` | Checks dependency tree for high/critical CVEs                   |
 
 The pipeline runs on **Node.js 24** with **pnpm 10.34.7** and uses `--frozen-lockfile` to guarantee reproducible installs.
 
 > [!TIP]
-> **Antes de hacer push o crear un PR**, es buena práctica ejecutar estas validaciones de forma local para asegurarse de que el build de GitHub Actions pasará con éxito:
+> **Before pushing or opening a PR**, run the verification suite locally to ensure the GitHub Actions workflow passes cleanly:
 >
-> 1. **Formatear y corregir estilo:** `pnpm lint:fix` (o `pnpm run lint:fix`)
-> 2. **Verificar alineación de idiomas (i18n):** `pnpm check:i18n` (o `pnpm run check:i18n`)
-> 3. **Verificar tipos de TypeScript y Astro:** `pnpm check` (o `pnpm run check`)
+> 1. **Format and check code style:** `pnpm lint:fix`
+> 2. **Verify locale alignment (i18n):** `pnpm check:i18n`
+> 3. **Run Astro & TypeScript diagnostics:** `pnpm check`
+> 4. **Build and verify output:** `pnpm build && pnpm test && pnpm check:build`
 
 ---
 

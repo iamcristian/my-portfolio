@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
 import {
   matchesDateRange,
   parseFilterValues,
@@ -263,4 +263,37 @@ test("getReadTime calibrates reading speed for Japanese vs alphabetic scripts", 
   const enText = "word ".repeat(300);
   assert.equal(getReadTime(jaText, "ja"), 1);
   assert.equal(getReadTime(enText, "en"), 2);
+});
+
+test("README.md and CONTRIBUTING.md local links and documented pnpm scripts exist", () => {
+  const pkg = JSON.parse(readFileSync("package.json", "utf8"));
+  const scripts = new Set(Object.keys(pkg.scripts || {}));
+  for (const docFile of ["README.md", "CONTRIBUTING.md"]) {
+    const content = readFileSync(docFile, "utf8");
+    const linkRegex = /\[[^\]]+\]\(([^)]+)\)/g;
+    for (const match of content.matchAll(linkRegex)) {
+      const target = match[1].split("#")[0].trim();
+      if (
+        !target ||
+        target.startsWith("http://") ||
+        target.startsWith("https://") ||
+        target.startsWith("mailto:")
+      ) {
+        continue;
+      }
+      assert.ok(
+        existsSync(target),
+        `${docFile}: linked path "${target}" must exist on disk`,
+      );
+    }
+    const cmdRegex = /`pnpm ([a-z0-9:-]+)`/g;
+    for (const match of content.matchAll(cmdRegex)) {
+      const cmd = match[1];
+      if (["install", "astro", "run", "audit"].includes(cmd)) continue;
+      assert.ok(
+        scripts.has(cmd),
+        `${docFile}: documented command "pnpm ${cmd}" must exist in package.json scripts`,
+      );
+    }
+  }
 });

@@ -79,12 +79,17 @@ The site runs at `http://localhost:4321`.
 
 ### Useful Commands
 
-| Command            | Description                              |
-| ------------------ | ---------------------------------------- |
-| `pnpm dev`         | Start development server with hot reload |
-| `pnpm build`       | Build production bundle to `./dist/`     |
-| `pnpm preview`     | Preview the production build locally     |
-| `pnpm astro check` | Run TypeScript and Astro diagnostics     |
+| Command            | Description                                                   |
+| ------------------ | ------------------------------------------------------------- |
+| `pnpm dev`         | Start development server with hot reload                      |
+| `pnpm build`       | Build production bundle to `./dist/`                          |
+| `pnpm preview`     | Preview the production build locally                          |
+| `pnpm check`       | Run TypeScript and Astro diagnostics                          |
+| `pnpm check:i18n`  | Verify all 5 locale directories match the English source keys |
+| `pnpm test`        | Run unit and DOM regression tests                             |
+| `pnpm check:build` | Verify built HTML/XML, CSP, JSON-LD, OG images, and links     |
+| `pnpm lint`        | Check code formatting with Prettier                           |
+| `pnpm lint:fix`    | Auto-format files with Prettier                               |
 
 ---
 
@@ -207,15 +212,18 @@ The site supports 5 languages. Translations are organized per-locale in `src/i18
 ```
 src/i18n/locales/
 ├── en/
-│   ├── header.ts        # Navigation labels, theme/language titles
-│   ├── home.ts          # Hero, About, site meta, SEO strings
-│   ├── footer.ts        # Footer labels
-│   ├── projects.ts      # Projects data + UI labels
-│   ├── skills.ts        # Skills categories and items
-│   ├── education.ts     # Academic degrees
+│   ├── header.ts         # Navigation labels, theme/language titles
+│   ├── home.ts           # Hero, About, site meta, SEO strings
+│   ├── footer.ts         # Footer labels
+│   ├── features.ts       # Reader tools, search, library, series, bookshelf copy
+│   ├── fluenttube.ts     # FluentTube project deep-dive translations
+│   ├── projects.ts       # Localized project titles and descriptions
+│   ├── skills.ts         # Skills categories and items
+│   ├── education.ts      # Academic degrees
 │   ├── certifications.ts # Professional certifications
-│   ├── languages.ts     # Spoken languages
-│   └── experience.ts    # Work experience
+│   ├── languages.ts      # Spoken languages
+│   ├── experience.ts     # Work experience
+│   └── uses.ts           # Hardware, software, and environment setup
 ├── es/
 ├── de/
 ├── ru/
