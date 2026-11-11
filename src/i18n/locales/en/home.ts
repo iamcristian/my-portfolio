@@ -58,6 +58,10 @@ export const home = {
 
   "skills.title": "Skills",
   "skills.subtitle": "// Skills",
+  "skills.viewGrid": "Category Grid",
+  "skills.viewTopology": "Systems Topology",
+  "skills.topologyHint":
+    "Interactive architecture graph. Hover nodes to view interconnections & system dependencies.",
 
   "projects.title": "Projects",
   "projects.subtitle": "// Projects",

@@ -26,10 +26,11 @@ const NAV_LINKS = [
 
 <header
   id="main-header"
-  class="sticky top-0 z-50 backdrop-blur-md bg-base-100/20 border-b border-base-content/5 w-full transition-all duration-300 py-2"
+  class="sticky top-0 z-50 w-full transition-all duration-300 py-2.5 px-3 sm:px-6 flex justify-center pointer-events-none"
 >
   <nav
-    class="navbar max-w-6xl mx-auto px-4 md:px-8 transition-all duration-300"
+    id="main-navbar"
+    class="navbar max-w-6xl w-full mx-auto px-4 md:px-8 transition-all duration-300 backdrop-blur-md bg-base-100/30 border-b border-base-content/5 relative pointer-events-auto"
     aria-label={t("nav.mainLabel")}
   >
     <!-- Navbar Start: Burger menu (mobile) + Name -->
@@ -41,7 +42,7 @@ const NAV_LINKS = [
         >
           <MenuIcon />
         </summary>
-        <ul class="dropdown-content menu menu-sm bg-base-200 text-base-content rounded-box w-32 p-2 shadow-2xl border border-base-content/10 z-50">
+        <ul class="dropdown-content menu menu-sm bg-base-200 text-base-content rounded-box w-36 p-2 shadow-2xl border border-base-content/10 z-50">
           <li class="menu-title text-xs">{t("nav.title")}</li>
           {NAV_LINKS.map(({ href, label }) => (
             <li>
@@ -50,8 +51,12 @@ const NAV_LINKS = [
           ))}
         </ul>
       </details>
-      <a href={homeUrl} class="lg:text-xl font-bold ml-2 lg:ml-0">
-        {t("home.name")}
+      <a
+        href={homeUrl}
+        class="lg:text-xl font-bold ml-2 lg:ml-0 group flex items-center gap-2"
+      >
+        <span class="w-2 h-2 rounded-full bg-primary/70 group-hover:scale-125 transition-transform"></span>
+        <span>{t("home.name")}</span>
       </a>
     </div>
 
@@ -60,7 +65,10 @@ const NAV_LINKS = [
       <ul class="menu menu-horizontal px-1 gap-1">
         {NAV_LINKS.map(({ href, label }) => (
           <li>
-            <a href={href} class="font-medium">
+            <a
+              href={href}
+              class="font-medium px-3 py-1.5 rounded-full hover:bg-base-content/10 hover:text-primary transition-all duration-200"
+            >
               {label}
             </a>
           </li>
@@ -72,7 +80,7 @@ const NAV_LINKS = [
     <div class="navbar-end items-center gap-1">
       <a
         href={getRelativeLocaleUrl(lang, "search")}
-        class="btn btn-ghost btn-sm h-10 gap-1.5"
+        class="btn btn-ghost btn-sm h-10 gap-1.5 rounded-full"
         aria-label={c.search}
         aria-keyshortcuts="Control+k Meta+k"
       >
@@ -82,40 +90,17 @@ const NAV_LINKS = [
       <LanguageController />
       <ThemeController />
     </div>
+
+    <!-- Dynamic Reading Progress Bar at the bottom of the pill -->
+    <div
+      id="header-progress"
+      class="absolute bottom-0 inset-x-8 h-[2px] bg-base-content/10 rounded-full overflow-hidden opacity-0 pointer-events-none transition-opacity duration-300"
+      aria-hidden="true"
+    >
+      <div
+        id="header-progress-bar"
+        class="h-full bg-gradient-to-r from-primary via-accent to-secondary w-0 transition-[width] duration-75"
+      ></div>
+    </div>
   </nav>
 </header>
-
-<script>
-  let headerCleanup: (() => void) | null = null;
-
-  function initHeaderScroll() {
-    headerCleanup?.();
-    const header = document.getElementById("main-header");
-    if (!header) return;
-
-    const handleScroll = () => {
-      if (window.scrollY > 20) {
-        header.classList.add("py-0.5", "shadow-sm");
-        header.classList.remove("py-2");
-      } else {
-        header.classList.remove("py-0.5", "shadow-sm");
-        header.classList.add("py-2");
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-
-    headerCleanup = () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }
-
-  initHeaderScroll();
-
-  document.addEventListener("astro:page-load", initHeaderScroll);
-  document.addEventListener("astro:before-swap", () => {
-    headerCleanup?.();
-    headerCleanup = null;
-  });
-</script>

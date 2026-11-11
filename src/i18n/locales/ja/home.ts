@@ -52,6 +52,10 @@ export const home = {
   "experience.technologies": "技術スタック",
   "skills.title": "スキル",
   "skills.subtitle": "// スキル",
+  "skills.viewGrid": "カテゴリーグリッド",
+  "skills.viewTopology": "システムトポロジー",
+  "skills.topologyHint":
+    "インタラクティブなアーキテクチャグラフ。ノードにカーソルを合わせると相互接続と依存関係が表示されます。",
   "projects.title": "プロジェクト",
   "projects.subtitle": "// プロジェクト",
   "projects.viewAll": "すべてのプロジェクトを表示",

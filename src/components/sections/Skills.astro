@@ -2,6 +2,7 @@
 import { useTranslations, getSkillsForLang } from "../../i18n/utils";
 import SectionHeading from "../ui/SectionHeading.astro";
 import SkillIcon from "../ui/SkillIcon.astro";
+import SkillsTopology from "../ui/SkillsTopology.astro";
 
 const { lang } = Astro.locals;
 const t = useTranslations(lang);
@@ -10,17 +11,76 @@ const skillsCategories = getSkillsForLang(lang);
 
 <section
   id="skills"
-  class="py-16 md:py-24 max-w-6xl mx-auto px-4 md:px-8 scroll-reveal"
+  class="py-16 md:py-24 max-w-6xl mx-auto px-4 md:px-8 scroll-reveal relative"
 >
+  <!-- Technical watermark coordinates -->
+  <div class="absolute top-6 right-8 font-mono text-[10px] tracking-widest text-base-content/20 select-none pointer-events-none hidden md:block">
+    SYS.ARCH.05 // ECOSYSTEM_TOPOLOGY
+  </div>
+
   <SectionHeading subtitle={t("skills.subtitle")} title={t("skills.title")} />
 
-  <!-- Grid de Categorías -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <!-- View Mode Switcher: Category Grid <-> Systems Topology -->
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 pb-4 border-b border-base-content/10">
+    <div class="flex items-center gap-2 font-mono text-xs text-base-content/70">
+      <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+      <span class="uppercase tracking-wider font-semibold">
+        VIEWPORT ARCHITECTURE
+      </span>
+    </div>
+
+    <!-- Segmented Toggle Buttons -->
+    <div
+      class="inline-flex p-1 rounded-full bg-base-200 border border-base-content/10 shadow-inner"
+      role="tablist"
+      aria-label="Skills display mode"
+    >
+      <button
+        id="btn-skills-grid"
+        type="button"
+        role="tab"
+        aria-selected="true"
+        aria-controls="skills-grid-view"
+        class="btn btn-xs sm:btn-sm rounded-full btn-primary px-4 font-mono text-xs transition-all duration-200 shadow-xs"
+      >
+        {t("skills.viewGrid")}
+      </button>
+      <button
+        id="btn-skills-topology"
+        type="button"
+        role="tab"
+        aria-selected="false"
+        aria-controls="skills-topology-view"
+        class="btn btn-xs sm:btn-sm rounded-full btn-ghost px-4 font-mono text-xs transition-all duration-200"
+      >
+        {t("skills.viewTopology")}
+      </button>
+    </div>
+  </div>
+
+  <!-- View 1: Systems Topology Graph View (Interactive Network) -->
+  <div
+    id="skills-topology-view"
+    class="transition-opacity duration-300 hidden"
+    role="tabpanel"
+    aria-labelledby="btn-skills-topology"
+  >
+    <SkillsTopology lang={lang} />
+  </div>
+
+  <!-- View 2: Traditional Enhanced Category Grid View -->
+  <div
+    id="skills-grid-view"
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-opacity duration-300"
+    role="tabpanel"
+    aria-labelledby="btn-skills-grid"
+  >
     {skillsCategories.map((category) => (
       <div
         id={`skills-${category.id}`}
         tabindex={-1}
-        class="skill-card scroll-mt-24 group relative card bg-base-200 border border-base-300 p-6 rounded-2xl transition-all duration-300 hover:border-primary/25 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1"
+        data-spotlight="true"
+        class="skill-card scroll-mt-24 group relative card bg-base-200 border border-base-300 p-6 rounded-2xl transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-0.5"
       >
         {/* Card Header with Icon and Description */}
         <div class="flex items-start gap-4 mb-5">
@@ -62,3 +122,56 @@ const skillsCategories = getSkillsForLang(lang);
     outline-offset: 4px;
   }
 </style>
+
+<script>
+  function initSkillsViewToggle() {
+    const btnGrid = document.getElementById("btn-skills-grid");
+    const btnTopology = document.getElementById("btn-skills-topology");
+    const gridView = document.getElementById("skills-grid-view");
+    const topologyView = document.getElementById("skills-topology-view");
+
+    if (!btnGrid || !btnTopology || !gridView || !topologyView) return;
+
+    function setView(view: "grid" | "topology") {
+      const isGrid = view === "grid";
+
+      btnGrid?.classList.toggle("btn-primary", isGrid);
+      btnGrid?.classList.toggle("btn-ghost", !isGrid);
+      btnGrid?.setAttribute("aria-selected", String(isGrid));
+
+      btnTopology?.classList.toggle("btn-primary", !isGrid);
+      btnTopology?.classList.toggle("btn-ghost", isGrid);
+      btnTopology?.setAttribute("aria-selected", String(!isGrid));
+
+      if (isGrid) {
+        topologyView?.classList.add("hidden");
+        gridView?.classList.remove("hidden");
+      } else {
+        gridView?.classList.add("hidden");
+        topologyView?.classList.remove("hidden");
+      }
+
+      try {
+        sessionStorage.setItem("skills-preferred-view", view);
+      } catch {
+        // Continue even if storage unavailable
+      }
+    }
+
+    btnGrid.addEventListener("click", () => setView("grid"));
+    btnTopology.addEventListener("click", () => setView("topology"));
+
+    // Restore user view preference if present
+    try {
+      const saved = sessionStorage.getItem("skills-preferred-view");
+      if (saved === "topology") {
+        setView("topology");
+      }
+    } catch {
+      // Use default
+    }
+  }
+
+  initSkillsViewToggle();
+  document.addEventListener("astro:page-load", initSkillsViewToggle);
+</script>

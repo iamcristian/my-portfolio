@@ -34,24 +34,33 @@ const { lang } = Astro.locals;
 const t = useTranslations(lang);
 ---
 
-<li id={id} tabindex={id ? -1 : undefined} class="scroll-mt-24">
-  {index !== 0 && <hr class="bg-base-300" />}
-  <div class="timeline-middle">
-    <div class="bg-primary text-primary-content rounded-full p-1.5 w-6 h-6 flex items-center justify-center font-bold text-xs">
-      {num}
+<li id={id} tabindex={id ? -1 : undefined} class="scroll-mt-24 group">
+  {index !== 0 && (
+    <hr class="bg-gradient-to-b from-primary/20 via-primary/50 to-primary/30 border-none w-0.5" />
+  )}
+  <div class="timeline-middle px-1">
+    <div class="relative flex items-center justify-center w-8 h-8 rounded-full bg-base-200 border border-primary/40 shadow-[0_0_15px_color-mix(in_oklch,var(--color-primary)_20%,transparent)] group-hover:border-primary transition-colors">
+      <span class="absolute inset-0 rounded-full bg-primary/15 animate-ping"></span>
+      <span class="font-mono font-bold text-xs text-primary z-10">{num}</span>
     </div>
   </div>
   <div
+    data-spotlight="true"
     class:list={[
       isEven ? "timeline-start mb-10" : "timeline-end mb-10",
-      "card bg-base-200 border border-base-300 p-6 w-full ml-2 md:ml-0 text-left hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-[0_0_15px_color-mix(in_oklch,var(--color-primary)_10%,transparent)] transition-all duration-300",
+      "card bg-base-200 border border-base-300 p-6 w-full ml-2 md:ml-0 text-left hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[0_15px_30px_-10px_color-mix(in_oklch,var(--color-primary)_12%,transparent)] transition-all duration-300 relative",
     ]}
   >
     <!-- Header: Position, Company, Date -->
     <div class="flex flex-col gap-1 mb-4">
-      <h3 class="text-base md:text-lg font-bold text-primary leading-tight">
-        {title}
-      </h3>
+      <div class="flex items-center justify-between gap-2">
+        <h3 class="text-base md:text-lg font-bold text-primary leading-tight">
+          {title}
+        </h3>
+        <span class="font-mono text-[10px] tracking-wider uppercase px-2 py-0.5 rounded-full bg-base-300/80 border border-base-content/10 text-base-content/70">
+          NODE.0{num}
+        </span>
+      </div>
       <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
         {companyUrl ? (
           <a
@@ -100,7 +109,9 @@ const t = useTranslations(lang);
       </div>
     </div>
   </div>
-  {index !== totalItems - 1 && <hr class="bg-base-300" />}
+  {index !== totalItems - 1 && (
+    <hr class="bg-gradient-to-b from-primary/30 via-primary/50 to-primary/20 border-none w-0.5" />
+  )}
 </li>
 
 <style>

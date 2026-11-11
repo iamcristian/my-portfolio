@@ -1,5 +1,24 @@
 ---
-// Gradient divider line used between sections on the home page.
+// Living telemetry divider with subtle energy beam & technical coordinate node
+interface Props {
+  node?: string;
+}
+
+const { node = "SYS.NODE" } = Astro.props;
 ---
 
-<hr class="w-full h-px border-none bg-linear-to-r from-transparent via-base-300 to-transparent m-0" />
+<div
+  class="relative w-full py-6 md:py-10 flex items-center justify-center overflow-hidden pointer-events-none select-none"
+  aria-hidden="true"
+>
+  <!-- Living data beam line -->
+  <div class="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-base-content/10 to-transparent">
+    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-primary/50 to-transparent w-48 sm:w-64 animate-divider-beam"></div>
+  </div>
+
+  <!-- Telemetry crosshair node -->
+  <div class="relative z-10 px-3.5 py-0.5 rounded-full bg-base-100 border border-base-content/10 flex items-center gap-2 font-mono text-[10px] tracking-widest uppercase opacity-60 backdrop-blur-xs">
+    <span class="w-1.5 h-1.5 rounded-full bg-primary/70 animate-pulse"></span>
+    <span class="text-base-content/70">{node}</span>
+  </div>
+</div>

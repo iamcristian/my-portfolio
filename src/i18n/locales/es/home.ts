@@ -52,6 +52,10 @@ export const home = {
   "experience.technologies": "Tecnologías",
   "skills.title": "Habilidades",
   "skills.subtitle": "// Habilidades",
+  "skills.viewGrid": "Grid de Categorías",
+  "skills.viewTopology": "Topología de Sistemas",
+  "skills.topologyHint":
+    "Grafo interactivo de arquitectura. Pasa el cursor por los nodos para ver interconexiones y dependencias.",
   "projects.title": "Proyectos",
   "projects.subtitle": "// Proyectos",
   "projects.viewAll": "Ver Todos los Proyectos",

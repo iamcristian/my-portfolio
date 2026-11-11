@@ -1,6 +1,10 @@
 import { onPageLoad } from "./page-lifecycle";
+import { initSmoothScroll } from "./smooth-scroll";
+import { initInteractions } from "./interactions";
 
 onPageLoad((signal) => {
+  const smoothCleanup = initSmoothScroll(signal);
+  const interactionsCleanup = initInteractions(signal);
   const timers = new Set<ReturnType<typeof setTimeout>>();
   const label = (key: string, fallback: string) =>
     document.body.dataset[key] || fallback;
@@ -172,6 +176,8 @@ onPageLoad((signal) => {
   }
   document.documentElement.classList.remove("preload");
   return () => {
+    smoothCleanup();
+    interactionsCleanup();
     timers.forEach(clearTimeout);
     counterFrames.forEach(cancelAnimationFrame);
     observer?.disconnect();

@@ -197,6 +197,7 @@ const distantStars = Array.from({ length: 180 }, () => {
       <!-- CTA Buttons -->
       <div class="flex flex-wrap gap-4 justify-center lg:justify-start mt-4">
         <a
+          data-magnetic="true"
           href={cvPath}
           class="btn btn-primary gap-2 transition-all duration-300 hover:-translate-y-0.5 motion-reduce:hover:translate-y-0 hover:shadow-[0_0_20px_color-mix(in_oklch,var(--color-primary)_30%,transparent)]"
           target="_blank"
@@ -206,6 +207,7 @@ const distantStars = Array.from({ length: 180 }, () => {
           <span>{t("home.downloadCv")}</span>
         </a>
         <a
+          data-magnetic="true"
           href={`mailto:${SITE.email}`}
           class="btn btn-outline gap-2 transition-all duration-300 hover:-translate-y-0.5 motion-reduce:hover:translate-y-0 hover:bg-base-content/10 hover:border-primary/40"
         >

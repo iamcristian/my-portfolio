@@ -13,8 +13,13 @@ const featuredProjects = PROJECTS.filter((p) => p.featured).slice(0, 3);
 
 <section
   id="projects"
-  class="py-16 md:py-24 max-w-6xl mx-auto px-4 md:px-8 scroll-reveal"
+  class="py-16 md:py-24 max-w-6xl mx-auto px-4 md:px-8 scroll-reveal relative"
 >
+  <!-- Technical watermark coordinates -->
+  <div class="absolute top-6 right-8 font-mono text-[10px] tracking-widest text-base-content/20 select-none pointer-events-none hidden md:block">
+    SYS.PROJ.04 // FEATURED_INDEX
+  </div>
+
   <SectionHeading
     subtitle={t("projects.subtitle")}
     title={t("projects.title")}

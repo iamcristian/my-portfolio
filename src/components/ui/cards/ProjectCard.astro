@@ -37,12 +37,20 @@ const localImage = imageImport ? imageImport() : fallbackImage;
 ---
 
 <article
+  data-spotlight="true"
+  data-tilt="true"
   class:list={[
-    "project-card card card-compact bg-base-200 border border-base-300 overflow-hidden hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_0_15px_color-mix(in_oklch,var(--color-primary)_15%,transparent)] transition-all duration-300 flex flex-col h-full group/card",
+    "project-card card card-compact bg-base-200 border border-base-300 overflow-hidden hover:border-primary/40 hover:shadow-[0_15px_30px_-10px_color-mix(in_oklch,var(--color-primary)_12%,transparent)] transition-all duration-300 flex flex-col h-full group/card relative",
     className,
   ]}
   {...rest}
 >
+  <!-- Dynamic cursor spotlight highlight -->
+  <div
+    class="pointer-events-none absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 rounded-[inherit] z-10"
+    style="background: radial-gradient(350px circle at var(--mouse-x, -999px) var(--mouse-y, -999px), color-mix(in oklch, var(--color-primary) 6%, transparent), transparent 70%);"
+    aria-hidden="true"
+  ></div>
   <figure class="project-figure relative h-48 bg-base-300 shrink-0 transition-all overflow-hidden">
     {isExternal ? (
       <Image

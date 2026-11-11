@@ -52,6 +52,10 @@ export const home = {
   "experience.technologies": "Technologien",
   "skills.title": "Fähigkeiten",
   "skills.subtitle": "// Fähigkeiten",
+  "skills.viewGrid": "Kategorie-Raster",
+  "skills.viewTopology": "Systemtopologie",
+  "skills.topologyHint":
+    "Interaktiver Architekturgraph. Bewegen Sie den Mauszeiger über Knoten, um Verknüpfungen und Abhängigkeiten anzuzeigen.",
   "projects.title": "Projekte",
   "projects.subtitle": "// Projekte",
   "projects.viewAll": "Alle Projekte anzeigen",
