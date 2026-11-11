@@ -832,24 +832,30 @@ const t = useTranslations(lang);
     }
   }
 
+  :global(.lagrange-node.node-active) {
+    color: var(--active-color, var(--color-primary));
+  }
+
   :global(.force-wave) {
     transition: opacity 0.3s ease;
   }
 
   :global(.force-wave-1) {
     animation: force-ripple 3.2s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
-    opacity: 0.45;
+    opacity: 0.35;
   }
 
-  :global(.lagrange-node:hover .force-wave-1) {
+  :global(.lagrange-node:hover .force-wave-1),
+  :global(.lagrange-node.node-active .force-wave-1) {
     animation: force-ripple 1.8s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
-    opacity: 1;
+    opacity: 1 !important;
   }
 
-  :global(.lagrange-node:hover .force-wave-2) {
+  :global(.lagrange-node:hover .force-wave-2),
+  :global(.lagrange-node.node-active .force-wave-2) {
     animation: force-ripple 1.8s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
     animation-delay: 0.9s;
-    opacity: 1;
+    opacity: 1 !important;
   }
 
   :global(.earth-orbit-ring) {
@@ -886,157 +892,156 @@ const t = useTranslations(lang);
 </style>
 
 <script>
-  let lagrangeCleanup: (() => void) | null = null;
+  import { onPageLoad } from "../../scripts/page-lifecycle";
 
-  function initLagrangeCard() {
-    lagrangeCleanup?.();
+  onPageLoad((signal) => {
     const card = document.getElementById("lagrange-container");
     if (!card) return;
 
-    const lagrangeNodes = card.querySelectorAll(".lagrange-node");
+    const lagrangeNodes = Array.from(
+      card.querySelectorAll<HTMLElement>(".lagrange-node"),
+    );
     const statusTitle = card.querySelector<HTMLElement>(".system-status-title");
     const statusDesc = card.querySelector<HTMLElement>(".system-status-desc");
 
-    const controller = new AbortController();
-    const signal = controller.signal;
+    const colorMap: Record<string, string> = {
+      L1: "#3b82f6", // blue
+      L2: "#10b981", // emerald
+      L3: "#f59e0b", // amber
+      L4: "#8b5cf6", // violet
+      L5: "#ec4899", // pink
+    };
 
-    // Lagrange Nodes Hover Interactivity
+    const activateNode = (node: Element) => {
+      const id = node.getAttribute("data-id");
+      const title = node.getAttribute("data-title");
+      const desc = node.getAttribute("data-desc");
+      if (!id) return;
+
+      card.style.setProperty("--active-color", colorMap[id] || "currentColor");
+
+      if (title && desc && statusTitle && statusDesc) {
+        statusTitle.textContent = title;
+        statusDesc.textContent = desc;
+        statusTitle.style.color = "var(--active-color)";
+      }
+
+      lagrangeNodes.forEach((otherNode) => {
+        if (otherNode === node) {
+          otherNode.classList.add("node-active");
+          otherNode.classList.remove("node-inactive");
+        } else {
+          otherNode.classList.remove("node-active");
+          otherNode.classList.add("node-inactive");
+        }
+      });
+
+      card.querySelectorAll(".text-node-label").forEach((lbl) => {
+        const isMatch = lbl.getAttribute("data-id") === id;
+        lbl.classList.toggle("opacity-100", isMatch);
+        lbl.classList.toggle("opacity-0", !isMatch);
+      });
+
+      card.querySelectorAll(".line-element").forEach((line) => {
+        const isMatch = line.classList.contains(`line-${id}`);
+        line.classList.toggle("line-active", isMatch);
+        line.classList.toggle("line-inactive", !isMatch);
+      });
+
+      card.querySelectorAll(".contour-element").forEach((contour) => {
+        const isMatch = contour.classList.contains(`contour-${id}`);
+        contour.classList.toggle("contour-active", isMatch);
+        contour.classList.toggle("contour-inactive", !isMatch);
+      });
+    };
+
+    const resetAll = () => {
+      card.style.removeProperty("--active-color");
+
+      if (statusTitle && statusDesc) {
+        const lagrangeCard = card.querySelector(".lagrange-card");
+        const defaultTitle =
+          lagrangeCard?.getAttribute("data-default-title") || "SYSTEM_ORBIT";
+        const defaultDesc =
+          lagrangeCard?.getAttribute("data-default-desc") ||
+          "Hover vectors to inspect Lagrange engine metrics";
+        statusTitle.textContent = defaultTitle;
+        statusDesc.textContent = defaultDesc;
+        statusTitle.style.color = "";
+      }
+
+      lagrangeNodes.forEach((otherNode) => {
+        otherNode.classList.remove("node-active", "node-inactive");
+      });
+
+      card.querySelectorAll(".text-node-label").forEach((lbl) => {
+        lbl.classList.remove("opacity-100");
+        lbl.classList.add("opacity-0");
+      });
+
+      card.querySelectorAll(".line-element").forEach((line) => {
+        line.classList.remove("line-active", "line-inactive");
+      });
+
+      card.querySelectorAll(".contour-element").forEach((contour) => {
+        contour.classList.remove("contour-active", "contour-inactive");
+      });
+    };
+
+    let manualActive = false;
+    const cycleOrder = ["L1", "L4", "L2", "L5", "L3"];
+    let cycleIdx = 0;
+
+    const prefersReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    const stepAutoCycle = () => {
+      if (manualActive || document.hidden) return;
+      const targetId = cycleOrder[cycleIdx % cycleOrder.length];
+      cycleIdx++;
+      const targetNode = card.querySelector(
+        `.lagrange-node[data-id="${targetId}"]`,
+      );
+      if (targetNode) activateNode(targetNode);
+    };
+
+    let autoTimer: ReturnType<typeof setInterval> | undefined;
+    if (!prefersReduced) {
+      stepAutoCycle();
+      autoTimer = setInterval(stepAutoCycle, 2400);
+    }
+
     lagrangeNodes.forEach((node) => {
-      const activate = () => {
-        const id = node.getAttribute("data-id");
-        const title = node.getAttribute("data-title");
-        const desc = node.getAttribute("data-desc");
-        if (!id) return;
-
-        // Set active color variable using distinct vivid hex colors since the theme is monochromatic
-        const colorMap: Record<string, string> = {
-          L1: "#3b82f6", // blue
-          L2: "#10b981", // emerald
-          L3: "#f59e0b", // amber
-          L4: "#8b5cf6", // violet
-          L5: "#ec4899", // pink
-        };
-        card.style.setProperty(
-          "--active-color",
-          colorMap[id] || "currentColor",
-        );
-
-        // Show status text
-        if (title && desc && statusTitle && statusDesc) {
-          statusTitle.textContent = title;
-          statusDesc.textContent = desc;
-          statusTitle.style.color = "var(--active-color)";
-        }
-
-        // Fade other nodes
-        lagrangeNodes.forEach((otherNode) => {
-          if (otherNode !== node) {
-            otherNode.classList.add("node-inactive");
-          }
-        });
-
-        // Show text label
-        const targetLabel = card.querySelector(
-          `.text-node-label[data-id="${id}"]`,
-        );
-        if (targetLabel) {
-          targetLabel.classList.remove("opacity-0");
-          targetLabel.classList.add("opacity-100");
-        }
-
-        // Highlight connected lines
-        const lines = card.querySelectorAll(".line-element");
-        lines.forEach((line) => {
-          if (line.classList.contains(`line-${id}`)) {
-            line.classList.add("line-active");
-          } else {
-            line.classList.add("line-inactive");
-          }
-        });
-
-        // Highlight contours
-        const contours = card.querySelectorAll(".contour-element");
-        contours.forEach((contour) => {
-          if (contour.classList.contains(`contour-${id}`)) {
-            contour.classList.add("contour-active");
-          } else {
-            contour.classList.add("contour-inactive");
-          }
-        });
+      const handleManualActivate = () => {
+        manualActive = true;
+        activateNode(node);
       };
-      node.addEventListener("mouseenter", activate, { signal });
-      node.addEventListener("focus", activate, { signal });
-      node.addEventListener("click", activate, { signal });
+      const handleManualReset = () => {
+        manualActive = false;
+        resetAll();
+      };
+
+      node.addEventListener("mouseenter", handleManualActivate, { signal });
+      node.addEventListener("focus", handleManualActivate, { signal });
+      node.addEventListener("click", handleManualActivate, { signal });
       node.addEventListener(
         "keydown",
         (event) => {
           const key = (event as KeyboardEvent).key;
           if (key === "Enter" || key === " ") {
             event.preventDefault();
-            activate();
+            handleManualActivate();
           }
         },
         { signal },
       );
-      const reset = () => {
-        const id = node.getAttribute("data-id");
-        if (!id) return;
-
-        // Reset active color
-        card.style.removeProperty("--active-color");
-
-        // Reset status text to default localized translations from data attributes
-        if (statusTitle && statusDesc) {
-          const lagrangeCard = card.querySelector(".lagrange-card");
-          const defaultTitle =
-            lagrangeCard?.getAttribute("data-default-title") || "SYSTEM_ORBIT";
-          const defaultDesc =
-            lagrangeCard?.getAttribute("data-default-desc") ||
-            "Hover vectors to inspect Lagrange engine metrics";
-          statusTitle.textContent = defaultTitle;
-          statusDesc.textContent = defaultDesc;
-          statusTitle.style.color = "";
-        }
-
-        // Reset all nodes
-        lagrangeNodes.forEach((otherNode) => {
-          otherNode.classList.remove("node-inactive");
-        });
-
-        // Hide text label
-        const targetLabel = card.querySelector(
-          `.text-node-label[data-id="${id}"]`,
-        );
-        if (targetLabel) {
-          targetLabel.classList.remove("opacity-100");
-          targetLabel.classList.add("opacity-0");
-        }
-
-        // Reset lines
-        const lines = card.querySelectorAll(".line-element");
-        lines.forEach((line) => {
-          line.classList.remove("line-active", "line-inactive");
-        });
-
-        // Reset contours
-        const contours = card.querySelectorAll(".contour-element");
-        contours.forEach((contour) => {
-          contour.classList.remove("contour-active", "contour-inactive");
-        });
-      };
-      node.addEventListener("mouseleave", reset, { signal });
-      node.addEventListener("blur", reset, { signal });
+      node.addEventListener("mouseleave", handleManualReset, { signal });
+      node.addEventListener("blur", handleManualReset, { signal });
     });
 
-    lagrangeCleanup = () => controller.abort();
-  }
-
-  // Initialize on load
-
-  // Re-run on View Transitions
-  document.addEventListener("astro:page-load", initLagrangeCard);
-  document.addEventListener("astro:before-swap", () => {
-    lagrangeCleanup?.();
-    lagrangeCleanup = null;
+    return () => {
+      if (autoTimer) clearInterval(autoTimer);
+    };
   });
 </script>

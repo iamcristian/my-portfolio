@@ -20,14 +20,14 @@ const localizedLanguages = getLanguagesForLang(lang);
 
 <section
   id="education"
-  class="py-16 md:py-24 max-w-6xl mx-auto px-4 md:px-8 scroll-reveal"
+  class="py-16 md:py-24 max-w-6xl mx-auto px-4 md:px-8 scroll-reveal relative"
 >
   <SectionHeading
     subtitle={t("education.subtitle")}
     title={t("education.title")}
   />
 
-  <!-- Main Radio-based CSS Tabs (Bordered for a cleaner, modern look) -->
+  <!-- Main Radio-based CSS Tabs -->
   <div class="tabs tabs-bordered justify-center w-full">
     <!-- TAB 1: Academic Background -->
     <input
@@ -37,7 +37,7 @@ const localizedLanguages = getLanguagesForLang(lang);
       aria-label={t("education.tabAcademic")}
       checked="checked"
     />
-    <div class="tab-content bg-base-100/30 border-base-300 rounded-b-2xl p-6 space-y-6 mt-4">
+    <div class="tab-content bg-base-200/35 backdrop-blur-md border border-base-content/10 rounded-b-2xl p-6 space-y-6 mt-4 relative overflow-hidden">
       {academicEducation.map((item) => (
         <AcademicCard item={item} />
       ))}
@@ -50,7 +50,7 @@ const localizedLanguages = getLanguagesForLang(lang);
       class="tab text-sm font-semibold text-nowrap"
       aria-label={t("education.tabCerts")}
     />
-    <div class="tab-content bg-base-100/30 border-base-300 rounded-b-2xl p-6 space-y-6 mt-4">
+    <div class="tab-content bg-base-200/35 backdrop-blur-md border border-base-content/10 rounded-b-2xl p-6 space-y-6 mt-4 relative overflow-hidden">
       <!-- Category Filter Pills -->
       <div
         id="cert-category-filters"
@@ -80,8 +80,9 @@ const localizedLanguages = getLanguagesForLang(lang);
 
       {certifications.map((category) => (
         <section data-cert-category={category.id} class="space-y-4">
-          <h3 class="font-bold text-xs uppercase tracking-wider border-b border-base-300 pb-2">
-            {category.name}
+          <h3 class="font-bold text-xs uppercase tracking-wider border-b border-base-content/10 pb-2 inline-flex items-center gap-2 w-full">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+            <span>{category.name}</span>
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             {category.items.map((item) => (
@@ -99,7 +100,7 @@ const localizedLanguages = getLanguagesForLang(lang);
       class="tab text-sm font-semibold text-nowrap"
       aria-label={t("education.tabLanguages")}
     />
-    <div class="tab-content bg-base-100/30 border-base-300 rounded-b-2xl p-6 mt-4">
+    <div class="tab-content bg-base-200/35 backdrop-blur-md border border-base-content/10 rounded-b-2xl p-6 mt-4 relative overflow-hidden">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
         {localizedLanguages.map((item) => (
           <LanguageCard item={item} />

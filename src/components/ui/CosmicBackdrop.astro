@@ -54,6 +54,12 @@ const deepLayer3 = generateStarShadows(22, 16384);
     style="background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, rgba(59, 130, 246, 0.08) 50%, transparent 75%);"
   ></div>
 
+  <!-- Interactive Global Cursor Nebula Aura -->
+  <div
+    class="hidden md:block absolute inset-0 pointer-events-none transition-opacity duration-500"
+    style="background: radial-gradient(650px circle at var(--cursor-x, 50vw) var(--cursor-y, 35vh), color-mix(in oklch, var(--color-primary) 7%, transparent) 0%, rgba(59, 130, 246, 0.03) 45%, transparent 75%);"
+  ></div>
+
   <!-- Parallax Twinkling Star Layers -->
   <div
     class="cosmic-star-layer cosmic-stars-sm"
@@ -67,6 +73,39 @@ const deepLayer3 = generateStarShadows(22, 16384);
     class="cosmic-star-layer cosmic-stars-lg"
     style={`box-shadow: ${deepLayer3};`}
   ></div>
+
+  <!-- Signature 4-Point Celestial Diamond Stars -->
+  <svg
+    class="cosmic-diamond-star top-[18%] left-[8%] w-2.5 h-2.5 text-amber-300/70"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+  >
+    <path d="M12 0 C12 7 12 7 19 12 C12 12 12 17 12 24 C12 17 12 17 5 12 C12 12 12 7 12 0 Z"></path>
+  </svg>
+  <svg
+    class="cosmic-diamond-star top-[46%] right-[9%] w-3 h-3 text-sky-300/65"
+    style="animation-delay: 2.2s;"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+  >
+    <path d="M12 0 C12 7 12 7 19 12 C12 12 12 17 12 24 C12 17 12 17 5 12 C12 12 12 7 12 0 Z"></path>
+  </svg>
+  <svg
+    class="cosmic-diamond-star top-[78%] left-[14%] w-2.5 h-2.5 text-violet-300/65"
+    style="animation-delay: 4.1s;"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+  >
+    <path d="M12 0 C12 7 12 7 19 12 C12 12 12 17 12 24 C12 17 12 17 5 12 C12 12 12 7 12 0 Z"></path>
+  </svg>
+  <svg
+    class="cosmic-diamond-star top-[64%] right-[18%] w-2 h-2 text-emerald-300/60"
+    style="animation-delay: 1.4s;"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+  >
+    <path d="M12 0 C12 7 12 7 19 12 C12 12 12 17 12 24 C12 17 12 17 5 12 C12 12 12 7 12 0 Z"></path>
+  </svg>
 
   <!-- Ambient Deep-Space Comets -->
   <div class="cosmic-comet cosmic-comet-1">
@@ -86,6 +125,24 @@ const deepLayer3 = generateStarShadows(22, 16384);
 <style>
   .cosmic-global-backdrop {
     transition: opacity 0.4s ease;
+  }
+
+  .cosmic-diamond-star {
+    position: absolute;
+    pointer-events: none;
+    animation: diamond-pulse 7s ease-in-out infinite;
+  }
+
+  @keyframes diamond-pulse {
+    0%,
+    100% {
+      opacity: 0.25;
+      transform: scale(0.85) rotate(0deg);
+    }
+    50% {
+      opacity: 0.85;
+      transform: scale(1.15) rotate(12deg);
+    }
   }
 
   :global([data-theme="light"]) .cosmic-global-backdrop {

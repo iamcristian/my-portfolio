@@ -6,6 +6,7 @@ import StructuredData from "@components/StructuredData.astro";
 import Analytics from "@vercel/analytics/astro";
 import { ClientRouter } from "astro:transitions";
 import { useTranslations, getLang } from "@i18n/utils";
+import CosmicBackdrop from "@components/ui/CosmicBackdrop.astro";
 
 interface Props {
   title?: string;
@@ -54,10 +55,12 @@ const t = useTranslations(lang);
     <Analytics />
   </head>
   <body
+    class="bg-base-100 text-base-content relative isolate min-h-screen flex flex-col"
     data-copy-code={t("accessibility.copyCode")}
     data-copied={t("blog.shareCopied")}
     data-copy-failed={t("accessibility.copyFailed")}
   >
+    <CosmicBackdrop />
     <p id="site-status" class="sr-only" role="status" aria-live="polite"></p>
     <a
       href="#main-content"
@@ -65,6 +68,8 @@ const t = useTranslations(lang);
     >
       {t("accessibility.skipToContent") || "Skip to main content"}
     </a>
-    <slot />
+    <div class="relative z-10 flex flex-col flex-1 min-h-screen">
+      <slot />
+    </div>
   </body>
 </html>

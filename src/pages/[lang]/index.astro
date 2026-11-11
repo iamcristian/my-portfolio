@@ -10,7 +10,6 @@ import Skills from "../../components/sections/Skills.astro";
 import Blog from "../../components/sections/Blog.astro";
 import Footer from "../../components/Footer.astro";
 import Divider from "../../components/ui/Divider.astro";
-import CosmicBackdrop from "../../components/ui/CosmicBackdrop.astro";
 import { getLocaleStaticPaths } from "../../config/paths";
 
 export function getStaticPaths() {
@@ -21,26 +20,20 @@ export function getStaticPaths() {
 <Layout structuredDataType="profile">
   <Header />
 
-  <main
-    id="main-content"
-    class="bg-base-100 text-base-content min-h-screen relative isolate"
-  >
-    <CosmicBackdrop />
-    <div class="relative z-10">
-      <Hero />
-      <Divider />
-      <About />
-      <Divider />
-      <Education />
-      <Divider />
-      <Experience />
-      <Divider />
-      <Projects />
-      <Divider />
-      <Skills />
-      <Divider />
-      <Blog />
-    </div>
+  <main id="main-content" class="text-base-content min-h-screen relative">
+    <Hero />
+    <Divider />
+    <About />
+    <Divider />
+    <Education />
+    <Divider />
+    <Experience />
+    <Divider />
+    <Projects />
+    <Divider />
+    <Skills />
+    <Divider />
+    <Blog />
   </main>
   <Footer />
 </Layout>

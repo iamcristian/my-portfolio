@@ -15,10 +15,34 @@ export function initInteractions(signal: AbortSignal): () => void {
   ).matches;
   const isFinePointer = window.matchMedia("(pointer: fine)").matches;
 
-  // ── 1. Spotlight border & surface glow ──
+  // ── 1. Spotlight border & global cosmic cursor aura ──
   const spotlightElements =
     document.querySelectorAll<HTMLElement>("[data-spotlight]");
   const cleanups: Array<() => void> = [];
+
+  if (isFinePointer && !prefersReduced) {
+    let cursorTicking = false;
+    const handleGlobalCursor = (e: MouseEvent) => {
+      if (!cursorTicking) {
+        window.requestAnimationFrame(() => {
+          document.documentElement.style.setProperty(
+            "--cursor-x",
+            `${e.clientX}px`,
+          );
+          document.documentElement.style.setProperty(
+            "--cursor-y",
+            `${e.clientY}px`,
+          );
+          cursorTicking = false;
+        });
+        cursorTicking = true;
+      }
+    };
+    window.addEventListener("mousemove", handleGlobalCursor, {
+      passive: true,
+      signal,
+    });
+  }
 
   spotlightElements.forEach((el) => {
     const handleMove = (e: MouseEvent) => {

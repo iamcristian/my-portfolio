@@ -18,24 +18,68 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
 const imageImport = images[item.logo]!;
 ---
 
-<div class="group card bg-base-200 border border-base-300 hover:border-primary/50 p-6 text-center items-center transition-all duration-300 hover:shadow-[0_0_20px_color-mix(in_oklch,var(--color-primary)_5%,transparent)]">
-  <!-- Flag container with hover scale and gradient border -->
-  <div class="relative w-16 h-16 mb-4 rounded-full p-0.75 bg-linear-to-tr from-primary to-secondary group-hover:scale-110 transition-transform duration-300 shrink-0">
-    <div class="w-full h-full rounded-full overflow-hidden border-2 border-base-200 shrink-0">
-      <Image
-        src={imageImport()}
-        alt={item.name}
-        width={48}
-        height={32}
-        class="w-full h-full object-cover"
-      />
+<div
+  data-spotlight="true"
+  class="group relative overflow-hidden card bg-base-200/55 backdrop-blur-md border border-base-content/10 hover:border-primary/45 p-6 text-center items-center transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_30px_-10px_rgba(96,165,250,0.2)] rounded-2xl"
+>
+  <!-- Flag container with rotating planetary orbit ring -->
+  <div class="relative w-20 h-20 mb-4 flex items-center justify-center shrink-0">
+    <svg
+      class="absolute inset-0 w-full h-full text-base-content opacity-35 group-hover:opacity-80 pointer-events-none lang-orbit-svg"
+      viewBox="0 0 80 80"
+      fill="none"
+      aria-hidden="true"
+    >
+      <circle
+        cx="40"
+        cy="40"
+        r="37"
+        stroke="currentColor"
+        stroke-width="0.6"
+        stroke-dasharray="2 3"
+      ></circle>
+      <circle cx="40" cy="3" r="2.2" fill="#60a5fa"></circle>
+      <path
+        d="M77 40 C77 42 77 42 79 43 C77 43 77 44 77 46 C77 44 77 44 75 43 C77 43 77 42 77 40 Z"
+        fill="#fbbf24"
+      ></path>
+    </svg>
+    <div class="relative w-14 h-14 rounded-full p-0.5 bg-linear-to-tr from-primary to-secondary group-hover:scale-105 transition-transform duration-300 shrink-0">
+      <div class="w-full h-full rounded-full overflow-hidden border-2 border-base-200 shrink-0">
+        <Image
+          src={imageImport()}
+          alt={item.name}
+          width={48}
+          height={32}
+          class="w-full h-full object-cover"
+        />
+      </div>
     </div>
   </div>
 
-  <h3 class="font-bold text-sm md:text-base group-hover:text-primary transition-colors">
+  <h3 class="font-bold text-sm md:text-base group-hover:text-primary transition-colors relative z-10">
     {item.name}
   </h3>
-  <span class="badge badge-xs font-mono bg-base-300/50 border border-base-content/10 text-base-content/80 mt-1 px-3 py-2">
+  <span class="badge badge-xs font-mono bg-base-300/60 border border-base-content/10 text-base-content/85 mt-1.5 px-3 py-2 relative z-10">
     {item.description}
   </span>
 </div>
+
+<style>
+  @keyframes lang-orbit-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .lang-orbit-svg {
+    animation: lang-orbit-spin 22s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lang-orbit-svg {
+      animation: none !important;
+    }
+  }
+</style>
