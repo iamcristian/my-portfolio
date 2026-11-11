@@ -26,11 +26,11 @@ const NAV_LINKS = [
 
 <header
   id="main-header"
-  class="sticky top-0 z-50 w-full transition-all duration-300 py-2.5 px-3 sm:px-6 flex justify-center pointer-events-none"
+  class="sticky top-0 z-50 backdrop-blur-xl bg-base-100/50 border-b border-base-content/5 w-full transition-all duration-300 py-2"
 >
   <nav
     id="main-navbar"
-    class="navbar max-w-6xl w-full mx-auto px-4 md:px-8 transition-all duration-300 backdrop-blur-md bg-base-100/30 border-b border-base-content/5 relative pointer-events-auto"
+    class="navbar max-w-6xl mx-auto px-4 md:px-8 transition-all duration-300"
     aria-label={t("nav.mainLabel")}
   >
     <!-- Navbar Start: Burger menu (mobile) + Name -->
@@ -53,9 +53,16 @@ const NAV_LINKS = [
       </details>
       <a
         href={homeUrl}
-        class="lg:text-xl font-bold ml-2 lg:ml-0 group flex items-center gap-2"
+        class="lg:text-xl font-bold ml-2 lg:ml-0 whitespace-nowrap inline-flex items-center gap-2 group"
       >
-        <span class="w-2 h-2 rounded-full bg-primary/70 group-hover:scale-125 transition-transform"></span>
+        <svg
+          class="w-3.5 h-3.5 text-amber-300/90 group-hover:rotate-45 group-hover:scale-110 transition-transform duration-500 shrink-0"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path d="M12 0 C12 7 12 7 19 12 C12 12 12 17 12 24 C12 17 12 17 5 12 C12 12 12 7 12 0 Z"></path>
+        </svg>
         <span>{t("home.name")}</span>
       </a>
     </div>
@@ -67,7 +74,7 @@ const NAV_LINKS = [
           <li>
             <a
               href={href}
-              class="font-medium px-3 py-1.5 rounded-full hover:bg-base-content/10 hover:text-primary transition-all duration-200"
+              class="font-medium hover:text-primary transition-colors duration-200"
             >
               {label}
             </a>
@@ -80,7 +87,7 @@ const NAV_LINKS = [
     <div class="navbar-end items-center gap-1">
       <a
         href={getRelativeLocaleUrl(lang, "search")}
-        class="btn btn-ghost btn-sm h-10 gap-1.5 rounded-full"
+        class="btn btn-ghost btn-sm h-10 gap-1.5"
         aria-label={c.search}
         aria-keyshortcuts="Control+k Meta+k"
       >
@@ -90,17 +97,18 @@ const NAV_LINKS = [
       <LanguageController />
       <ThemeController />
     </div>
-
-    <!-- Dynamic Reading Progress Bar at the bottom of the pill -->
-    <div
-      id="header-progress"
-      class="absolute bottom-0 inset-x-8 h-[2px] bg-base-content/10 rounded-full overflow-hidden opacity-0 pointer-events-none transition-opacity duration-300"
-      aria-hidden="true"
-    >
-      <div
-        id="header-progress-bar"
-        class="h-full bg-gradient-to-r from-primary via-accent to-secondary w-0 transition-[width] duration-75"
-      ></div>
-    </div>
   </nav>
+
+  <!-- Subtle Planetary Horizon Refraction Line (tracks scroll progress seamlessly along bottom edge) -->
+  <div
+    id="header-progress"
+    class="absolute bottom-0 inset-x-0 h-[1px] overflow-hidden opacity-0 pointer-events-none transition-opacity duration-500"
+    aria-hidden="true"
+  >
+    <div
+      id="header-progress-bar"
+      class="h-full w-0 transition-[width] duration-100"
+      style="background: linear-gradient(90deg, transparent 0%, #3b82f6 35%, #fbbf24 70%, #8b5cf6 100%); box-shadow: 0 0 12px rgba(251, 191, 36, 0.5);"
+    ></div>
+  </div>
 </header>

@@ -111,14 +111,16 @@ const t = useTranslations(lang);
             stroke="#3b82f6"
             stroke-width="0.5"
           />
-          <!-- Moon -->
-          <circle
-            cx="156.5"
-            cy="93.5"
-            r="1.2"
-            fill="#e5e7eb"
-            class="opacity-90"
-          />
+          <!-- Moon (Actively orbiting Earth) -->
+          <g class="moon-orbit-group">
+            <circle
+              cx="156.5"
+              cy="93.5"
+              r="1.35"
+              fill="#e5e7eb"
+              class="opacity-95"
+            />
+          </g>
         </g>
 
         <!-- Orbit line -->
@@ -834,15 +836,25 @@ const t = useTranslations(lang);
     transition: opacity 0.3s ease;
   }
 
+  :global(.force-wave-1) {
+    animation: force-ripple 3.2s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+    opacity: 0.45;
+  }
+
   :global(.lagrange-node:hover .force-wave-1) {
-    animation: force-ripple 2s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+    animation: force-ripple 1.8s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
     opacity: 1;
   }
 
   :global(.lagrange-node:hover .force-wave-2) {
-    animation: force-ripple 2s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
-    animation-delay: 1s;
+    animation: force-ripple 1.8s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+    animation-delay: 0.9s;
     opacity: 1;
+  }
+
+  :global(.earth-orbit-ring) {
+    transform-origin: 100px 100px;
+    animation: moon-orbit 45s linear infinite;
   }
 
   :global(.corona-pulse) {
@@ -856,6 +868,19 @@ const t = useTranslations(lang);
     }
     50% {
       opacity: 0.85;
+    }
+  }
+
+  :global(.moon-orbit-group) {
+    transform-origin: 150px 100px;
+    animation: moon-orbit 8s linear infinite;
+  }
+  @keyframes moon-orbit {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
     }
   }
 </style>

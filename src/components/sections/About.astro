@@ -13,11 +13,6 @@ const t = useTranslations(lang);
   id="about"
   class="py-10 md:py-20 lg:py-24 max-w-6xl mx-auto px-4 md:px-8 scroll-reveal relative"
 >
-  <!-- Technical watermark coordinates -->
-  <div class="absolute top-6 right-8 font-mono text-[10px] tracking-widest text-base-content/20 select-none pointer-events-none hidden md:block">
-    SYS.BIO.01 // CORE_PROFILE
-  </div>
-
   <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 lg:gap-16 items-center">
     <!-- Info Column -->
     <div class="md:col-span-2 space-y-5 md:space-y-6">
@@ -34,103 +29,179 @@ const t = useTranslations(lang);
       </div>
 
       <div class="flex items-center gap-2">
-        <span class="badge badge-outline text-xs">{t("about.location")}</span>
+        <span class="badge badge-outline text-xs gap-1.5 py-2.5 px-3">
+          <span class="w-1.5 h-1.5 rounded-full bg-amber-300 animate-pulse"></span>
+          {t("about.location")}
+        </span>
       </div>
 
-      <!-- Systems Telemetry Header & Bento Metrics -->
-      <div class="space-y-3 mt-4 md:mt-6">
-        <div class="flex items-center justify-between border-b border-base-content/10 pb-2.5 font-mono text-[11px] tracking-wider uppercase opacity-80">
-          <div class="flex items-center gap-2">
-            <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
-            <span class="text-primary font-semibold">
-              SYS.TELEMETRY // LIVE METRICS
+      <!-- Cosmic Metric Cards with Orbital Contour Backdrops -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 w-full pt-2">
+        <!-- Metric 1: Solar Orbit (Experience) -->
+        <div
+          data-spotlight="true"
+          class="relative overflow-hidden rounded-2xl border border-base-content/10 bg-base-200/40 backdrop-blur-md p-4 sm:p-5 text-center transition-all duration-300 hover:border-amber-400/40 group/stat"
+        >
+          <!-- Subtle Orbital Arc SVG -->
+          <svg
+            class="absolute -right-6 -bottom-6 w-28 h-28 text-amber-400/15 group-hover/stat:text-amber-400/30 transition-colors duration-500 pointer-events-none"
+            viewBox="0 0 100 100"
+            fill="none"
+          >
+            <circle
+              cx="80"
+              cy="80"
+              r="45"
+              stroke="currentColor"
+              stroke-width="1"
+              stroke-dasharray="3 4"
+            />
+            <circle
+              cx="80"
+              cy="80"
+              r="65"
+              stroke="currentColor"
+              stroke-width="0.75"
+            />
+            <circle cx="35" cy="80" r="2.5" fill="currentColor" />
+          </svg>
+          <div class="stat-value text-primary text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight drop-shadow-[0_0_12px_rgba(251,191,36,0.2)]">
+            <span class="stat-counter" data-target="1" data-suffix="+">
+              {t("about.expValue")}
             </span>
           </div>
-          <div class="flex items-center gap-2 text-success text-[10px]">
-            <span class="w-1.5 h-1.5 rounded-full bg-success animate-ping"></span>
-            <span>OPERATIONAL</span>
+          <div class="stat-title text-base-content/80 text-xs md:text-sm mt-1.5 whitespace-normal leading-tight font-medium">
+            {t("about.expTitle")}
           </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full">
-          <!-- Metric 1: Experience -->
-          <div
-            data-spotlight="true"
-            class="card bg-base-200 border border-base-300 p-4 rounded-xl flex flex-col justify-between hover:border-primary/40 transition-all duration-300 relative group/metric"
+        <!-- Metric 2: Planetary Equilibrium (Analytical Focus) -->
+        <div
+          data-spotlight="true"
+          class="relative overflow-hidden rounded-2xl border border-base-content/10 bg-base-200/40 backdrop-blur-md p-4 sm:p-5 text-center transition-all duration-300 hover:border-sky-400/40 group/stat"
+        >
+          <svg
+            class="absolute -right-6 -bottom-6 w-28 h-28 text-sky-400/15 group-hover/stat:text-sky-400/30 transition-colors duration-500 pointer-events-none"
+            viewBox="0 0 100 100"
+            fill="none"
           >
-            <div class="flex items-center justify-between font-mono text-[10px] text-base-content/60 mb-2">
-              <span>TRAJECTORY</span>
-              <span class="text-primary font-bold">01</span>
-            </div>
-            <div class="stat-value text-primary text-2xl lg:text-3xl font-extrabold tracking-tight">
-              <span class="stat-counter" data-target="1" data-suffix="+">
-                {t("about.expValue")}
-              </span>
-            </div>
-            <div class="stat-title text-base-content/80 text-xs mt-1 leading-tight font-medium">
-              {t("about.expTitle")}
-            </div>
-            <div class="w-full h-1 bg-base-300 rounded-full mt-3 overflow-hidden">
-              <div class="h-full bg-gradient-to-r from-primary to-accent w-4/5 rounded-full"></div>
-            </div>
+            <circle
+              cx="80"
+              cy="80"
+              r="45"
+              stroke="currentColor"
+              stroke-width="1"
+              stroke-dasharray="2 3"
+            />
+            <circle
+              cx="80"
+              cy="80"
+              r="65"
+              stroke="currentColor"
+              stroke-width="0.75"
+            />
+            <circle cx="80" cy="35" r="2.5" fill="currentColor" />
+          </svg>
+          <div class="stat-value text-secondary text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight drop-shadow-[0_0_12px_rgba(96,165,250,0.2)]">
+            <span class="stat-counter" data-target="100" data-suffix="%">
+              {t("about.passionValue")}
+            </span>
           </div>
-
-          <!-- Metric 2: Passion & Rigor -->
-          <div
-            data-spotlight="true"
-            class="card bg-base-200 border border-base-300 p-4 rounded-xl flex flex-col justify-between hover:border-secondary/40 transition-all duration-300 relative group/metric"
-          >
-            <div class="flex items-center justify-between font-mono text-[10px] text-base-content/60 mb-2">
-              <span>EFFICIENCY</span>
-              <span class="text-secondary font-bold">02</span>
-            </div>
-            <div class="stat-value text-secondary text-2xl lg:text-3xl font-extrabold tracking-tight">
-              <span class="stat-counter" data-target="100" data-suffix="%">
-                {t("about.passionValue")}
-              </span>
-            </div>
-            <div class="stat-title text-base-content/80 text-xs mt-1 leading-tight font-medium">
-              {t("about.passionTitle")}
-            </div>
-            <div class="w-full h-1 bg-base-300 rounded-full mt-3 overflow-hidden">
-              <div class="h-full bg-gradient-to-r from-secondary to-primary w-full rounded-full"></div>
-            </div>
+          <div class="stat-title text-base-content/80 text-xs md:text-sm mt-1.5 whitespace-normal leading-tight font-medium">
+            {t("about.passionTitle")}
           </div>
+        </div>
 
-          <!-- Metric 3: Strategic Thinking -->
-          <div
-            data-spotlight="true"
-            class="card bg-base-200 border border-base-300 p-4 rounded-xl flex flex-col justify-between hover:border-accent/40 transition-all duration-300 relative group/metric"
+        <!-- Metric 3: Deep Space Horizon (Strategic Thinking) -->
+        <div
+          data-spotlight="true"
+          class="relative overflow-hidden rounded-2xl border border-base-content/10 bg-base-200/40 backdrop-blur-md p-4 sm:p-5 text-center transition-all duration-300 hover:border-violet-400/40 group/stat"
+        >
+          <svg
+            class="absolute -right-6 -bottom-6 w-28 h-28 text-violet-400/15 group-hover/stat:text-violet-400/30 transition-colors duration-500 pointer-events-none"
+            viewBox="0 0 100 100"
+            fill="none"
           >
-            <div class="flex items-center justify-between font-mono text-[10px] text-base-content/60 mb-2">
-              <span>ARCHITECTURE</span>
-              <span class="text-accent font-bold">03</span>
-            </div>
-            <div class="stat-value text-accent text-2xl lg:text-3xl font-extrabold tracking-tight">
-              <span>{t("about.stratValue")}</span>
-            </div>
-            <div class="stat-title text-base-content/80 text-xs mt-1 leading-tight font-medium">
-              {t("about.stratTitle")}
-            </div>
-            <div class="w-full h-1 bg-base-300 rounded-full mt-3 overflow-hidden">
-              <div class="h-full bg-gradient-to-r from-accent via-primary to-accent w-full rounded-full animate-pulse"></div>
-            </div>
+            <circle
+              cx="80"
+              cy="80"
+              r="45"
+              stroke="currentColor"
+              stroke-width="1"
+              stroke-dasharray="3 3"
+            />
+            <circle
+              cx="80"
+              cy="80"
+              r="65"
+              stroke="currentColor"
+              stroke-width="0.75"
+            />
+            <path d="M48 44 L51 48 L48 52 L45 48 Z" fill="currentColor" />
+          </svg>
+          <div class="stat-value text-accent text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight drop-shadow-[0_0_12px_rgba(167,139,250,0.2)]">
+            {t("about.stratValue")}
+          </div>
+          <div class="stat-title text-base-content/80 text-xs md:text-sm mt-1.5 whitespace-normal leading-tight font-medium">
+            {t("about.stratTitle")}
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Photo Column -->
-    <div class="flex justify-center mt-4 md:mt-0">
+    <!-- Photo Column with Rotating Celestial Orbits -->
+    <div class="flex justify-center mt-6 md:mt-0">
       <div
         data-tilt="true"
-        data-spotlight="true"
-        class="relative p-2 rounded-3xl transition-transform duration-300 group/avatar"
+        class="relative flex items-center justify-center group/avatar"
       >
-        <div class="absolute -inset-2 sm:-inset-4 rounded-2xl border border-base-content/10 opacity-60"></div>
-        <div class="absolute -inset-4 sm:-inset-8 rounded-3xl border border-base-content/5 opacity-40"></div>
+        <!-- Ambient Nebula Aura behind portrait -->
+        <div class="absolute -inset-6 rounded-full bg-linear-to-tr from-sky-500/10 via-amber-400/5 to-violet-500/10 blur-2xl pointer-events-none group-hover/avatar:opacity-100 opacity-70 transition-opacity duration-500"></div>
 
-        <div class="relative w-44 h-44 sm:w-56 sm:h-56 lg:w-72 lg:h-72 rounded-2xl overflow-hidden shadow-2xl border border-base-300 bg-base-300">
+        <!-- Rotating Outer Orbital Ring SVG -->
+        <svg
+          class="absolute -inset-7 sm:-inset-10 w-[calc(100%+3.5rem)] sm:w-[calc(100%+5rem)] h-[calc(100%+3.5rem)] sm:h-[calc(100%+5rem)] text-base-content/25 pointer-events-none avatar-orbit-cw"
+          viewBox="0 0 240 240"
+          fill="none"
+          aria-hidden="true"
+        >
+          <circle
+            cx="120"
+            cy="120"
+            r="112"
+            stroke="currentColor"
+            stroke-width="0.75"
+            stroke-dasharray="3 6"
+          />
+          <circle
+            cx="120"
+            cy="120"
+            r="102"
+            stroke="currentColor"
+            stroke-width="0.4"
+            class="opacity-50"
+          />
+          <!-- Orbiting Satellite 1 (Azure Earth tone) -->
+          <circle cx="120" cy="8" r="3" fill="#60a5fa" />
+          <circle
+            cx="120"
+            cy="8"
+            r="6"
+            stroke="#60a5fa"
+            stroke-width="0.5"
+            class="opacity-50"
+          />
+          <!-- Orbiting 4-Point Star (Solar Gold) -->
+          <path
+            d="M232 120 C232 123 232 123 235 125 C232 125 232 127 232 130 C232 127 232 127 229 125 C232 125 232 123 232 120 Z"
+            fill="#fef08a"
+          />
+        </svg>
+
+        <!-- Decorative Inner Frames -->
+        <div class="absolute -inset-2 sm:-inset-3.5 rounded-2xl border border-base-content/10 opacity-60 pointer-events-none"></div>
+
+        <div class="relative w-44 h-44 sm:w-56 sm:h-56 lg:w-68 lg:h-68 rounded-2xl overflow-hidden shadow-2xl border border-base-content/15 bg-base-300 z-10">
           <Image
             src={meImage}
             alt={SITE.name}
@@ -140,9 +211,28 @@ const t = useTranslations(lang);
           />
         </div>
 
-        <div class="absolute -bottom-1 sm:-bottom-2 -right-1 sm:-right-2 w-6 h-6 border-b-2 border-r-2 border-primary rounded-br-lg"></div>
-        <div class="absolute -top-1 sm:-top-2 -left-1 sm:-left-2 w-6 h-6 border-t-2 border-l-2 border-primary rounded-tl-lg"></div>
+        <div class="absolute -bottom-1.5 sm:-bottom-2.5 -right-1.5 sm:-right-2.5 w-6 h-6 border-b-2 border-r-2 border-primary rounded-br-lg z-20"></div>
+        <div class="absolute -top-1.5 sm:-top-2.5 -left-1.5 sm:-left-2.5 w-6 h-6 border-t-2 border-l-2 border-primary rounded-tl-lg z-20"></div>
       </div>
     </div>
   </div>
 </section>
+
+<style>
+  @keyframes orbit-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .avatar-orbit-cw {
+    animation: orbit-spin 42s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .avatar-orbit-cw {
+      animation: none !important;
+    }
+  }
+</style>

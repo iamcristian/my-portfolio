@@ -1,0 +1,243 @@
+---
+// Continuous Deep-Space Universe Backdrop for the entire portfolio
+// Extends the celestial language of Hero.astro across all sections
+
+const createPrng = (seed: number) => {
+  let s = seed | 0;
+  return () => {
+    s = (s + 0x6d2b79f5) | 0;
+    let t = Math.imul(s ^ (s >>> 15), 1 | s);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+};
+
+const generateStarShadows = (count: number, seed: number) => {
+  const prng = createPrng(seed);
+  const shadows: string[] = [];
+  for (let i = 0; i < count; i++) {
+    const x = (prng() * 98 + 1).toFixed(2);
+    const y = (prng() * 148 + 1).toFixed(2);
+    const opacity = (0.35 + prng() * 0.55).toFixed(2);
+    const palette = [
+      `rgba(255, 255, 255, ${opacity})`,
+      `rgba(224, 242, 254, ${opacity})`,
+      `rgba(254, 240, 138, ${(Number(opacity) * 0.85).toFixed(2)})`,
+      `rgba(196, 181, 253, ${(Number(opacity) * 0.85).toFixed(2)})`,
+    ];
+    const color = palette[Math.floor(prng() * palette.length)];
+    shadows.push(`${x}vw ${y}vh ${color}`);
+  }
+  return shadows.join(", ");
+};
+
+const deepLayer1 = generateStarShadows(65, 4096);
+const deepLayer2 = generateStarShadows(40, 8192);
+const deepLayer3 = generateStarShadows(22, 16384);
+---
+
+<div
+  class="fixed inset-0 pointer-events-none z-0 overflow-hidden select-none cosmic-global-backdrop"
+  aria-hidden="true"
+>
+  <!-- Subtle Deep-Space Nebula Clouds -->
+  <div
+    class="cosmic-nebula cosmic-nebula-1 absolute -top-24 -left-24 w-[36rem] h-[36rem] rounded-full blur-[130px] opacity-25"
+    style="background: radial-gradient(circle, rgba(59, 130, 246, 0.18) 0%, rgba(139, 92, 246, 0.08) 50%, transparent 75%);"
+  ></div>
+  <div
+    class="cosmic-nebula cosmic-nebula-2 absolute top-1/3 -right-32 w-[40rem] h-[40rem] rounded-full blur-[140px] opacity-20"
+    style="background: radial-gradient(circle, rgba(251, 191, 36, 0.12) 0%, rgba(236, 72, 153, 0.06) 50%, transparent 75%);"
+  ></div>
+  <div
+    class="cosmic-nebula cosmic-nebula-3 absolute -bottom-32 left-1/4 w-[38rem] h-[38rem] rounded-full blur-[135px] opacity-20"
+    style="background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, rgba(59, 130, 246, 0.08) 50%, transparent 75%);"
+  ></div>
+
+  <!-- Parallax Twinkling Star Layers -->
+  <div
+    class="cosmic-star-layer cosmic-stars-sm"
+    style={`box-shadow: ${deepLayer1};`}
+  ></div>
+  <div
+    class="cosmic-star-layer cosmic-stars-md"
+    style={`box-shadow: ${deepLayer2};`}
+  ></div>
+  <div
+    class="cosmic-star-layer cosmic-stars-lg"
+    style={`box-shadow: ${deepLayer3};`}
+  ></div>
+
+  <!-- Ambient Deep-Space Comets -->
+  <div class="cosmic-comet cosmic-comet-1">
+    <div class="cosmic-comet-body">
+      <span class="cosmic-comet-core"></span>
+      <span class="cosmic-comet-tail"></span>
+    </div>
+  </div>
+  <div class="cosmic-comet cosmic-comet-2">
+    <div class="cosmic-comet-body">
+      <span class="cosmic-comet-core"></span>
+      <span class="cosmic-comet-tail"></span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .cosmic-global-backdrop {
+    transition: opacity 0.4s ease;
+  }
+
+  :global([data-theme="light"]) .cosmic-global-backdrop {
+    opacity: 0.35;
+    filter: invert(0.85);
+  }
+
+  .cosmic-star-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 9999px;
+    background: transparent;
+    will-change: transform, opacity;
+  }
+
+  .cosmic-stars-sm {
+    width: 1.25px;
+    height: 1.25px;
+    animation: cosmic-twinkle-1 6s ease-in-out infinite;
+    transform: translate3d(0, calc(var(--scroll-y, 0px) * -0.04), 0);
+  }
+
+  .cosmic-stars-md {
+    width: 2px;
+    height: 2px;
+    animation: cosmic-twinkle-2 9s ease-in-out infinite;
+    transform: translate3d(0, calc(var(--scroll-y, 0px) * -0.08), 0);
+  }
+
+  .cosmic-stars-lg {
+    width: 2.5px;
+    height: 2.5px;
+    animation: cosmic-twinkle-3 12s ease-in-out infinite;
+    transform: translate3d(0, calc(var(--scroll-y, 0px) * -0.12), 0);
+  }
+
+  .cosmic-nebula-1 {
+    animation: nebula-breathe 16s ease-in-out infinite;
+  }
+  .cosmic-nebula-2 {
+    animation: nebula-breathe 22s ease-in-out infinite reverse;
+  }
+  .cosmic-nebula-3 {
+    animation: nebula-breathe 19s ease-in-out infinite 4s;
+  }
+
+  @keyframes nebula-breathe {
+    0%,
+    100% {
+      transform: scale(1) translate3d(0, 0, 0);
+    }
+    50% {
+      transform: scale(1.12) translate3d(15px, -15px, 0);
+    }
+  }
+
+  @keyframes cosmic-twinkle-1 {
+    0%,
+    100% {
+      opacity: 0.35;
+    }
+    50% {
+      opacity: 0.9;
+    }
+  }
+  @keyframes cosmic-twinkle-2 {
+    0%,
+    100% {
+      opacity: 0.85;
+    }
+    50% {
+      opacity: 0.3;
+    }
+  }
+  @keyframes cosmic-twinkle-3 {
+    0%,
+    100% {
+      opacity: 0.4;
+    }
+    50% {
+      opacity: 0.95;
+    }
+  }
+
+  /* Deep Space Comets */
+  .cosmic-comet {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+  }
+  .cosmic-comet-body {
+    display: flex;
+    align-items: center;
+  }
+  .cosmic-comet-core {
+    width: 3px;
+    height: 3px;
+    background: #fff;
+    border-radius: 9999px;
+    box-shadow:
+      0 0 6px #fff,
+      0 0 12px #60a5fa;
+  }
+  .cosmic-comet-tail {
+    width: 110px;
+    height: 1.5px;
+    background: linear-gradient(
+      to left,
+      transparent,
+      rgba(96, 165, 250, 0.6),
+      #ffffff
+    );
+    border-radius: 9999px;
+  }
+
+  .cosmic-comet-1 {
+    top: 32%;
+    right: 15%;
+    animation: comet-streak 14s cubic-bezier(0.25, 0.1, 0.25, 1) infinite 2s;
+  }
+  .cosmic-comet-2 {
+    top: 68%;
+    right: 35%;
+    animation: comet-streak 19s cubic-bezier(0.25, 0.1, 0.25, 1) infinite 8s;
+  }
+
+  @keyframes comet-streak {
+    0% {
+      transform: translate3d(160px, -160px, 0) rotate(-45deg) scale(0.3);
+      opacity: 0;
+    }
+    5% {
+      opacity: 0.9;
+      transform: translate3d(60px, -60px, 0) rotate(-45deg) scale(1);
+    }
+    14% {
+      transform: translate3d(-220px, 220px, 0) rotate(-45deg) scale(0.4);
+      opacity: 0;
+    }
+    100% {
+      transform: translate3d(-220px, 220px, 0) rotate(-45deg) scale(0);
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cosmic-star-layer,
+    .cosmic-nebula,
+    .cosmic-comet {
+      animation: none !important;
+      transform: none !important;
+    }
+  }
+</style>

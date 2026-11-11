@@ -107,42 +107,47 @@ export function initInteractions(signal: AbortSignal): () => void {
     });
   }
 
-  // ── 4. Dynamic Island Header & Reading Progress ──
+  // ── 4. Celestial Horizon Header & Parallax Starfield Scroll ──
   const header = document.getElementById("main-header");
-  const navbar = document.getElementById("main-navbar");
   const progressBar = document.getElementById("header-progress-bar");
   const progressContainer = document.getElementById("header-progress");
 
-  if (header && navbar) {
-    const updateHeader = () => {
-      const scrollY = window.scrollY;
-      const isScrolled = scrollY > 35;
+  const updateScrollState = () => {
+    const scrollY = window.scrollY;
+    const isScrolled = scrollY > 24;
 
+    if (!prefersReduced) {
+      document.documentElement.style.setProperty(
+        "--scroll-y",
+        `${scrollY.toFixed(1)}px`,
+      );
+    }
+
+    if (header) {
       header.classList.toggle("header-scrolled", isScrolled);
-      navbar.classList.toggle("navbar-pill", isScrolled);
+    }
 
-      if (progressContainer) {
-        progressContainer.classList.toggle("opacity-100", isScrolled);
-        progressContainer.classList.toggle("opacity-0", !isScrolled);
-      }
+    if (progressContainer) {
+      progressContainer.classList.toggle("opacity-100", isScrolled);
+      progressContainer.classList.toggle("opacity-0", !isScrolled);
+    }
 
-      if (progressBar) {
-        const docHeight =
-          document.documentElement.scrollHeight - window.innerHeight;
-        const pct =
-          docHeight > 0
-            ? Math.min(100, Math.max(0, (scrollY / docHeight) * 100))
-            : 0;
-        progressBar.style.width = `${pct.toFixed(1)}%`;
-      }
-    };
+    if (progressBar) {
+      const docHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+      const pct =
+        docHeight > 0
+          ? Math.min(100, Math.max(0, (scrollY / docHeight) * 100))
+          : 0;
+      progressBar.style.width = `${pct.toFixed(1)}%`;
+    }
+  };
 
-    window.addEventListener("scroll", updateHeader, {
-      passive: true,
-      signal,
-    });
-    updateHeader();
-  }
+  window.addEventListener("scroll", updateScrollState, {
+    passive: true,
+    signal,
+  });
+  updateScrollState();
 
   // ── 5. Editorial Blur-to-Focus Reveals ──
   if (!prefersReduced && "IntersectionObserver" in window) {

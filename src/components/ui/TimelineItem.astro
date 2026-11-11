@@ -34,13 +34,14 @@ const { lang } = Astro.locals;
 const t = useTranslations(lang);
 ---
 
-<li id={id} tabindex={id ? -1 : undefined} class="scroll-mt-24 group">
+<li id={id} tabindex={id ? -1 : undefined} class="scroll-mt-24 group/timeline">
   {index !== 0 && (
-    <hr class="bg-gradient-to-b from-primary/20 via-primary/50 to-primary/30 border-none w-0.5" />
+    <hr class="bg-linear-to-b from-amber-300/20 via-sky-400/40 to-violet-400/25 border-none w-0.5" />
   )}
   <div class="timeline-middle px-1">
-    <div class="relative flex items-center justify-center w-8 h-8 rounded-full bg-base-200 border border-primary/40 shadow-[0_0_15px_color-mix(in_oklch,var(--color-primary)_20%,transparent)] group-hover:border-primary transition-colors">
-      <span class="absolute inset-0 rounded-full bg-primary/15 animate-ping"></span>
+    <!-- Celestial Pulsar Node with Gravitational Ripple -->
+    <div class="relative flex items-center justify-center w-8 h-8 rounded-full bg-base-200/80 border border-amber-300/40 shadow-[0_0_16px_rgba(251,191,36,0.2)] group-hover/timeline:border-amber-300 group-hover/timeline:scale-110 transition-all duration-300">
+      <span class="absolute inset-0 rounded-full border border-amber-300/40 opacity-0 group-hover/timeline:opacity-100 group-hover/timeline:animate-ping pointer-events-none"></span>
       <span class="font-mono font-bold text-xs text-primary z-10">{num}</span>
     </div>
   </div>
@@ -48,19 +49,32 @@ const t = useTranslations(lang);
     data-spotlight="true"
     class:list={[
       isEven ? "timeline-start mb-10" : "timeline-end mb-10",
-      "card bg-base-200 border border-base-300 p-6 w-full ml-2 md:ml-0 text-left hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[0_15px_30px_-10px_color-mix(in_oklch,var(--color-primary)_12%,transparent)] transition-all duration-300 relative",
+      "card bg-base-200/50 backdrop-blur-md border border-base-content/10 p-6 w-full ml-2 md:ml-0 text-left hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.4)] transition-all duration-300 relative overflow-hidden",
     ]}
   >
+    <!-- Subtle Background Orbital Contour inside Timeline Card -->
+    <svg
+      class="absolute -right-10 -top-10 w-36 h-36 text-base-content/5 group-hover/timeline:text-sky-400/15 transition-colors duration-500 pointer-events-none"
+      viewBox="0 0 120 120"
+      fill="none"
+      aria-hidden="true"
+    >
+      <circle
+        cx="90"
+        cy="30"
+        r="45"
+        stroke="currentColor"
+        stroke-width="0.75"
+        stroke-dasharray="3 4"
+      />
+      <circle cx="90" cy="30" r="70" stroke="currentColor" stroke-width="0.5" />
+    </svg>
+
     <!-- Header: Position, Company, Date -->
-    <div class="flex flex-col gap-1 mb-4">
-      <div class="flex items-center justify-between gap-2">
-        <h3 class="text-base md:text-lg font-bold text-primary leading-tight">
-          {title}
-        </h3>
-        <span class="font-mono text-[10px] tracking-wider uppercase px-2 py-0.5 rounded-full bg-base-300/80 border border-base-content/10 text-base-content/70">
-          NODE.0{num}
-        </span>
-      </div>
+    <div class="flex flex-col gap-1 mb-4 relative z-10">
+      <h3 class="text-base md:text-lg font-bold text-primary leading-tight">
+        {title}
+      </h3>
       <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
         {companyUrl ? (
           <a
@@ -79,12 +93,12 @@ const t = useTranslations(lang);
     </div>
 
     <!-- Brief Description -->
-    <p class="text-xs md:text-sm leading-relaxed mb-4 opacity-85">
+    <p class="text-xs md:text-sm leading-relaxed mb-4 opacity-85 relative z-10">
       {description}
     </p>
 
     <!-- Key Responsibilities -->
-    <div class="mb-4">
+    <div class="mb-4 relative z-10">
       <h4 class="text-xs font-bold tracking-wider uppercase text-base-content/80 mb-2">
         {t("experience.responsibilities")}
       </h4>
@@ -96,7 +110,7 @@ const t = useTranslations(lang);
     </div>
 
     <!-- Technologies Stack -->
-    <div>
+    <div class="relative z-10">
       <h4 class="text-xs font-bold tracking-wider uppercase text-base-content/80 mb-2">
         {t("experience.technologies")}
       </h4>
@@ -110,7 +124,7 @@ const t = useTranslations(lang);
     </div>
   </div>
   {index !== totalItems - 1 && (
-    <hr class="bg-gradient-to-b from-primary/30 via-primary/50 to-primary/20 border-none w-0.5" />
+    <hr class="bg-linear-to-b from-sky-400/40 via-violet-400/35 to-amber-300/20 border-none w-0.5" />
   )}
 </li>
 
