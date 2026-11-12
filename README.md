@@ -4,9 +4,6 @@
 
 **Personal portfolio, blog & digital identity — built with Astro, Tailwind CSS & daisyUI.**
 
-
-
-
 [![Live Site](https://img.shields.io/badge/🌍_Live-cristianarando.dev-000?style=for-the-badge)](https://cristianarando.dev)
 [![Astro](https://img.shields.io/badge/Astro-7.4-BC52EE?style=for-the-badge&logo=astro&logoColor=white)](https://astro.build)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.3-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
@@ -20,7 +17,6 @@
 <a href="https://cristianarando.dev">
   <img src="https://github.com/user-attachments/assets/2b037343-1fc8-483d-88df-1adf31ab701e" alt="cristianarando.dev — Portfolio Preview" width="100%" style="border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);" />
 </a>
-
 
 <br>
 <img width="450" alt="image" src="https://github.com/user-attachments/assets/90a83a2b-e68a-4557-92e6-d448fc702992" />
