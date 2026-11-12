@@ -410,14 +410,14 @@ const CONSTELLATIONS: Record<string, ConstellationData> = {
 
             {/* Authentic Astronomical Lore Connector Bar */}
             <div
-              class="my-3 pt-2.5 border-t border-base-content/10 flex items-center justify-between gap-2 text-[11px] font-mono text-base-content/70 relative z-10 cursor-help"
+              class="my-3 pt-2.5 border-t border-base-content/10 flex items-center justify-between gap-2 text-[11px] font-mono text-base-content/85 relative z-10 cursor-help"
               title={`${constellation.latin} (★ ${constellation.alpha}): ${constellation.history[lang] || constellation.history.en}`}
             >
               <span class="truncate text-base-content/85">
-                <span class="opacity-50">//</span>{" "}
+                <span class="text-base-content/70">//</span>{" "}
                 {constellation.meaning[lang] || constellation.meaning.en}
               </span>
-              <span class="text-[10px] opacity-65 shrink-0 font-medium">
+              <span class="text-[10px] text-base-content/85 shrink-0 font-medium">
                 ★ {constellation.alpha}
               </span>
             </div>

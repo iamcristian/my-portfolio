@@ -39,7 +39,7 @@ function getPathForLocale(targetLang: string) {
 <details title={t("language.title")} class="dropdown dropdown-end">
   <summary
     class="language-trigger inline-flex h-10 items-center justify-center gap-1.5 px-2 opacity-70 hover:opacity-100 transition-opacity duration-200 cursor-pointer list-none rounded-lg"
-    aria-label={t("language.title")}
+    aria-label={`${t("language.title")}: ${currentLang.toUpperCase()}`}
   >
     <Globe
       aria-hidden="true"
