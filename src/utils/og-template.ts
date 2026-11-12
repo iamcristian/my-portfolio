@@ -751,13 +751,13 @@ export function generateOGSvg(data: OGCardData): string {
 
     return `<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <radialGradient id="nebulaViolet" cx="18%" cy="25%" r="55%">
-      <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.10"/>
-      <stop offset="100%" stop-color="#101116" stop-opacity="0"/>
+    <radialGradient id="nebulaSoft" cx="18%" cy="25%" r="55%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.03"/>
+      <stop offset="100%" stop-color="#202020" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="nebulaIndigo" cx="85%" cy="45%" r="65%">
-      <stop offset="0%" stop-color="#4f46e5" stop-opacity="0.09"/>
-      <stop offset="100%" stop-color="#101116" stop-opacity="0"/>
+    <radialGradient id="nebulaCardGlow" cx="85%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.02"/>
+      <stop offset="100%" stop-color="#202020" stop-opacity="0"/>
     </radialGradient>
     <radialGradient id="sunAura" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.85"/>
@@ -772,10 +772,10 @@ export function generateOGSvg(data: OGCardData): string {
     </radialGradient>
   </defs>
 
-  <!-- Deep Space Canvas -->
-  <rect width="100%" height="100%" fill="#101116"/>
-  <rect width="100%" height="100%" fill="url(#nebulaViolet)"/>
-  <rect width="100%" height="100%" fill="url(#nebulaIndigo)"/>
+  <!-- Deep Space Canvas (Exact Business theme base-100 neutral charcoal) -->
+  <rect width="100%" height="100%" fill="#202020"/>
+  <rect width="100%" height="100%" fill="url(#nebulaSoft)"/>
+  <rect width="100%" height="100%" fill="url(#nebulaCardGlow)"/>
 
   <!-- Starfield Backdrop -->
   ${starsSvg}
@@ -798,7 +798,7 @@ export function generateOGSvg(data: OGCardData): string {
 
   <!-- Tagline Quote Block -->
   <g transform="translate(70, 260)">
-    <line x1="0" y1="4" x2="0" y2="${quoteHeight}" stroke="#334155" stroke-width="3" stroke-linecap="round"/>
+    <line x1="0" y1="4" x2="0" y2="${quoteHeight}" stroke="#ffffff" stroke-opacity="0.15" stroke-width="2.5" stroke-linecap="round"/>
     <text font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="16.5" font-weight="400" fill="#94a3b8">
       ${escapedSubtitleLines.map((line, i) => `<tspan x="18" y="${22 + i * 26}">${line}</tspan>`).join("")}
     </text>
@@ -818,7 +818,7 @@ export function generateOGSvg(data: OGCardData): string {
 
     <!-- Contáctame Button -->
     <g transform="translate(144, 0)">
-      <rect width="146" height="44" rx="10" fill="#181924" stroke="#334155" stroke-width="1"/>
+      <rect width="146" height="44" rx="10" fill="#202020" fill-opacity="0.6" stroke="#ffffff" stroke-opacity="0.2" stroke-width="1"/>
       <g transform="translate(16, 12)" stroke="#e2e8f0" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
         <rect x="2" y="4" width="16" height="12" rx="2"/>
         <path d="M22 6l-10 7L2 6"/>
@@ -837,16 +837,14 @@ export function generateOGSvg(data: OGCardData): string {
     <g transform="translate(28, 0)">
       <path d="M19 0h-18c-.55 0-1 .45-1 1v18c0 .55.45 1 1 1h18c.55 0 1-.45 1-1v-18c0-.55-.45-1-1-1zm-11 17h-3v-9h3v9zm-1.5-10.27c-.97 0-1.75-.79-1.75-1.76s.78-1.75 1.75-1.75 1.75.78 1.75 1.75-.78 1.76-1.75 1.76zm11.5 10.27h-3v-4.6c0-1.1-.02-2.52-1.54-2.52-1.54 0-1.77 1.2-1.77 2.44v4.68h-3v-9h2.88v1.23h.04c.4-.76 1.38-1.56 2.84-1.56 3.04 0 3.6 2 3.6 4.6v4.73z" fill="#94a3b8"/>
     </g>
-    <!-- Domain & Tag -->
+    <!-- Domain -->
     <text x="58" y="15" font-family="'Courier New', monospace" font-size="13" font-weight="600" fill="#94a3b8">cristianarando.dev</text>
-    <circle cx="218" cy="11" r="2" fill="#64748b"/>
-    <text x="230" y="15" font-family="'Courier New', monospace" font-size="12" font-weight="700" fill="#94a3b8" letter-spacing="1.5">L4_SYSTEMS</text>
   </g>
 
   <!-- RIGHT COLUMN: Bento Orbital Resonance Card -->
   <g transform="translate(685, 65)">
-    <!-- Card Base -->
-    <rect width="445" height="500" rx="24" fill="#13141c" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1.5"/>
+    <!-- Card Base (Neutral base-200 charcoal #1c1c1c) -->
+    <rect width="445" height="500" rx="24" fill="#1c1c1c" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1.2"/>
 
     <!-- Card Header -->
     <g transform="translate(28, 28)">
@@ -976,13 +974,13 @@ export function generateOGSvg(data: OGCardData): string {
 
   return `<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <radialGradient id="nebulaLeft" cx="20%" cy="30%" r="50%">
-      <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.08"/>
-      <stop offset="100%" stop-color="#101116" stop-opacity="0"/>
+    <radialGradient id="nebulaSoftNonHome" cx="20%" cy="30%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.03"/>
+      <stop offset="100%" stop-color="#202020" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="nebulaRight" cx="80%" cy="50%" r="60%">
-      <stop offset="0%" stop-color="${accentColor}" stop-opacity="0.08"/>
-      <stop offset="100%" stop-color="#101116" stop-opacity="0"/>
+    <radialGradient id="nebulaRightNonHome" cx="80%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="${accentColor}" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#202020" stop-opacity="0"/>
     </radialGradient>
     <radialGradient id="sunAura" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.85"/>
@@ -997,10 +995,10 @@ export function generateOGSvg(data: OGCardData): string {
     </radialGradient>
   </defs>
 
-  <!-- Deep Space Canvas -->
-  <rect width="100%" height="100%" fill="#101116"/>
-  <rect width="100%" height="100%" fill="url(#nebulaLeft)"/>
-  <rect width="100%" height="100%" fill="url(#nebulaRight)"/>
+  <!-- Deep Space Canvas (Exact Business theme base-100 neutral charcoal) -->
+  <rect width="100%" height="100%" fill="#202020"/>
+  <rect width="100%" height="100%" fill="url(#nebulaSoftNonHome)"/>
+  <rect width="100%" height="100%" fill="url(#nebulaRightNonHome)"/>
 
   <!-- Celestial Stars Backdrop -->
   ${starsSvg}
@@ -1034,7 +1032,7 @@ export function generateOGSvg(data: OGCardData): string {
 
   <!-- Author Signature Dock -->
   <g transform="translate(70, 480)">
-    <rect width="530" height="74" rx="16" fill="#13141c" stroke="#252736" stroke-width="1"/>
+    <rect width="530" height="74" rx="16" fill="#1c1c1c" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
     <circle cx="46" cy="37" r="30" fill="none" stroke="${accentColor}" stroke-width="2"/>
     
     <text x="90" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="17" font-weight="700" fill="#ffffff">Cristian Arando</text>
@@ -1042,14 +1040,14 @@ export function generateOGSvg(data: OGCardData): string {
 
     <!-- Language Badge inside dock -->
     <g transform="translate(440, 18)">
-      <rect width="64" height="38" rx="8" fill="#1b1c26" stroke="${accentColor}" stroke-width="1.2"/>
+      <rect width="64" height="38" rx="8" fill="#242424" stroke="${accentColor}" stroke-width="1.2"/>
       <text x="32" y="24" font-family="system-ui, sans-serif" font-size="14" font-weight="800" fill="${accentColor}" text-anchor="middle">${langUpper}</text>
     </g>
   </g>
 
   <!-- RIGHT COLUMN: Bento Card -->
   <g transform="translate(685, 65)">
-    <rect width="445" height="500" rx="24" fill="#13141c" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1.5"/>
+    <rect width="445" height="500" rx="24" fill="#1c1c1c" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1.2"/>
 
     <!-- Header of Card -->
     <g transform="translate(24, 26)">
