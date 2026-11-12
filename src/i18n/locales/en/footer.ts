@@ -5,6 +5,7 @@ export const footer = {
   "footer.quickLinks": "Quick Links",
   "footer.connect": "Connect",
 
+  "footer.subtitle": "// Let’s Build Systems",
   "footer.collaborate": "Let’s Build Systems",
   "footer.collaborateText":
     "Open to collaboration on software systems, explorations in AI, security, and software design.",

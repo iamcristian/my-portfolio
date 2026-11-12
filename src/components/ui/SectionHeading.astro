@@ -3,12 +3,18 @@ interface Props {
   subtitle: string;
   title: string;
   centered?: boolean;
+  class?: string;
 }
 
-const { subtitle, title, centered = true } = Astro.props;
+const {
+  subtitle,
+  title,
+  centered = true,
+  class: className = "mb-12",
+} = Astro.props;
 ---
 
-<div class:list={[centered && "text-center", "mb-12 relative"]}>
+<div class:list={[centered && "text-center", className, "relative"]}>
   <span class="font-mono text-xs tracking-widest uppercase text-base-content/70 font-semibold mb-2 block">
     {subtitle}
   </span>

@@ -3,6 +3,7 @@ export const footer = {
     "構造化された、保守性の高い、目的主導のソフトウェアシステムの構築に専念しています。",
   "footer.quickLinks": "クイックリンク",
   "footer.connect": "接続",
+  "footer.subtitle": "// システムを構築しましょう",
   "footer.collaborate": "システムを構築しましょう",
   "footer.collaborateText":
     "ソフトウェアシステム、AIの探求、セキュリティ、およびソフトウェア設計におけるコラボレーションを歓迎します。",

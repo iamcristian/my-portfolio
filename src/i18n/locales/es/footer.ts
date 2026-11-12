@@ -3,6 +3,7 @@ export const footer = {
     "Enfocado en construir sistemas de software estructurados, mantenibles y orientados a un propósito claro.",
   "footer.quickLinks": "Enlaces Rápidos",
   "footer.connect": "Conectar",
+  "footer.subtitle": "// Construyamos Sistemas",
   "footer.collaborate": "Construyamos Sistemas",
   "footer.collaborateText":
     "Abierto a la colaboración en sistemas de software, exploraciones en IA, seguridad y diseño de software.",

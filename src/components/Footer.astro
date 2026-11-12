@@ -4,6 +4,7 @@ import { useTranslations } from "../i18n/utils";
 import { featureCopy } from "../i18n/features";
 import { SITE } from "../config/site";
 import SocialLinks from "./ui/SocialLinks.astro";
+import SectionHeading from "./ui/SectionHeading.astro";
 import MailIcon from "../assets/icons/mail.svg";
 import ChevronUpIcon from "../assets/icons/chevron-up.svg";
 import starlightGrainImage from "../assets/images/starlight-grain.png";
@@ -15,7 +16,6 @@ const homeUrl = getRelativeLocaleUrl(lang, "");
 
 const LOCALIZED_COPY = {
   es: {
-    badge: "CONSTRUYAMOS SISTEMAS",
     copyEmail: "Copiar correo",
     copied: "¡Copiado al portapapeles!",
     sendMsg: "Enviar mensaje",
@@ -24,7 +24,6 @@ const LOCALIZED_COPY = {
       "Abierto a colaboración en sistemas distribuidos, arquitecturas agénticas en IA, seguridad y diseño de software estructurado.",
   },
   en: {
-    badge: "LET'S BUILD SYSTEMS",
     copyEmail: "Copy email",
     copied: "Copied to clipboard!",
     sendMsg: "Send message",
@@ -33,7 +32,6 @@ const LOCALIZED_COPY = {
       "Open to collaboration on distributed systems, AI agentic workflows, security, and structured software architecture.",
   },
   de: {
-    badge: "SYSTEME ERBAUEN",
     copyEmail: "E-Mail kopieren",
     copied: "In Zwischenablage kopiert!",
     sendMsg: "Nachricht senden",
@@ -42,7 +40,6 @@ const LOCALIZED_COPY = {
       "Offen für Zusammenarbeit an verteilten Systemen, KI-Agenten-Architekturen, Sicherheit und strukturierter Software.",
   },
   ja: {
-    badge: "システムを構築",
     copyEmail: "メールをコピー",
     copied: "クリップボードにコピーしました!",
     sendMsg: "メッセージを送信",
@@ -51,7 +48,6 @@ const LOCALIZED_COPY = {
       "分散システム、AIエージェントアーキテクチャ、セキュリティ、構造化ソフトウェア設計のコラボレーションを歓迎します。",
   },
   ru: {
-    badge: "СОЗДАЁМ СИСТЕМЫ",
     copyEmail: "Скопировать email",
     copied: "Скопировано в буфер!",
     sendMsg: "Отправить сообщение",
@@ -60,7 +56,6 @@ const LOCALIZED_COPY = {
       "Открыт для сотрудничества по распределённым системам, архитектурам ИИ-агентов, безопасности и проектированию ПО.",
   },
 }[lang as "es" | "en" | "de" | "ja" | "ru"] || {
-  badge: "LET'S BUILD SYSTEMS",
   copyEmail: "Copy email",
   copied: "Copied to clipboard!",
   sendMsg: "Send message",
@@ -73,16 +68,11 @@ const LOCALIZED_COPY = {
 <footer class="text-base-content mt-auto relative overflow-hidden bg-transparent">
   <!-- ── 1. PRE-FOOTER CALLOUT: CROWNING THE PLANETARY HORIZON ── -->
   <div class="relative z-20 max-w-4xl mx-auto px-4 md:px-8 pt-16 md:pt-24 pb-10 text-center space-y-4 md:space-y-6">
-    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-base-300/85 md:bg-base-300/50 border border-base-content/15 text-xs font-mono text-base-content/85 shadow-xs md:backdrop-blur-md">
-      <span class="text-primary text-xs leading-none">✦</span>
-      <span class="tracking-wider uppercase font-semibold">
-        {LOCALIZED_COPY.badge}
-      </span>
-    </div>
-
-    <h2 class="text-2xl sm:text-3xl md:text-5xl font-extrabold tracking-tight text-base-content leading-tight">
-      {t("footer.collaborate") || LOCALIZED_COPY.headline}
-    </h2>
+    <SectionHeading
+      subtitle={t("footer.subtitle")}
+      title={t("footer.collaborate")}
+      class="mb-4 md:mb-5"
+    />
 
     <p class="text-sm md:text-base text-base-content/75 max-w-xl mx-auto leading-relaxed font-medium">
       {t("footer.collaborateText") || LOCALIZED_COPY.subHeadline}

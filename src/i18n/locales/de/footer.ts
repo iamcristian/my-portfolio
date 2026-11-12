@@ -3,6 +3,7 @@ export const footer = {
     "Fokus auf den Aufbau strukturierter, wartbarer und zweckorientierter Softwaresysteme.",
   "footer.quickLinks": "Schnelllinks",
   "footer.connect": "Verbinden",
+  "footer.subtitle": "// Lass uns Systeme bauen",
   "footer.collaborate": "Lass uns Systeme bauen",
   "footer.collaborateText":
     "Offen für Zusammenarbeit bei Softwaresystemen, Erkundungen in den Bereichen KI, Sicherheit und Softwaredesign.",
