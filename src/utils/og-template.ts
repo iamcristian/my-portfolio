@@ -939,7 +939,7 @@ export function generateOGSvg(data: OGCardData): string {
         );
         const element = `
           <g transform="translate(${currentX}, 416)">
-            <rect width="${textWidth}" height="32" rx="6" fill="#14151f" stroke="#252736" stroke-width="1" />
+            <rect width="${textWidth}" height="32" rx="6" fill="#242424" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1" />
             <text x="${textWidth / 2}" y="21" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#cbd5e1" text-anchor="middle">${escapeXml(localizedTag)}</text>
           </g>
         `;
