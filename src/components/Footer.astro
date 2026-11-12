@@ -6,7 +6,7 @@ import { SITE } from "../config/site";
 import SocialLinks from "./ui/SocialLinks.astro";
 import MailIcon from "../assets/icons/mail.svg";
 import ChevronUpIcon from "../assets/icons/chevron-up.svg";
-import grainImage from "../assets/images/grain-bkg.png";
+import starlightGrainImage from "../assets/images/starlight-grain.png";
 
 const { lang } = Astro.locals;
 const t = useTranslations(lang);
@@ -160,72 +160,159 @@ const LOCALIZED_COPY = {
     </div>
   </div>
 
-  <!-- ── 2. CELESTIAL PLANETARY HORIZON (THE ECLIPSE SPHERE) ── -->
-  <div class="relative w-full overflow-hidden mt-2 md:mt-4">
-    <!-- Atmospheric Corona Diffuse Glow (Expanding upward into the cosmic void) -->
-    <div
-      class="pointer-events-none absolute -top-12 left-1/2 -translate-x-1/2 w-[140vw] max-w-[2200px] h-64 rounded-[50%_50%_0_0_/_100%_100%_0_0] bg-[radial-gradient(ellipse_65%_55%_at_50%_100%,rgba(255,255,255,0.18)_0%,rgba(255,255,255,0.05)_45%,rgba(255,255,255,0.01)_70%,transparent_100%)] blur-2xl z-1"
+  <!-- ── 2. CELESTIAL PLANETARY HORIZON (THE MONUMENTAL ECLIPSE SPHERE) ── -->
+  <div class="planet-stage relative w-full overflow-hidden mt-4 min-h-[640px] md:min-h-[680px]">
+    <!-- The Curved Planet Silhouette and Layered Glowing Atmospheric Rim -->
+    <svg
+      class="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[140vw] max-w-[2400px] h-full min-h-[640px] md:min-h-[680px] overflow-visible z-5"
+      viewBox="0 0 1600 700"
+      preserveAspectRatio="none"
       aria-hidden="true"
-    ></div>
+    >
+      <defs>
+        <!-- Linear gradient for the rim line and halo: pure bright white at center, soft fade to cosmic void at sides -->
+        <linearGradient id="rim-bright-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="rgba(255,255,255,0)" />
+          <stop offset="12%" stop-color="rgba(255,255,255,0.2)" />
+          <stop offset="35%" stop-color="rgba(255,255,255,0.85)" />
+          <stop offset="50%" stop-color="rgba(255,255,255,1)" />
+          <stop offset="65%" stop-color="rgba(255,255,255,0.85)" />
+          <stop offset="88%" stop-color="rgba(255,255,255,0.2)" />
+          <stop offset="100%" stop-color="rgba(255,255,255,0)" />
+        </linearGradient>
 
-    <!-- Authentic Dithered Starlight Grain Overlay (Stippled Celestial Scattering) -->
-    <div
-      class="pointer-events-none absolute -top-8 left-0 right-0 h-56 opacity-45 mix-blend-screen bg-repeat-x bg-bottom bg-[length:1400px_auto] z-2 [mask-image:radial-gradient(ellipse_65%_75%_at_50%_100%,black_25%,transparent_85%)] [-webkit-mask-image:radial-gradient(ellipse_65%_75%_at_50%_100%,black_25%,transparent_85%)]"
-      style={`background-image: url('${grainImage.src}');`}
-      aria-hidden="true"
-    ></div>
+        <!-- Atmosphere wide haze gradient -->
+        <linearGradient id="atmo-wide-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="rgba(255,255,255,0)" />
+          <stop offset="18%" stop-color="rgba(255,255,255,0.15)" />
+          <stop offset="50%" stop-color="rgba(255,255,255,0.5)" />
+          <stop offset="82%" stop-color="rgba(255,255,255,0.15)" />
+          <stop offset="100%" stop-color="rgba(255,255,255,0)" />
+        </linearGradient>
 
-    <!-- The Curved Horizon Rim SVG (Razor-Sharp Starlight Arc) -->
-    <div class="relative w-full h-44 sm:h-52 md:h-60 overflow-visible z-3 pointer-events-none select-none">
-      <svg
-        class="absolute top-0 left-1/2 -translate-x-1/2 w-[135vw] max-w-[2300px] h-full pointer-events-none"
-        viewBox="0 0 1440 240"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-      >
-        <defs>
-          <linearGradient
-            id="horizon-rim-grad"
-            x1="0%"
-            y1="0%"
-            x2="100%"
-            y2="0%"
-          >
-            <stop offset="0%" stop-color="rgba(255,255,255,0)" />
-            <stop offset="25%" stop-color="rgba(255,255,255,0.2)" />
-            <stop offset="50%" stop-color="rgba(255,255,255,0.95)" />
-            <stop offset="75%" stop-color="rgba(255,255,255,0.2)" />
-            <stop offset="100%" stop-color="rgba(255,255,255,0)" />
-          </linearGradient>
-          <linearGradient
-            id="horizon-shell-fill"
-            x1="0%"
-            y1="0%"
-            x2="0%"
-            y2="100%"
-          >
-            <stop offset="0%" stop-color="#101115" />
-            <stop offset="100%" stop-color="#101115" />
-          </linearGradient>
-        </defs>
-        <!-- Upper Shell Fill of the Planet -->
-        <path
-          d="M -100 240 Q 720 28 1540 240 L 1540 240 L -100 240 Z"
-          fill="url(#horizon-shell-fill)"
-        />
-        <!-- Hairline Starlight Rim -->
-        <path
-          d="M -100 240 Q 720 28 1540 240"
-          stroke="url(#horizon-rim-grad)"
-          stroke-width="1.3"
-          fill="none"
-        />
-      </svg>
-    </div>
+        <!-- The dark obsidian body of the exoplanet -->
+        <linearGradient id="planet-body-fill" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#111217" />
+          <stop offset="25%" stop-color="#0c0d11" />
+          <stop offset="100%" stop-color="#050507" />
+        </linearGradient>
+
+        <!-- Atmospheric blur filters along the curve -->
+        <filter
+          id="blur-wide-atmo"
+          x="-30%"
+          y="-150%"
+          width="160%"
+          height="400%"
+        >
+          <feGaussianBlur stdDeviation="38" />
+        </filter>
+
+        <filter
+          id="blur-crest-corona"
+          x="-20%"
+          y="-100%"
+          width="140%"
+          height="300%"
+        >
+          <feGaussianBlur stdDeviation="15" />
+        </filter>
+
+        <filter id="blur-rim-glow" x="-10%" y="-60%" width="120%" height="220%">
+          <feGaussianBlur stdDeviation="4" />
+        </filter>
+
+        <!-- Starlight Dust Noise Pattern -->
+        <pattern
+          id="starlight-dust-pattern"
+          width="256"
+          height="256"
+          patternUnits="userSpaceOnUse"
+        >
+          <image href={starlightGrainImage.src} width="256" height="256" />
+        </pattern>
+
+        <!-- Mask that restricts starlight dust to only ABOVE the curve fading upward into deep space -->
+        <linearGradient
+          id="dust-vertical-fade"
+          x1="0%"
+          y1="100%"
+          x2="0%"
+          y2="0%"
+        >
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95" />
+          <stop offset="50%" stop-color="#ffffff" stop-opacity="0.4" />
+          <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+        </linearGradient>
+
+        <mask id="dust-corona-mask">
+          <path
+            d="M -400 380 Q 800 30 2000 380 L 2000 -100 L -400 -100 Z"
+            fill="url(#dust-vertical-fade)"
+          />
+        </mask>
+      </defs>
+
+      <!-- Layer 1: Wide atmospheric haze along the exact curved horizon -->
+      <path
+        d="M -400 380 Q 800 30 2000 380"
+        stroke="url(#atmo-wide-grad)"
+        stroke-width="140"
+        fill="none"
+        filter="url(#blur-wide-atmo)"
+        opacity="0.6"
+      />
+
+      <!-- Layer 2: Medium corona bloom hugging the crest -->
+      <path
+        d="M -400 380 Q 800 30 2000 380"
+        stroke="url(#rim-bright-grad)"
+        stroke-width="50"
+        fill="none"
+        filter="url(#blur-crest-corona)"
+        opacity="0.8"
+      />
+
+      <!-- Layer 2.5: Starlight Dust Grain strictly in the atmospheric corona above the curve -->
+      <rect
+        x="-400"
+        y="-100"
+        width="2400"
+        height="500"
+        fill="url(#starlight-dust-pattern)"
+        mask="url(#dust-corona-mask)"
+        opacity="0.95"
+      />
+
+      <!-- Layer 3: Solid silhouette body of the planet below the horizon -->
+      <path
+        d="M -400 380 Q 800 30 2000 380 L 2000 1500 L -400 1500 Z"
+        fill="url(#planet-body-fill)"
+      />
+
+      <!-- Layer 4: Tight intense rim glow -->
+      <path
+        d="M -400 380 Q 800 30 2000 380"
+        stroke="url(#rim-bright-grad)"
+        stroke-width="9"
+        fill="none"
+        filter="url(#blur-rim-glow)"
+        opacity="0.95"
+      />
+
+      <!-- Layer 5: Razor-sharp pure white illuminated core hairline -->
+      <path
+        d="M -400 380 Q 800 30 2000 380"
+        stroke="url(#rim-bright-grad)"
+        stroke-width="2"
+        fill="none"
+        opacity="1"
+      />
+    </svg>
 
     <!-- ── 3. INSIDE THE PLANET BODY (THE CELESTIAL CORE & FOOTER) ── -->
-    <div class="relative w-full bg-linear-to-b from-[#101115] via-[#0c0d10] to-[#070709] px-4 md:px-8 pb-10 -mt-16 sm:-mt-20 md:-mt-24 z-10">
-      <div class="max-w-6xl mx-auto pt-8 pb-10 grid grid-cols-2 md:flex md:flex-row md:justify-between gap-y-8 gap-x-4 md:gap-10 relative z-20">
+    <div class="relative z-10 max-w-6xl mx-auto px-4 md:px-8 pt-48 sm:pt-52 md:pt-60 pb-10 bg-transparent">
+      <div class="pb-10 grid grid-cols-2 md:flex md:flex-row md:justify-between gap-y-8 gap-x-4 md:gap-10 relative z-20">
         <!-- Column 1: Info -->
         <div class="col-span-2 md:col-span-1 max-w-xs space-y-2 md:space-y-3">
           <p class="font-bold text-lg text-base-content flex items-center gap-2">
@@ -318,7 +405,7 @@ const LOCALIZED_COPY = {
       </div>
 
       <!-- Bottom Bar -->
-      <div class="max-w-6xl mx-auto pt-6 border-t border-base-content/10 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs opacity-75">
+      <div class="pt-6 border-t border-base-content/10 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs opacity-75">
         <div>
           <p>
             {t("footer.rights").replace("{name}", t("home.name"))}
