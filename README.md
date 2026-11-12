@@ -4,6 +4,9 @@
 
 **Personal portfolio, blog & digital identity — built with Astro, Tailwind CSS & daisyUI.**
 
+
+
+
 [![Live Site](https://img.shields.io/badge/🌍_Live-cristianarando.dev-000?style=for-the-badge)](https://cristianarando.dev)
 [![Astro](https://img.shields.io/badge/Astro-7.4-BC52EE?style=for-the-badge&logo=astro&logoColor=white)](https://astro.build)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.3-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
@@ -15,15 +18,18 @@
 <br>
 
 <a href="https://cristianarando.dev">
-  <img src="public/screenshot.webp" alt="cristianarando.dev — Portfolio Preview" width="100%" style="border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);" />
+  <img src="https://github.com/user-attachments/assets/2b037343-1fc8-483d-88df-1adf31ab701e" alt="cristianarando.dev — Portfolio Preview" width="100%" style="border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);" />
 </a>
 
-<br>
-<img width="50%" alt="{6A6BAB9A-7D51-478A-9CD8-A58F289AD545}" src="https://github.com/user-attachments/assets/58265fc0-c9ca-4b44-b667-17760a74505c" />
 
 <br>
+<img width="450" alt="image" src="https://github.com/user-attachments/assets/90a83a2b-e68a-4557-92e6-d448fc702992" />
+<img width="450" alt="{35EB9D44-0901-4A45-9045-E3B2222C86FD}" src="https://github.com/user-attachments/assets/c724957a-9161-4565-8f6f-ee4f0ed10411" />
+<br>
 
-[Features](#-features) · [Tech Stack](#-tech-stack) · [Getting Started](#-getting-started) · [Project Structure](#-project-structure) · [CI/CD](#-cicd) · [Deployment](#-deployment) · [Contributing](#-contributing)
+[Test link](https://pagespeed.web.dev/analysis/https-cristianarando-dev/2z6eo1odfv?hl=en&form_factor=mobile/)
+
+[Features](#-features) · [Tech Stack](#-tech-stack) · [Getting Started](#-getting-started) · [Project Structure](#-project-structure) · [Deployment](#-deployment) · [Contributing](#-contributing)
 
 </div>
 
