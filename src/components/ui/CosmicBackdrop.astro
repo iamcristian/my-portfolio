@@ -1,6 +1,7 @@
 ---
 // Continuous Deep-Space Universe Backdrop for the entire portfolio
-// Extends the celestial language of Hero.astro across all sections
+// Uses a lightweight static SVG starfield instead of 127 CSS box-shadows or scroll-linked transforms
+// so mobile GPUs rasterize tiles instantly during fast touch scrolling with zero checkerboarding.
 
 const createPrng = (seed: number) => {
   let s = seed | 0;
@@ -12,66 +13,82 @@ const createPrng = (seed: number) => {
   };
 };
 
-const generateStarShadows = (count: number, seed: number) => {
+interface Star {
+  x: string;
+  y: string;
+  r: string;
+  opacity: string;
+}
+
+const generateStars = (
+  count: number,
+  seed: number,
+  minR: number,
+  maxR: number,
+): Star[] => {
   const prng = createPrng(seed);
-  const shadows: string[] = [];
+  const stars: Star[] = [];
   for (let i = 0; i < count; i++) {
     const x = (prng() * 98 + 1).toFixed(2);
-    const y = (prng() * 148 + 1).toFixed(2);
-    const opacity = (0.35 + prng() * 0.55).toFixed(2);
-    const palette = [
-      `rgba(255, 255, 255, ${opacity})`,
-      `rgba(226, 232, 240, ${opacity})`,
-      `rgba(241, 245, 249, ${(Number(opacity) * 0.85).toFixed(2)})`,
-    ];
-    const color = palette[Math.floor(prng() * palette.length)];
-    shadows.push(`${x}vw ${y}vh ${color}`);
+    const y = (prng() * 98 + 1).toFixed(2);
+    const r = (minR + prng() * (maxR - minR)).toFixed(2);
+    const opacity = (0.3 + prng() * 0.55).toFixed(2);
+    stars.push({ x, y, r, opacity });
   }
-  return shadows.join(", ");
+  return stars;
 };
 
-const deepLayer1 = generateStarShadows(65, 4096);
-const deepLayer2 = generateStarShadows(40, 8192);
-const deepLayer3 = generateStarShadows(22, 16384);
+const starsLayer1 = generateStars(45, 4096, 0.5, 0.85);
+const starsLayer2 = generateStars(25, 8192, 0.85, 1.25);
 ---
 
 <div
   class="fixed inset-0 pointer-events-none z-0 overflow-hidden select-none cosmic-global-backdrop"
   aria-hidden="true"
 >
-  <!-- Subtle Monochromatic Deep-Space Dust Clouds -->
+  <!-- Pure Radial Gradient Deep-Space Dust Clouds (No expensive filter: blur() pass) -->
   <div
-    class="cosmic-nebula cosmic-nebula-1 absolute -top-24 -left-24 w-[36rem] h-[36rem] rounded-full blur-[130px] opacity-20"
-    style="background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, rgba(148, 163, 184, 0.04) 50%, transparent 75%);"
+    class="absolute -top-24 -left-24 w-[36rem] h-[36rem] rounded-full opacity-20"
+    style="background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, rgba(148, 163, 184, 0.03) 45%, transparent 70%);"
   ></div>
   <div
-    class="cosmic-nebula cosmic-nebula-2 absolute top-1/3 -right-32 w-[40rem] h-[40rem] rounded-full blur-[140px] opacity-15"
-    style="background: radial-gradient(circle, rgba(226, 232, 240, 0.07) 0%, rgba(148, 163, 184, 0.03) 50%, transparent 75%);"
+    class="absolute top-1/3 -right-32 w-[40rem] h-[40rem] rounded-full opacity-15"
+    style="background: radial-gradient(circle, rgba(226, 232, 240, 0.07) 0%, rgba(148, 163, 184, 0.025) 45%, transparent 70%);"
   ></div>
   <div
-    class="cosmic-nebula cosmic-nebula-3 absolute -bottom-32 left-1/4 w-[38rem] h-[38rem] rounded-full blur-[135px] opacity-15"
-    style="background: radial-gradient(circle, rgba(255, 255, 255, 0.07) 0%, rgba(148, 163, 184, 0.04) 50%, transparent 75%);"
-  ></div>
-
-  <!-- Interactive Global Cursor Starlight Aura -->
-  <div
-    class="hidden md:block absolute inset-0 pointer-events-none transition-opacity duration-500"
-    style="background: radial-gradient(650px circle at var(--cursor-x, 50vw) var(--cursor-y, 35vh), color-mix(in oklch, var(--color-base-content) 4.5%, transparent) 0%, transparent 70%);"
+    class="absolute -bottom-32 left-1/4 w-[38rem] h-[38rem] rounded-full opacity-15"
+    style="background: radial-gradient(circle, rgba(255, 255, 255, 0.07) 0%, rgba(148, 163, 184, 0.03) 45%, transparent 70%);"
   ></div>
 
-  <!-- Parallax Twinkling Star Layers -->
-  <div
-    class="cosmic-star-layer cosmic-stars-sm"
-    style={`box-shadow: ${deepLayer1};`}
-  ></div>
-  <div
-    class="cosmic-star-layer cosmic-stars-md"
-    style={`box-shadow: ${deepLayer2};`}
-  ></div>
-  <div
-    class="cosmic-star-layer cosmic-stars-lg"
-    style={`box-shadow: ${deepLayer3};`}
-  ></div>
+  <!-- Single Composite SVG Starfield (Zero box-shadow repaints, instant GPU tile rasterization) -->
+  <svg
+    class="absolute inset-0 w-full h-full text-white"
+    viewBox="0 0 1000 1000"
+    preserveAspectRatio="xMidYMid slice"
+  >
+    <g>
+      {starsLayer1.map((s) => (
+        <circle
+          cx={Number(s.x) * 10}
+          cy={Number(s.y) * 10}
+          r={s.r}
+          fill="currentColor"
+          opacity={s.opacity}
+        />
+      ))}
+    </g>
+    <g class="cosmic-stars-twinkle">
+      {starsLayer2.map((s) => (
+        <circle
+          cx={Number(s.x) * 10}
+          cy={Number(s.y) * 10}
+          r={s.r}
+          fill="currentColor"
+          opacity={s.opacity}
+        />
+      ))}
+    </g>
+  </svg>
 
   <!-- Signature 4-Point Monochromatic Celestial Stars -->
   <svg
@@ -106,14 +123,14 @@ const deepLayer3 = generateStarShadows(22, 16384);
     <path d="M12 0 C12 7 12 7 19 12 C12 12 12 17 12 24 C12 17 12 17 5 12 C12 12 12 7 12 0 Z"></path>
   </svg>
 
-  <!-- Ambient Deep-Space Comets -->
-  <div class="cosmic-comet cosmic-comet-1">
+  <!-- Ambient Deep-Space Comets (Desktop only to preserve mobile GPU budget) -->
+  <div class="hidden md:block cosmic-comet cosmic-comet-1">
     <div class="cosmic-comet-body">
       <span class="cosmic-comet-core"></span>
       <span class="cosmic-comet-tail"></span>
     </div>
   </div>
-  <div class="cosmic-comet cosmic-comet-2">
+  <div class="hidden md:block cosmic-comet cosmic-comet-2">
     <div class="cosmic-comet-body">
       <span class="cosmic-comet-core"></span>
       <span class="cosmic-comet-tail"></span>
@@ -122,10 +139,6 @@ const deepLayer3 = generateStarShadows(22, 16384);
 </div>
 
 <style>
-  .cosmic-global-backdrop {
-    transition: opacity 0.4s ease;
-  }
-
   .cosmic-diamond-star {
     position: absolute;
     pointer-events: none;
@@ -136,11 +149,11 @@ const deepLayer3 = generateStarShadows(22, 16384);
     0%,
     100% {
       opacity: 0.25;
-      transform: scale(0.85) rotate(0deg);
+      transform: scale(0.85);
     }
     50% {
       opacity: 0.85;
-      transform: scale(1.15) rotate(12deg);
+      transform: scale(1.15);
     }
   }
 
@@ -149,81 +162,17 @@ const deepLayer3 = generateStarShadows(22, 16384);
     filter: invert(0.85);
   }
 
-  .cosmic-star-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-radius: 9999px;
-    background: transparent;
-    will-change: transform, opacity;
+  .cosmic-stars-twinkle {
+    animation: cosmic-twinkle 8s ease-in-out infinite;
   }
 
-  .cosmic-stars-sm {
-    width: 1.25px;
-    height: 1.25px;
-    animation: cosmic-twinkle-1 6s ease-in-out infinite;
-    transform: translate3d(0, calc(var(--scroll-y, 0px) * -0.04), 0);
-  }
-
-  .cosmic-stars-md {
-    width: 2px;
-    height: 2px;
-    animation: cosmic-twinkle-2 9s ease-in-out infinite;
-    transform: translate3d(0, calc(var(--scroll-y, 0px) * -0.08), 0);
-  }
-
-  .cosmic-stars-lg {
-    width: 2.5px;
-    height: 2.5px;
-    animation: cosmic-twinkle-3 12s ease-in-out infinite;
-    transform: translate3d(0, calc(var(--scroll-y, 0px) * -0.12), 0);
-  }
-
-  .cosmic-nebula-1 {
-    animation: nebula-breathe 16s ease-in-out infinite;
-  }
-  .cosmic-nebula-2 {
-    animation: nebula-breathe 22s ease-in-out infinite reverse;
-  }
-  .cosmic-nebula-3 {
-    animation: nebula-breathe 19s ease-in-out infinite 4s;
-  }
-
-  @keyframes nebula-breathe {
+  @keyframes cosmic-twinkle {
     0%,
     100% {
-      transform: scale(1) translate3d(0, 0, 0);
-    }
-    50% {
-      transform: scale(1.12) translate3d(15px, -15px, 0);
-    }
-  }
-
-  @keyframes cosmic-twinkle-1 {
-    0%,
-    100% {
-      opacity: 0.35;
-    }
-    50% {
       opacity: 0.9;
     }
-  }
-  @keyframes cosmic-twinkle-2 {
-    0%,
-    100% {
-      opacity: 0.85;
-    }
     50% {
-      opacity: 0.3;
-    }
-  }
-  @keyframes cosmic-twinkle-3 {
-    0%,
-    100% {
       opacity: 0.4;
-    }
-    50% {
-      opacity: 0.95;
     }
   }
 
@@ -289,8 +238,8 @@ const deepLayer3 = generateStarShadows(22, 16384);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .cosmic-star-layer,
-    .cosmic-nebula,
+    .cosmic-stars-twinkle,
+    .cosmic-diamond-star,
     .cosmic-comet {
       animation: none !important;
       transform: none !important;

@@ -36,7 +36,7 @@ const t = useTranslations(lang);
   <article
     data-spotlight="true"
     class:list={[
-      "relative card md:card-side bg-base-200/55 backdrop-blur-md border border-base-content/10 hover:-translate-y-1 hover:border-base-content/30 hover:shadow-[0_18px_38px_-12px_rgba(0,0,0,0.4)] transition-all duration-300 overflow-hidden flex flex-col md:flex-row gap-6 p-6 group/card w-full",
+      "relative card md:card-side bg-base-200/90 md:bg-base-200/55 md:backdrop-blur-md border border-base-content/10 hover:-translate-y-1 hover:border-base-content/30 hover:shadow-[0_18px_38px_-12px_rgba(0,0,0,0.4)] transition-all duration-300 overflow-hidden flex flex-col md:flex-row gap-6 p-6 group/card w-full",
       className,
     ]}
     {...rest}
@@ -71,7 +71,7 @@ const t = useTranslations(lang);
         loading={loading}
         class="absolute inset-0 w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-500"
       />
-      <span class="badge bg-neutral-900/60 text-white border-none gap-1.5 py-3 px-3.5 absolute top-3 left-3 backdrop-blur-md text-xs font-semibold rounded-full shadow-sm">
+      <span class="badge bg-neutral-900/85 md:bg-neutral-900/60 text-white border-none gap-1.5 py-3 px-3.5 absolute top-3 left-3 md:backdrop-blur-md text-xs font-semibold rounded-full shadow-sm">
         <ShieldIcon class="w-3.5 h-3.5 text-white/90" />
         <span>{t("blog.featured")}</span>
       </span>
@@ -134,7 +134,7 @@ const t = useTranslations(lang);
     data-spotlight="true"
     data-tilt="true"
     class:list={[
-      "blog-card relative overflow-hidden card card-compact bg-base-200/55 backdrop-blur-md border border-base-content/10 hover:-translate-y-1 hover:border-base-content/30 hover:shadow-[0_18px_38px_-12px_rgba(0,0,0,0.4)] transition-all duration-300 flex flex-col h-full group/card",
+      "blog-card relative overflow-hidden card card-compact bg-base-200/90 md:bg-base-200/55 md:backdrop-blur-md border border-base-content/10 hover:-translate-y-1 hover:border-base-content/30 hover:shadow-[0_18px_38px_-12px_rgba(0,0,0,0.4)] transition-all duration-300 flex flex-col h-full group/card",
       className,
     ]}
     {...rest}
@@ -170,7 +170,7 @@ const t = useTranslations(lang);
         class="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-500"
       />
       {showFeaturedBadge && (
-        <span class="badge bg-neutral-900/60 text-white border-none gap-1.5 py-3 px-3.5 absolute top-3 left-3 backdrop-blur-md text-xs font-semibold rounded-full shadow-sm">
+        <span class="badge bg-neutral-900/85 md:bg-neutral-900/60 text-white border-none gap-1.5 py-3 px-3.5 absolute top-3 left-3 md:backdrop-blur-md text-xs font-semibold rounded-full shadow-sm">
           <ShieldIcon class="w-3.5 h-3.5 text-white/90" />
           <span>{t("blog.featured")}</span>
         </span>

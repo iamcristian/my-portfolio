@@ -131,29 +131,27 @@ export function initInteractions(signal: AbortSignal): () => void {
     });
   }
 
-  // ── 4. Celestial Horizon Header & Parallax Starfield Scroll ──
+  // ── 4. Celestial Horizon Header & Reading Progress ──
   const header = document.getElementById("main-header");
   const progressBar = document.getElementById("header-progress-bar");
   const progressContainer = document.getElementById("header-progress");
+
+  let scrollTicking = false;
+  let lastScrolledState: boolean | null = null;
 
   const updateScrollState = () => {
     const scrollY = window.scrollY;
     const isScrolled = scrollY > 24;
 
-    if (!prefersReduced) {
-      document.documentElement.style.setProperty(
-        "--scroll-y",
-        `${scrollY.toFixed(1)}px`,
-      );
-    }
-
-    if (header) {
-      header.classList.toggle("header-scrolled", isScrolled);
-    }
-
-    if (progressContainer) {
-      progressContainer.classList.toggle("opacity-100", isScrolled);
-      progressContainer.classList.toggle("opacity-0", !isScrolled);
+    if (isScrolled !== lastScrolledState) {
+      lastScrolledState = isScrolled;
+      if (header) {
+        header.classList.toggle("header-scrolled", isScrolled);
+      }
+      if (progressContainer) {
+        progressContainer.classList.toggle("opacity-100", isScrolled);
+        progressContainer.classList.toggle("opacity-0", !isScrolled);
+      }
     }
 
     if (progressBar) {
@@ -165,9 +163,17 @@ export function initInteractions(signal: AbortSignal): () => void {
           : 0;
       progressBar.style.width = `${pct.toFixed(1)}%`;
     }
+    scrollTicking = false;
   };
 
-  window.addEventListener("scroll", updateScrollState, {
+  const onScroll = () => {
+    if (!scrollTicking) {
+      scrollTicking = true;
+      window.requestAnimationFrame(updateScrollState);
+    }
+  };
+
+  window.addEventListener("scroll", onScroll, {
     passive: true,
     signal,
   });

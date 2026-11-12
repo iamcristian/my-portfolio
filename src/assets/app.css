@@ -168,45 +168,47 @@ html {
   animation: divider-pulse-beam 7s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
-/* Spotlight card glow effects */
-[data-spotlight] {
-  position: relative;
-  isolation: isolate;
-}
-[data-spotlight]::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  padding: 1px;
-  background: radial-gradient(
-    380px circle at var(--mouse-x, -999px) var(--mouse-y, -999px),
-    color-mix(in oklch, var(--color-primary) 32%, transparent),
-    transparent 65%
-  );
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: 2;
-}
-[data-spotlight]:hover::before {
-  opacity: 1;
-}
+/* Spotlight card glow effects & 3D tilt (Desktop fine pointer only to preserve mobile GPU tile memory) */
+@media (pointer: fine) and (hover: hover) {
+  [data-spotlight] {
+    position: relative;
+    isolation: isolate;
+  }
+  [data-spotlight]::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(
+      380px circle at var(--mouse-x, -999px) var(--mouse-y, -999px),
+      color-mix(in oklch, var(--color-primary) 32%, transparent),
+      transparent 65%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+  }
+  [data-spotlight]:hover::before {
+    opacity: 1;
+  }
 
-/* 3D tilt perspective wrapper */
-[data-tilt] {
-  transform-style: preserve-3d;
-  will-change: transform;
-}
+  /* 3D tilt perspective wrapper */
+  [data-tilt] {
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
 
-/* Magnetic button elasticity */
-[data-magnetic] {
-  will-change: transform;
+  /* Magnetic button elasticity */
+  [data-magnetic] {
+    will-change: transform;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

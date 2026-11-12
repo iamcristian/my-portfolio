@@ -49,7 +49,7 @@ const books = parseBooks(shelf?.body || "", notable?.body || "");
     {books.map((book) => (
       <article
         data-spotlight="true"
-        class="book-card card bg-base-200/55 backdrop-blur-md border border-base-content/10 hover:border-primary/40 hover:-translate-y-1 transition-all duration-300 p-5 gap-3 rounded-2xl"
+        class="book-card card bg-base-200/90 md:bg-base-200/55 md:backdrop-blur-md border border-base-content/10 hover:border-primary/40 hover:-translate-y-1 transition-all duration-300 p-5 gap-3 rounded-2xl"
         data-search={`${book.title} ${book.theme} ${book.author}`.toLocaleLowerCase()}
         data-status={book.status}
       >

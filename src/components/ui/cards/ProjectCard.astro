@@ -40,7 +40,7 @@ const localImage = imageImport ? imageImport() : fallbackImage;
   data-spotlight="true"
   data-tilt="true"
   class:list={[
-    "project-card card card-compact bg-base-200/55 backdrop-blur-md border border-base-content/10 overflow-hidden hover:border-base-content/30 hover:shadow-[0_18px_38px_-12px_rgba(0,0,0,0.4)] transition-all duration-300 flex flex-col h-full group/card relative",
+    "project-card card card-compact bg-base-200/90 md:bg-base-200/55 md:backdrop-blur-md border border-base-content/10 overflow-hidden hover:border-base-content/30 hover:shadow-[0_18px_38px_-12px_rgba(0,0,0,0.4)] transition-all duration-300 flex flex-col h-full group/card relative",
     className,
   ]}
   {...rest}
@@ -103,7 +103,7 @@ const localImage = imageImport ? imageImport() : fallbackImage;
       />
     )}
     {(project.featured || showFeaturedBadge) && (
-      <span class="badge bg-neutral-900/60 text-white border-none gap-1.5 py-3 px-3.5 absolute top-3 left-3 backdrop-blur-md text-xs font-semibold rounded-full shadow-sm">
+      <span class="badge bg-neutral-900/85 md:bg-neutral-900/60 text-white border-none gap-1.5 py-3 px-3.5 absolute top-3 left-3 md:backdrop-blur-md text-xs font-semibold rounded-full shadow-sm">
         <ShieldIcon class="w-3.5 h-3.5 text-white/90" />
         <span>{t("blog.featured")}</span>
       </span>
