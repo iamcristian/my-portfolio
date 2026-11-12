@@ -173,28 +173,6 @@ export function initInteractions(signal: AbortSignal): () => void {
   });
   updateScrollState();
 
-  // ── 5. Editorial Blur-to-Focus Reveals ──
-  if (!prefersReduced && "IntersectionObserver" in window) {
-    const revealElements =
-      document.querySelectorAll<HTMLElement>("[data-reveal]");
-    if (revealElements.length > 0) {
-      const revealObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
-            const target = entry.target as HTMLElement;
-            target.classList.add("revealed");
-            revealObserver.unobserve(target);
-          });
-        },
-        { threshold: 0.15, rootMargin: "0px 0px -40px 0px" },
-      );
-
-      revealElements.forEach((el) => revealObserver.observe(el));
-      cleanups.push(() => revealObserver.disconnect());
-    }
-  }
-
   return () => {
     cleanups.forEach((c) => c());
   };

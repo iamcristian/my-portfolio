@@ -160,12 +160,11 @@ const LOCALIZED_COPY = {
     </div>
   </div>
 
-  <!-- ── 2. CELESTIAL PLANETARY HORIZON (THE MONUMENTAL ECLIPSE SPHERE) ── -->
-  <div class="planet-stage relative w-full overflow-hidden mt-4 min-h-[640px] md:min-h-[680px]">
-    <!-- The Curved Planet Silhouette and Layered Glowing Atmospheric Rim -->
+  <!-- ── 2. THE PLANET CREST & HORIZON ARCHITECTURE (RESPONSIVE STAGE) ── -->
+  <div class="planet-crest-stage relative w-full h-[180px] sm:h-[210px] md:h-[240px] overflow-visible pointer-events-none z-5 mt-2 md:mt-4">
     <svg
-      class="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[140vw] max-w-[2400px] h-full min-h-[640px] md:min-h-[680px] overflow-visible z-5"
-      viewBox="0 0 1600 700"
+      class="absolute top-0 left-1/2 -translate-x-1/2 w-[140vw] max-w-[2400px] h-full overflow-visible pointer-events-none"
+      viewBox="0 0 1600 240"
       preserveAspectRatio="none"
       aria-hidden="true"
     >
@@ -190,14 +189,7 @@ const LOCALIZED_COPY = {
           <stop offset="100%" stop-color="rgba(255,255,255,0)" />
         </linearGradient>
 
-        <!-- The dark obsidian body of the exoplanet -->
-        <linearGradient id="planet-body-fill" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stop-color="#111217" />
-          <stop offset="25%" stop-color="#0c0d11" />
-          <stop offset="100%" stop-color="#050507" />
-        </linearGradient>
-
-        <!-- Atmospheric blur filters along the curve -->
+        <!-- Atmosphere blur filters -->
         <filter
           id="blur-wide-atmo"
           x="-30%"
@@ -205,7 +197,7 @@ const LOCALIZED_COPY = {
           width="160%"
           height="400%"
         >
-          <feGaussianBlur stdDeviation="38" />
+          <feGaussianBlur stdDeviation="35" />
         </filter>
 
         <filter
@@ -215,7 +207,7 @@ const LOCALIZED_COPY = {
           width="140%"
           height="300%"
         >
-          <feGaussianBlur stdDeviation="15" />
+          <feGaussianBlur stdDeviation="14" />
         </filter>
 
         <filter id="blur-rim-glow" x="-10%" y="-60%" width="120%" height="220%">
@@ -240,14 +232,14 @@ const LOCALIZED_COPY = {
           x2="0%"
           y2="0%"
         >
-          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95" />
-          <stop offset="50%" stop-color="#ffffff" stop-opacity="0.4" />
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+          <stop offset="60%" stop-color="#ffffff" stop-opacity="0.3" />
           <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
         </linearGradient>
 
         <mask id="dust-corona-mask">
           <path
-            d="M -400 380 Q 800 30 2000 380 L 2000 -100 L -400 -100 Z"
+            d="M -300 240 Q 800 25 1900 240 L 1900 -100 L -300 -100 Z"
             fill="url(#dust-vertical-fade)"
           />
         </mask>
@@ -255,9 +247,9 @@ const LOCALIZED_COPY = {
 
       <!-- Layer 1: Wide atmospheric haze along the exact curved horizon -->
       <path
-        d="M -400 380 Q 800 30 2000 380"
+        d="M -300 240 Q 800 25 1900 240"
         stroke="url(#atmo-wide-grad)"
-        stroke-width="140"
+        stroke-width="120"
         fill="none"
         filter="url(#blur-wide-atmo)"
         opacity="0.6"
@@ -265,9 +257,9 @@ const LOCALIZED_COPY = {
 
       <!-- Layer 2: Medium corona bloom hugging the crest -->
       <path
-        d="M -400 380 Q 800 30 2000 380"
+        d="M -300 240 Q 800 25 1900 240"
         stroke="url(#rim-bright-grad)"
-        stroke-width="50"
+        stroke-width="45"
         fill="none"
         filter="url(#blur-crest-corona)"
         opacity="0.8"
@@ -275,26 +267,26 @@ const LOCALIZED_COPY = {
 
       <!-- Layer 2.5: Starlight Dust Grain strictly in the atmospheric corona above the curve -->
       <rect
-        x="-400"
+        x="-300"
         y="-100"
-        width="2400"
-        height="500"
+        width="2200"
+        height="340"
         fill="url(#starlight-dust-pattern)"
         mask="url(#dust-corona-mask)"
         opacity="0.95"
       />
 
-      <!-- Layer 3: Solid silhouette body of the planet below the horizon -->
+      <!-- Layer 3: Solid silhouette upper shell of the planet body: fills from apex down to base line -->
       <path
-        d="M -400 380 Q 800 30 2000 380 L 2000 1500 L -400 1500 Z"
-        fill="url(#planet-body-fill)"
+        d="M -300 240 Q 800 25 1900 240 L 1900 241 L -300 241 Z"
+        fill="#111217"
       />
 
       <!-- Layer 4: Tight intense rim glow -->
       <path
-        d="M -400 380 Q 800 30 2000 380"
+        d="M -300 240 Q 800 25 1900 240"
         stroke="url(#rim-bright-grad)"
-        stroke-width="9"
+        stroke-width="8"
         fill="none"
         filter="url(#blur-rim-glow)"
         opacity="0.95"
@@ -302,17 +294,19 @@ const LOCALIZED_COPY = {
 
       <!-- Layer 5: Razor-sharp pure white illuminated core hairline -->
       <path
-        d="M -400 380 Q 800 30 2000 380"
+        d="M -300 240 Q 800 25 1900 240"
         stroke="url(#rim-bright-grad)"
         stroke-width="2"
         fill="none"
         opacity="1"
       />
     </svg>
+  </div>
 
-    <!-- ── 3. INSIDE THE PLANET BODY (THE CELESTIAL CORE & FOOTER) ── -->
-    <div class="relative z-10 max-w-6xl mx-auto px-4 md:px-8 pt-48 sm:pt-52 md:pt-60 pb-10 bg-transparent">
-      <div class="pb-10 grid grid-cols-2 md:flex md:flex-row md:justify-between gap-y-8 gap-x-4 md:gap-10 relative z-20">
+  <!-- ── 3. CONTINUOUS OBSIDIAN SURFACE BODY (HOSTS ALL COLUMNS SEAMLESSLY) ── -->
+  <div class="relative w-full bg-linear-to-b from-[#111217] via-[#0d0e12] to-[#050507] px-4 md:px-8 pt-8 md:pt-12 pb-10 -mt-0.5 z-10">
+    <div class="max-w-6xl mx-auto space-y-10 relative z-20">
+      <div class="grid grid-cols-2 md:flex md:flex-row md:justify-between gap-y-8 gap-x-4 md:gap-10">
         <!-- Column 1: Info -->
         <div class="col-span-2 md:col-span-1 max-w-xs space-y-2 md:space-y-3">
           <p class="font-bold text-lg text-base-content flex items-center gap-2">

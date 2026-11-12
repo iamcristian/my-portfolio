@@ -8,7 +8,7 @@ interface Props {
 const { subtitle, title, centered = true } = Astro.props;
 ---
 
-<div data-reveal class:list={[centered && "text-center", "mb-12 relative"]}>
+<div class:list={[centered && "text-center", "mb-12 relative"]}>
   <span class="font-mono text-xs tracking-widest uppercase text-base-content/70 font-semibold mb-2 block">
     {subtitle}
   </span>

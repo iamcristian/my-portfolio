@@ -1,9 +1,7 @@
 import { onPageLoad } from "./page-lifecycle";
-import { initSmoothScroll } from "./smooth-scroll";
 import { initInteractions } from "./interactions";
 
 onPageLoad((signal) => {
-  const smoothCleanup = initSmoothScroll(signal);
   const interactionsCleanup = initInteractions(signal);
   const timers = new Set<ReturnType<typeof setTimeout>>();
   const label = (key: string, fallback: string) =>
@@ -106,38 +104,13 @@ onPageLoad((signal) => {
     pre.append(button);
   });
 
-  const animations = new Set<Animation>();
   const counterFrames = new Set<number>();
-  let observer: IntersectionObserver | undefined;
   let counterObserver: IntersectionObserver | undefined;
 
   if (
     !matchMedia("(prefers-reduced-motion: reduce)").matches &&
     "IntersectionObserver" in window
   ) {
-    observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          // Content is visible by default; failure to animate never hides it.
-          const animation = entry.target.animate(
-            [
-              { opacity: 0.4, transform: "translateY(12px)" },
-              { opacity: 1, transform: "translateY(0)" },
-            ],
-            { duration: 450, easing: "ease-out" },
-          );
-          animations.add(animation);
-          animation.onfinish = () => animations.delete(animation);
-          observer?.unobserve(entry.target);
-        });
-      },
-      { threshold: 0.05 },
-    );
-    document
-      .querySelectorAll(".scroll-reveal")
-      .forEach((el) => observer?.observe(el));
-
     const counters = document.querySelectorAll<HTMLElement>(".stat-counter");
     if (counters.length > 0) {
       counterObserver = new IntersectionObserver(
@@ -176,13 +149,10 @@ onPageLoad((signal) => {
   }
   document.documentElement.classList.remove("preload");
   return () => {
-    smoothCleanup();
     interactionsCleanup();
     timers.forEach(clearTimeout);
     counterFrames.forEach(cancelAnimationFrame);
-    observer?.disconnect();
     counterObserver?.disconnect();
-    animations.forEach((animation) => animation.cancel());
   };
 });
 
