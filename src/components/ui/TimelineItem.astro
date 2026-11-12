@@ -36,12 +36,12 @@ const t = useTranslations(lang);
 
 <li id={id} tabindex={id ? -1 : undefined} class="scroll-mt-24 group/timeline">
   {index !== 0 && (
-    <hr class="bg-linear-to-b from-amber-300/20 via-sky-400/40 to-violet-400/25 border-none w-0.5" />
+    <hr class="bg-linear-to-b from-base-content/15 via-base-content/30 to-base-content/15 border-none w-0.5" />
   )}
   <div class="timeline-middle px-1">
-    <!-- Celestial Pulsar Node with Gravitational Ripple -->
-    <div class="relative flex items-center justify-center w-8 h-8 rounded-full bg-base-200/80 border border-amber-300/40 shadow-[0_0_16px_rgba(251,191,36,0.2)] group-hover/timeline:border-amber-300 group-hover/timeline:scale-110 transition-all duration-300">
-      <span class="absolute inset-0 rounded-full border border-amber-300/40 opacity-0 group-hover/timeline:opacity-100 group-hover/timeline:animate-ping pointer-events-none"></span>
+    <!-- Monochromatic Celestial Pulsar Node with Gravitational Ripple -->
+    <div class="relative flex items-center justify-center w-8 h-8 rounded-full bg-base-200/80 border border-base-content/25 shadow-[0_0_12px_rgba(255,255,255,0.08)] group-hover/timeline:border-primary/60 group-hover/timeline:scale-110 transition-all duration-300">
+      <span class="absolute inset-0 rounded-full border border-base-content/30 opacity-0 group-hover/timeline:opacity-100 group-hover/timeline:animate-ping pointer-events-none"></span>
       <span class="font-mono font-bold text-xs text-primary z-10">{num}</span>
     </div>
   </div>
@@ -49,12 +49,12 @@ const t = useTranslations(lang);
     data-spotlight="true"
     class:list={[
       isEven ? "timeline-start mb-10" : "timeline-end mb-10",
-      "card bg-base-200/50 backdrop-blur-md border border-base-content/10 p-6 w-full ml-2 md:ml-0 text-left hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.4)] transition-all duration-300 relative overflow-hidden",
+      "card bg-base-200/50 backdrop-blur-md border border-base-content/10 p-6 w-full ml-2 md:ml-0 text-left hover:-translate-y-0.5 hover:border-base-content/30 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.4)] transition-all duration-300 relative overflow-hidden",
     ]}
   >
-    <!-- Subtle Background Orbital Contour inside Timeline Card -->
+    <!-- Subtle Monochromatic Orbital Contour inside Timeline Card -->
     <svg
-      class="absolute -right-10 -top-10 w-36 h-36 text-base-content/5 group-hover/timeline:text-sky-400/15 transition-colors duration-500 pointer-events-none"
+      class="absolute -right-10 -top-10 w-36 h-36 text-base-content/8 group-hover/timeline:text-base-content/20 transition-colors duration-500 pointer-events-none"
       viewBox="0 0 120 120"
       fill="none"
       aria-hidden="true"
@@ -124,7 +124,7 @@ const t = useTranslations(lang);
     </div>
   </div>
   {index !== totalItems - 1 && (
-    <hr class="bg-linear-to-b from-sky-400/40 via-violet-400/35 to-amber-300/20 border-none w-0.5" />
+    <hr class="bg-linear-to-b from-base-content/30 via-base-content/20 to-base-content/15 border-none w-0.5" />
   )}
 </li>
 

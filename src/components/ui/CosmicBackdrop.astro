@@ -21,9 +21,8 @@ const generateStarShadows = (count: number, seed: number) => {
     const opacity = (0.35 + prng() * 0.55).toFixed(2);
     const palette = [
       `rgba(255, 255, 255, ${opacity})`,
-      `rgba(224, 242, 254, ${opacity})`,
-      `rgba(254, 240, 138, ${(Number(opacity) * 0.85).toFixed(2)})`,
-      `rgba(196, 181, 253, ${(Number(opacity) * 0.85).toFixed(2)})`,
+      `rgba(226, 232, 240, ${opacity})`,
+      `rgba(241, 245, 249, ${(Number(opacity) * 0.85).toFixed(2)})`,
     ];
     const color = palette[Math.floor(prng() * palette.length)];
     shadows.push(`${x}vw ${y}vh ${color}`);
@@ -40,24 +39,24 @@ const deepLayer3 = generateStarShadows(22, 16384);
   class="fixed inset-0 pointer-events-none z-0 overflow-hidden select-none cosmic-global-backdrop"
   aria-hidden="true"
 >
-  <!-- Subtle Deep-Space Nebula Clouds -->
+  <!-- Subtle Monochromatic Deep-Space Dust Clouds -->
   <div
-    class="cosmic-nebula cosmic-nebula-1 absolute -top-24 -left-24 w-[36rem] h-[36rem] rounded-full blur-[130px] opacity-25"
-    style="background: radial-gradient(circle, rgba(59, 130, 246, 0.18) 0%, rgba(139, 92, 246, 0.08) 50%, transparent 75%);"
+    class="cosmic-nebula cosmic-nebula-1 absolute -top-24 -left-24 w-[36rem] h-[36rem] rounded-full blur-[130px] opacity-20"
+    style="background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, rgba(148, 163, 184, 0.04) 50%, transparent 75%);"
   ></div>
   <div
-    class="cosmic-nebula cosmic-nebula-2 absolute top-1/3 -right-32 w-[40rem] h-[40rem] rounded-full blur-[140px] opacity-20"
-    style="background: radial-gradient(circle, rgba(251, 191, 36, 0.12) 0%, rgba(236, 72, 153, 0.06) 50%, transparent 75%);"
+    class="cosmic-nebula cosmic-nebula-2 absolute top-1/3 -right-32 w-[40rem] h-[40rem] rounded-full blur-[140px] opacity-15"
+    style="background: radial-gradient(circle, rgba(226, 232, 240, 0.07) 0%, rgba(148, 163, 184, 0.03) 50%, transparent 75%);"
   ></div>
   <div
-    class="cosmic-nebula cosmic-nebula-3 absolute -bottom-32 left-1/4 w-[38rem] h-[38rem] rounded-full blur-[135px] opacity-20"
-    style="background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, rgba(59, 130, 246, 0.08) 50%, transparent 75%);"
+    class="cosmic-nebula cosmic-nebula-3 absolute -bottom-32 left-1/4 w-[38rem] h-[38rem] rounded-full blur-[135px] opacity-15"
+    style="background: radial-gradient(circle, rgba(255, 255, 255, 0.07) 0%, rgba(148, 163, 184, 0.04) 50%, transparent 75%);"
   ></div>
 
-  <!-- Interactive Global Cursor Nebula Aura -->
+  <!-- Interactive Global Cursor Starlight Aura -->
   <div
     class="hidden md:block absolute inset-0 pointer-events-none transition-opacity duration-500"
-    style="background: radial-gradient(650px circle at var(--cursor-x, 50vw) var(--cursor-y, 35vh), color-mix(in oklch, var(--color-primary) 7%, transparent) 0%, rgba(59, 130, 246, 0.03) 45%, transparent 75%);"
+    style="background: radial-gradient(650px circle at var(--cursor-x, 50vw) var(--cursor-y, 35vh), color-mix(in oklch, var(--color-base-content) 4.5%, transparent) 0%, transparent 70%);"
   ></div>
 
   <!-- Parallax Twinkling Star Layers -->
@@ -74,16 +73,16 @@ const deepLayer3 = generateStarShadows(22, 16384);
     style={`box-shadow: ${deepLayer3};`}
   ></div>
 
-  <!-- Signature 4-Point Celestial Diamond Stars -->
+  <!-- Signature 4-Point Monochromatic Celestial Stars -->
   <svg
-    class="cosmic-diamond-star top-[18%] left-[8%] w-2.5 h-2.5 text-amber-300/70"
+    class="cosmic-diamond-star top-[18%] left-[8%] w-2.5 h-2.5 text-white/55"
     viewBox="0 0 24 24"
     fill="currentColor"
   >
     <path d="M12 0 C12 7 12 7 19 12 C12 12 12 17 12 24 C12 17 12 17 5 12 C12 12 12 7 12 0 Z"></path>
   </svg>
   <svg
-    class="cosmic-diamond-star top-[46%] right-[9%] w-3 h-3 text-sky-300/65"
+    class="cosmic-diamond-star top-[46%] right-[9%] w-2.5 h-2.5 text-white/50"
     style="animation-delay: 2.2s;"
     viewBox="0 0 24 24"
     fill="currentColor"
@@ -91,7 +90,7 @@ const deepLayer3 = generateStarShadows(22, 16384);
     <path d="M12 0 C12 7 12 7 19 12 C12 12 12 17 12 24 C12 17 12 17 5 12 C12 12 12 7 12 0 Z"></path>
   </svg>
   <svg
-    class="cosmic-diamond-star top-[78%] left-[14%] w-2.5 h-2.5 text-violet-300/65"
+    class="cosmic-diamond-star top-[78%] left-[14%] w-2 h-2 text-white/45"
     style="animation-delay: 4.1s;"
     viewBox="0 0 24 24"
     fill="currentColor"
@@ -99,7 +98,7 @@ const deepLayer3 = generateStarShadows(22, 16384);
     <path d="M12 0 C12 7 12 7 19 12 C12 12 12 17 12 24 C12 17 12 17 5 12 C12 12 12 7 12 0 Z"></path>
   </svg>
   <svg
-    class="cosmic-diamond-star top-[64%] right-[18%] w-2 h-2 text-emerald-300/60"
+    class="cosmic-diamond-star top-[64%] right-[18%] w-2 h-2 text-white/45"
     style="animation-delay: 1.4s;"
     viewBox="0 0 24 24"
     fill="currentColor"
@@ -239,21 +238,21 @@ const deepLayer3 = generateStarShadows(22, 16384);
     align-items: center;
   }
   .cosmic-comet-core {
-    width: 3px;
-    height: 3px;
+    width: 2.5px;
+    height: 2.5px;
     background: #fff;
     border-radius: 9999px;
     box-shadow:
       0 0 6px #fff,
-      0 0 12px #60a5fa;
+      0 0 12px rgba(255, 255, 255, 0.7);
   }
   .cosmic-comet-tail {
     width: 110px;
-    height: 1.5px;
+    height: 1.25px;
     background: linear-gradient(
       to left,
       transparent,
-      rgba(96, 165, 250, 0.6),
+      rgba(255, 255, 255, 0.45),
       #ffffff
     );
     border-radius: 9999px;

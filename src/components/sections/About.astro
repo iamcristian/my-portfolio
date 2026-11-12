@@ -30,21 +30,21 @@ const t = useTranslations(lang);
 
       <div class="flex items-center gap-2">
         <span class="badge badge-outline text-xs gap-1.5 py-2.5 px-3">
-          <span class="w-1.5 h-1.5 rounded-full bg-amber-300 animate-pulse"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-base-content/75 animate-pulse"></span>
           {t("about.location")}
         </span>
       </div>
 
-      <!-- Cosmic Metric Cards with Orbital Contour Backdrops -->
+      <!-- Cosmic Metric Cards with Monochromatic Orbital Contour Backdrops -->
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 w-full pt-2">
         <!-- Metric 1: Solar Orbit (Experience) -->
         <div
           data-spotlight="true"
-          class="relative overflow-hidden rounded-2xl border border-base-content/10 bg-base-200/40 backdrop-blur-md p-4 sm:p-5 text-center transition-all duration-300 hover:border-amber-400/40 group/stat"
+          class="relative overflow-hidden rounded-2xl border border-base-content/10 bg-base-200/40 backdrop-blur-md p-4 sm:p-5 text-center transition-all duration-300 hover:border-base-content/30 group/stat"
         >
           <!-- Subtle Orbital Arc SVG -->
           <svg
-            class="absolute -right-6 -bottom-6 w-28 h-28 text-amber-400/15 group-hover/stat:text-amber-400/30 transition-colors duration-500 pointer-events-none"
+            class="absolute -right-6 -bottom-6 w-28 h-28 text-base-content/10 group-hover/stat:text-base-content/25 transition-colors duration-500 pointer-events-none"
             viewBox="0 0 100 100"
             fill="none"
           >
@@ -63,9 +63,9 @@ const t = useTranslations(lang);
               stroke="currentColor"
               stroke-width="0.75"
             />
-            <circle cx="35" cy="80" r="2.5" fill="currentColor" />
+            <circle cx="35" cy="80" r="2" fill="currentColor" />
           </svg>
-          <div class="stat-value text-primary text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight drop-shadow-[0_0_12px_rgba(251,191,36,0.2)]">
+          <div class="stat-value text-primary text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight">
             <span class="stat-counter" data-target="1" data-suffix="+">
               {t("about.expValue")}
             </span>
@@ -78,10 +78,10 @@ const t = useTranslations(lang);
         <!-- Metric 2: Planetary Equilibrium (Analytical Focus) -->
         <div
           data-spotlight="true"
-          class="relative overflow-hidden rounded-2xl border border-base-content/10 bg-base-200/40 backdrop-blur-md p-4 sm:p-5 text-center transition-all duration-300 hover:border-sky-400/40 group/stat"
+          class="relative overflow-hidden rounded-2xl border border-base-content/10 bg-base-200/40 backdrop-blur-md p-4 sm:p-5 text-center transition-all duration-300 hover:border-base-content/30 group/stat"
         >
           <svg
-            class="absolute -right-6 -bottom-6 w-28 h-28 text-sky-400/15 group-hover/stat:text-sky-400/30 transition-colors duration-500 pointer-events-none"
+            class="absolute -right-6 -bottom-6 w-28 h-28 text-base-content/10 group-hover/stat:text-base-content/25 transition-colors duration-500 pointer-events-none"
             viewBox="0 0 100 100"
             fill="none"
           >
@@ -100,9 +100,9 @@ const t = useTranslations(lang);
               stroke="currentColor"
               stroke-width="0.75"
             />
-            <circle cx="80" cy="35" r="2.5" fill="currentColor" />
+            <circle cx="80" cy="35" r="2" fill="currentColor" />
           </svg>
-          <div class="stat-value text-secondary text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight drop-shadow-[0_0_12px_rgba(96,165,250,0.2)]">
+          <div class="stat-value text-secondary text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight">
             <span class="stat-counter" data-target="100" data-suffix="%">
               {t("about.passionValue")}
             </span>
@@ -115,10 +115,10 @@ const t = useTranslations(lang);
         <!-- Metric 3: Deep Space Horizon (Strategic Thinking) -->
         <div
           data-spotlight="true"
-          class="relative overflow-hidden rounded-2xl border border-base-content/10 bg-base-200/40 backdrop-blur-md p-4 sm:p-5 text-center transition-all duration-300 hover:border-violet-400/40 group/stat"
+          class="relative overflow-hidden rounded-2xl border border-base-content/10 bg-base-200/40 backdrop-blur-md p-4 sm:p-5 text-center transition-all duration-300 hover:border-base-content/30 group/stat"
         >
           <svg
-            class="absolute -right-6 -bottom-6 w-28 h-28 text-violet-400/15 group-hover/stat:text-violet-400/30 transition-colors duration-500 pointer-events-none"
+            class="absolute -right-6 -bottom-6 w-28 h-28 text-base-content/10 group-hover/stat:text-base-content/25 transition-colors duration-500 pointer-events-none"
             viewBox="0 0 100 100"
             fill="none"
           >
@@ -137,9 +137,9 @@ const t = useTranslations(lang);
               stroke="currentColor"
               stroke-width="0.75"
             />
-            <path d="M48 44 L51 48 L48 52 L45 48 Z" fill="currentColor" />
+            <circle cx="48" cy="48" r="2" fill="currentColor" />
           </svg>
-          <div class="stat-value text-accent text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight drop-shadow-[0_0_12px_rgba(167,139,250,0.2)]">
+          <div class="stat-value text-accent text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight">
             {t("about.stratValue")}
           </div>
           <div class="stat-title text-base-content/80 text-xs md:text-sm mt-1.5 whitespace-normal leading-tight font-medium">
@@ -149,16 +149,16 @@ const t = useTranslations(lang);
       </div>
     </div>
 
-    <!-- Photo Column with Rotating Celestial Orbits -->
+    <!-- Photo Column with Rotating Monochromatic Celestial Orbits -->
     <div class="flex justify-center mt-6 md:mt-0">
       <div
         data-tilt="true"
         class="relative flex items-center justify-center group/avatar"
       >
-        <!-- Ambient Nebula Aura behind portrait -->
-        <div class="absolute -inset-6 rounded-full bg-linear-to-tr from-sky-500/10 via-amber-400/5 to-violet-500/10 blur-2xl pointer-events-none group-hover/avatar:opacity-100 opacity-70 transition-opacity duration-500"></div>
+        <!-- Ambient Starlight Aura behind portrait -->
+        <div class="absolute -inset-6 rounded-full bg-base-content/5 blur-2xl pointer-events-none group-hover/avatar:opacity-100 opacity-60 transition-opacity duration-500"></div>
 
-        <!-- Rotating Outer Orbital Ring SVG -->
+        <!-- Rotating Outer Orbital Ring SVG (Monochromatic) -->
         <svg
           class="absolute -inset-7 sm:-inset-10 w-[calc(100%+3.5rem)] sm:w-[calc(100%+5rem)] h-[calc(100%+3.5rem)] sm:h-[calc(100%+5rem)] text-base-content/25 pointer-events-none avatar-orbit-cw"
           viewBox="0 0 240 240"
@@ -181,20 +181,29 @@ const t = useTranslations(lang);
             stroke-width="0.4"
             class="opacity-50"
           />
-          <!-- Orbiting Satellite 1 (Azure Earth tone) -->
-          <circle cx="120" cy="8" r="3" fill="#60a5fa" />
+          <!-- Orbiting Satellite 1 (Monochromatic Starlight) -->
           <circle
             cx="120"
             cy="8"
-            r="6"
-            stroke="#60a5fa"
-            stroke-width="0.5"
-            class="opacity-50"
+            r="2.5"
+            fill="currentColor"
+            class="opacity-85"
           />
-          <!-- Orbiting 4-Point Star (Solar Gold) -->
-          <path
-            d="M232 120 C232 123 232 123 235 125 C232 125 232 127 232 130 C232 127 232 127 229 125 C232 125 232 123 232 120 Z"
-            fill="#fef08a"
+          <circle
+            cx="120"
+            cy="8"
+            r="5.5"
+            stroke="currentColor"
+            stroke-width="0.5"
+            class="opacity-45"
+          />
+          <!-- Orbiting Satellite 2 -->
+          <circle
+            cx="232"
+            cy="120"
+            r="2"
+            fill="currentColor"
+            class="opacity-75"
           />
         </svg>
 

@@ -21,11 +21,11 @@ const imageImport = images[item.logo]!;
 
 <div
   data-spotlight="true"
-  class="group relative overflow-hidden card bg-base-200/55 backdrop-blur-md border border-base-content/10 p-4 flex flex-row gap-4 items-start hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_12px_28px_-10px_rgba(251,191,36,0.18)] transition-all duration-300 rounded-xl"
+  class="group relative overflow-hidden card bg-base-200/55 backdrop-blur-md border border-base-content/10 p-4 flex flex-row gap-4 items-start hover:-translate-y-1 hover:border-base-content/30 hover:shadow-[0_12px_28px_-10px_rgba(0,0,0,0.35)] transition-all duration-300 rounded-xl"
 >
-  <!-- Subtle Orbital Arc & Star Corner -->
+  <!-- Subtle Monochromatic Orbital Arc & Star Corner -->
   <svg
-    class="absolute -top-4 -right-4 w-20 h-20 text-base-content opacity-15 group-hover:opacity-50 transition-opacity duration-500 pointer-events-none select-none"
+    class="absolute -top-4 -right-4 w-20 h-20 text-base-content opacity-10 group-hover:opacity-35 transition-opacity duration-500 pointer-events-none select-none"
     viewBox="0 0 80 80"
     fill="none"
     aria-hidden="true"
@@ -38,10 +38,7 @@ const imageImport = images[item.logo]!;
       stroke-width="0.5"
       stroke-dasharray="2 3"
     ></circle>
-    <path
-      d="M42 36 C42 38.5 42 38.5 44.5 40 C42 40 42 41.5 42 44 C42 41.5 42 41.5 39.5 40 C42 40 42 38.5 42 36 Z"
-      fill="#fbbf24"
-    ></path>
+    <circle cx="42" cy="38" r="1.6" fill="currentColor"></circle>
   </svg>
 
   <div class="avatar placeholder shrink-0 group-hover:scale-110 transition-transform duration-300 relative z-10">

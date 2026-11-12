@@ -40,7 +40,7 @@ const localImage = imageImport ? imageImport() : fallbackImage;
   data-spotlight="true"
   data-tilt="true"
   class:list={[
-    "project-card card card-compact bg-base-200/55 backdrop-blur-md border border-base-content/10 overflow-hidden hover:border-primary/45 hover:shadow-[0_18px_38px_-12px_rgba(59,130,246,0.22)] transition-all duration-300 flex flex-col h-full group/card relative",
+    "project-card card card-compact bg-base-200/55 backdrop-blur-md border border-base-content/10 overflow-hidden hover:border-base-content/30 hover:shadow-[0_18px_38px_-12px_rgba(0,0,0,0.4)] transition-all duration-300 flex flex-col h-full group/card relative",
     className,
   ]}
   {...rest}
@@ -48,13 +48,13 @@ const localImage = imageImport ? imageImport() : fallbackImage;
   <!-- Dynamic cursor spotlight highlight -->
   <div
     class="pointer-events-none absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 rounded-[inherit] z-10"
-    style="background: radial-gradient(350px circle at var(--mouse-x, -999px) var(--mouse-y, -999px), color-mix(in oklch, var(--color-primary) 7%, transparent), transparent 70%);"
+    style="background: radial-gradient(350px circle at var(--mouse-x, -999px) var(--mouse-y, -999px), color-mix(in oklch, var(--color-base-content) 5%, transparent), transparent 70%);"
     aria-hidden="true"
   ></div>
 
-  <!-- Subtle Celestial Orbital Vector in Card Body -->
+  <!-- Subtle Monochromatic Celestial Orbital Vector in Card Body -->
   <svg
-    class="absolute bottom-2 right-2 w-28 h-28 text-base-content opacity-10 group-hover/card:opacity-35 transition-opacity duration-500 pointer-events-none select-none z-0"
+    class="absolute bottom-2 right-2 w-28 h-28 text-base-content opacity-10 group-hover/card:opacity-30 transition-opacity duration-500 pointer-events-none select-none z-0"
     viewBox="0 0 100 100"
     fill="none"
     aria-hidden="true"
@@ -74,11 +74,8 @@ const localImage = imageImport ? imageImport() : fallbackImage;
       stroke="currentColor"
       stroke-width="0.4"
     ></circle>
-    <path
-      d="M44 80 C44 82 44 82 46 83 C44 83 44 84 44 86 C44 84 44 84 42 83 C44 83 44 82 44 80 Z"
-      fill="#fbbf24"
-    ></path>
-    <circle cx="80" cy="26" r="1.5" fill="#60a5fa"></circle>
+    <circle cx="44" cy="80" r="1.5" fill="currentColor"></circle>
+    <circle cx="80" cy="26" r="1.5" fill="currentColor"></circle>
   </svg>
 
   <figure class="project-figure relative h-48 bg-base-300 shrink-0 transition-all overflow-hidden">
@@ -107,7 +104,7 @@ const localImage = imageImport ? imageImport() : fallbackImage;
     )}
     {(project.featured || showFeaturedBadge) && (
       <span class="badge bg-neutral-900/60 text-white border-none gap-1.5 py-3 px-3.5 absolute top-3 left-3 backdrop-blur-md text-xs font-semibold rounded-full shadow-sm">
-        <ShieldIcon class="w-3.5 h-3.5 text-amber-400" />
+        <ShieldIcon class="w-3.5 h-3.5 text-white/90" />
         <span>{t("blog.featured")}</span>
       </span>
     )}

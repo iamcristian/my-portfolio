@@ -80,14 +80,14 @@ const tocHeadings = [
     </a>
   </div>
 
-  <!-- Celestial Mission Dossier Header -->
+  <!-- Celestial Mission Dossier Header (Monochromatic) -->
   <header
     data-spotlight="true"
     class="relative overflow-hidden rounded-2xl bg-base-200/45 backdrop-blur-md border border-base-content/10 p-6 md:p-8 mb-6 max-w-4xl space-y-4"
   >
-    <!-- Orbital Trajectory Watermark -->
+    <!-- Monochromatic Orbital Trajectory Watermark -->
     <svg
-      class="absolute -top-6 -right-6 w-44 h-44 text-base-content opacity-15 pointer-events-none select-none"
+      class="absolute -top-6 -right-6 w-44 h-44 text-base-content opacity-12 pointer-events-none select-none"
       viewBox="0 0 150 150"
       fill="none"
       aria-hidden="true"
@@ -96,7 +96,7 @@ const tocHeadings = [
         cx="105"
         cy="45"
         r="36"
-        stroke="#3b82f6"
+        stroke="currentColor"
         stroke-width="0.6"
         stroke-dasharray="3 3"
       ></circle>
@@ -107,17 +107,14 @@ const tocHeadings = [
         stroke="currentColor"
         stroke-width="0.4"
       ></circle>
-      <path
-        d="M69 45 C69 47.5 69 47.5 71.5 49 C69 49 69 50.5 69 53 C69 50.5 69 50.5 66.5 49 C69 49 69 47.5 69 45 Z"
-        fill="#fbbf24"
-      ></path>
-      <circle cx="105" cy="103" r="2" fill="#10b981"></circle>
+      <circle cx="69" cy="45" r="1.8" fill="currentColor"></circle>
+      <circle cx="105" cy="103" r="1.6" fill="currentColor"></circle>
     </svg>
 
     <div class="flex flex-wrap gap-1.5 relative z-10">
       {project.tech.map((tech) => (
         <a
-          class="badge badge-xs font-mono bg-base-300/60 border border-base-content/10 text-base-content/85 hover:border-primary/50 hover:text-primary transition-colors py-2 px-2.5"
+          class="badge badge-xs font-mono bg-base-300/60 border border-base-content/10 text-base-content/85 hover:border-base-content/40 hover:text-primary transition-colors py-2 px-2.5"
           href={`/${lang}/search/?q=${encodeURIComponent(tech)}&evidence=1`}
         >
           {tech}
@@ -133,7 +130,7 @@ const tocHeadings = [
     <div class="flex items-center justify-between flex-wrap gap-4 pt-3 border-t border-base-content/10 relative z-10">
       <div class="flex items-center gap-4 text-xs text-base-content/80">
         <span class="flex items-center gap-1.5">
-          <ClockIcon class="w-4 h-4 text-amber-400" />
+          <ClockIcon class="w-4 h-4 opacity-75" />
           <span>
             {readTime} {t("blog.readTime")}
           </span>

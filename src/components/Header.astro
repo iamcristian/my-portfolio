@@ -53,17 +53,9 @@ const NAV_LINKS = [
       </details>
       <a
         href={homeUrl}
-        class="lg:text-xl font-bold ml-2 lg:ml-0 whitespace-nowrap inline-flex items-center gap-2 group"
+        class="lg:text-xl font-bold ml-2 lg:ml-0 whitespace-nowrap"
       >
-        <svg
-          class="w-3.5 h-3.5 text-amber-300/90 group-hover:rotate-45 group-hover:scale-110 transition-transform duration-500 shrink-0"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          aria-hidden="true"
-        >
-          <path d="M12 0 C12 7 12 7 19 12 C12 12 12 17 12 24 C12 17 12 17 5 12 C12 12 12 7 12 0 Z"></path>
-        </svg>
-        <span>{t("home.name")}</span>
+        {t("home.name")}
       </a>
     </div>
 
@@ -99,7 +91,7 @@ const NAV_LINKS = [
     </div>
   </nav>
 
-  <!-- Subtle Planetary Horizon Refraction Line (tracks scroll progress seamlessly along bottom edge) -->
+  <!-- Subtle Monochromatic Starlight Horizon Line (tracks scroll progress seamlessly along bottom edge) -->
   <div
     id="header-progress"
     class="absolute bottom-0 inset-x-0 h-[1px] overflow-hidden opacity-0 pointer-events-none transition-opacity duration-500"
@@ -107,8 +99,7 @@ const NAV_LINKS = [
   >
     <div
       id="header-progress-bar"
-      class="h-full w-0 transition-[width] duration-100"
-      style="background: linear-gradient(90deg, transparent 0%, #3b82f6 35%, #fbbf24 70%, #8b5cf6 100%); box-shadow: 0 0 12px rgba(251, 191, 36, 0.5);"
+      class="h-full w-0 transition-[width] duration-100 bg-linear-to-r from-transparent via-base-content/35 to-base-content/80 shadow-[0_0_8px_rgba(255,255,255,0.35)]"
     ></div>
   </div>
 </header>
