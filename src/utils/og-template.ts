@@ -574,6 +574,114 @@ function wrapText(
   return lines;
 }
 
+function renderRealLagrangeSimulation(): string {
+  return `
+    <g transform="translate(222, 210) scale(1.4) translate(-100, -100)">
+      <!-- 1. Gravitational Potential Contours (Roche lobes, kidney loops, concentric waves) -->
+      <circle cx="100" cy="100" r="18" stroke="#ffffff" stroke-opacity="0.08" stroke-width="0.5" fill="none"/>
+      <circle cx="100" cy="100" r="30" stroke="#ffffff" stroke-opacity="0.08" stroke-width="0.5" fill="none"/>
+      <circle cx="100" cy="100" r="42" stroke="#ffffff" stroke-opacity="0.08" stroke-width="0.5" fill="none"/>
+
+      <circle cx="150" cy="100" r="6" stroke="#38bdf8" stroke-opacity="0.12" stroke-width="0.5" fill="none"/>
+      <circle cx="150" cy="100" r="10" stroke="#38bdf8" stroke-opacity="0.12" stroke-width="0.5" fill="none"/>
+
+      <!-- L1 Roche lobe figure-8 pinching at L1: (130, 100) -->
+      <path d="M 130,100 C 130,112 142,112 155,110 C 165,108 165,92 155,90 C 142,88 130,88 130,100 C 130,120 110,140 85,140 C 50,140 50,60 85,60 C 110,60 130,80 130,100 Z" stroke="#ffffff" stroke-opacity="0.09" stroke-width="0.5" fill="none"/>
+
+      <!-- L2/L3 contour (pinch/loop wrapping Sun and Earth) -->
+      <path d="M 175,100 C 175,122 142,150 100,150 C 45,150 25,128 25,100 C 25,72 45,50 100,50 C 142,50 175,78 175,100 Z" stroke="#ffffff" stroke-opacity="0.09" stroke-width="0.5" fill="none"/>
+
+      <!-- L4 kidney loops (gravitational well around L4) -->
+      <path d="M 105,65 Q 125,50 142,75 Q 128,63 105,65 Z" stroke="#8b5cf6" stroke-opacity="0.25" stroke-width="0.6" fill="none"/>
+      <path d="M 95,73 Q 125,44 146,86 Q 128,58 95,73 Z" stroke="#8b5cf6" stroke-opacity="0.18" stroke-width="0.5" fill="none"/>
+
+      <!-- L5 kidney loops (gravitational well around L5) -->
+      <path d="M 105,135 Q 125,150 142,125 Q 128,137 105,135 Z" stroke="#ffffff" stroke-opacity="0.08" stroke-width="0.5" fill="none"/>
+      <path d="M 95,127 Q 125,156 146,114 Q 128,142 95,127 Z" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.5" fill="none"/>
+
+      <!-- Outer system contours -->
+      <circle cx="100" cy="100" r="85" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.5" fill="none"/>
+      <circle cx="100" cy="100" r="95" stroke="#ffffff" stroke-opacity="0.04" stroke-width="0.5" fill="none"/>
+
+      <!-- 2. Orbit circle of Earth (r = 50 around Sun at 100, 100) -->
+      <circle cx="100" cy="100" r="50" stroke="#38bdf8" stroke-opacity="0.25" stroke-width="0.75" stroke-dasharray="2 3" fill="none"/>
+
+      <!-- Horizontal orbital axis line -->
+      <line x1="15" y1="100" x2="185" y2="100" stroke="#ffffff" stroke-opacity="0.2" stroke-width="0.5" stroke-dasharray="1 3"/>
+
+      <!-- 3. Equilateral triangle lines to L4 (125, 57) - HIGHER UP! -->
+      <line x1="100" y1="100" x2="125" y2="57" stroke="#8b5cf6" stroke-opacity="0.55" stroke-width="0.8" stroke-dasharray="2 3"/>
+      <line x1="150" y1="100" x2="125" y2="57" stroke="#8b5cf6" stroke-opacity="0.55" stroke-width="0.8" stroke-dasharray="2 3"/>
+
+      <!-- Equilateral triangle lines to L5 (125, 143) -->
+      <line x1="100" y1="100" x2="125" y2="143" stroke="#ffffff" stroke-opacity="0.15" stroke-width="0.6" stroke-dasharray="1 3"/>
+      <line x1="150" y1="100" x2="125" y2="143" stroke="#ffffff" stroke-opacity="0.15" stroke-width="0.6" stroke-dasharray="1 3"/>
+
+      <!-- Node axis connecting lines -->
+      <line x1="100" y1="100" x2="130" y2="100" stroke="#ffffff" stroke-opacity="0.25" stroke-width="0.75"/>
+      <line x1="150" y1="100" x2="130" y2="100" stroke="#ffffff" stroke-opacity="0.25" stroke-width="0.75"/>
+      <line x1="150" y1="100" x2="175" y2="100" stroke="#ffffff" stroke-opacity="0.25" stroke-width="0.75"/>
+      <line x1="100" y1="100" x2="30" y2="100" stroke="#ffffff" stroke-opacity="0.25" stroke-width="0.75"/>
+
+      <!-- 4. Primary Body: Sun (Center at 100, 100) -->
+      <circle cx="100" cy="100" r="38" fill="url(#sunAura)" fill-opacity="0.8"/>
+      <circle cx="100" cy="100" r="22" fill="#f59e0b" fill-opacity="0.3"/>
+      <circle cx="100" cy="100" r="14" fill="#fbbf24" stroke="#d97706" stroke-width="1.25"/>
+
+      <!-- 5. Secondary Body: Earth & Moon (at 150, 100) -->
+      <g>
+        <circle cx="150" cy="100" r="9.5" stroke="#38bdf8" stroke-width="0.4" stroke-dasharray="1 2" stroke-opacity="0.4" fill="none"/>
+        <circle cx="150" cy="100" r="4.5" fill="url(#planetGlow)" stroke="#60a5fa" stroke-width="0.6"/>
+        <circle cx="156.5" cy="93.5" r="1.35" fill="#e2e8f0"/>
+        <text x="150" y="113" font-family="'Courier New', monospace" font-size="6.5" font-weight="700" fill="#93c5fd" letter-spacing="0.5" text-anchor="middle">EARTH</text>
+      </g>
+
+      <!-- 6. Lagrange Reticles: L1, L2, L3, L4, L5 -->
+      <!-- L1: at (130, 100) -->
+      <g>
+        <circle cx="130" cy="100" r="2.5" stroke="#38bdf8" stroke-width="0.75" fill="none"/>
+        <line x1="130" y1="95" x2="130" y2="105" stroke="#38bdf8" stroke-width="0.75"/>
+        <line x1="125" y1="100" x2="135" y2="100" stroke="#38bdf8" stroke-width="0.75"/>
+        <text x="130" y="90" font-family="'Courier New', monospace" font-size="7.5" font-weight="700" fill="#7dd3fc" text-anchor="middle">L1</text>
+      </g>
+
+      <!-- L2: at (175, 100) -->
+      <g>
+        <circle cx="175" cy="100" r="2.5" stroke="#38bdf8" stroke-width="0.75" fill="none"/>
+        <line x1="175" y1="95" x2="175" y2="105" stroke="#38bdf8" stroke-width="0.75"/>
+        <line x1="170" y1="100" x2="180" y2="100" stroke="#38bdf8" stroke-width="0.75"/>
+        <text x="175" y="90" font-family="'Courier New', monospace" font-size="7.5" font-weight="700" fill="#7dd3fc" text-anchor="middle">L2</text>
+      </g>
+
+      <!-- L3: at (30, 100) -->
+      <g>
+        <circle cx="30" cy="100" r="2.5" stroke="#94a3b8" stroke-width="0.75" fill="none"/>
+        <line x1="30" y1="95" x2="30" y2="105" stroke="#94a3b8" stroke-width="0.75"/>
+        <line x1="25" y1="100" x2="35" y2="100" stroke="#94a3b8" stroke-width="0.75"/>
+        <text x="30" y="90" font-family="'Courier New', monospace" font-size="7.5" font-weight="700" fill="#94a3b8" text-anchor="middle">L3</text>
+      </g>
+
+      <!-- L4: ACTIVE TARGET at (125, 57) - UP HIGHER! -->
+      <g>
+        <circle cx="125" cy="57" r="8" fill="#a78bfa" fill-opacity="0.25"/>
+        <circle cx="125" cy="57" r="4.5" stroke="#a78bfa" stroke-width="0.8" fill="none"/>
+        <circle cx="125" cy="57" r="2" fill="#c084fc"/>
+        <line x1="125" y1="50" x2="125" y2="64" stroke="#c084fc" stroke-width="0.9"/>
+        <line x1="118" y1="57" x2="132" y2="57" stroke="#c084fc" stroke-width="0.9"/>
+        <text x="136" y="54" font-family="'Courier New', monospace" font-size="9" font-weight="800" fill="#e9d5ff">L4</text>
+      </g>
+
+      <!-- L5: at (125, 143) -->
+      <g>
+        <circle cx="125" cy="143" r="2.5" stroke="#94a3b8" stroke-width="0.75" fill="none"/>
+        <line x1="125" y1="138" x2="125" y2="148" stroke="#94a3b8" stroke-width="0.75"/>
+        <line x1="120" y1="143" x2="130" y2="143" stroke="#94a3b8" stroke-width="0.75"/>
+        <text x="136" y="147" font-family="'Courier New', monospace" font-size="7.5" font-weight="700" fill="#94a3b8">L5</text>
+      </g>
+    </g>
+  `;
+}
+
 export function generateOGSvg(data: OGCardData): string {
   const {
     type,
@@ -758,39 +866,8 @@ export function generateOGSvg(data: OGCardData): string {
       </g>
     </g>
 
-    <!-- Simulation Center -->
-    <g transform="translate(222, 195)">
-      <!-- Polar Grid & Concentric Guides -->
-      <line x1="-195" y1="0" x2="195" y2="0" stroke="#ffffff" stroke-opacity="0.04" stroke-dasharray="3 4"/>
-      <line x1="0" y1="-155" x2="0" y2="155" stroke="#ffffff" stroke-opacity="0.04" stroke-dasharray="3 4"/>
-      <circle r="60" stroke="#ffffff" stroke-opacity="0.03" fill="none" stroke-dasharray="2 3"/>
-      <circle r="115" stroke="#ffffff" stroke-opacity="0.04" fill="none" stroke-dasharray="2 4"/>
-      <circle r="150" stroke="#ffffff" stroke-opacity="0.03" fill="none" stroke-dasharray="2 5"/>
-
-      <!-- Resonant Orbital Ellipses -->
-      <ellipse rx="145" ry="74" transform="rotate(-18)" stroke="#8b5cf6" stroke-opacity="0.45" stroke-width="1.5" stroke-dasharray="3 3" fill="none"/>
-      <ellipse rx="125" ry="60" transform="rotate(22)" stroke="#6366f1" stroke-opacity="0.25" stroke-width="1" fill="none"/>
-
-      <!-- Central Radiant Sun -->
-      <circle r="44" fill="url(#sunAura)"/>
-      <circle r="26" fill="#f59e0b" fill-opacity="0.45"/>
-      <circle r="16" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/>
-
-      <!-- Lagrange Diamonds -->
-      <polygon points="55,0 58,-3 61,0 58,3" fill="#a78bfa" fill-opacity="0.8"/>
-      <polygon points="120,0 123,-3 126,0 123,3" fill="#a78bfa" fill-opacity="0.8"/>
-      <polygon points="-115,0 -112,-3 -109,0 -112,3" fill="#94a3b8" fill-opacity="0.5"/>
-      <polygon points="75,55 78,52 81,55 78,58" fill="#94a3b8" fill-opacity="0.5"/>
-
-      <!-- L4 Planet with Targeting Reticle -->
-      <g transform="translate(75, -45)">
-        <circle r="15" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="0.8" stroke-dasharray="2 3" fill="none"/>
-        <line x1="-8" y1="0" x2="8" y2="0" stroke="#38bdf8" stroke-opacity="0.4" stroke-width="0.7"/>
-        <line x1="0" y1="-8" x2="0" y2="8" stroke="#38bdf8" stroke-opacity="0.4" stroke-width="0.7"/>
-        <circle r="7" fill="url(#planetGlow)" stroke="#93c5fd" stroke-width="1"/>
-        <text x="14" y="-2" font-family="'Courier New', monospace" font-size="11" font-weight="700" fill="#e2e8f0">L4</text>
-      </g>
-    </g>
+    <!-- Real Lagrange Simulation Center -->
+    ${renderRealLagrangeSimulation()}
 
     <!-- Card Footer Telemetry -->
     <g transform="translate(24, 375)">
@@ -885,35 +962,9 @@ export function generateOGSvg(data: OGCardData): string {
 
   let cardInnerContent = "";
   if (!imagePath) {
-    // If no image, display the orbital resonance simulation
+    // If no image, display the real Lagrange simulation
     cardInnerContent = `
-      <g transform="translate(222, 195)">
-        <line x1="-195" y1="0" x2="195" y2="0" stroke="#ffffff" stroke-opacity="0.04" stroke-dasharray="3 4"/>
-        <line x1="0" y1="-155" x2="0" y2="155" stroke="#ffffff" stroke-opacity="0.04" stroke-dasharray="3 4"/>
-        <circle r="60" stroke="#ffffff" stroke-opacity="0.03" fill="none" stroke-dasharray="2 3"/>
-        <circle r="115" stroke="#ffffff" stroke-opacity="0.04" fill="none" stroke-dasharray="2 4"/>
-        <circle r="150" stroke="#ffffff" stroke-opacity="0.03" fill="none" stroke-dasharray="2 5"/>
-
-        <ellipse rx="145" ry="74" transform="rotate(-18)" stroke="#8b5cf6" stroke-opacity="0.45" stroke-width="1.5" stroke-dasharray="3 3" fill="none"/>
-        <ellipse rx="125" ry="60" transform="rotate(22)" stroke="#6366f1" stroke-opacity="0.25" stroke-width="1" fill="none"/>
-
-        <circle r="44" fill="url(#sunAura)"/>
-        <circle r="26" fill="#f59e0b" fill-opacity="0.45"/>
-        <circle r="16" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/>
-
-        <polygon points="55,0 58,-3 61,0 58,3" fill="#a78bfa" fill-opacity="0.8"/>
-        <polygon points="120,0 123,-3 126,0 123,3" fill="#a78bfa" fill-opacity="0.8"/>
-        <polygon points="-115,0 -112,-3 -109,0 -112,3" fill="#94a3b8" fill-opacity="0.5"/>
-        <polygon points="75,55 78,52 81,55 78,58" fill="#94a3b8" fill-opacity="0.5"/>
-
-        <g transform="translate(75, -45)">
-          <circle r="15" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="0.8" stroke-dasharray="2 3" fill="none"/>
-          <line x1="-8" y1="0" x2="8" y2="0" stroke="#38bdf8" stroke-opacity="0.4" stroke-width="0.7"/>
-          <line x1="0" y1="-8" x2="0" y2="8" stroke="#38bdf8" stroke-opacity="0.4" stroke-width="0.7"/>
-          <circle r="7" fill="url(#planetGlow)" stroke="#93c5fd" stroke-width="1"/>
-          <text x="14" y="-2" font-family="'Courier New', monospace" font-size="11" font-weight="700" fill="#e2e8f0">L4</text>
-        </g>
-      </g>
+      ${renderRealLagrangeSimulation()}
       <g transform="translate(24, 375)">
         <line x1="0" y1="0" x2="397" y2="0" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
         <text x="198" y="28" font-family="'Courier New', monospace" font-size="13" font-weight="700" fill="#c084fc" letter-spacing="1.5" text-anchor="middle">${escapeXml(loc.l4Title)}</text>
