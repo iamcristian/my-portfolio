@@ -13,6 +13,7 @@ export const header = {
   "language.title": "Change Language",
   "theme.light": "Light",
   "theme.dark": "Dark",
-  "theme.dracula": "Dracula",
-  "theme.forest": "Forest",
+  "theme.sunset": "Sunset",
+  "theme.aurora": "Aurora",
+  "theme.cyberslate": "Cyber Slate",
 } as const;

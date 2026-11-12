@@ -4,7 +4,9 @@
     try {
       stored = localStorage.getItem("theme");
     } catch {}
-    if (!["light", "business", "dracula", "forest"].includes(stored))
+    if (
+      !["light", "business", "sunset", "aurora", "cyberslate"].includes(stored)
+    )
       stored = null;
     const theme =
       stored ||

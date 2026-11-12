@@ -14,8 +14,9 @@ html {
   themes:
     light --default,
     business --prefersdark,
-    dracula,
-    forest;
+    sunset,
+    aurora,
+    cyberslate;
   root: ":root";
   logs: false;
 }
@@ -106,6 +107,147 @@ html {
 
   --color-error: oklch(90% 0.02 25);
   --color-error-content: oklch(30% 0.03 25);
+
+  /* Sizing, borders & effects */
+  --radius-selector: 0rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.25rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+@plugin "daisyui/theme" {
+  name: "sunset";
+  color-scheme: dark;
+
+  /* Backgrounds & Text (Warm Twilight / Plum Obsidian) */
+  --color-base-100: oklch(16% 0.025 320);
+  --color-base-200: oklch(19% 0.03 320);
+  --color-base-300: oklch(23% 0.035 320);
+  --color-base-content: oklch(95% 0.015 40);
+
+  /* Brand Colors (Warm Sunset Coral, Magenta & Solar Gold) */
+  --color-primary: oklch(72% 0.19 38);
+  --color-primary-content: oklch(18% 0.04 35);
+
+  --color-secondary: oklch(68% 0.22 350);
+  --color-secondary-content: oklch(98% 0 0);
+
+  --color-accent: oklch(82% 0.17 75);
+  --color-accent-content: oklch(18% 0.04 75);
+
+  --color-neutral: oklch(27% 0.025 320);
+  --color-neutral-content: oklch(90% 0.01 40);
+
+  /* Muted Feedback Colors */
+  --color-info: oklch(76% 0.12 220);
+  --color-info-content: oklch(18% 0 0);
+
+  --color-success: oklch(78% 0.15 145);
+  --color-success-content: oklch(18% 0 0);
+
+  --color-warning: oklch(82% 0.16 75);
+  --color-warning-content: oklch(18% 0 0);
+
+  --color-error: oklch(70% 0.18 25);
+  --color-error-content: oklch(98% 0 0);
+
+  /* Sizing, borders & effects */
+  --radius-selector: 0rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.25rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+@plugin "daisyui/theme" {
+  name: "aurora";
+  color-scheme: dark;
+
+  /* Backgrounds & Text (Deep Pine Obsidian / Nordic Night) */
+  --color-base-100: oklch(15% 0.018 160);
+  --color-base-200: oklch(18% 0.022 160);
+  --color-base-300: oklch(22% 0.028 160);
+  --color-base-content: oklch(94% 0.02 160);
+
+  /* Brand Colors (Aurora Emerald, Glacial Mint & Cyber Lime) */
+  --color-primary: oklch(78% 0.18 155);
+  --color-primary-content: oklch(14% 0.04 160);
+
+  --color-secondary: oklch(76% 0.14 185);
+  --color-secondary-content: oklch(14% 0.04 185);
+
+  --color-accent: oklch(84% 0.19 135);
+  --color-accent-content: oklch(14% 0.04 135);
+
+  --color-neutral: oklch(26% 0.02 160);
+  --color-neutral-content: oklch(88% 0.01 160);
+
+  /* Muted Feedback Colors */
+  --color-info: oklch(76% 0.12 200);
+  --color-info-content: oklch(18% 0 0);
+
+  --color-success: oklch(78% 0.18 150);
+  --color-success-content: oklch(14% 0 0);
+
+  --color-warning: oklch(82% 0.15 80);
+  --color-warning-content: oklch(18% 0 0);
+
+  --color-error: oklch(70% 0.18 25);
+  --color-error-content: oklch(98% 0 0);
+
+  /* Sizing, borders & effects */
+  --radius-selector: 0rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.25rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+@plugin "daisyui/theme" {
+  name: "cyberslate";
+  color-scheme: dark;
+
+  /* Backgrounds & Text (Sleek Cold Slate / Industrial Engineering) */
+  --color-base-100: oklch(18% 0.025 250);
+  --color-base-200: oklch(22% 0.03 250);
+  --color-base-300: oklch(27% 0.035 250);
+  --color-base-content: oklch(95% 0.01 240);
+
+  /* Brand Colors (Polished Steel, Muted Cool Slate & Electric Cyan Accent) */
+  --color-primary: oklch(65% 0.06 240);
+  --color-primary-content: oklch(98% 0 0);
+
+  --color-secondary: oklch(75% 0.035 240);
+  --color-secondary-content: oklch(18% 0 0);
+
+  --color-accent: oklch(76% 0.16 220);
+  --color-accent-content: oklch(15% 0.04 250);
+
+  --color-neutral: oklch(28% 0.025 250);
+  --color-neutral-content: oklch(90% 0.01 240);
+
+  /* Muted Feedback Colors */
+  --color-info: oklch(76% 0.14 220);
+  --color-info-content: oklch(18% 0 0);
+
+  --color-success: oklch(78% 0.14 150);
+  --color-success-content: oklch(18% 0 0);
+
+  --color-warning: oklch(82% 0.14 80);
+  --color-warning-content: oklch(18% 0 0);
+
+  --color-error: oklch(70% 0.16 25);
+  --color-error-content: oklch(98% 0 0);
 
   /* Sizing, borders & effects */
   --radius-selector: 0rem;
