@@ -7,56 +7,300 @@ const { lang } = Astro.locals;
 const t = useTranslations(lang);
 const skillsCategories = getSkillsForLang(lang);
 
-// Realistic monochromatic starlight constellation geometries per skill sector
-const CONSTELLATION_COORDS: Record<string, Array<[number, number]>> = {
-  languages: [
-    [28, 52],
-    [58, 26],
-    [88, 44],
-    [114, 22],
-  ],
-  frontend: [
-    [24, 38],
-    [54, 18],
-    [82, 48],
-    [112, 28],
-  ],
-  backend: [
-    [26, 26],
-    [62, 50],
-    [92, 24],
-    [118, 46],
-  ],
-  databases: [
-    [30, 48],
-    [60, 22],
-    [94, 38],
-    [116, 18],
-  ],
-  devops: [
-    [24, 46],
-    [58, 20],
-    [88, 52],
-    [114, 26],
-  ],
-  security: [
-    [28, 28],
-    [56, 52],
-    [86, 22],
-    [116, 40],
-  ],
-  ai: [
-    [26, 44],
-    [58, 18],
-    [86, 42],
-    [116, 20],
-  ],
-  "soft-skills": [
-    [30, 36],
-    [62, 18],
-    [92, 44],
-    [118, 24],
-  ],
+// Authentic astronomical constellations with real celestial geometries and lore
+interface ConstellationData {
+  latin: string;
+  alpha: string;
+  meaning: Record<string, string>;
+  history: Record<string, string>;
+  stars: Array<[number, number]>;
+  lines: Array<[number, number]>;
+  anchorIndex: number;
+}
+
+const CONSTELLATIONS: Record<string, ConstellationData> = {
+  languages: {
+    latin: "CYGNUS",
+    alpha: "Deneb",
+    meaning: {
+      es: "Cruz del Norte",
+      en: "Northern Cross",
+      de: "Kreuz des Nordens",
+      ja: "北十字・白鳥座",
+      ru: "Северный Крест",
+    },
+    history: {
+      es: "Faro milenario en la Vía Láctea con Deneb. Simboliza los lenguajes que estructuran la navegación del código.",
+      en: "Millenary Milky Way beacon led by Deneb. Symbolizes languages that structure codebase navigation.",
+      de: "Jahrtausendealter Wegweiser der Milchstraße mit Deneb. Symbolisiert Sprachen, die die Codenavigation strukturieren.",
+      ja: "デネブと共に天の川を導く道標。コードの航海を構造化する言語を象徴。",
+      ru: "Вековой ориентир Млечного Пути с Денебом. Символизирует языки, структурирующие код.",
+    },
+    stars: [
+      [112, 18], // 0: Deneb (Tail)
+      [76, 38], // 1: Sadr (Center)
+      [34, 60], // 2: Albireo (Head)
+      [98, 62], // 3: Gienah (Left Wing)
+      [54, 16], // 4: Rukhba (Right Wing)
+    ],
+    lines: [
+      [0, 1],
+      [1, 2],
+      [4, 1],
+      [1, 3],
+    ],
+    anchorIndex: 0,
+  },
+  frontend: {
+    latin: "LYRA",
+    alpha: "Vega",
+    meaning: {
+      es: "La Lira Celeste",
+      en: "Celestial Lyre",
+      de: "Himmlische Leier",
+      ja: "こと座・竪琴",
+      ru: "Небесная Лира",
+    },
+    history: {
+      es: "Porta a Vega, la primera estrella fotografiada en 1850. Simboliza la armonía visual y sensorial del Frontend.",
+      en: "Houses Vega, the first star ever photographed in 1850. Symbolizes visual harmony and frontend beauty.",
+      de: "Beherbergt Wega, den ersten 1850 fotografierten Stern. Symbolisiert visuelle Harmonie im Frontend.",
+      ja: "1850年に人類が初撮影した星ベガを擁す。フロントエンドの調和と美を象徴。",
+      ru: "Содержит Вегу, первую сфотографированную звезду в 1850 году. Символизирует визуальную гармонию интерфейса.",
+    },
+    stars: [
+      [96, 14], // 0: Vega
+      [116, 20], // 1: Epsilon
+      [86, 34], // 2: Zeta
+      [104, 38], // 3: Delta
+      [72, 60], // 4: Sheliak
+      [90, 66], // 5: Sulafat
+    ],
+    lines: [
+      [0, 1],
+      [0, 2],
+      [2, 3],
+      [2, 4],
+      [4, 5],
+      [5, 3],
+    ],
+    anchorIndex: 0,
+  },
+  backend: {
+    latin: "URSA MAJOR",
+    alpha: "Dubhe & Merak",
+    meaning: {
+      es: "El Gran Carro",
+      en: "The Great Bear",
+      de: "Der Große Wagen",
+      ja: "北斗七星・大熊座",
+      ru: "Большая Медведица",
+    },
+    history: {
+      es: "Eje circumpolar inamovible que señala a Polaris. Simboliza los motores de Backend que sostienen todo el sistema.",
+      en: "Immovable circumpolar anchor pointing to Polaris. Symbolizes robust backend engines sustaining the system.",
+      de: "Unverrückbarer zirkumpolarer Anker zum Polarstern. Symbolisiert stabile Backend-Systeme.",
+      ja: "北極星を指し示す不変の極軸。システムを支えるバックエンドの堅牢性を象徴。",
+      ru: "Неподвижный циркумполярный якорь, указывающий на Полярную звезду. Символизирует мощный бэкенд.",
+    },
+    stars: [
+      [18, 22], // 0: Alkaid
+      [38, 30], // 1: Mizar
+      [58, 38], // 2: Alioth
+      [78, 42], // 3: Megrez
+      [76, 64], // 4: Phecda
+      [108, 62], // 5: Merak
+      [114, 38], // 6: Dubhe
+    ],
+    lines: [
+      [0, 1],
+      [1, 2],
+      [2, 3],
+      [3, 6],
+      [6, 5],
+      [5, 4],
+      [4, 3],
+    ],
+    anchorIndex: 6,
+  },
+  databases: {
+    latin: "CASSIOPEIA",
+    alpha: "Schedar",
+    meaning: {
+      es: "La Corona en W",
+      en: "The Polar Throne",
+      de: "Der Thron in W",
+      ja: "カシオペヤ座・W",
+      ru: "Полярный Трон",
+    },
+    history: {
+      es: "Inconfundible W polar rica en memoria estelar y supernovas. Simboliza la persistencia y arquitectura de bases de datos.",
+      en: "Unmistakable polar W rich in supernova remnants. Symbolizes structured storage and database persistence.",
+      de: "Unverkennbares polares W voller Supernova-Überreste. Symbolisiert strukturierte Datenpersistenz.",
+      ja: "超新星残骸を宿す不変のW字。構造化データベースと永続性を象徴。",
+      ru: "Узнаваемая полярная W, хранящая остатки сверхновых. Символизирует персистентность данных.",
+    },
+    stars: [
+      [22, 26], // 0: Caph
+      [46, 56], // 1: Schedar
+      [72, 28], // 2: Gamma
+      [98, 58], // 3: Ruchbah
+      [122, 34], // 4: Segin
+    ],
+    lines: [
+      [0, 1],
+      [1, 2],
+      [2, 3],
+      [3, 4],
+    ],
+    anchorIndex: 1,
+  },
+  devops: {
+    latin: "ORION",
+    alpha: "Alnilam",
+    meaning: {
+      es: "Cinturón de Orión",
+      en: "Orion's Belt",
+      de: "Gürtel des Orion",
+      ja: "オリオン座・三ツ星",
+      ru: "Пояс Ориона",
+    },
+    history: {
+      es: "Alineación sincrónica milimétrica visible en ambos hemisferios. Simboliza la orquestación y pipelines de DevOps.",
+      en: "Millimetric alignment visible across hemispheres. Symbolizes DevOps orchestration and precision delivery.",
+      de: "Millimetergenaue Ausrichtung über beide Hemisphären. Symbolisiert präzise DevOps-Orchestrierung.",
+      ja: "両半球から見渡せる精密な同期整列。DevOpsの自動化とパイプラインを象徴。",
+      ru: "Сверхточная синхронная линия, видимая в обоих полушариях. Символизирует оркестрацию DevOps.",
+    },
+    stars: [
+      [46, 16], // 0: Betelgeuse
+      [94, 18], // 1: Bellatrix
+      [60, 40], // 2: Alnitak
+      [70, 40], // 3: Alnilam
+      [80, 40], // 4: Mintaka
+      [50, 66], // 5: Saiph
+      [92, 64], // 6: Rigel
+    ],
+    lines: [
+      [0, 1],
+      [0, 2],
+      [1, 4],
+      [2, 3],
+      [3, 4],
+      [2, 5],
+      [4, 6],
+      [5, 6],
+    ],
+    anchorIndex: 3,
+  },
+  security: {
+    latin: "DRACO",
+    alpha: "Eltanin",
+    meaning: {
+      es: "El Guardián Insomne",
+      en: "The Vigilant Dragon",
+      de: "Wachsamer Drache",
+      ja: "りゅう座・守護星",
+      ru: "Дракон-Страж",
+    },
+    history: {
+      es: "Guardián milenario que envuelve el polo norte celeste. Simboliza la defensa perimetral y monitoreo 24/7 de Seguridad.",
+      en: "Sleepless dragon encircling the north celestial pole. Symbolizes 24/7 perimeter defense and vigilance.",
+      de: "Schlafloser Wächter um den Himmelsnordpol. Symbolisiert 24/7-Perimeterschutz und Sicherheit.",
+      ja: "天の北極を巡る不眠の守護竜。境界防御と継続的セキュリティ監視を象徴。",
+      ru: "Неусыпный страж, обвивающий северный полюс неба. Символизирует защиту периметра 24/7.",
+    },
+    stars: [
+      [120, 18], // 0: Eltanin (Head)
+      [104, 14], // 1: Rastaban
+      [98, 28], // 2: Grumium
+      [116, 32], // 3: Kuma
+      [80, 26], // 4: Nodus II
+      [62, 42], // 5: Tyl
+      [42, 36], // 6: Aldhibah
+      [22, 58], // 7: Thuban
+    ],
+    lines: [
+      [0, 1],
+      [1, 2],
+      [2, 3],
+      [3, 0],
+      [2, 4],
+      [4, 5],
+      [5, 6],
+      [6, 7],
+    ],
+    anchorIndex: 0,
+  },
+  ai: {
+    latin: "PEGASUS",
+    alpha: "51 Pegasi",
+    meaning: {
+      es: "El Cuadrante Alado",
+      en: "The Winged Steed",
+      de: "Das geflügelte Ross",
+      ja: "ペガスス座・大四辺形",
+      ru: "Крылатый Пегас",
+    },
+    history: {
+      es: "Hogar del primer exoplaneta descubierto (51 Pegasi). Simboliza los horizontes cognitivos de la Inteligencia Artificial.",
+      en: "Home to humanity's first discovered exoplanet (51 Pegasi). Symbolizes AI cognition and new frontiers.",
+      de: "Heimat des ersten entdeckten Exoplaneten (51 Pegasi). Symbolisiert neue kognitive Horizonte der KI.",
+      ja: "人類初の系外惑星（51ペガスス）が発見された地。AIと自律型エージェントの新たな地平を象徴。",
+      ru: "Дом первой открытой экзопланеты (51 Пегаса). Символизирует автономный когнитивный ИИ.",
+    },
+    stars: [
+      [50, 20], // 0: Scheat
+      [104, 18], // 1: Alpheratz
+      [44, 56], // 2: Markab
+      [96, 60], // 3: Algenib
+      [22, 34], // 4: Homam
+      [16, 64], // 5: Enif
+    ],
+    lines: [
+      [0, 1],
+      [1, 3],
+      [3, 2],
+      [2, 0],
+      [0, 4],
+      [2, 5],
+    ],
+    anchorIndex: 1,
+  },
+  "soft-skills": {
+    latin: "AQUILA",
+    alpha: "Altair",
+    meaning: {
+      es: "El Águila de Altair",
+      en: "The Navigating Eagle",
+      de: "Der Adler von Altair",
+      ja: "わし座・アルタイル",
+      ru: "Орёл Альтаира",
+    },
+    history: {
+      es: "Porta a Altair, faro de navegación con visión panorámica. Simboliza la comunicación asertiva, empatía y liderazgo.",
+      en: "Bears Altair, navigational beacon with panoramic sight. Symbolizes assertive communication, empathy, and leadership.",
+      de: "Trägt Altair, Navigationsleuchtfeuer mit Weitblick. Symbolisiert Führungskraft, Empathie und Kommunikation.",
+      ja: "広大な視野を持つ航海標アルタイルを宿す。共感力、リーダーシップ、明晰なコミュニケーションを象徴。",
+      ru: "Несёт Альтаир, навигационный маяк с панорамным обзором. Символизирует эмпатию, лидерство и коммуникацию.",
+    },
+    stars: [
+      [70, 36], // 0: Altair
+      [60, 22], // 1: Tarazed
+      [80, 50], // 2: Alshain
+      [32, 28], // 3: Left Wing
+      [112, 30], // 4: Right Wing
+      [70, 68], // 5: Tail
+    ],
+    lines: [
+      [1, 0],
+      [0, 2],
+      [3, 0],
+      [0, 4],
+      [0, 5],
+    ],
+    anchorIndex: 0,
+  },
 };
 ---
 
@@ -69,17 +313,16 @@ const CONSTELLATION_COORDS: Record<string, Array<[number, number]>> = {
   <!-- Monochromatic Celestial Constellation Sector Grid -->
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     {skillsCategories.map((category) => {
-      const coords =
-        CONSTELLATION_COORDS[category.id] || CONSTELLATION_COORDS.languages;
-      const [p1, p2, p3, p4] = coords;
-      const pathD = `M ${p1[0]} ${p1[1]} L ${p2[0]} ${p2[1]} L ${p3[0]} ${p3[1]} L ${p4[0]} ${p4[1]}`;
+      const constellation =
+        CONSTELLATIONS[category.id] || CONSTELLATIONS.languages;
+      const anchorStar = constellation.stars[constellation.anchorIndex];
 
       return (
         <div
           id={`skills-${category.id}`}
           tabindex={-1}
           data-spotlight="true"
-          class="skill-card scroll-mt-24 group relative card bg-base-200/45 backdrop-blur-md border border-base-content/10 p-6 rounded-2xl transition-all duration-500 hover:border-base-content/30 hover:-translate-y-1 overflow-hidden"
+          class="skill-card scroll-mt-24 group relative card bg-base-200/45 backdrop-blur-md border border-base-content/10 p-6 rounded-2xl transition-all duration-500 hover:border-base-content/30 hover:-translate-y-1 overflow-hidden flex flex-col justify-between"
         >
           {/* Ambient Starlight Glow on Hover */}
           <div
@@ -87,76 +330,96 @@ const CONSTELLATION_COORDS: Record<string, Array<[number, number]>> = {
             aria-hidden="true"
           />
 
-          {/* Living Monochromatic Constellation & Orbital SVG in Card Backdrop */}
+          {/* Real Unique Astronomical Constellation SVG in Card Backdrop */}
           <svg
-            class="absolute top-2 right-2 w-36 h-20 text-base-content pointer-events-none select-none overflow-visible opacity-35 group-hover:opacity-75 transition-opacity duration-500"
-            viewBox="0 0 140 75"
+            class="absolute top-2 right-2 w-36 h-20 text-base-content pointer-events-none select-none overflow-visible opacity-30 group-hover:opacity-85 transition-opacity duration-500"
+            viewBox="0 0 140 80"
             fill="none"
             aria-hidden="true"
           >
-            {/* Faint Orbital Arc */}
-            <circle
-              cx={p2[0]}
-              cy={p2[1]}
-              r="26"
-              stroke="currentColor"
-              stroke-width="0.5"
-              stroke-dasharray="2 3"
-              class="opacity-25 sector-orbit"
-            />
             {/* Constellation Filament Lines */}
-            <path
-              d={pathD}
-              stroke="currentColor"
-              stroke-width="0.65"
-              stroke-dasharray="2 2"
-              class="opacity-40 group-hover:opacity-80 transition-opacity duration-500"
-            />
-            {/* Secondary Triangle Filament */}
-            <line
-              x1={p1[0]}
-              y1={p1[1]}
-              x2={p3[0]}
-              y2={p3[1]}
-              stroke="currentColor"
-              stroke-width="0.4"
-              class="opacity-20"
-            />
-            {/* Gravitational Ripple Wave around Principal Star (p2) */}
+            {constellation.lines.map(([i1, i2]) => {
+              const p1 = constellation.stars[i1];
+              const p2 = constellation.stars[i2];
+              return (
+                <line
+                  x1={p1[0]}
+                  y1={p1[1]}
+                  x2={p2[0]}
+                  y2={p2[1]}
+                  stroke="currentColor"
+                  stroke-width="0.75"
+                  stroke-dasharray="2 2"
+                  class="opacity-45 group-hover:opacity-90 transition-opacity duration-500"
+                />
+              );
+            })}
+
+            {/* Gravitational Ripple Wave around Principal Anchor Star */}
             <circle
-              cx={p2[0]}
-              cy={p2[1]}
+              cx={anchorStar[0]}
+              cy={anchorStar[1]}
               r="3"
               stroke="currentColor"
               stroke-width="0.6"
               class="sector-ripple opacity-0 group-hover:opacity-100"
             />
-            {/* Constellation Stars (Monochromatic Starlight) */}
-            {coords.map(([cx, cy], idx) => (
-              <circle
-                cx={cx}
-                cy={cy}
-                r={idx === 1 ? "2.1" : idx === 3 ? "1.6" : "1.3"}
-                fill="currentColor"
-                class={idx === 1 ? "opacity-95" : "opacity-65"}
-              />
-            ))}
+
+            {/* Constellation Stars (Monochromatic Real Starlight) */}
+            {constellation.stars.map(([cx, cy], idx) => {
+              const isAnchor = idx === constellation.anchorIndex;
+              return (
+                <circle
+                  cx={cx}
+                  cy={cy}
+                  r={isAnchor ? "2.2" : "1.4"}
+                  fill="currentColor"
+                  class={isAnchor ? "opacity-95" : "opacity-60"}
+                />
+              );
+            })}
           </svg>
 
-          {/* Card Header with Icon and Description */}
-          <div class="flex items-start gap-4 mb-5 relative z-10">
-            <div class="p-3 bg-base-300/80 border border-base-content/10 text-primary rounded-xl flex items-center justify-center shrink-0 group-hover:scale-105 transition-all duration-300 shadow-xs">
-              <SkillIcon name={category.icon} class="w-6 h-6" />
+          <div>
+            {/* Card Header with Icon, Name, and Constellation Badge */}
+            <div class="flex items-start justify-between gap-3 mb-4 relative z-10">
+              <div class="flex items-start gap-3.5">
+                <div class="p-3 bg-base-300/80 border border-base-content/10 text-primary rounded-xl flex items-center justify-center shrink-0 group-hover:scale-105 transition-all duration-300 shadow-xs">
+                  <SkillIcon name={category.icon} class="w-6 h-6" />
+                </div>
+                <div class="space-y-1">
+                  <h3 class="font-bold text-sm md:text-base text-base-content leading-tight group-hover:text-primary transition-colors duration-300">
+                    {category.name}
+                  </h3>
+                  {category.description && (
+                    <p class="text-xs text-base-content/80 leading-normal font-medium">
+                      {category.description}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Constellation Badge */}
+              <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-base-300/60 border border-base-content/10 text-[10px] font-mono text-base-content/75 shrink-0 group-hover:border-primary/40 transition-colors">
+                <span class="text-primary text-[10px] leading-none">✦</span>
+                <span class="font-bold tracking-wider">
+                  {constellation.latin}
+                </span>
+              </div>
             </div>
-            <div class="space-y-1 pr-6">
-              <h3 class="font-bold text-sm md:text-base text-base-content leading-tight group-hover:text-primary transition-colors duration-300">
-                {category.name}
-              </h3>
-              {category.description && (
-                <p class="text-xs text-base-content/80 leading-normal font-medium">
-                  {category.description}
-                </p>
-              )}
+
+            {/* Authentic Astronomical Lore Connector Bar */}
+            <div
+              class="my-3 pt-2.5 border-t border-base-content/10 flex items-center justify-between gap-2 text-[11px] font-mono text-base-content/70 relative z-10 cursor-help"
+              title={`${constellation.latin} (★ ${constellation.alpha}): ${constellation.history[lang] || constellation.history.en}`}
+            >
+              <span class="truncate text-base-content/85">
+                <span class="opacity-50">//</span>{" "}
+                {constellation.meaning[lang] || constellation.meaning.en}
+              </span>
+              <span class="text-[10px] opacity-65 shrink-0 font-medium">
+                ★ {constellation.alpha}
+              </span>
             </div>
           </div>
 
