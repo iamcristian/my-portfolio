@@ -6,171 +6,338 @@ import { SITE } from "../config/site";
 import SocialLinks from "./ui/SocialLinks.astro";
 import MailIcon from "../assets/icons/mail.svg";
 import ChevronUpIcon from "../assets/icons/chevron-up.svg";
+import grainImage from "../assets/images/grain-bkg.png";
 
 const { lang } = Astro.locals;
 const t = useTranslations(lang);
 
 const homeUrl = getRelativeLocaleUrl(lang, "");
+
+const LOCALIZED_COPY = {
+  es: {
+    badge: "CONSTRUYAMOS SISTEMAS",
+    orbit: "Órbita nominal · Lagrange L1",
+    copyEmail: "Copiar correo",
+    copied: "¡Copiado al portapapeles!",
+    sendMsg: "Enviar mensaje",
+    headline: "Construyamos algo extraordinario",
+    subHeadline:
+      "Abierto a colaboración en sistemas distribuidos, arquitecturas agénticas en IA, seguridad y diseño de software estructurado.",
+    systemStatus: "Estado del Sistema",
+    systemInfo:
+      "TypeScript · Next.js · Astro · NestJS · Python · FastAPI · Linux",
+    orbitalEquilibrium: "Sistema en Equilibrio Orbital",
+  },
+  en: {
+    badge: "LET'S BUILD SYSTEMS",
+    orbit: "Nominal orbit · Lagrange L1",
+    copyEmail: "Copy email",
+    copied: "Copied to clipboard!",
+    sendMsg: "Send message",
+    headline: "Let's build something extraordinary",
+    subHeadline:
+      "Open to collaboration on distributed systems, AI agentic workflows, security, and structured software architecture.",
+    systemStatus: "System State",
+    systemInfo:
+      "TypeScript · Next.js · Astro · NestJS · Python · FastAPI · Linux",
+    orbitalEquilibrium: "Orbital Equilibrium System",
+  },
+  de: {
+    badge: "SYSTEME ERBAUEN",
+    orbit: "Nominaler Orbit · Lagrange L1",
+    copyEmail: "E-Mail kopieren",
+    copied: "In Zwischenablage kopiert!",
+    sendMsg: "Nachricht senden",
+    headline: "Erschaffen wir Außergewöhnliches",
+    subHeadline:
+      "Offen für Zusammenarbeit an verteilten Systemen, KI-Agenten-Architekturen, Sicherheit und strukturierter Software.",
+    systemStatus: "Systemstatus",
+    systemInfo:
+      "TypeScript · Next.js · Astro · NestJS · Python · FastAPI · Linux",
+    orbitalEquilibrium: "System im orbitalen Gleichgewicht",
+  },
+  ja: {
+    badge: "システムを構築",
+    orbit: "公称軌道 · ラグランジュ L1",
+    copyEmail: "メールをコピー",
+    copied: "クリップボードにコピーしました!",
+    sendMsg: "メッセージを送信",
+    headline: "並外れたものを共に構築しましょう",
+    subHeadline:
+      "分散システム、AIエージェントアーキテクチャ、セキュリティ、構造化ソフトウェア設計のコラボレーションを歓迎します。",
+    systemStatus: "システム状態",
+    systemInfo:
+      "TypeScript · Next.js · Astro · NestJS · Python · FastAPI · Linux",
+    orbitalEquilibrium: "軌道平衡システム",
+  },
+  ru: {
+    badge: "СОЗДАЁМ СИСТЕМЫ",
+    orbit: "Штатная орбита · Лагранж L1",
+    copyEmail: "Скопировать email",
+    copied: "Скопировано в буфер!",
+    sendMsg: "Отправить сообщение",
+    headline: "Создадим нечто выдающееся вместе",
+    subHeadline:
+      "Открыт для сотрудничества по распределённым системам, архитектурам ИИ-агентов, безопасности и проектированию ПО.",
+    systemStatus: "Состояние системы",
+    systemInfo:
+      "TypeScript · Next.js · Astro · NestJS · Python · FastAPI · Linux",
+    orbitalEquilibrium: "Система в орбитальном равновесии",
+  },
+}[lang as "es" | "en" | "de" | "ja" | "ru"] || {
+  badge: "LET'S BUILD SYSTEMS",
+  orbit: "Nominal orbit · Lagrange L1",
+  copyEmail: "Copy email",
+  copied: "Copied to clipboard!",
+  sendMsg: "Send message",
+  headline: "Let's build something extraordinary",
+  subHeadline:
+    "Open to collaboration on distributed systems, AI agentic workflows, security, and structured software architecture.",
+  systemStatus: "System State",
+  systemInfo:
+    "TypeScript · Next.js · Astro · NestJS · Python · FastAPI · Linux",
+  orbitalEquilibrium: "Orbital Equilibrium System",
+};
 ---
 
-<footer class="bg-base-200/55 backdrop-blur-md text-base-content border-t border-base-content/10 mt-auto relative overflow-hidden">
-  <!-- Monochromatic Starlight Horizon Glow along Top Edge -->
-  <div
-    class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 max-w-4xl h-px pointer-events-none bg-linear-to-r from-transparent via-base-content/35 to-transparent shadow-[0_0_20px_1px_rgba(255,255,255,0.15)]"
-    aria-hidden="true"
-  ></div>
-
-  <!-- Subtle Monochromatic Constellation & Orbital Watermark in Footer Backdrop -->
-  <svg
-    class="absolute -bottom-10 -right-10 w-80 h-80 text-base-content opacity-10 pointer-events-none select-none"
-    viewBox="0 0 200 200"
-    fill="none"
-    aria-hidden="true"
-  >
-    <circle
-      cx="140"
-      cy="140"
-      r="55"
-      stroke="currentColor"
-      stroke-width="0.5"
-      stroke-dasharray="3 4"
-    ></circle>
-    <circle
-      cx="140"
-      cy="140"
-      r="85"
-      stroke="currentColor"
-      stroke-width="0.4"
-    ></circle>
-    <circle
-      cx="140"
-      cy="140"
-      r="115"
-      stroke="currentColor"
-      stroke-width="0.4"
-      stroke-dasharray="2 5"
-    ></circle>
-    <path
-      d="M 60 120 L 95 85 L 140 105 L 165 65"
-      stroke="currentColor"
-      stroke-width="0.5"
-      stroke-dasharray="2 2"
-    ></path>
-    <circle cx="60" cy="120" r="1.6" fill="currentColor"></circle>
-    <circle cx="95" cy="85" r="2" fill="currentColor"></circle>
-    <circle cx="140" cy="105" r="1.6" fill="currentColor"></circle>
-    <circle cx="165" cy="65" r="1.6" fill="currentColor"></circle>
-  </svg>
-
-  <!-- Main Footer Content -->
-  <div class="max-w-6xl mx-auto px-4 md:px-8 py-8 md:py-16 grid grid-cols-2 md:flex md:flex-row md:justify-between gap-y-8 gap-x-4 md:gap-10 relative z-10">
-    <!-- Column 1: Info -->
-    <div class="col-span-2 md:col-span-1 max-w-xs space-y-2 md:space-y-3">
-      <p class="font-bold text-lg text-base-content">{t("home.name")}</p>
-      <p class="text-sm opacity-80 font-medium leading-snug">
-        {t("home.subtitle")}
-      </p>
-      <p class="text-sm opacity-70 leading-relaxed">{t("footer.tagline")}</p>
+<footer class="text-base-content mt-auto relative overflow-hidden bg-transparent">
+  <!-- ── 1. PRE-FOOTER CALLOUT: CROWNING THE PLANETARY HORIZON ── -->
+  <div class="relative z-20 max-w-4xl mx-auto px-4 md:px-8 pt-16 md:pt-24 pb-10 text-center space-y-4 md:space-y-6">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-base-300/50 border border-base-content/15 text-xs font-mono text-base-content/85 shadow-xs backdrop-blur-md">
+      <span class="text-primary text-xs leading-none">✦</span>
+      <span class="tracking-wider uppercase font-semibold">
+        {LOCALIZED_COPY.badge}
+      </span>
+      <span class="opacity-40">·</span>
+      <span class="opacity-75">{LOCALIZED_COPY.orbit}</span>
     </div>
 
-    <!-- Column 2: Quick Links -->
-    <div class="col-span-1">
-      <p class="footer-title opacity-80 font-semibold tracking-wider text-xs uppercase mb-2 md:mb-3">
-        {t("footer.quickLinks")}
-      </p>
-      <div class="flex flex-col gap-1.5 md:gap-2">
-        <a
-          href={homeUrl}
-          class="link link-hover text-sm opacity-80 hover:text-primary transition-colors"
-        >
-          {t("nav.home")}
-        </a>
-        <a
-          href={`${homeUrl}#about`}
-          class="link link-hover text-sm opacity-80 hover:text-primary transition-colors"
-        >
-          {t("nav.about")}
-        </a>
-        <a
-          href={getRelativeLocaleUrl(lang, "projects")}
-          class="link link-hover text-sm opacity-80 hover:text-primary transition-colors"
-        >
-          {t("nav.projects")}
-        </a>
-        <a
-          href={getRelativeLocaleUrl(lang, "blog")}
-          class="link link-hover text-sm opacity-80 hover:text-primary transition-colors"
-        >
-          {t("nav.blog")}
-        </a>
-        {(["library", "series", "bookshelf"] as const).map((page) => (
-          <a
-            href={getRelativeLocaleUrl(lang, page)}
-            class="link link-hover text-sm opacity-80 hover:text-primary transition-colors"
-          >
-            {featureCopy(lang)[page]}
-          </a>
-        ))}
-        <a
-          href={getRelativeLocaleUrl(lang, "uses")}
-          class="link link-hover text-sm opacity-80 hover:text-primary transition-colors"
-        >
-          {t("nav.uses") || "Uses"}
-        </a>
-      </div>
-    </div>
+    <h2 class="text-2xl sm:text-3xl md:text-5xl font-extrabold tracking-tight text-base-content leading-tight">
+      {t("footer.collaborate") || LOCALIZED_COPY.headline}
+    </h2>
 
-    <!-- Column 3: Connect -->
-    <div class="col-span-1">
-      <p class="footer-title opacity-80 font-semibold tracking-wider text-xs uppercase mb-2 md:mb-3">
-        {t("footer.connect")}
-      </p>
-      <SocialLinks size="sm" showLabels={true} variant="link" />
+    <p class="text-sm md:text-base text-base-content/75 max-w-xl mx-auto leading-relaxed font-medium">
+      {t("footer.collaborateText") || LOCALIZED_COPY.subHeadline}
+    </p>
+
+    <!-- Action Buttons: Enviar Mensaje + Copiar Correo -->
+    <div class="flex flex-wrap items-center justify-center gap-3.5 pt-2 relative z-30">
       <a
+        data-magnetic="true"
         href={`mailto:${SITE.email}`}
-        class="link link-hover flex items-center gap-2 text-sm opacity-80 hover:text-primary transition-colors mt-1.5 md:mt-2"
+        class="btn btn-primary btn-sm md:btn-md gap-2 rounded-xl font-semibold shadow-xs hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 motion-reduce:hover:translate-y-0"
       >
         <MailIcon class="w-4 h-4" />
-        <span>{t("footer.email")}</span>
+        <span>{LOCALIZED_COPY.sendMsg}</span>
       </a>
-    </div>
 
-    <!-- Column 4: Let's Collaborate -->
-    <div class="col-span-2 md:col-span-1 max-w-xs space-y-2 md:space-y-3">
-      <p class="footer-title opacity-80 font-semibold tracking-wider text-xs uppercase mb-1">
-        {t("footer.collaborate")}
-      </p>
-      <p class="text-sm opacity-70 leading-relaxed">
-        {t("footer.collaborateText")}
-      </p>
-      <div>
-        <a
-          data-magnetic="true"
-          href={`mailto:${SITE.email}`}
-          class="btn btn-neutral btn-sm gap-2 mt-1.5 md:mt-2 rounded-lg font-medium transition-all duration-300 hover:-translate-y-0.5 motion-reduce:hover:translate-y-0 hover:shadow-md hover:border-primary/40"
+      <button
+        id="copy-email-btn"
+        data-magnetic="true"
+        data-email={SITE.email}
+        data-copied={LOCALIZED_COPY.copied}
+        type="button"
+        class="btn btn-neutral btn-sm md:btn-md gap-2 rounded-xl font-medium border border-base-content/15 hover:border-base-content/30 bg-base-200/60 hover:bg-base-300/80 transition-all duration-300 hover:-translate-y-0.5 motion-reduce:hover:translate-y-0 cursor-pointer"
+        aria-label={LOCALIZED_COPY.copyEmail}
+      >
+        <span
+          id="copy-email-icon"
+          class="inline-flex items-center justify-center"
         >
-          <MailIcon class="w-4 h-4" />
-          <span>{t("home.contactMe")}</span>
-        </a>
-      </div>
+          <svg
+            class="w-4 h-4 opacity-80"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+        </span>
+        <span id="copy-email-text">{LOCALIZED_COPY.copyEmail}</span>
+      </button>
     </div>
   </div>
 
-  <!-- Bottom Bar -->
-  <div class="border-t border-base-content/10 bg-base-300/35 relative z-10">
-    <div class="max-w-6xl mx-auto px-4 md:px-8 py-4 md:py-6 flex flex-col md:flex-row justify-between items-center gap-2 md:gap-4 text-xs opacity-75">
-      <div>
-        <p>{t("footer.rights").replace("{name}", t("home.name"))}</p>
+  <!-- ── 2. CELESTIAL PLANETARY HORIZON (THE ECLIPSE SPHERE) ── -->
+  <div class="relative w-full overflow-hidden mt-2 md:mt-4">
+    <!-- Atmospheric Corona Diffuse Glow (Expanding upward into the cosmic void) -->
+    <div
+      class="pointer-events-none absolute -top-12 left-1/2 -translate-x-1/2 w-[140vw] max-w-[2200px] h-64 rounded-[50%_50%_0_0_/_100%_100%_0_0] bg-[radial-gradient(ellipse_65%_55%_at_50%_100%,rgba(255,255,255,0.18)_0%,rgba(255,255,255,0.05)_45%,rgba(255,255,255,0.01)_70%,transparent_100%)] blur-2xl z-1"
+      aria-hidden="true"
+    ></div>
+
+    <!-- Authentic Dithered Starlight Grain Overlay (Stippled Celestial Scattering) -->
+    <div
+      class="pointer-events-none absolute -top-8 left-0 right-0 h-56 opacity-45 mix-blend-screen bg-repeat-x bg-bottom bg-[length:1400px_auto] z-2 [mask-image:radial-gradient(ellipse_65%_75%_at_50%_100%,black_25%,transparent_85%)] [-webkit-mask-image:radial-gradient(ellipse_65%_75%_at_50%_100%,black_25%,transparent_85%)]"
+      style={`background-image: url('${grainImage.src}');`}
+      aria-hidden="true"
+    ></div>
+
+    <!-- The Curved Horizon Rim SVG (Razor-Sharp Starlight Arc) -->
+    <div class="relative w-full h-44 sm:h-52 md:h-60 overflow-visible z-3 pointer-events-none select-none">
+      <svg
+        class="absolute top-0 left-1/2 -translate-x-1/2 w-[135vw] max-w-[2300px] h-full pointer-events-none"
+        viewBox="0 0 1440 240"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <defs>
+          <linearGradient
+            id="horizon-rim-grad"
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="0%"
+          >
+            <stop offset="0%" stop-color="rgba(255,255,255,0)" />
+            <stop offset="25%" stop-color="rgba(255,255,255,0.2)" />
+            <stop offset="50%" stop-color="rgba(255,255,255,0.95)" />
+            <stop offset="75%" stop-color="rgba(255,255,255,0.2)" />
+            <stop offset="100%" stop-color="rgba(255,255,255,0)" />
+          </linearGradient>
+          <linearGradient
+            id="horizon-shell-fill"
+            x1="0%"
+            y1="0%"
+            x2="0%"
+            y2="100%"
+          >
+            <stop offset="0%" stop-color="#101115" />
+            <stop offset="100%" stop-color="#101115" />
+          </linearGradient>
+        </defs>
+        <!-- Upper Shell Fill of the Planet -->
+        <path
+          d="M -100 240 Q 720 28 1540 240 L 1540 240 L -100 240 Z"
+          fill="url(#horizon-shell-fill)"
+        />
+        <!-- Hairline Starlight Rim -->
+        <path
+          d="M -100 240 Q 720 28 1540 240"
+          stroke="url(#horizon-rim-grad)"
+          stroke-width="1.3"
+          fill="none"
+        />
+      </svg>
+    </div>
+
+    <!-- ── 3. INSIDE THE PLANET BODY (THE CELESTIAL CORE & FOOTER) ── -->
+    <div class="relative w-full bg-linear-to-b from-[#101115] via-[#0c0d10] to-[#070709] px-4 md:px-8 pb-10 -mt-16 sm:-mt-20 md:-mt-24 z-10">
+      <div class="max-w-6xl mx-auto pt-8 pb-10 grid grid-cols-2 md:flex md:flex-row md:justify-between gap-y-8 gap-x-4 md:gap-10 relative z-20">
+        <!-- Column 1: Info -->
+        <div class="col-span-2 md:col-span-1 max-w-xs space-y-2 md:space-y-3">
+          <p class="font-bold text-lg text-base-content flex items-center gap-2">
+            <span>{t("home.name")}</span>
+            <span class="inline-block w-1.5 h-1.5 rounded-full bg-primary/70 animate-pulse"></span>
+          </p>
+          <p class="text-sm opacity-80 font-medium leading-snug">
+            {t("home.subtitle")}
+          </p>
+          <p class="text-xs opacity-70 leading-relaxed font-normal">
+            {t("footer.tagline")}
+          </p>
+        </div>
+
+        <!-- Column 2: Quick Links -->
+        <div class="col-span-1">
+          <p class="footer-title opacity-80 font-semibold tracking-wider text-xs uppercase mb-2 md:mb-3 font-mono">
+            {t("footer.quickLinks")}
+          </p>
+          <div class="flex flex-col gap-1.5 md:gap-2">
+            <a
+              href={homeUrl}
+              class="link link-hover text-sm opacity-80 hover:text-primary transition-colors"
+            >
+              {t("nav.home")}
+            </a>
+            <a
+              href={`${homeUrl}#about`}
+              class="link link-hover text-sm opacity-80 hover:text-primary transition-colors"
+            >
+              {t("nav.about")}
+            </a>
+            <a
+              href={getRelativeLocaleUrl(lang, "projects")}
+              class="link link-hover text-sm opacity-80 hover:text-primary transition-colors"
+            >
+              {t("nav.projects")}
+            </a>
+            <a
+              href={getRelativeLocaleUrl(lang, "blog")}
+              class="link link-hover text-sm opacity-80 hover:text-primary transition-colors"
+            >
+              {t("nav.blog")}
+            </a>
+            {(["library", "series", "bookshelf"] as const).map((page) => (
+              <a
+                href={getRelativeLocaleUrl(lang, page)}
+                class="link link-hover text-sm opacity-80 hover:text-primary transition-colors"
+              >
+                {featureCopy(lang)[page]}
+              </a>
+            ))}
+            <a
+              href={getRelativeLocaleUrl(lang, "uses")}
+              class="link link-hover text-sm opacity-80 hover:text-primary transition-colors"
+            >
+              {t("nav.uses") || "Uses"}
+            </a>
+          </div>
+        </div>
+
+        <!-- Column 3: Connect -->
+        <div class="col-span-1">
+          <p class="footer-title opacity-80 font-semibold tracking-wider text-xs uppercase mb-2 md:mb-3 font-mono">
+            {t("footer.connect")}
+          </p>
+          <SocialLinks size="sm" showLabels={true} variant="link" />
+          <a
+            href={`mailto:${SITE.email}`}
+            class="link link-hover flex items-center gap-2 text-sm opacity-80 hover:text-primary transition-colors mt-1.5 md:mt-2"
+          >
+            <MailIcon class="w-4 h-4" />
+            <span>{t("footer.email")}</span>
+          </a>
+        </div>
+
+        <!-- Column 4: System State & Telemetry -->
+        <div class="col-span-2 md:col-span-1 max-w-xs space-y-2 md:space-y-3">
+          <p class="footer-title opacity-80 font-semibold tracking-wider text-xs uppercase mb-2 md:mb-3 font-mono">
+            {LOCALIZED_COPY.systemStatus}
+          </p>
+          <div class="flex items-center gap-2 text-xs font-mono text-base-content/85">
+            <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]"></span>
+            <span>{LOCALIZED_COPY.orbit}</span>
+          </div>
+          <p class="text-xs text-base-content/70 leading-relaxed font-mono">
+            {LOCALIZED_COPY.systemInfo}
+          </p>
+        </div>
       </div>
-      <div>
-        <button
-          id="back-to-top"
-          data-magnetic="true"
-          class="link link-hover inline-flex items-center gap-1.5 font-medium transition-colors hover:text-primary bg-base-200/60 border border-base-content/10 hover:border-primary/30 rounded-full px-3 py-1.5 cursor-pointer font-[inherit] text-inherit h-auto min-h-0"
-        >
-          <ChevronUpIcon class="w-3.5 h-3.5 opacity-80" stroke-width="2.5" />
-          <span>{t("footer.backToTop")}</span>
-        </button>
+
+      <!-- Bottom Bar -->
+      <div class="max-w-6xl mx-auto pt-6 border-t border-base-content/10 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs opacity-75">
+        <div>
+          <p>
+            {t("footer.rights").replace("{name}", t("home.name"))}
+            <span class="opacity-40 mx-1.5">·</span>
+            <span class="font-mono text-[11px] opacity-75">
+              {LOCALIZED_COPY.orbitalEquilibrium}
+            </span>
+          </p>
+        </div>
+        <div>
+          <button
+            id="back-to-top"
+            data-magnetic="true"
+            class="link link-hover inline-flex items-center gap-1.5 font-medium transition-colors hover:text-primary bg-base-200/60 border border-base-content/10 hover:border-primary/30 rounded-full px-3.5 py-1.5 cursor-pointer font-[inherit] text-inherit h-auto min-h-0"
+          >
+            <ChevronUpIcon class="w-3.5 h-3.5 opacity-80" stroke-width="2.5" />
+            <span>{t("footer.backToTop")}</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -178,7 +345,9 @@ const homeUrl = getRelativeLocaleUrl(lang, "");
 
 <script>
   import { onPageLoad, scrollBehavior } from "../scripts/page-lifecycle";
+
   onPageLoad((signal) => {
+    // 1. Back to top button
     document.getElementById("back-to-top")?.addEventListener(
       "click",
       () => {
@@ -189,5 +358,51 @@ const homeUrl = getRelativeLocaleUrl(lang, "");
       },
       { signal },
     );
+
+    // 2. Magnetic Copy Email Button with Visual Feedback
+    const copyBtn = document.getElementById("copy-email-btn");
+    const copyText = document.getElementById("copy-email-text");
+    const copyIcon = document.getElementById("copy-email-icon");
+
+    if (copyBtn && copyText && copyIcon) {
+      const email = copyBtn.getAttribute("data-email") || "";
+      const originalText = copyText.textContent || "";
+      const copiedText = copyBtn.getAttribute("data-copied") || "¡Copiado!";
+      let resetTimer: number | undefined;
+
+      copyBtn.addEventListener(
+        "click",
+        async () => {
+          try {
+            await navigator.clipboard.writeText(email);
+            copyText.textContent = copiedText;
+            copyBtn.classList.add("border-primary/60", "text-primary");
+
+            // Change icon to Checkmark
+            copyIcon.innerHTML = `
+              <svg class="w-4 h-4 text-primary animate-scale-in" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            `;
+
+            window.clearTimeout(resetTimer);
+            resetTimer = window.setTimeout(() => {
+              copyText.textContent = originalText;
+              copyBtn.classList.remove("border-primary/60", "text-primary");
+              copyIcon.innerHTML = `
+                <svg class="w-4 h-4 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              `;
+            }, 2200);
+          } catch {
+            // Fallback for browsers with strict clipboard permissions
+            window.location.href = `mailto:${email}`;
+          }
+        },
+        { signal },
+      );
+    }
   });
 </script>
