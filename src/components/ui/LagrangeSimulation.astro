@@ -832,29 +832,20 @@ const t = useTranslations(lang);
     }
   }
 
-  :global(.lagrange-node.node-active) {
-    color: var(--active-color, var(--color-primary));
-  }
-
   :global(.force-wave) {
     transition: opacity 0.3s ease;
   }
 
-  :global(.force-wave-1) {
-    animation: force-ripple 3.2s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
-    opacity: 0.35;
-  }
-
   :global(.lagrange-node:hover .force-wave-1),
-  :global(.lagrange-node.node-active .force-wave-1) {
-    animation: force-ripple 1.8s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+  :global(.lagrange-node:focus-visible .force-wave-1) {
+    animation: force-ripple 2s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
     opacity: 1 !important;
   }
 
   :global(.lagrange-node:hover .force-wave-2),
-  :global(.lagrange-node.node-active .force-wave-2) {
-    animation: force-ripple 1.8s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
-    animation-delay: 0.9s;
+  :global(.lagrange-node:focus-visible .force-wave-2) {
+    animation: force-ripple 2s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+    animation-delay: 1s;
     opacity: 1 !important;
   }
 
@@ -928,10 +919,8 @@ const t = useTranslations(lang);
 
       lagrangeNodes.forEach((otherNode) => {
         if (otherNode === node) {
-          otherNode.classList.add("node-active");
           otherNode.classList.remove("node-inactive");
         } else {
-          otherNode.classList.remove("node-active");
           otherNode.classList.add("node-inactive");
         }
       });
@@ -971,7 +960,7 @@ const t = useTranslations(lang);
       }
 
       lagrangeNodes.forEach((otherNode) => {
-        otherNode.classList.remove("node-active", "node-inactive");
+        otherNode.classList.remove("node-inactive");
       });
 
       card.querySelectorAll(".text-node-label").forEach((lbl) => {
@@ -988,60 +977,11 @@ const t = useTranslations(lang);
       });
     };
 
-    let manualActive = false;
-    const cycleOrder = ["L1", "L4", "L2", "L5", "L3"];
-    let cycleIdx = 0;
-
-    const prefersReduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-
-    const stepAutoCycle = () => {
-      if (manualActive || document.hidden) return;
-      const targetId = cycleOrder[cycleIdx % cycleOrder.length];
-      cycleIdx++;
-      const targetNode = card.querySelector(
-        `.lagrange-node[data-id="${targetId}"]`,
-      );
-      if (targetNode) activateNode(targetNode);
-    };
-
-    let autoTimer: ReturnType<typeof setInterval> | undefined;
-    if (!prefersReduced) {
-      stepAutoCycle();
-      autoTimer = setInterval(stepAutoCycle, 2400);
-    }
-
     lagrangeNodes.forEach((node) => {
-      const handleManualActivate = () => {
-        manualActive = true;
-        activateNode(node);
-      };
-      const handleManualReset = () => {
-        manualActive = false;
-        resetAll();
-      };
-
-      node.addEventListener("mouseenter", handleManualActivate, { signal });
-      node.addEventListener("focus", handleManualActivate, { signal });
-      node.addEventListener("click", handleManualActivate, { signal });
-      node.addEventListener(
-        "keydown",
-        (event) => {
-          const key = (event as KeyboardEvent).key;
-          if (key === "Enter" || key === " ") {
-            event.preventDefault();
-            handleManualActivate();
-          }
-        },
-        { signal },
-      );
-      node.addEventListener("mouseleave", handleManualReset, { signal });
-      node.addEventListener("blur", handleManualReset, { signal });
+      node.addEventListener("mouseenter", () => activateNode(node), { signal });
+      node.addEventListener("focus", () => activateNode(node), { signal });
+      node.addEventListener("mouseleave", resetAll, { signal });
+      node.addEventListener("blur", resetAll, { signal });
     });
-
-    return () => {
-      if (autoTimer) clearInterval(autoTimer);
-    };
   });
 </script>
