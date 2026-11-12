@@ -28,9 +28,12 @@ export async function getStaticPaths() {
         type: "home",
         lang: "en",
         title: "Cristian Arando",
+        role: defaultT("home.subtitle") || "Software & Systems Engineer",
         subtitle:
           defaultT("home.tagline") ||
           "Designing software systems through structure, modularity, and careful decomposition of complexity",
+        cvText: defaultT("home.downloadCv") || "View CV",
+        contactText: defaultT("home.contactMe") || "Contact Me",
         tags: ["Systems Architecture", "Security", "Philosophy"],
       },
     },
@@ -58,9 +61,12 @@ export async function getStaticPaths() {
           type: "home",
           lang,
           title: t("home.name") || "Cristian Arando",
+          role: t("home.subtitle") || "Software & Systems Engineer",
           subtitle:
             t("home.tagline") ||
             "Designing software systems through structure, modularity, and careful decomposition of complexity",
+          cvText: t("home.downloadCv") || "View CV",
+          contactText: t("home.contactMe") || "Contact Me",
           tags: tagsByLang[lang],
         },
       },
