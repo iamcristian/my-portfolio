@@ -15,7 +15,6 @@ import {
   validateSearchEntries,
 } from "../src/utils/list.ts";
 import { serializeJsonLd } from "../src/utils/serialize.ts";
-import { RESERVED_ROOT_SEGMENTS } from "../src/config/paths.ts";
 import {
   resolveSEOData,
   resolveArticleSection,
@@ -24,7 +23,7 @@ import {
 import { SITE } from "../src/config/site.ts";
 import { ui, locales } from "../src/i18n/ui.ts";
 
-test("vercel.json CSP enforces script-src without unsafe-inline on portfolio routes, preserves Next.js/InsideLink proxy compatibility, and protects reserved routes", () => {
+test("vercel.json CSP enforces strict portfolio-only script-src without unsafe-inline or inside-link proxy rewrites", () => {
   const vercel = JSON.parse(readFileSync("vercel.json", "utf8"));
   const baseRule = vercel.headers.find(
     (h: { source: string }) => h.source === "/(.*)",
@@ -43,61 +42,14 @@ test("vercel.json CSP enforces script-src without unsafe-inline on portfolio rou
     !scriptSrc.includes("'unsafe-inline'"),
     "Portfolio baseline script-src must not allow unsafe-inline",
   );
-
-  const expectedLookahead = `(?!${RESERVED_ROOT_SEGMENTS.map((s) => `${s}$`).join("|")})`;
-  const expectedProxyCspSources = [
-    "/admin",
-    "/admin/",
-    "/admin/:path*",
-    "/login",
-    "/login/",
-    "/links",
-    "/links/",
-    `/:slug(${expectedLookahead}[a-z0-9][a-z0-9-_]{2,99})`,
-    `/:slug(${expectedLookahead}[a-z0-9][a-z0-9-_]{2,99})/`,
-  ];
-  for (const proxySource of expectedProxyCspSources) {
-    const rule = vercel.headers.find(
-      (h: { source: string }) => h.source === proxySource,
-    );
-    assert.ok(
-      rule,
-      `InsideLink proxied route "${proxySource}" must have scoped CSP header override`,
-    );
-    const proxyCsp = rule.headers.find(
-      (h: { key: string }) => h.key === "Content-Security-Policy",
-    );
-    assert.ok(proxyCsp?.value.includes("'unsafe-inline'"));
-    assert.ok(proxyCsp?.value.includes("blob:"));
-  }
-
-  const catchAllRewrites = vercel.rewrites.filter((r: { source: string }) =>
-    r.source.startsWith("/:slug("),
+  assert.ok(
+    !JSON.stringify(vercel).includes("inside-link.vercel.app"),
+    "vercel.json must not reference inside-link.vercel.app",
   );
   assert.equal(
-    catchAllRewrites.length,
-    2,
-    "must have two catch-all slug rules",
-  );
-
-  for (const rule of catchAllRewrites) {
-    assert.ok(
-      rule.source.includes(expectedLookahead),
-      `Rewrite rule ${rule.source} must match RESERVED_ROOT_SEGMENTS`,
-    );
-  }
-
-  const pattern = new RegExp(`^${expectedLookahead}[a-z0-9][a-z0-9-_]{2,99}$`);
-  for (const reserved of RESERVED_ROOT_SEGMENTS) {
-    assert.ok(
-      !pattern.test(reserved),
-      `Reserved segment "${reserved}" must not be matched by catch-all slug rewrite`,
-    );
-  }
-  assert.ok(pattern.test("my-short-link"), "Valid custom slug should match");
-  assert.ok(
-    pattern.test("blog-post-link"),
-    "Prefix of reserved word should match",
+    vercel.rewrites,
+    undefined,
+    "vercel.json must not define reverse-proxy rewrites",
   );
 });
 

@@ -10,17 +10,13 @@ This guide documents the architectural decisions, security posture, and content 
 
 All responses served by Vercel include strict HTTP security headers:
 
-- **`script-src` (Portfolio Baseline `/(.*)`):** `'self'` plus `https://va.vercel-scripts.com` and `https://inside-link.vercel.app` (no `'unsafe-inline'`). All Astro portfolio scripts are external modules or static assets (`src/scripts/theme.js`); JSON-LD structured data blocks use `<script type="application/ld+json">` and are escaped with `serializeJsonLd()` so `<` can never terminate a script tag.
-- **`script-src` & `img-src` Scoped Overrides (`inside-link` Proxy Routes):** Next.js 16 SSR (`/admin`, `/admin/:path*`, `/login`, `/links`) emits inline RSC hydration scripts, while short-link/HUB/PIN pages (`/:slug`) execute inline telemetry/unlock scripts and `qr-modal.tsx` creates `blob:` URLs for client-side QR rasterization. Targeted header override rules in `vercel.json` allow `'unsafe-inline'` in `script-src` and `blob:` in `img-src` **strictly on those proxied `inside-link` routes** without weakening Astro portfolio pages.
-- **`style-src`**: `'self' 'unsafe-inline'` to support Astro scoped styles, Next.js utilities, and dynamic CSS custom properties.
-- **`img-src`**: `'self' data: https:` on portfolio pages (`'self' data: blob: https:` on proxied `inside-link` routes) to support external user/organization logos and client-side QR PNG exports.
+- **`script-src` (Portfolio Baseline `/(.*)`):** `'self'` plus `https://va.vercel-scripts.com` (no `'unsafe-inline'`). All Astro portfolio scripts are external modules or static assets (`src/scripts/theme.js`); JSON-LD structured data blocks use `<script type="application/ld+json">` and are escaped with `serializeJsonLd()` so `<` can never terminate a script tag.
+- **`style-src`**: `'self' 'unsafe-inline'` to support Astro scoped styles and dynamic CSS custom properties.
+- **`img-src`**: `'self' data: https:` to support external images and static assets.
 
-### 1.2 Coexistence with `inside-link` Rewrites
+### 1.2 Independent Subdomain for `inside-link`
 
-The domain `cristianarando.dev` hosts both the static Astro portfolio and proxies short-link / bio-link routes to `https://inside-link.vercel.app`:
-
-- Reserved root segments (`RESERVED_ROOT_SEGMENTS` in `src/config/paths.ts`) are excluded via a negative lookahead in `vercel.json` (`(?!en$|es$|de$|ja$|ru$|cv$|og$|404$|_astro$|api$|admin$|dashboard$|login$|register$|s$|u$)`).
-- Both `tests/content.test.ts` and `scripts/check-build.mjs` verify at build time that no generated route in `dist/` can ever be shadowed by the catch-all slug rewrite.
+`cristianarando.dev` serves only the static Astro portfolio. The `inside-link` link manager runs independently on its own subdomain (`https://links.cristianarando.dev`) without reverse-proxy rewrites or CSP overrides in this repository.
 
 ---
 
